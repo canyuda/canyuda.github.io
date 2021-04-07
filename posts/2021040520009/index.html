@@ -31,7 +31,7 @@
 <meta property="og:site_name" content="灿若繁星">
 <meta property="og:description" content="JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:  TTL 两级缓存 分布式自动刷新 通过注解创建并配置缓存 缓存使用的统计 Key生成策略与Value序列化方式自定义 异步CacheAPI Spring Boot支持">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-04-07T01:34:00.114Z">
+<meta property="og:updated_time" content="2021-04-07T05:24:57.369Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JetCache的使用">
 <meta name="twitter:description" content="JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:  TTL 两级缓存 分布式自动刷新 通过注解创建并配置缓存 缓存使用的统计 Key生成策略与Value序列化方式自定义 异步CacheAPI Spring Boot支持">
@@ -615,58 +615,52 @@ CacheResult <span class="token function">PUT_IF_ABSENT</span><span class="token 
 </thead>
 <tbody>
 <tr>
-<td>jetcache.statIntervalMinutes</td>
+<td><code>jetcache.statIntervalMinutes</code></td>
 <td>0</td>
 <td>统计间隔，0表示不统计</td>
 </tr>
 <tr>
-<td>jetcache.areaInCacheName</td>
+<td><code>jetcache.areaInCacheName</code></td>
 <td>true</td>
 <td>jetcache-anno把cacheName作为远程缓存key前缀，2.4.3以前的版本总是把areaName加在cacheName中，因此areaName也出现在key前缀中。2.4.4以后可以配置，为了保持远程key兼容默认值为true，但是新项目的话false更合理些。</td>
 </tr>
 <tr>
-<td>jetcache.hiddenPackages</td>
+<td><code>jetcache.hiddenPackages</code></td>
 <td>无</td>
 <td>@Cached和@CreateCache自动生成name的时候，为了不让name太长，hiddenPackages指定的包名前缀被截掉</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.type</td>
+<td><code>jetcache.[local\remote].${area}.type</code></td>
 <td>无</td>
 <td>缓存类型。tair、redis为当前支持的远程缓存；linkedhashmap、caffeine为当前支持的本地缓存类型</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.keyConvertor</td>
+<td><code>jetcache.[local\remote].${area}.keyConvertor</code></td>
 <td>无</td>
 <td>key转换器的全局配置，当前只有一个已经实现的keyConvertor：<code>fastjson</code>。仅当使用@CreateCache且缓存类型为LOCAL时可以指定为<code>none</code>，此时通过equals方法来识别key。方法缓存必须指定keyConvertor</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.valueEncoder</td>
+<td><code>jetcache.[local\remote].${area}.valueEncoder</code></td>
 <td>java</td>
 <td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.valueDecoder</td>
+<td><code>jetcache.[local\remote].${area}.valueDecoder</code></td>
 <td>java</td>
 <td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.limit</td>
+<td><code>jetcache.[local\remote].${area}.limit</code></td>
 <td>100</td>
 <td>每个缓存实例的最大元素的全局配置，仅local类型的缓存需要指定。注意是每个缓存实例的限制，而不是全部，比如这里指定100，然后用@CreateCache创建了两个缓存实例（并且注解上没有设置localLimit属性），那么每个缓存实例的限制都是100</td>
 </tr>
 <tr>
-<td>jetcache.[local\</td>
-<td>remote].${area}.expireAfterWriteInMillis</td>
+<td><code>jetcache.[local\remote].${area}.expireAfterWriteInMillis</code></td>
 <td>无穷大</td>
 <td>以毫秒为单位指定超时时间的全局配置(以前为defaultExpireInMillis)</td>
 </tr>
 <tr>
-<td>jetcache.local.${area}.expireAfterAccessInMillis</td>
+<td><code>jetcache.local.${area}.expireAfterAccessInMillis</code></td>
 <td>0</td>
 <td>需要jetcache2.2以上，以毫秒为单位，指定多长时间没有访问，就让缓存失效，当前只有本地缓存支持。0表示不使用这个功能。</td>
 </tr>
@@ -919,7 +913,7 @@ Cache multiLevelCache <span class="token operator">=</span> MultiLevelCacheBuild
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2021-04-07T01:34:00.114Z" itemprop="dateUpdated">2021-04-07 09:34:00</time>
+    最后更新时间：<time datetime="2021-04-07T05:24:57.369Z" itemprop="dateUpdated">2021-04-07 13:24:57</time>
 </span><br>
 
 
