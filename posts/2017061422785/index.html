@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017061422785/">
+    
+    
+    <title>不用+,-,*,/实现两数相加 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="剑指offer">
+    <meta name="description" content="略">
+<meta name="keywords" content="剑指offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不用+,-,*,&#x2F;实现两数相加">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017061422785/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不用+,-,*,&#x2F;实现两数相加">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">不用+,-,*,/实现两数相加</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">不用+,-,*,/实现两数相加</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-14T05:23:20.000Z" itemprop="datePublished" class="page-time">
+  2017-06-14
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-不用-实现两数相加"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">不用+,-,*,/实现两数相加</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-14 13:23:20" datetime="2017-06-14T05:23:20.000Z"  itemprop="datePublished">2017-06-14</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>2 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<blockquote>
+<p>题目写一个方法实现两数相加,但是不使用加减乘除运算符.</p>
+</blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>加法不用<code>+</code>,<code>-</code>,<code>*</code>,<code>/</code>运算符,第一眼看上去会不知所措,但是要知道,位运算是可以使用的,此题的目的就是使用位运算来实现加法.</p>
+<p>首先,分析加法的本质是什么:例如5加上17等于22,第一步17加5相加但是不进位,得到12;第二部找到进位10;第三步12加上10得到22.那么这种方法对于二进制是否可用呢?</p>
+<p>5的二进制为101,17的二进制为10001.同样分为3步,第一步101加上10001且不考虑进位得到10100;第二步找出进位10;第三步相加的10110,换算成十进制得到22.所以二进制也是符合这种计算方法.然后来分析每一步如何用位运算来实现.</p>
+<p>第一步可以看出结果是两个数的异或运算,第二步是两个数做<code>&amp;</code>运算然后结果再右移一位,最后一步是第一步和第二步结果相加,相加也遵循第一步第二步的方法,一直到第二步运算结果为0为止(任何数和0相加还为原来的数).</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> a <span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> sum<span class="token punctuation">,</span>carry<span class="token punctuation">;</span>
+        <span class="token keyword">do</span><span class="token punctuation">{</span>
+            sum <span class="token operator">=</span> a <span class="token operator">^</span> b<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//第一步</span>
+
+            carry <span class="token operator">=</span> <span class="token punctuation">(</span>a <span class="token operator">&amp;</span> b<span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//第二步</span>
+
+            a <span class="token operator">=</span> sum<span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">//准备第三步,一直到b=0为止.</span>
+            b <span class="token operator">=</span> carry<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">while</span><span class="token punctuation">(</span>b <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>思考题:不用第三变量实现a,b两个变量的数值交换.<br>例如:a=3,b=4;<br>第一步:a = a + b;  a=7<br>第二步:b = a - b;  b=3<br>第三步:a = a - b;  a=4<br>完成.</p>
+<p>或者<br>a = a ^ b;<br>b = a ^ b;<br>a = a ^ b;</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.849Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017061422785/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017061422785/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/offer-book/">剑指offer</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061422785/&title=《不用+,-,*,/实现两数相加》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061422785/&title=《不用+,-,*,/实现两数相加》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061422785/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《不用+,-,*,/实现两数相加》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061422785/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061422785/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017061455468/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">设计模式-六大设计原则（三）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017061321332/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java的零碎知识</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061422785/&title=《不用+,-,*,/实现两数相加》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061422785/&title=《不用+,-,*,/实现两数相加》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061422785/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《不用+,-,*,/实现两数相加》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061422785/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061422785/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3azW6EMAxF4Xn/l6abLioh0nNtqEp8shoxBfJNJSv++XzwOn6sqyvn6+dva8+8bcmQIeO1jGO51q88f07fssaTvcmQIWMO4+rFZKNkQ+u/TN8rQ4YMGevHpUc6clhMQ7kMGTJk1BhkE3cdOmXIkDGTQZLMWvqalucez8VlyJDxQgbfxN9/fqS/IUOGjFcxjnCRIn4ayjv7+X6ODBkytmb0G5Drsj5JX1GCSg6aMmTI2JTRSV958E1bAvGgmAwZMrZmpIlrp1hWu1L7aWTIkLE3gzcX00GK2rl1fZcMGTImMNI0sh9MO8fNy29lyJCxNSO9rZNFpsE0LcDJkCFjV8a95f70aWT8C41lyJAhYwDjrtJYJxGtDXbIkCFjGiNtN67TWr518uR4WkSGDBkDGDy5JUEzbRVwkgwZMiYw+G3pAFkaZGsDakHYlSFDxmsZ6UNrBbhayhocEGXIkLE1g49EkFGJGqzWhZQhQ8ZkBj+i8QMlD7id8pwMGTImMMgWeYGMl9jSQHz5XhkyZAxg8MBa23qtzcCvyJAhYwLjrg3Vxr/4urxLhgwZmzKOcKXlMxK4+ZDHL/8HGTJkbMpIw1y6IX7sSxsPxZAtQ4aM1zJqI1m8SdBpAwTtUhkyZAxg8KEKkpSmg1+dZFiGDBkySADttCH5D4eKbjJkyJARHt34ABkfyHgw4MqQIePfM9KjHnlZWtBPy3AyZMiYw6iNOHQaAM9RZciQsR3jCw+P0T+R7E6GAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

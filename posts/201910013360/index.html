@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/201910013360/">
+    
+    
+    <title>用例图 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="图表">
+    <meta name="description" content="基于PlantUML 用例图">
+<meta name="keywords" content="图表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用例图">
+<meta property="og:url" content="http://blog.canyuda.top/posts/201910013360/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="基于PlantUML 用例图">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-5.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-7.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-8.png">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.832Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用例图">
+<meta name="twitter:description" content="基于PlantUML 用例图">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-1.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">用例图</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">用例图</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-01T14:08:49.000Z" itemprop="datePublished" class="page-time">
+  2019-10-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#用例图"><span class="post-toc-number">1.</span> <span class="post-toc-text">用例图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#角色与用例"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">角色与用例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用例样式"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">用例样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关系"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">关系</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注释"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#箭头方向与长度"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">箭头方向与长度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#排列方向"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">排列方向</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义样式"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">自定义样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#框框"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">框框</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-用例图"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">用例图</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-01 22:08:49" datetime="2019-10-01T14:08:49.000Z"  itemprop="datePublished">2019-10-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>3 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>基于PlantUML</li>
+<li>用例图</li>
+</ul>
+<a id="more"></a>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h2><h3 id="角色与用例"><a href="#角色与用例" class="headerlink" title="角色与用例"></a>角色与用例</h3><ul>
+<li><code>:XXX:</code> 表示角色, 或者使用<code>actor</code>表示</li>
+<li><code>usecase</code> 表示用例, 或者使用 <code>(XXX)</code></li>
+<li><code>&lt;&lt; YYY &gt;&gt;</code> 后面接表示构造器</li>
+<li><code>as</code> 用来设置别名</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-1.png" alt="usecase-1.png" title>
+                </div>
+                <div class="image-caption">usecase-1.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-1
+(用例A) << 构造器 >>
+(用例B) as (CB)  << 构造器 >>
+usecase 用例C
+usecase (用\n例\nD) as D
+
+:角色1: << 构造器 >>
+:角\n色\n2: as 2
+actor 角色3
+actor :角色4: as 4 << 构造器 >>
+@enduml
+</code></pre>
+</details>
+<h3 id="用例样式"><a href="#用例样式" class="headerlink" title="用例样式"></a>用例样式</h3><ul>
+<li><code>--</code> 横线</li>
+<li><code>==</code> 双横线</li>
+<li><code>..XXX..</code> 虚线并显示中央文字</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-2.png" alt="usecase-2.png" title>
+                </div>
+                <div class="image-caption">usecase-2.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-2
+usecase 用例A as "这是用例的描述
+--
+横线
+==
+双横线
+..虚线..
+描述文字"
+@enduml
+</code></pre>
+</details>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><ul>
+<li><code>-&gt;</code> 一般表示有关</li>
+<li><code>&lt;|--</code> 表示继承关系</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-3.png" alt="usecase-3.png" title>
+                </div>
+                <div class="image-caption">usecase-3.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-3
+普通用户 -> (普通功能)
+普通用户 --> (高级功能) : 操作
+
+:管理员: ---> (高级功能) : 管理
+
+普通用户 <|-- 管理员 : 继承
+普通功能 <|-- 高级功能  : 继承
+@enduml
+</code></pre>
+</details>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
+<li><code>note</code> 行注释, 块注释</li>
+<li>注释可连线</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-4.png" alt="usecase-4.png" title>
+                </div>
+                <div class="image-caption">usecase-4.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-4
+普通用户 -> (普通功能)
+普通用户 --> (高级功能) : 操作
+
+:管理员: ---> (高级功能) : 管理
+
+note left of 普通用户 : 普通注释
+
+note right of 管理员
+注释内容
+end note
+
+note "注释内容\n换行" as Note
+
+普通用户 .. Note
+Note .. 管理员
+@enduml
+</code></pre>
+</details>
+<h3 id="箭头方向与长度"><a href="#箭头方向与长度" class="headerlink" title="箭头方向与长度"></a>箭头方向与长度</h3><ul>
+<li><code>-[left|right|up|down]-&gt;</code> 可以控制方向</li>
+<li>箭头线长度可以由<code>-</code>的个数来决定</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-5.png" alt="usecase-5.png" title>
+                </div>
+                <div class="image-caption">usecase-5.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-5
+:user: -left-> (左边) 
+:user: -right-> (右边) 
+:user: -up-> (上边)
+:user: -down-> (下边)
+
+右边 -> (1)
+右边 --> (2)
+右边 ---> (3)
+右边 ----> (4)
+@enduml
+</code></pre>
+</details>
+<h3 id="排列方向"><a href="#排列方向" class="headerlink" title="排列方向"></a>排列方向</h3><ul>
+<li><code>top to bottom direction</code> 上下结构</li>
+<li><code>left to right direction</code> 左右结构</li>
+</ul>
+<center class="half"><br>    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-1.png"><br>    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-2.png"><br></center>
+
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-6-1
+top to bottom direction
+user1 --> (Usecase 1)
+user2 --> (Usecase 2)
+@enduml
+
+@startuml usecase-6-2
+left to right direction
+user1 --> (Usecase 1)
+user2 --> (Usecase 2)
+@enduml
+</code></pre>
+</details>
+<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><ul>
+<li><code>skinparam</code> 可以自定义, 直接影响样式</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-7.png" alt="usecase-7.png" title>
+                </div>
+                <div class="image-caption">usecase-7.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-7
+skinparam handwritten true
+
+skinparam usecase {
+    BackgroundColor DarkSeaGreen
+    BorderColor DarkSlateGray
+
+    BackgroundColor<< Main >> YellowGreen
+    BorderColor<< Main >> YellowGreen
+
+    ArrowColor Olive
+    ActorBorderColor black
+    ActorFontName Courier
+
+    ActorBackgroundColor<< Human >> Gold
+}
+
+User << Human >>
+:Main Database: as MySql << Application >>
+(Start) << One Shot >>
+(Use the application) as (Use) << Main >>
+
+User -> (Start)
+User --> (Use)
+
+MySql --> (Use)
+@enduml
+</code></pre>
+</details>
+<h3 id="框框"><a href="#框框" class="headerlink" title="框框"></a>框框</h3><ul>
+<li><code>rectangle XXX {  }</code> 可以框选里面的用例或者角色</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-8.png" alt="usecase-8.png" title>
+                </div>
+                <div class="image-caption">usecase-8.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml usecase-8
+left to right direction
+skinparam packageStyle rectangle
+actor customer
+actor clerk
+rectangle checkout {
+  customer -- (checkout)
+  (checkout) .> (payment) : include
+  (help) .> (checkout) : extends
+  (checkout) -- clerk
+}
+@enduml
+</code></pre>
+</details>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.832Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/201910013360/" target="_blank" rel="external">http://blog.canyuda.top/posts/201910013360/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chart/">图表</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201910013360/&title=《用例图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201910013360/&title=《用例图》 — 灿若繁星&source=
+基于PlantUML
+用例图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201910013360/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《用例图》 — 灿若繁星&url=http://blog.canyuda.top/posts/201910013360/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201910013360/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019100129557/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">状态图</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019100143106/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">时序图</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201910013360/&title=《用例图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201910013360/&title=《用例图》 — 灿若繁星&source=
+基于PlantUML
+用例图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201910013360/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《用例图》 — 灿若繁星&url=http://blog.canyuda.top/posts/201910013360/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201910013360/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3aQW7DMAwF0dz/0inQbWN5PimgMTVaBYFj+bkAS4p8vfB6/y7y+WrxO6+vby0ZMmQ8lkG2J7deX391z6sr41cjQ4aMAxg8FKYBcX3/NYw8mwwZMmSQBG4dpmvfyJAhQ8augFt7rHXgliFDhoxOEVtL49Z78WRxWy0uQ4aMBzL2Ngb2fv63/oYMGTK+hvEOV5omkn3TZsCH3WXIkDGasW43ktIxTRZrd0DhWIYMGUMZ6zKy01Dk36SM4O8gQ4aMAxi1QYrOeBnZPUgKZciQMYLRbw/0f9tJQLd1OWTIkPEoRjzigEvfNIjzVyZDhowTGGT7TvOABOs4sP59chkyZAxldIpVnrqRR0mbEx86sTJkyBjK4KMPaepWa0mSdPDm7FCGDBnjGJ1ErfZwnbArQ4aMMxm1JIwf99dK3+IchQwZMoYyOu3G/oEap6L/GzJkyBjN6Axp8dBMUr104Cw4C5QhQ8ZjGemYxd4jtrQMDjqxMmTIGMfYG0D5gVraQI1/K0OGjBEM/rgcuQsWDG3IkCHjAEbnIKyWJnbaoje1uAwZMsYx0sGsdCCjxkvTRBkyZMxmvMPFqeSIP009L1+iDBkyRjP4Sn9Mytdam1OGDBlnMtKRrHT7WhoaNzVlyJBxAINvGRyBhWlfK+jLkCFDBk7XeErHR9AQXoYMGTLCz7UCmCSLN+0BGTJkjGZ0mgFpEll7BagTK0OGjKGMWgHJG4218jh9fTJkyBjK+AGYgtE/wz8Q7wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

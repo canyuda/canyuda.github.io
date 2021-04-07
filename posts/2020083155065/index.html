@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2020083155065/">
+    
+    
+    <title>设计模式-观察者模式 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="设计模式">
+    <meta name="description" content="观察者模式(Observer) : 当存在一对多的关系, 一 发生了改变, 与其有关系的 多 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式.">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-观察者模式">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2020083155065/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="观察者模式(Observer) : 当存在一对多的关系, 一 发生了改变, 与其有关系的 多 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-2.jpg">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-3.jpg">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-4.jpg">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-5.jpg">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-6.jpg">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式-观察者模式">
+<meta name="twitter:description" content="观察者模式(Observer) : 当存在一对多的关系, 一 发生了改变, 与其有关系的 多 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式.">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-1.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">设计模式-观察者模式</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">设计模式-观察者模式</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-08-31T02:31:44.000Z" itemprop="datePublished" class="page-time">
+  2020-08-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结构"><span class="post-toc-number">1.</span> <span class="post-toc-text">结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体应用"><span class="post-toc-number">4.</span> <span class="post-toc-text">具体应用</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-设计模式-观察者模式"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">设计模式-观察者模式</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-08-31 10:31:44" datetime="2020-08-31T02:31:44.000Z"  itemprop="datePublished">2020-08-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>4 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>观察者模式(Observer) : 当存在一对多的关系, <code>一</code> 发生了改变, 与其有关系的 <code>多</code> 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式.</p>
+<a id="more"></a>
+<a href="/posts/2019090539633/" title="设计模式-概述">设计模式-概述</a>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>观察者模式有如下主要角色:</p>
+<ol>
+<li>抽象主题(Subject) : 它提供了一个用于保存观察者对象的聚集类和增加、删除观察者对象的方法，以及通知所有观察者的抽象方法。</li>
+<li>具体主题(ConcreteSubject) : 实现抽象目标中的通知方法，当具体主题的内部状态发生改变时，通知所有注册过的观察者对象。</li>
+<li>抽象观察者(Observer) : 包含了一个更新自己的抽象方法，当接到具体主题的更改通知时被调用。</li>
+<li>具体观察者(ConcreteObserver) : 实现抽象观察者中定义的抽象方法，以便在得到目标的更改通知时更新自身的状态。</li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-1.png" alt="observer-1.png" title>
+                </div>
+                <div class="image-caption">observer-1.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml observer-1
+!include common.cuml
+
+Class(AbstractSubject,"抽象主题") << abstract >> {
+    - observers: List<Observer>
+    + add(Observer observer) : void
+    + remove(Observer observer) : void
+    + notifyAllObserver() : void abstract
+}
+
+Class(ConcreteSubject,"具体主题") {
+    + notifyAllObserver() : void
+}
+
+note as N1
+public void notifyAllObserver() {
+    for (Observer observer ： Observers) {
+        observer.response();
+    }
+}
+end note
+
+Interface(Observer,"抽象观察者") {
+    + response() : void
+}
+
+Class(ConcreteObserverA,"具体主题A") {
+    + response() : void
+}
+
+Class(ConcreteObserverB,"具体主题B") {
+    + response() : void
+}
+
+N1 -- ConcreteSubject
+AbstractSubject <|-- ConcreteSubject
+Observer --o AbstractSubject
+ConcreteObserverA ..|> Observer
+ConcreteObserverB ..|> Observer
+
+@enduml
+</code></pre>
+</details>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><ol>
+<li>创建一个主题</li>
+<li>创建n个观察者, 对这个主题进行绑定.</li>
+<li>这个主题可能在某时刻发生改变, 发生改变后可以调用 <code>notifyObservers()</code> 方法.</li>
+<li><code>notifyObservers()</code> 方法内部封装了通知各个观察者的逻辑.</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>test<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>ArrayList<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Arrays<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Subject subject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteSubject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 维护绑定关系</span>
+        Observer observerA <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteObserverA</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Observer observerB <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteObserverB</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Observer observerN <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteObserverN</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        subject<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>observerA<span class="token punctuation">,</span> observerB<span class="token punctuation">,</span> observerN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 触发</span>
+        subject<span class="token punctuation">.</span><span class="token function">notifyObservers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> List<span class="token operator">&lt;</span>Observer<span class="token operator">></span> observerList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span>Observer<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> observer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        observerList<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>observer<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span>Observer observer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        observerList<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>observer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">void</span> <span class="token function">notifyObservers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteSubject</span> <span class="token keyword">extends</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">notifyObservers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Observer observer <span class="token operator">:</span> observerList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            observer<span class="token punctuation">.</span><span class="token function">response</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Observer</span> <span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">response</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteObserverA</span> <span class="token keyword">implements</span> <span class="token class-name">Observer</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">response</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"ConcreteObserverA.response"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteObserverB</span> <span class="token keyword">implements</span> <span class="token class-name">Observer</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">response</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"ConcreteObserverB.response"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteObserverN</span> <span class="token keyword">implements</span> <span class="token class-name">Observer</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">response</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"ConcreteObserverN.response"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>各个观察者(Observer)需要是独立的, 没有先后顺序.</li>
+<li>观察者个数可控, 触发观察者是通过循环来实现的, 如果太多循环起来特别慢.</li>
+<li>观察者与主题之间不能存在循环引用, 否则出现主题变更=&gt;触发观察者=&gt;观察者触发主题变更=&gt;…., 最终程序卡死.</li>
+</ol>
+<h2 id="具体应用"><a href="#具体应用" class="headerlink" title="具体应用"></a>具体应用</h2><ol>
+<li>jdk中的 <code>java.util.Observable</code> 与 <code>java.util.Observer</code> 定义了观察者模式， 需要用可以直接实现接口</li>
+<li><p>excel处理工具 <code>poi</code> 中的 <code>DataFormatter</code> 实现了 <code>java.util.Observer</code>, 并且定义了一个内部类 <code>LocaleChangeObservable</code> 在适当的地方调用 <code>checkForLocaleChange()</code> 方法来触发 观察者的<code>update()</code>.</p>
+<pre class=" language-xml"><code class="language-xml"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.poi<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>poi<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.17<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+</code></pre>
+<p> <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-2.jpg" alt="observer-2.png"></p>
+<p> <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-3.jpg" alt="observer-3.png"></p>
+<p> <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-4.jpg" alt="observer-4.png"></p>
+<p> <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-5.jpg" alt="observer-5.png"></p>
+<p> <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/200831/observer-6.jpg" alt="observer-6.png"></p>
+</li>
+<li>Spring中的事件驱动模型, 主要类有: <code>ApplicationEvent</code>, <code>ApplicationListener</code>, <code>ApplicationContext</code>, <code>ApplicationEventMulticaster</code>.<ul>
+<li>ApplicationEvent继承自jdk的EventObject,所有的事件都需要继承ApplicationEvent,并且通过source得到事件源.该类的实现类ApplicationContextEvent表示ApplicaitonContext的容器事件.</li>
+<li>ApplicationListener继承自jdk的EventListener,所有的监听器都要实现这个接口</li>
+<li>事件机制的实现需要三个部分,事件源,事件,事件监听器,在上面介绍的ApplicationEvent就相当于事件,ApplicationListener相当于事件监听器,这里的事件源说的就是applicaitonContext.</li>
+<li>属于事件广播器,它的作用是把Applicationcontext发布的Event广播给所有的监听器.</li>
+</ul>
+</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.840Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2020083155065/" target="_blank" rel="external">http://blog.canyuda.top/posts/2020083155065/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design-mode/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020083155065/&title=《设计模式-观察者模式》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020083155065/&title=《设计模式-观察者模式》 — 灿若繁星&source=观察者模式(Observer) : 当存在一对多的关系, 一 发生了改变, 与其有关系的 多 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020083155065/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《设计模式-观察者模式》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020083155065/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020083155065/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2020083110710/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">设计模式-访问者模式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2020082812915/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-装饰器模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020083155065/&title=《设计模式-观察者模式》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020083155065/&title=《设计模式-观察者模式》 — 灿若繁星&source=观察者模式(Observer) : 当存在一对多的关系, 一 发生了改变, 与其有关系的 多 也要执行相关的动作. 也叫做发布订阅模式, 属于对象行为模式." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020083155065/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《设计模式-观察者模式》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020083155065/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020083155065/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3aQW7DMAwEwP7/0+m1QBB3l1ILWB6dAjuwNT4QpMivr3i9fqxPV96vv9+dPXPbwsDAuC3jdbmuX/n+u33LNT7ZGwYGxnMYn1786T/XpOtwnITsfG8YGBgYSUi9TumSZLEN5RgYGBhtSM03sSvpxMDAeCZjfXPtgd2suN1Qi2NgYNyQkZ+6///vP+lvYGBg3IrxKtd6O7Mtd6NdYWBgHM3Y1YDMS+JhgZokmhgYGIcyZuVrPiSRtw3aUL6hCsfAwLgho43Tu5LIJK38BYyBgXE0I0nLZgF3JR62YRoDA+MJjJVytA247UBGcRcDA+NoRl7i5mE6eU7eqtwwYIGBgXFbxq4XtA3LtiT+JXBjYGA8gJFva3aU34bjlo2BgfEcxsogxSyVTErZeloEAwPjaEYLGzYXR4f+27oZGBgYN2TMRitWmo67UszhuBgGBsZtGbNRiVlITVqew11hYGAcyhgexMdjE2153B69YWBgPIGx0phsA2jeBpgdz2FgYJzNaIvV2dxZ3p7MA3rU5cDAwDiOkSdhexO+ZLwjOm7DwMA4mjEb3sqbi20SmbddMTAwzma8ytWG2vYzJWG3/sYYGBg3Z8wmrNrH5SMU14VrPTOCgYFxECMPsm2Ynn2CfA919oqBgXFzRn4o3wbE+uBsFvoxMDAwRltsA247qLEh4GJgYDyAkVxZH93Y0InFwMA4gtEWou3d9UM9DAyMJzNmIw7ta1bu5ukjBgbGcYxvH/IZBsnmEWcAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

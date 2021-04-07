@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019100143106/">
+    
+    
+    <title>时序图 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="图表">
+    <meta name="description" content="基于PlantUML 时序图">
+<meta name="keywords" content="图表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时序图">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019100143106/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="基于PlantUML 时序图">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-5.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-6.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-7.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-9.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-10.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-11.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-12.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-13.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-14.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-15.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-16.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-17.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-18.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-19.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-20.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-21.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-22.png">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.832Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="时序图">
+<meta name="twitter:description" content="基于PlantUML 时序图">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">时序图</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">时序图</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-01T14:05:32.000Z" itemprop="datePublished" class="page-time">
+  2019-10-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#时序图"><span class="post-toc-number">1.</span> <span class="post-toc-text">时序图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基础"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基础</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实体样式"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">实体样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#颜色与别名"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">颜色与别名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实体顺序"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">实体顺序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#箭头样式"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">箭头样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#箭头颜色"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">箭头颜色</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#序号"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">序号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成多图"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">生成多图</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分组框"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">分组框</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#日志"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注释样式"><span class="post-toc-number">1.11.</span> <span class="post-toc-text">注释样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注释形状"><span class="post-toc-number">1.12.</span> <span class="post-toc-text">注释形状</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#各种牛逼的样式"><span class="post-toc-number">1.13.</span> <span class="post-toc-text">各种牛逼的样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#icon"><span class="post-toc-number">1.14.</span> <span class="post-toc-text">icon</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生命线"><span class="post-toc-number">1.15.</span> <span class="post-toc-text">生命线</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#临时创建实体"><span class="post-toc-number">1.16.</span> <span class="post-toc-text">临时创建实体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#未知来源箭头"><span class="post-toc-number">1.17.</span> <span class="post-toc-text">未知来源箭头</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#标题样式"><span class="post-toc-number">1.18.</span> <span class="post-toc-text">标题样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#标题样式高级"><span class="post-toc-number">1.19.</span> <span class="post-toc-text">标题样式高级</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#颜色块"><span class="post-toc-number">1.20.</span> <span class="post-toc-text">颜色块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#移除脚实体"><span class="post-toc-number">1.21.</span> <span class="post-toc-text">移除脚实体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#样式自定义"><span class="post-toc-number">1.22.</span> <span class="post-toc-text">样式自定义</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-时序图"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">时序图</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-01 22:05:32" datetime="2019-10-01T14:05:32.000Z"  itemprop="datePublished">2019-10-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>9 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>基于PlantUML</li>
+<li>时序图</li>
+</ul>
+<a id="more"></a>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><code>-&gt;</code> 表示实现</li>
+<li><code>--&gt;</code> 表示虚线</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png" alt="sequence-1.png" title>
+                </div>
+                <div class="image-caption">sequence-1.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-1
+服务A -> 服务B: 调用
+服务B --> 服务A: 返回
+
+服务A -> 服务B: 调用2
+服务B --> 服务A: 返回2
+@enduml
+</code></pre>
+</details>
+<h3 id="实体样式"><a href="#实体样式" class="headerlink" title="实体样式"></a>实体样式</h3><ul>
+<li><code>actor</code> 小人</li>
+<li><code>boundary</code> 边界</li>
+<li><code>control</code> 控制</li>
+<li><code>entity</code> 实体</li>
+<li><code>database</code> 数据库</li>
+<li><code>collections</code> 集合</li>
+<li><code>participant</code> <strong>方框(默认使用这个)</strong></li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-2.png" alt="sequence-2.png" title>
+                </div>
+                <div class="image-caption">sequence-2.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-2
+actor 小人 as Foo1
+boundary 边界 as Foo2
+control 控制 as Foo3
+entity 实体 as Foo4
+database 数据库 as Foo5
+collections 集合 as Foo6
+participant 方框 as Foo7
+
+Foo1 -> Foo2 : To boundary
+Foo1 -> Foo3 : To control
+Foo1 -> Foo4 : To entity
+Foo1 -> Foo5 : To database
+Foo1 -> Foo6 : To collections
+Foo1 -> Foo7 : To participant
+@enduml
+</code></pre>
+</details>
+<h3 id="颜色与别名"><a href="#颜色与别名" class="headerlink" title="颜色与别名"></a>颜色与别名</h3><ul>
+<li>样式定义后面接 <code>#{颜色}/{渐变色}</code>,<code>#{颜色}\{渐变色}</code>, <code>#{颜色}|{渐变色}</code>.</li>
+<li>使用 <code>as</code> 可以使用别名.</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-3.png" alt="sequence-3.png" title>
+                </div>
+                <div class="image-caption">sequence-3.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-3
+actor 小人2 as Bob2 #red/green
+actor 小人1 as Bob1 #FFF/000
+participant Alice
+participant "I have a really\nlong name" as L #99FF99
+
+Alice->Bob1: 发送
+Bob1->Alice: 响应
+Alice->Alice: 自发自收
+Bob1->L: biubiu
+@enduml
+</code></pre>
+</details>
+<h3 id="实体顺序"><a href="#实体顺序" class="headerlink" title="实体顺序"></a>实体顺序</h3><ul>
+<li><code>order</code> 可以自定义显示顺序</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-4.png" alt="sequence-4.png" title>
+                </div>
+                <div class="image-caption">sequence-4.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-4
+participant Last order 30
+participant Middle order 20
+participant First order 10
+@enduml
+</code></pre>
+</details>
+<h3 id="箭头样式"><a href="#箭头样式" class="headerlink" title="箭头样式"></a>箭头样式</h3><ul>
+<li><code>-&gt;</code> 普通箭头</li>
+<li><code>-&gt;x</code> 不可通</li>
+<li><code>-&gt;&gt;</code> 细箭头</li>
+<li><code>-\</code> 单边箭头</li>
+<li><code>-\\</code> 单边细箭头</li>
+<li><code>--\\</code> 虚线单边细箭头</li>
+<li><code>-&gt;o</code> 普通箭头加圆点</li>
+<li><code>o\\--</code> 虚线单边下箭头加圆点</li>
+<li><code>&lt;-&gt;</code> 双向箭头</li>
+<li><code>&lt;-&gt;o</code> 双向箭头加圆点</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-5.png" alt="sequence-5.png" title>
+                </div>
+                <div class="image-caption">sequence-5.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-5
+Bob -> Alice
+Bob ->x Alice
+Bob ->> Alice
+Bob -\ Alice
+Bob -\\ Alice
+Bob --\\ Alice
+Bob ->o Alice
+Bob o\\-- Alice
+Bob <-> Alice
+Bob <->o Alice
+@enduml
+</code></pre>
+</details>
+<h3 id="箭头颜色"><a href="#箭头颜色" class="headerlink" title="箭头颜色"></a>箭头颜色</h3><ul>
+<li>箭头<code>-</code>之间加入<code>[{颜色值}]</code>, 颜色可以为名字和hex值</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-6.png" alt="sequence-6.png" title>
+                </div>
+                <div class="image-caption">sequence-6.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-6
+Bob -[#red]> Alice : hello
+Alice -[#0000FF]->Bob : ok
+@enduml
+</code></pre>
+</details>
+<h3 id="序号"><a href="#序号" class="headerlink" title="序号"></a>序号</h3><ul>
+<li><code>autonumber</code> 可以开启序号, 序号自增.</li>
+<li><code>autonumber num step</code> 可以显式设置当前序号和自增步数.</li>
+<li><code>autonumber stop</code> 可以不纳入记步.</li>
+<li><code>autonumber resume 1 &quot;&lt;b&gt;[0]&quot;</code> 可以刷新步数设置为1, 并且可以配置序号样式, <code>0</code>或者<code>#</code>能代表数字.</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-7.png" alt="sequence-7.png" title>
+                </div>
+                <div class="image-caption">sequence-7.png</div>
+            </figure>
+<details><summary>PUML</summary><pre><code>@startuml sequence-7
+autonumber
+Bob -&gt; Alice : 请求
+Bob &lt;- Alice : 响应
+
+autonumber 15
+Bob -&gt; Alice : 请求
+Bob &lt;- Alice : 响应
+
+autonumber stop
+Bob -&gt; Alice : dummy
+
+autonumber 40 10 &quot;&lt;font color=red&gt;&lt;b&gt;Message 0  &quot;
+Bob -&gt; Alice : 请求
+Bob &lt;- Alice : 响应
+
+autonumber resume 1 &quot;&lt;b&gt;[0]&quot;
+Bob -&gt; Alice : 请求
+Bob &lt;- Alice : 响应
+@enduml</code></pre></details>
+<h3 id="生成多图"><a href="#生成多图" class="headerlink" title="生成多图"></a>生成多图</h3><ul>
+<li><code>header</code> 通用图头</li>
+<li><code>footer</code> 通用图尾  <code>%page%</code> 和 <code>%lastpage%</code> 可以代表总数和当前图索引</li>
+<li><code>title</code> 某页图头</li>
+<li><code>newpage</code> 开启新页</li>
+<li><code>newpage xxxx</code> 开启新页, 并且设置图头</li>
+</ul>
+<figure class="third"><br>    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page1.png"><br>    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page2.png"><br>    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page3.png"><br></figure>
+
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-8
+header 图头
+footer 图尾 %page% of %lastpage%
+title 图标题
+
+服务A -> 服务B : 消息1
+服务B -> 服务A : 消息2
+
+newpage
+
+服务A -> 服务B : 消息3
+服务B -> 服务A : 消息4
+
+newpage A title for the\nlast page
+
+服务A -> 服务B : 消息5
+服务B -> 服务A : 消息6
+@enduml
+</code></pre>
+</details>
+<h3 id="分组框"><a href="#分组框" class="headerlink" title="分组框"></a>分组框</h3><ul>
+<li><code>alt</code> <code>else</code>类似于 <code>if-else</code>, 后面接注释</li>
+<li><code>group</code>分组, 后接组名</li>
+<li><code>loop</code> 表示循环体内容, 后接注释</li>
+<li>都需要在结束的地方加 <code>end</code></li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-9.png" alt="sequence-9.png"></p>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-9
+Alice -> Bob: 请求
+
+alt 成功情况
+
+    Bob -> Alice: 成功的处理流程
+
+else 失败情况
+
+    Bob -> Alice: 失败的处理流程
+    group 这是一个分组
+        Alice -> Log : 循环开始
+        loop 循环 1000 times
+            Alice -> Bob: 循环内容
+        end
+        Alice -> Log : 循环结束
+    end
+
+else 其他情况
+
+   Bob -> Alice: 非成功失败的处理流程
+
+end
+@enduml
+</code></pre>
+</details>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><ul>
+<li><code>note left: 日志内容</code></li>
+<li><code>note right</code> <code>end note</code> 日志块</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-10.png" alt="sequence-10.png" title>
+                </div>
+                <div class="image-caption">sequence-10.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-10
+Alice->Bob : hello
+note left: 左边的日志
+
+Bob->Alice : ok
+note right: 右边的日志
+
+Bob->Bob : 块状日志
+note right
+    块内内容
+    直接就能换行
+end note
+@enduml
+</code></pre>
+</details>
+<h3 id="注释样式"><a href="#注释样式" class="headerlink" title="注释样式"></a>注释样式</h3><ul>
+<li><code>note left of XXX #{颜色}</code> 指定在哪个实体旁边, 可以指定颜色</li>
+<li><code>note over XXX</code> 在XXX上面的注释</li>
+<li><code>note over XXX, YYY</code> 在XXX和YYY上面的注释</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-11.png" alt="sequence-11.png" title>
+                </div>
+                <div class="image-caption">sequence-11.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-11
+participant Alice
+participant Bob
+note left of Alice #aqua
+    花里胡哨的注释
+    指定这个注释在Alice左边
+end note
+
+note right of Alice: 指定这个注释在Alice右边
+
+note over Alice: 指定这个注释在Alice中间
+
+note over Alice, Bob #FFAAAA: 指定这个注释在Alice和Bob中间
+
+note over Bob, Alice
+    指定这个注释在Alice和Bob中间
+    支持块注释
+end note
+@enduml
+</code></pre>
+</details>
+<h3 id="注释形状"><a href="#注释形状" class="headerlink" title="注释形状"></a>注释形状</h3><ul>
+<li><code>hnote</code> 菱形注释块</li>
+<li><code>rnote</code> 四四方方</li>
+<li><code>note</code> 便签纸形状</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-12.png" alt="sequence-12.png" title>
+                </div>
+                <div class="image-caption">sequence-12.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-12
+caller -> server : 过程1
+hnote over caller : 菱形注释块
+caller <- server : 过程2
+rnote over server
+    四四方方的注释块
+endrnote
+@enduml
+</code></pre>
+</details>
+<h3 id="各种牛逼的样式"><a href="#各种牛逼的样式" class="headerlink" title="各种牛逼的样式"></a>各种牛逼的样式</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-13.png" alt="sequence-13.png" title>
+                </div>
+                <div class="image-caption">sequence-13.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-13
+Alice -> Bob : hello --there--
+... 省略 ~~内容~~ 用来表示延迟 ...
+Bob -> Alice : ok
+note left
+  This is **bold**
+  This is //italics//
+  This is ""monospaced""
+  This is --stroked--
+  This is __underlined__
+  This is ~~waved~~
+end note
+== 各种牛逼的样式 ==
+note right of Bob 
+ This is <back:cadetblue><size:18>displayed</size></back> 
+ __left of__ Alice. 
+end note
+
+note right of Bob 
+ <u:red>This</u> is <color #118888>displayed</color> 
+ **<color purple>left of</color> <s:red>Alice</strike> Bob**. 
+end note
+
+note right of Bob 
+ <w:#FF33FF>This is hosted</w> by <img img/logo_v2.png>
+end note 
+
+note right of Bob 
+  Example of simple table
+  |= |= table |= header |
+  | a | tabletabletabletable | row |
+  | b | table | row |
+end note 
+
+note right of Bob 
+:Here is the result
+|= |= table |= header |
+| a | table | row |
+|<#FF8080> red |<#80FF80> green |<#8080FF> blue |
+<#yellow>| b | table | row |;
+end note 
+
+note right of Bob 
+  Example of Tree
+      |_ First line
+      |_ **Bom(Model)**
+        |_ prop1
+        |_ prop2
+        |_ prop3
+end note 
+
+note right of Bob 
+  * Bullet list
+  * Second item
+  ** Sub item
+end note 
+
+note right of Bob 
+<&phone> <&wifi> <&map> 等...
+end note 
+
+== 引用类型(类似于注释) ==
+
+|||
+
+ref over Alice, Bob : ref不支持 left/right
+
+||100||
+
+ref over Bob
+ref仅支持 **over**
+<&phone> <&wifi> <&map> 等...
+end ref
+@enduml
+</code></pre>
+</details>
+<h3 id="icon"><a href="#icon" class="headerlink" title="icon"></a>icon</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-14.png" alt="sequence-14.png" title>
+                </div>
+                <div class="image-caption">sequence-14.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-14
+listopeniconic
+@enduml
+</code></pre>
+</details>
+<h3 id="生命线"><a href="#生命线" class="headerlink" title="生命线"></a>生命线</h3><ul>
+<li><code>activate XXX #{颜色值}</code> 开启生命线, 可以设置颜色</li>
+<li><code>deactivate</code> 停止生命线</li>
+<li><code>destroy</code> 关闭生命线</li>
+<li>生命线可叠加, 但是要注意颜色区分</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-15.png" alt="sequence-15.png" title>
+                </div>
+                <div class="image-caption">sequence-15.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-15
+participant User
+
+User -> A: 下面启动A的生命线
+activate A
+
+A -> B: 下面启动B的生命线
+activate B #BBBBBB
+
+B -> C: 下面启动C的生命线
+activate C #DarkSalmon
+C --> B: 下面**销毁**C的生命线
+destroy C
+activate B #BBBBFF
+
+B --> C: 启动B的二段生命线
+activate C #DarkSalmon
+C --> B: 启动B的二段生命线
+destroy C
+destroy B
+
+B --> A: 下面关闭B的生命线
+deactivate B 
+
+A -> User: 下面**销毁**A的生命线
+destroy A
+@enduml
+</code></pre>
+</details>
+<h3 id="临时创建实体"><a href="#临时创建实体" class="headerlink" title="临时创建实体"></a>临时创建实体</h3><ul>
+<li>不用<code>participant</code> 事先生命实体, 需要时用 <code>create</code> 即可创建</li>
+<li><code>create {样式} 名字</code> 可以指定样式</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-16.png" alt="sequence-16.png" title>
+                </div>
+                <div class="image-caption">sequence-16.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-16
+Bob -> Alice : hello
+
+create Other
+Alice -> Other : new
+Other --> Alice : return
+
+create control String
+Alice -> String
+String -> Alice
+
+Alice --> Bob : ok
+@enduml
+</code></pre>
+</details>
+<h3 id="未知来源箭头"><a href="#未知来源箭头" class="headerlink" title="未知来源箭头"></a>未知来源箭头</h3><ul>
+<li><code>[-&gt;</code> <code>-&gt;]</code> <code>[&lt;-</code> <code>&lt;-]</code> 来源未知的箭头</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-17.png" alt="sequence-17.png" title>
+                </div>
+                <div class="image-caption">sequence-17.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-17
+[-> Bob : 未知来源的输入
+Bob -> Alice : 1
+Alice ->] : 未知去向的输出
+Alice <-]  : 未知来源的返回
+Bob <- Alice : 2
+[<- Bob  : 未知来源的返回
+@enduml
+</code></pre>
+</details>
+<h3 id="标题样式"><a href="#标题样式" class="headerlink" title="标题样式"></a>标题样式</h3><ul>
+<li><code>title</code> 设置标题 可以使用下划线,黑体,删除线等</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-18.png" alt="sequence-18.png" title>
+                </div>
+                <div class="image-caption">sequence-18.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-18
+title __下划线__ **黑体** --删除线--
+
+Alice -> Bob: Authentication Request
+Bob -> Alice: Authentication Response
+
+@enduml
+</code></pre>
+</details>
+<h3 id="标题样式高级"><a href="#标题样式高级" class="headerlink" title="标题样式高级"></a>标题样式高级</h3><ul>
+<li><code>title</code> <code>end title</code> 中间可以定各种样式的文本图案</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-19.png" alt="sequence-19.png" title>
+                </div>
+                <div class="image-caption">sequence-19.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-19
+
+title 
+Here is the result
+|= |= table |= header |
+| a | table | row |
+|<#FF8080> red |<#80FF80> green |<#8080FF> blue |
+|<#yellow> | b | table | row |
+end title
+
+Alice -> Bob: Authentication Request
+Bob -> Alice: Authentication Response
+@enduml
+</code></pre>
+</details>
+<h3 id="颜色块"><a href="#颜色块" class="headerlink" title="颜色块"></a>颜色块</h3><ul>
+<li><code>box 标题名 #{颜色值}</code> 抱起来声明的实体可以被框住, 并可以定义颜色</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-20.png" alt="sequence-20.png" title>
+                </div>
+                <div class="image-caption">sequence-20.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-20
+box "标题" #LightBlue
+participant Bob
+participant Alice
+end box
+participant Other
+
+Bob -> Alice : hello
+Alice -> Other : hello
+@enduml
+</code></pre>
+</details>
+<h3 id="移除脚实体"><a href="#移除脚实体" class="headerlink" title="移除脚实体"></a>移除脚实体</h3><ul>
+<li><code>hide</code> 可以移除脚实体</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-21.png" alt="sequence-21.png" title>
+                </div>
+                <div class="image-caption">sequence-21.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-21
+hide footbox
+title 脚移除
+
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+@enduml
+</code></pre>
+</details>
+<h3 id="样式自定义"><a href="#样式自定义" class="headerlink" title="样式自定义"></a>样式自定义</h3><ul>
+<li><a href="http://plantuml.com/zh/skinparam" target="_blank" rel="noopener">skinparam</a></li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-22.png" alt="sequence-22.png" title>
+                </div>
+                <div class="image-caption">sequence-22.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml sequence-22
+
+skinparam backgroundColor #A9DCDF
+skinparam handwritten true
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor blue
+    LifeLineBackgroundColor #A9DCDF
+
+    ParticipantBorderColor DeepSkyBlue
+    ParticipantBackgroundColor DodgerBlue
+    ParticipantFontName Impact
+    ParticipantFontSize 17
+    ParticipantFontColor #A9DCDF
+
+    ActorBackgroundColor aqua
+    ActorFontColor DeepSkyBlue
+    ActorFontSize 17
+    ActorFontName Aapex
+}
+
+box "标题"
+participant Bob
+participant Alice
+end box
+participant Other
+
+Bob -> Alice : hello
+Alice -> Other : hello
+
+note right of Other 
+自定义样式请看:__http://plantuml.com/zh/skinparam__
+end note 
+@enduml
+</code></pre>
+</details>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.832Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019100143106/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019100143106/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chart/">图表</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019100143106/&title=《时序图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019100143106/&title=《时序图》 — 灿若繁星&source=
+基于PlantUML
+时序图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019100143106/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《时序图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019100143106/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019100143106/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/201910013360/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">用例图</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019093010321/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">活动图</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019100143106/&title=《时序图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019100143106/&title=《时序图》 — 灿若繁星&source=
+基于PlantUML
+时序图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019100143106/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《时序图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019100143106/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019100143106/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3ay47iMBAF0P7/n2Y2sxgJdebesml1nOMVIpD4sChcj6+veL3+Wd+98/7++9XZPbctDAyM2zJel+v6ke+v26dc45O9YWBgPIfx3YOTTScbuv5k8tz/7BkDAwOjfHx7WGxDOQYGBsaMkYfm9UMnBgbGMxlJktmSrgGz5HZDLo6BgXFDRl51//nXH+lvYGBg3IrxKldSxG9D+cp+/t4HAwPjaMZ6A3JWdKsT1OSgiYGBcShjlr62wbctz9VJMgYGxgMYeeK6UixrN1r8NBgYGEcz2gNcwshbAvkfQB1pMTAwDmK028pbjPkA2coeMDAwnsDYNRyWhMW83JbfofgrwcDAuC2jLW+ttB5nCWq0HwwMjAcwkhJbHihnn5+V3jAwMJ7GKALc8jk0oRbFOwwMjMcw2vGLYXNxdACt828MDIzjGMnX8k/OguzSgBoGBsbRjDx1zKntPTcfEDEwMA5lJAMQu1LWWWthOGyBgYFxEGM2trWeRUYzIHmzAQMD4wGMdjyiXSt3jgpzGBgYj2GsJLHrB75otOLTuTgGBsYvZuzaUHuHWYOhuYCBgXFvxqtcbflsdvirqRgYGEczZiloe1jMR8qui33tT4OBgXESY2Uka1eATpLnYWMAAwPjIEYSKPeSZv8AxbAFBgYGxqhJ2aay+VUMDAyMPMiutD/zgYxtARcDA+NWjHZb7dWlY9/echsGBsYNGbMRh/YxK+2B4oCIgYFxGuMPMRuJh2RvA8QAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

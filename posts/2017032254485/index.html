@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017032254485/">
+    
+    
+    <title>设计模式-六大设计原则（二） | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="设计模式">
+    <meta name="description" content="略">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-六大设计原则（二）">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017032254485/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.864Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式-六大设计原则（二）">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">设计模式-六大设计原则（二）</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">设计模式-六大设计原则（二）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-03-22T11:18:12.000Z" itemprop="datePublished" class="page-time">
+  2017-03-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开放-封闭原则"><span class="post-toc-number">1.</span> <span class="post-toc-text">开放-封闭原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#举个例子"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">举个例子</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#依赖倒转原则"><span class="post-toc-number">2.</span> <span class="post-toc-text">依赖倒转原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#举个例子-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">举个例子</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-设计模式-六大设计原则（二）"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">设计模式-六大设计原则（二）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-03-22 19:18:12" datetime="2017-03-22T11:18:12.000Z"  itemprop="datePublished">2017-03-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>4 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="开放-封闭原则"><a href="#开放-封闭原则" class="headerlink" title="开放-封闭原则"></a>开放-封闭原则</h2><p>开放-封闭原则是面向对象开发中中所有设计原则的核心。在面向对象编程时，如果要添加一个新的功能，添加一个新类来完成往往要比修改现有的类更加方便和安全。</p>
+<p>所谓添加而不修改，原因是软件设计要求追求的目标是封装变化、降低耦合，而开放-封闭原则正是对这一目标的最直接的体现。对于软件设计者来说，应该在不需要对原有的系统进行修改的情况下，来实现更加灵活的系统拓展。</p>
+<p>开发-封闭原则的定义是：<strong>程序的实体对象（模块、类、函数等）应该可以进行拓展，但是不应该可以修改</strong>。有两个特征：</p>
+<blockquote>
+<p>对于拓展是开放的<br>对于修改是封闭的</p>
+</blockquote>
+<p>开放-封闭原则提供了一个使系统面对需求变更时，可以保持系统相对稳定的解决方案。</p>
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><p>猫类是动物类的子类，所有动物会呼吸，而猫会抓老鼠。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//动物类</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Animal</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//呼吸的方法</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//猫类</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Cat</span> extents Animal<span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">CatchMouse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//抓老鼠的方法</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//对于</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  Cat cat <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Cat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  cat<span class="token punctuation">.</span><span class="token function">Breath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  cat<span class="token punctuation">.</span><span class="token function">CatchMouse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>猫类有两个方法呼吸和抓老鼠，但是当业务发生改变时，例如一只叫做咪咪的猫还会爬树，这里根据开放封闭原则。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Mimi</span> <span class="token keyword">extends</span> <span class="token class-name">Cat</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Ctree</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//爬树的方法</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="依赖倒转原则"><a href="#依赖倒转原则" class="headerlink" title="依赖倒转原则"></a>依赖倒转原则</h2><p>当一个高层类依赖与一个低层类，如果低层发生改变，高层也要相应的发生改变。这里就需要根据依赖倒转原则来对这种现象进行解耦和，依赖倒转原则的定义是：<strong>程序的高层模块不应该依赖与低层模块，但是两者都应该依赖与抽象；抽象不应该依赖与具体细节，而细节应该依赖与抽象</strong>。字面上可能很难懂，它表达的意思差不多就是告诉我们面对对象应该针对接口编程，而不是针对实现编程。</p>
+<p>开发中使用这个原则需要遵循以下几条规范：</p>
+<ol>
+<li>每个类尽量都继承自接口或者抽象类，或者都有。是依赖倒转的基本要求，有抽象才能依赖倒转。</li>
+<li>变量的类型尽量是接口或者抽象类。</li>
+<li>尽量不要去覆盖基类的方法。如果基类是个抽象类，而且方法已经实现，子类就尽量不要去覆盖，覆盖了抽象方法对依赖的稳定性会有影响。</li>
+</ol>
+<h3 id="举个例子-1"><a href="#举个例子-1" class="headerlink" title="举个例子"></a>举个例子</h3><p>一个十分复杂高层类Manager和一个低层类Worker，当又新建了一个低层类SeniorWorker，此时会发生什么呢？</p>
+<ol>
+<li>我们需要修改Manager类。</li>
+<li>Manager部分功能可能会受到影响。</li>
+<li>Manager类需要重新做单元测试。</li>
+</ol>
+<p>无依赖倒转原则</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//工人</span>
+<span class="token keyword">class</span> <span class="token class-name">Worker</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//....working</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//管理者</span>
+<span class="token keyword">class</span> <span class="token class-name">Manager</span><span class="token punctuation">{</span>
+  Work m_worker<span class="token punctuation">;</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setWorker</span><span class="token punctuation">(</span>Worker w<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    m_worker <span class="token operator">=</span> w<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">manage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    m_worker<span class="token punctuation">.</span><span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//新加入高级工人</span>
+<span class="token keyword">class</span> <span class="token class-name">SeniorWorker</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//.......working much more</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果新加入高级工人，就需要在Manager类中加入设置高级工人的方法，如果Manager类本身就很复杂，此时再添加新代码是不可取的，下面支持了依赖倒转原则的代码。在工人基础上加入了一个抽象层的接口。这样就不需要修改Manager类了，简化了工作。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//抽象层</span>
+<span class="token keyword">interface</span> <span class="token class-name">Iworker</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//工人</span>
+<span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token keyword">implements</span> <span class="token class-name">Iworker</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//......working</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//高级工人</span>
+<span class="token keyword">class</span> <span class="token class-name">SeniorWorker</span> <span class="token keyword">implements</span> <span class="token class-name">Iworker</span><span class="token punctuation">{</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//....working much more</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//管理员</span>
+<span class="token keyword">class</span> <span class="token class-name">Manager</span><span class="token punctuation">{</span>
+  Iworker m_worker<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setWorker</span><span class="token punctuation">(</span>Iworker w<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    m_worker <span class="token operator">=</span> w<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">manage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    m_worker<span class="token punctuation">.</span><span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>以后如果需要添加新的工种，只需实现工人接口就可以了，Manager类完全不需要对此进行修改。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.864Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017032254485/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017032254485/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design-mode/">设计模式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017032254485/&title=《设计模式-六大设计原则（二）》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017032254485/&title=《设计模式-六大设计原则（二）》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017032254485/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《设计模式-六大设计原则（二）》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017032254485/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017032254485/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/201706106246/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">排序查找之冒泡排序</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017032140365/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-六大设计原则(一)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017032254485/&title=《设计模式-六大设计原则（二）》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017032254485/&title=《设计模式-六大设计原则（二）》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017032254485/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《设计模式-六大设计原则（二）》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017032254485/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017032254485/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3ay27CMBAFUP7/p+mmi0oUeu84VMI+WSFCHZ8s3HndbvF1/3E9++bx+8e7szUvuzAwMD6WcX95JZtLHjxbP9kbBgbGOYxnD372m2d3c3D+m9d7w8DAwFhaOg4WL3gWBgYGRrB0fky/PnYxMDAwVpLYJEzMi2uz5PaCXBwDA+MDGXnV/f8/v6W/gYGB8VGMe3klRfz2KF/Zz/c6GBgYWzOuakC2RbdZ2e6PQBMDA+MAxqzpmCe9eVFvOCiGgYGxNSNPXFeKZe1GV14NBgbG3oxZSyBPTddfXBREYmBgbMfIk8m2uZiHm22oWuTiGBgY2zHaQYpZqa5tVQ4jWQwMjC0YeYuxTWLb1WaNh6gTi4GBsQUjD/5mpfzkyF5hY2BgnMNYGaTIV8ipRfEOAwPjGMZKEW1W0J+V+W75H2BgYGzBaA/EtsG5MjxxwcwIBgbGRoyr5siuHSOrBzgwMDAOZqwkom163JbeMDAwTmMk4xft0u2Bu/TKMDAwDmbkgHYrK6HnL99gYGAcwGgf8I6Ary29YWBgnMZoe4JtW3EWFBYDHxgYGJsy7uU1a2fm4xdtSoyBgXECY3ZczhLddp31V4OBgbETIz9k27GJWUA5HEHDwMA4gJGEa9eGlbP/AMWwBQYGxsGMdiv5gTsLGTEwMDDyPDgPBxNwvTIGBsYBjLYZMGsY5O3JtmyHgYGxN2M24rDSAGjvFgEiBgbGbowv8fNqmPGj1nAAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

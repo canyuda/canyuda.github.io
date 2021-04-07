@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019100129557/">
+    
+    
+    <title>状态图 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="图表">
+    <meta name="description" content="基于PlantUML 状态图">
+<meta name="keywords" content="图表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="状态图">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019100129557/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="基于PlantUML 状态图">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-5.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-6.png">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.832Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="状态图">
+<meta name="twitter:description" content="基于PlantUML 状态图">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-1.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">状态图</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">状态图</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-01T14:09:10.000Z" itemprop="datePublished" class="page-time">
+  2019-10-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#状态图"><span class="post-toc-number">1.</span> <span class="post-toc-text">状态图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基础"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基础</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分组状态"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">分组状态</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#并发状态"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">并发状态</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#箭头方向"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">箭头方向</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注释"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义样式"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">自定义样式</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-状态图"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">状态图</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-01 22:09:10" datetime="2019-10-01T14:09:10.000Z"  itemprop="datePublished">2019-10-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>2 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>基于PlantUML</li>
+<li>状态图</li>
+</ul>
+<a id="more"></a>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><code>[*]</code> 表示开始/结束</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-1.png" alt="state-1.png" title>
+                </div>
+                <div class="image-caption">state-1.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-1
+hide empty description
+[*] --> 状态1
+状态1 --> [*]
+状态1 : this is a string
+状态1 : this is another string
+
+状态1 -> 状态2
+状态2 --> [*]
+@enduml
+</code></pre>
+</details>
+<h3 id="分组状态"><a href="#分组状态" class="headerlink" title="分组状态"></a>分组状态</h3><ul>
+<li><code>state XXX {  }</code> 指定分组状态</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-2.png" alt="state-2.png" title>
+                </div>
+                <div class="image-caption">state-2.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-2
+hide empty description
+[*] --> 未指派
+
+state 未指派 {
+    [*] --> 未写入
+    未写入 --> 已写入 : 接口调用
+    已写入 --> 未写入 : 响应
+}
+
+state 已写入 {
+    [*] --> 未处理
+    未处理 --> 处理成功
+    处理成功 --> [*]
+    未处理 --> 处理失败
+    处理失败 --> [*]
+    state 处理失败 {
+        [*] --> 未接通
+        [*] --> 已接通未同意
+        未接通 --> [*]
+        已接通未同意 --> [*]
+    }
+}
+未指派 --> [*]
+已写入 -> [*]
+@enduml
+</code></pre>
+</details>
+<h3 id="并发状态"><a href="#并发状态" class="headerlink" title="并发状态"></a>并发状态</h3><ul>
+<li><code>--</code> 虚线分割线</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-3.png" alt="state-3.png" title>
+                </div>
+                <div class="image-caption">state-3.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-3
+hide empty description
+[*] --> Active
+
+state Active {
+  [*] -> NumLockOff
+  NumLockOff --> NumLockOn : EvNumLockPressed
+  NumLockOn --> NumLockOff : EvNumLockPressed
+  --
+  [*] -> CapsLockOff
+  CapsLockOff --> CapsLockOn : EvCapsLockPressed
+  CapsLockOn --> CapsLockOff : EvCapsLockPressed
+  --
+  [*] -> ScrollLockOff
+  ScrollLockOff --> ScrollLockOn : EvCapsLockPressed
+  ScrollLockOn --> ScrollLockOff : EvCapsLockPressed
+}
+@enduml
+</code></pre>
+</details>
+<h3 id="箭头方向"><a href="#箭头方向" class="headerlink" title="箭头方向"></a>箭头方向</h3><ul>
+<li><code>up</code> 上</li>
+<li><code>down</code> 下</li>
+<li><code>left</code> 左</li>
+<li><code>right</code> 右</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-4.png" alt="state-4.png" title>
+                </div>
+                <div class="image-caption">state-4.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-4
+hide empty description
+[*] -up-> First : 向上
+First -right-> Second : 向右
+Second -down-> Third : 向下
+Third -left-> Last : 向左
+Last -down-> [*] : 结束
+@enduml
+</code></pre>
+</details>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
+<li>省略(与其他的图一致)</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-5.png" alt="state-5.png" title>
+                </div>
+                <div class="image-caption">state-5.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-5
+hide empty description
+[*] --> Active
+Active --> Inactive
+
+note left of Active : 旁侧注释
+
+note right of Inactive
+  块
+  注
+  释
+end note
+note "无箭头注释" as N1
+@enduml
+</code></pre>
+</details>
+<h3 id="自定义样式"><a href="#自定义样式" class="headerlink" title="自定义样式"></a>自定义样式</h3><ul>
+<li><code>skinparam</code> 可以指定样式</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/state/state-6.png" alt="state-6.png" title>
+                </div>
+                <div class="image-caption">state-6.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml state-6
+skinparam backgroundColor LightYellow
+skinparam state {
+  StartColor MediumBlue
+  EndColor Red
+  BackgroundColor Peru
+  BackgroundColor<<Warning>> Olive
+  BorderColor Gray
+  FontName Impact
+}
+
+[*] --> NotShooting
+
+state "Not Shooting State" as NotShooting {
+  state "Idle mode" as Idle <<Warning>>
+  state "Configuring mode" as Configuring
+  [*] --> Idle
+  Idle --> Configuring : EvConfig
+  Configuring --> Idle : EvConfig
+}
+
+NotShooting --> [*]
+@enduml
+</code></pre>
+</details>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.832Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019100129557/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019100129557/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chart/">图表</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019100129557/&title=《状态图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019100129557/&title=《状态图》 — 灿若繁星&source=
+基于PlantUML
+状态图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019100129557/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《状态图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019100129557/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019100129557/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019100112256/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">PlantUML制图-概述</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/201910013360/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">用例图</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019100129557/&title=《状态图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019100129557/&title=《状态图》 — 灿若繁星&source=
+基于PlantUML
+状态图
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019100129557/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《状态图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019100129557/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019100129557/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3awW7sIAwF0Pn/n07XT3qh13amUuCwGiVt4LCwwPbnE49rOdZ/mXzz7snDAwMD47WMZInrCZKJ8++vn9+uBAMD4wDGenF3v+/ersPxemvWc90+x8DAwFhOn4TjPGRjYGBgfCPg5uEy2QIMDAyMySU2P94lybXe5faBuzgGBsYLGXnW/e9/f6W+gYGB8SrGVRx5mqwXLq/WwMDA2JsxL0AmmOSyOimIYmBgnMOoXl+TJolqo8aoUQwDA2NrRn5xrSbC5k/maT4MDIy3M/LF5ZfMvCQwOT7+8xYDA2NrRq+RIo/lyUU3P27+8hYDA2NrxqQ5LAmmyVGves2OzrMYGBhbMKohclJ6zOetHjoxMDBOYEwCZZ4+6yX1olkwMDAOY+TlxqcOi8mXy90iGBgYBzDytFevRjrZrM+zu4uBgfESRu+SOUmZ5VvWbLbAwMDYiJGH2iQIVhNtk/41DAyM0xi98kCvLaxXWij0jGBgYGzKqC6xGoKrQbmXnsPAwNibUW5uyBNhxZxYPu9/nmNgYBzGmBQGnjrwVVs6MDAwzmHkQTP/r2qiLflOuS6KgYHxWsZVHA+XG4tNHqP7NwYGxmsZ+aguJVli3prW2xoMDIydGHmQzdsy8stwXvJsFgYwMDA2YiSBMi8VjBJnLSQGBgZGr9miGnB7R0YMDAyMbxwHE/D6+cMBFwMD4yWM6rJ6BYO8PJkEXAwMjHMYvRaHJB3Wezu/WmNgYGzE+AEOUvAuc36tfQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/201709182886/">
+    
+    
+    <title>Spring-装配Bean | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Spring">
+    <meta name="description" content="略">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-装配Bean">
+<meta property="og:url" content="http://blog.canyuda.top/posts/201709182886/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.848Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-装配Bean">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Spring-装配Bean</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Spring-装配Bean</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-18T03:40:44.000Z" itemprop="datePublished" class="page-time">
+  2017-09-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring配置的可选方案"><span class="post-toc-number">1.</span> <span class="post-toc-text">Spring配置的可选方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自动化装配bean"><span class="post-toc-number">2.</span> <span class="post-toc-text">自动化装配bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建可被发现的bean"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">创建可被发现的bean</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#为组件扫描的bean命名"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">为组件扫描的bean命名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设置组件扫描的基础包"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">设置组件扫描的基础包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过bean添加注解实现自动装配"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">通过bean添加注解实现自动装配</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通过Java代码装配bean"><span class="post-toc-number">3.</span> <span class="post-toc-text">通过Java代码装配bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建配置类"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">创建配置类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#声明简单的bean"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">声明简单的bean</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#借助JavaConfig实现注入"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">借助JavaConfig实现注入</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通过XML装配bean"><span class="post-toc-number">4.</span> <span class="post-toc-text">通过XML装配bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建XML配置规范"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">创建XML配置规范</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#声明一个简单"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">声明一个简单</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#借助构造器注入初始化bean"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">借助构造器注入初始化bean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#构造器注入bean引用"><span class="post-toc-number">4.3.1.</span> <span class="post-toc-text">构造器注入bean引用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#讲字面量注入到构造器中"><span class="post-toc-number">4.3.2.</span> <span class="post-toc-text">讲字面量注入到构造器中</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#装配集合"><span class="post-toc-number">4.3.3.</span> <span class="post-toc-text">装配集合</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设置属性"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">设置属性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#导入和混合配置"><span class="post-toc-number">5.</span> <span class="post-toc-text">导入和混合配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在JavaConfig中引入XML配置"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">在JavaConfig中引入XML配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在XML配置中引入JavaConfig"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">在XML配置中引入JavaConfig</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Spring-装配Bean"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Spring-装配Bean</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-09-18 11:40:44" datetime="2017-09-18T03:40:44.000Z"  itemprop="datePublished">2017-09-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>11 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<blockquote>
+<ul>
+<li>声明bean</li>
+<li>构造器注入和Setter方法注入</li>
+<li>装配bean</li>
+<li>控制bean的创建和销毁</li>
+</ul>
+</blockquote>
+<p>创建应用对象之间协作关系的行为通常称之为装配(wiring),这也是依赖注入(DI)的本质.</p>
+<h2 id="Spring配置的可选方案"><a href="#Spring配置的可选方案" class="headerlink" title="Spring配置的可选方案"></a>Spring配置的可选方案</h2><p>Spring有三种主要的装配机制:</p>
+<ul>
+<li>在XML中进行显示配置</li>
+<li>在Java中进行显示配置</li>
+<li>隐式的bean发现机制和自动装配</li>
+</ul>
+<p>同时Spring的配置风格是可以互相搭配的,推荐使用自动配置,其次使用JavaConfig,最后是XML方式.</p>
+<h2 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h2><p>Spring从两个角度来实现的自动化装配:</p>
+<ol>
+<li>组件扫描(component scanning):Spring会自动发现应用上下文中所创建的bean.</li>
+<li>自动装配(autowiring):Spring自动满足bean之间的依赖.</li>
+</ol>
+<p>两者组合一起就可发挥强大的威力.</p>
+<h3 id="创建可被发现的bean"><a href="#创建可被发现的bean" class="headerlink" title="创建可被发现的bean"></a>创建可被发现的bean</h3><p>CD接口</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">CompactDisc</span><span class="token punctuation">{</span>
+    <span class="token keyword">void</span> <span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Component</span><span class="token comment" spellcheck="true">//声明后可被扫描到</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SgtPeppers</span> <span class="token keyword">implements</span> <span class="token class-name">CompactDisc</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String msg <span class="token operator">=</span> <span class="token string">"sgtpepers"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>默认组件扫描是不启动的,所以要手动启动它.</p>
+<ol>
+<li><p>JavaConfig方式</p>
+<p>默认扫描JavaConfig类同包下的类,也可以给 <code>@ComponentScan(basePackages = &quot;包路径&quot;)</code> 参数来指定某个包.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@ComponentScan</span><span class="token comment" spellcheck="true">//启动扫描</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CDPlayerConfig</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><p>XML方式</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 开启扫描 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>component-scan</span> <span class="token attr-name">base-package</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>包路径<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+</li>
+</ol>
+<p>测试</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RunWith</span><span class="token punctuation">(</span>SpringJUnit4ClassRunner<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//用来在测试类中加载配置</span>
+<span class="token annotation punctuation">@ContextConfiguration</span><span class="token punctuation">(</span>classes <span class="token operator">=</span> CDPlayerConfig<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//加载配置</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span><span class="token comment" spellcheck="true">//自动装载</span>
+    <span class="token keyword">private</span> CompactDisc cd<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>cd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Assert<span class="token punctuation">.</span><span class="token function">assertNotNull</span><span class="token punctuation">(</span>cd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="为组件扫描的bean命名"><a href="#为组件扫描的bean命名" class="headerlink" title="为组件扫描的bean命名"></a>为组件扫描的bean命名</h3><p>当有多个CompactDisc需要被声明时,自动装载并不知道装载哪一个,所以需要给bean命名.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span><span class="token punctuation">(</span><span class="token string">"cd001"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//声明后可被扫描到</span>
+<span class="token comment" spellcheck="true">//@Named("cd001")是它的代替方案,推荐使用Component注解</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SgtPeppers</span> <span class="token keyword">implements</span> <span class="token class-name">CompactDisc</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...上文有,省略</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="设置组件扫描的基础包"><a href="#设置组件扫描的基础包" class="headerlink" title="设置组件扫描的基础包"></a>设置组件扫描的基础包</h3><p>自动扫描注解 <code>ComponentScan</code> 有参数可以指定包,当扫描时它就仅仅在指定包内进行扫描.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>basePackage<span class="token operator">=</span><span class="token string">"com.yuda.one"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//单包</span>
+<span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>basePackage<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"com.yuda.one"</span><span class="token punctuation">,</span><span class="token string">"com.yuda.two"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//多包</span>
+</code></pre>
+<p>也可以指定类,<strong>注意:指定类后该类同包下的所有类(兄弟类)都可以被扫描到</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>basePackageClasses<span class="token operator">=</span>CDPlayer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//CDPlayer类同包的类</span>
+<span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>basePackageClasses<span class="token operator">=</span><span class="token punctuation">{</span>CDPlayer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span>DVDPlayer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//CDPlayer类和DVDPlayer类同包的类</span>
+</code></pre>
+<blockquote>
+<p>技巧: 使用basePackageClasses扫描可以扫描该类的兄弟类(同一包下的类),我们可以设置一个空标记接口,让JavaConfig能扫描到标记接口的兄弟类,好处自己想.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span><span class="token comment" spellcheck="true">//Marker的兄弟都可以被扫描到</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Marker</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</blockquote>
+<h3 id="通过bean添加注解实现自动装配"><a href="#通过bean添加注解实现自动装配" class="headerlink" title="通过bean添加注解实现自动装配"></a>通过bean添加注解实现自动装配</h3><p>现在组件已经有啦,就需要考虑把组件自动装配到哪一个对象上面去,这里用到了 <code>@Autowired</code> 标签,可以设置到构造器上,Setter方法上,字段上,甚至以组件为参数的任何方法上.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CDPlayer</span> <span class="token keyword">implements</span> <span class="token class-name">MediaPlayer</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> CompactDisc cd<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span><span class="token comment" spellcheck="true">//对构造器配置</span>
+    <span class="token keyword">public</span> <span class="token function">CDPlayer</span><span class="token punctuation">(</span>CompactDisc cd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>cd <span class="token operator">=</span> cd<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"CDPlayer开始播放"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cd<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>还可以作用于Setter方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setCd</span><span class="token punctuation">(</span>CompactDisc cd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>cd <span class="token operator">=</span> cd<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>甚至可以作用于其他方法和字段</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">private</span> CompactDisc cd<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//----------------------//</span>
+<span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">a</span><span class="token punctuation">(</span>CompactDisc cd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>cd <span class="token operator">=</span> cd<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果没有匹配的组件,Spring就会抛出一个异常,为了避免异常的出现可以给 <code>@Autowired</code> 添加required属性设置为false.那么及时没有匹配的组件,也不会报异常了,Spring会让这个bean处于为装配状态,<strong>配置该属性,很容易出现NullPointerException</strong>.</p>
+<h2 id="通过Java代码装配bean"><a href="#通过Java代码装配bean" class="headerlink" title="通过Java代码装配bean"></a>通过Java代码装配bean</h2><p>尽管推荐使用自动装配的方式,但是有些情况是无法进行自动装配的,比如我想把第三方的组件添加到我的应用中,我总不能去更改别人写的代码,给它加上注解吧.所以啊通过Java代码来显式装配是极好的.与XML相比下,Java代码方式更为强大,类型安全并且对重构友好.但是JavaConfig是配置代码,它与其他的java代码不一样,它里面没有任何的业务逻辑.通常会把JavaConfig放到一个固定的包里面.</p>
+<h3 id="创建配置类"><a href="#创建配置类" class="headerlink" title="创建配置类"></a>创建配置类</h3><p>配置类需要<code>@Configuration</code> 来声明:这是一个配置类,然后使用<code>@ComponentScan</code> 来启动组件扫描,否则这个JavaConfig将无法获取任何组件.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@ComponentScan</span><span class="token punctuation">(</span>basePackageClasses <span class="token operator">=</span> Marker<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//如果用到注解就必须要写这个,而且扫描位置要正确.</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CDPlayerConfig</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="声明简单的bean"><a href="#声明简单的bean" class="headerlink" title="声明简单的bean"></a>声明简单的bean</h3><p>要在JavaConfig中显式声明Bean,我们需要编写一个方法,这个方法就代表了一个bean,格式如下:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"s1"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> CompactDisc <span class="token function">sgtPeppers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SgtPeppers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//随机</span>
+<span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"s2"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> CompactDisc <span class="token function">randomBeatlesCD</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">int</span> choice <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>choice<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SgtPeppers2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SgtPeppers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这里声明了两个组件</p>
+<h3 id="借助JavaConfig实现注入"><a href="#借助JavaConfig实现注入" class="headerlink" title="借助JavaConfig实现注入"></a>借助JavaConfig实现注入</h3><p>上面是一个简单的bean,如果有一个复杂的bean,要如何装配呢?</p>
+<p>第一种简单的方式是通过构造器来导入:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> CDPlayer <span class="token function">cdPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CDPlayer</span><span class="token punctuation">(</span><span class="token function">sgtPeppers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//其他</span>
+<span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> CDPlayer <span class="token function">annotherCdPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CDPlayer</span><span class="token punctuation">(</span><span class="token function">sgtPeppers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//这两个的构造器参数会得到相同的sgtPeppers实例</span>
+</code></pre>
+<p>还有一种方式是这样的:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>    <span class="token comment" spellcheck="true">//Qualifier,如果有很多相同返回类型的组件,就需要制定装配哪个组件</span>
+<span class="token keyword">public</span> CDPlayer <span class="token function">cdPlayer</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"s2"</span><span class="token punctuation">)</span> CompactDisc cd<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CDPlayer</span><span class="token punctuation">(</span>cd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>使用第二种方式更加灵活,比如可以这样:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> CDPlayer <span class="token function">cdPlayer</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"s2"</span><span class="token punctuation">)</span> CompactDisc cd<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//可以内部进行set方式的注入</span>
+  CDPlayer cdPlayer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CDPlayer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  cdPlayer<span class="token punctuation">.</span><span class="token function">setCd</span><span class="token punctuation">(</span>cd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> cdPlayer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="通过XML装配bean"><a href="#通过XML装配bean" class="headerlink" title="通过XML装配bean"></a>通过XML装配bean</h2><p>推荐使用JavaConfig但是对于老项目的维护,就需要学习XML方式装配bean.</p>
+<h3 id="创建XML配置规范"><a href="#创建XML配置规范" class="headerlink" title="创建XML配置规范"></a>创建XML配置规范</h3><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 内容 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<h3 id="声明一个简单"><a href="#声明一个简单" class="headerlink" title="声明一个简单"></a>声明一个简单<bean></bean></h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>...<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>...<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.SgtPeppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token comment" spellcheck="true">&lt;!--默认id为com.yuda.component.SgtPeppers#0--></span>
+</code></pre>
+<p>如果自己没给其命名,Spring会自动给其命名,为”类路径#计数”,如果有相同的类被声明为组件,那么根据后面的计数来分辨装配哪个.最好写上明确的id.name与id一样有一样功效,但是id任何情况不可相同,name有情况是可以相同的(但不建议).</p>
+<p>XML中是不需要自行创建实例的,Spring发现这个<bean>时,他会调用默认构造器来创建bean.而在JavaConfig中,就必须使用new来创建实例.</bean></p>
+<p><strong>注意:如果没有代码提示工具,class的错误可能会带来一些麻烦,所以class必须保证可以找到</strong></p>
+<h3 id="借助构造器注入初始化bean"><a href="#借助构造器注入初始化bean" class="headerlink" title="借助构造器注入初始化bean"></a>借助构造器注入初始化bean</h3><p>构造器注入有两种方式:</p>
+<ol>
+<li><constructor-arg>元素,写得多,但是灵活.</constructor-arg></li>
+<li>使用Spring3.0引入的c-命名空间,写得少,但是不灵活.</li>
+</ol>
+<h4 id="构造器注入bean引用"><a href="#构造器注入bean引用" class="headerlink" title="构造器注入bean引用"></a>构造器注入bean引用</h4><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.SgtPeppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cdplayer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.CDPlayer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!-- 因为构造器里有个SgtPeppers类型的参数,就需要注入进去 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>还可以使用c-标签,需要先声明c的命名空间</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cdplayer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.CDPlayer<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">c:</span>cd-ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--cd为参数名--></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cdplayer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.CDPlayer<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">c:</span>_0-ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--0为参数索引--></span>
+</code></pre>
+<h4 id="讲字面量注入到构造器中"><a href="#讲字面量注入到构造器中" class="headerlink" title="讲字面量注入到构造器中"></a>讲字面量注入到构造器中</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlankDisc</span> <span class="token keyword">implements</span> <span class="token class-name">CompactDisc</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> String title<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String artist<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">BlankDisc</span><span class="token punctuation">(</span>String title<span class="token punctuation">,</span> String artist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> title<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>artist <span class="token operator">=</span> artist<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">getTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> title<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setTitle</span><span class="token punctuation">(</span>String title<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> title<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">getArtist</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> artist<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setArtist</span><span class="token punctuation">(</span>String artist<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>artist <span class="token operator">=</span> artist<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>title <span class="token operator">+</span> <span class="token string">"\t"</span> <span class="token operator">+</span> artist<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>声明bean</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blank<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.BlankDisc<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title is aaa<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--注入字面量--></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a is bbb<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--注入字面量--></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>使用c</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blank<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.BlankDisc<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">c:</span>title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aaa<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">c:</span>artist</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bbb<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token comment" spellcheck="true">&lt;!--或者--></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blank<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.BlankDisc<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">c:</span>_0</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aaa<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">c:</span>_1</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bbb<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+</code></pre>
+<h4 id="装配集合"><a href="#装配集合" class="headerlink" title="装配集合"></a>装配集合</h4><p>如果构造器需要注入一个集合.集合内为String类型数据</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blank<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.BlankDisc<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title is aaa<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--注入字面量--></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a is bbb<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span class="token comment" spellcheck="true">&lt;!--注入字面量--></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>constructor-arg</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>list</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>     
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>     
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>     
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>     
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>list</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>constructor-arg</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>集合内为引用类型</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>list</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ref</span> <span class="token attr-name">bean</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ref</span> <span class="token attr-name">bean</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers2<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>list</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>set同理,map如下:</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>map</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>entry</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>map</span><span class="token punctuation">></span></span>
+</code></pre>
+<h3 id="设置属性"><a href="#设置属性" class="headerlink" title="设置属性"></a>设置属性</h3><p>上述的是通过构造器来实现的注入,现在看看如何使用setter方法来实现.</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cdplayer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.CDPlayer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cd<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>其实也用来构造器,但是是无参的,类没有无参构造器会报错</p>
+<p>通过属性注入还可以用<strong>p命名空间</strong> </p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>p</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/p<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cdplayer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.CDPlayer<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">p:</span>cd-ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>peppers<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>根据Setter注入和使用构造器注入类似,但是标签无法做到集合的注入.这里需要用到另外一个命名空间—–util</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>c</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/c<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>p</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/p<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>util</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/util<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util   http://www.springframework.org/schema/util/spring-util.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">util:</span>list</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>my_list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">util:</span>list</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blank<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda.component.BlankDisc<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">c:</span>title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aaa<span class="token punctuation">"</span></span>
+        <span class="token attr-name"><span class="token namespace">c:</span>artist</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bbb<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">c:</span>tracks-ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>my_list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>通过id注入beans里面声明的list集合.</p>
+<h2 id="导入和混合配置"><a href="#导入和混合配置" class="headerlink" title="导入和混合配置"></a>导入和混合配置</h2><p>一个工程配置文件会非常多,所以需要导入</p>
+<p>一个工程的不同业务使用JavaConfig或者XML,所以需要混合</p>
+<h3 id="在JavaConfig中引入XML配置"><a href="#在JavaConfig中引入XML配置" class="headerlink" title="在JavaConfig中引入XML配置"></a>在JavaConfig中引入XML配置</h3><p>JavaConfig中导入JavaConfig</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Import</span><span class="token punctuation">(</span><span class="token punctuation">{</span>CDPlayerConfig1<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span>CDPlayerConfi2g<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainConfig</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>JavaConfig中导入XML</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@ImportResource</span><span class="token punctuation">(</span><span class="token string">"classpath*:Spring.xml"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//*代表通配符,classpath还可以是file或者http</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainConfig</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="在XML配置中引入JavaConfig"><a href="#在XML配置中引入JavaConfig" class="headerlink" title="在XML配置中引入JavaConfig"></a>在XML配置中引入JavaConfig</h3><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>c</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/c<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>p</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/p<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>util</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/util<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+  &lt;bean class = "类路径"/><span class="token comment" spellcheck="true">&lt;!-- 导入JavaConfig--></span>
+
+  &lt;import resource = "XXX.xml"/><span class="token comment" spellcheck="true">&lt;!-- 导入XML--></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<blockquote>
+<p>技巧: 可以有一个专门没有组件声明的XML,专门用来组装各种配置.</p>
+</blockquote>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.848Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/201709182886/" target="_blank" rel="external">http://blog.canyuda.top/posts/201709182886/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/">Spring</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201709182886/&title=《Spring-装配Bean》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201709182886/&title=《Spring-装配Bean》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201709182886/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring-装配Bean》 — 灿若繁星&url=http://blog.canyuda.top/posts/201709182886/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201709182886/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017091943524/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Spring-高级装配</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017091257163/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Json</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201709182886/&title=《Spring-装配Bean》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201709182886/&title=《Spring-装配Bean》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201709182886/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring-装配Bean》 — 灿若繁星&url=http://blog.canyuda.top/posts/201709182886/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201709182886/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aS3LDQAgFQN//0k5VtinLD5CTCPWsXP5ItBaYGXg84vX8XsnrVyu/8vH3RwsDA+OyjOT2Py99/M6rT5Ogm48GAwPjBow8FVYT4vH1j2FJbBgYGBjH3+mFlYeOgYGBMU+4vbCOEzcGBgbGZBObBFc9E8tT9ml7cQwMjAsyzm0MnPv6z/obGBgY/4bxLK5qmVjd7jajwsDAWM3I25NJKjyr8dlrFWBgYOxmVC/aexC98YvmlhUDA2MRIy/7ekdm1XSZBP2yKMTAwFjKOCv99VoL87+BN10ODAyMFYzCYVaQ8qrfn7c5MTAw7sCYDzpMxsWSRma50MTAwFjHyEu35NPeIFeSWN/8CgMDYzWjekCWBDdpSfYeFgYGxm5GXqjlA1vlc75x4YiBgbGbUQ23GuIzXpMRDQwMjN2M6iWS47mkpJs8smgvjoGBsYhRHXSoNh2rpV7eCi0PbWBgYFyW8Tu3mbwTpXIMDIzVjObB1odLydFvMTAw1jGqgxHV8YhqM6CZ7jEwMG7A6BVwvcmOOTJqDGBgYCxi9ArBSTvzE2UiBgbGbsazuKrb2vl2N3qgGBgYqxm9Rma1qdkbvzg3TWNgYFydUR0t7R3GVcvQcgwYGBg3YOS3rDYS8rJvlPQxMDAwisdq1ZbDvLGKgYGBkWw7e1vWfIwjag9gYGCsZkyaAUk6rg6B5XfEwMC4A6O3gcwbjdWrfRCDgYFxPcYXetDRP7rC8n8AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

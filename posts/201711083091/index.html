@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/201711083091/">
+    
+    
+    <title>基于SSM实现高并发秒杀API(Service层) | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="个人项目,高并发">
+    <meta name="description" content="略">
+<meta name="keywords" content="个人项目,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SSM实现高并发秒杀API(Service层)">
+<meta property="og:url" content="http://blog.canyuda.top/posts/201711083091/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于SSM实现高并发秒杀API(Service层)">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于SSM实现高并发秒杀API(Service层)</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于SSM实现高并发秒杀API(Service层)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-08T15:31:32.000Z" itemprop="datePublished" class="page-time">
+  2017-11-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DAO编码后的思考"><span class="post-toc-number">1.</span> <span class="post-toc-text">DAO编码后的思考</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#事务的优点和注意事项"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">事务的优点和注意事项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#编码过程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">编码过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#修改之前代码"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">修改之前代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#spring-service-xml"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">spring-service.xml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DTO"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">DTO</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Exposer-java"><span class="post-toc-number">1.2.3.1.</span> <span class="post-toc-text">Exposer.java</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SeckillExecution-java"><span class="post-toc-number">1.2.3.2.</span> <span class="post-toc-text">SeckillExecution.java</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用枚举来封装数据字典"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">使用枚举来封装数据字典</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异常类编写"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">异常类编写</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Service层正式编写"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">Service层正式编写</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-基于SSM实现高并发秒杀API-Service层"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于SSM实现高并发秒杀API(Service层)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-08 23:31:32" datetime="2017-11-08T15:31:32.000Z"  itemprop="datePublished">2017-11-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>5 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="DAO编码后的思考"><a href="#DAO编码后的思考" class="headerlink" title="DAO编码后的思考"></a>DAO编码后的思考</h2><p>DAO层演变为接口设计和SQL编写<br>好处:源代码与SQL分离,方便Review,DAO拼接等逻辑在Service层去完成.</p>
+<h3 id="事务的优点和注意事项"><a href="#事务的优点和注意事项" class="headerlink" title="事务的优点和注意事项"></a>事务的优点和注意事项</h3><ol>
+<li>开发团队达成一致约定,明确标注事务方法的编程风格</li>
+<li>保证事务方法的执行时间尽可能短,不要穿插远程调用或网络请求的操作,需要把这些剥离到事务方法外</li>
+<li>不是所有方法都要放到事务中,如只有一条的修改,只读操作不需要事务控制.</li>
+</ol>
+<h3 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h3><h4 id="修改之前代码"><a href="#修改之前代码" class="headerlink" title="修改之前代码"></a>修改之前代码</h4><p>加入spring.xml</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>component-scan</span> <span class="token attr-name">base-package</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.yuda<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>exclude-filter</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>annotation<span class="token punctuation">"</span></span> <span class="token attr-name">expression</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.stereotype.Controller<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">context:</span>component-scan</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--导入其他--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>import</span> <span class="token attr-name">resource</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>spring-dao.xml<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>import</span> <span class="token attr-name">resource</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>spring-service.xml<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="spring-service-xml"><a href="#spring-service-xml" class="headerlink" title="spring-service.xml"></a>spring-service.xml</h4><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>tx</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/tx<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>transactionManager<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.jdbc.datasource.DataSourceTransactionManager<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dataSource<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dataSource<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--启动注解--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">tx:</span>annotation-driven</span> <span class="token attr-name">transaction-manager</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>transactionManager<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="DTO"><a href="#DTO" class="headerlink" title="DTO"></a>DTO</h4><p>数据传输层:用于对Entity进行封装,然后传输给其他层.</p>
+<h5 id="Exposer-java"><a href="#Exposer-java" class="headerlink" title="Exposer.java"></a>Exposer.java</h5><p>暴露秒杀地址DTO</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Exposer</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//是否开启</span>
+    <span class="token keyword">private</span> <span class="token keyword">boolean</span> exposed<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//加密的url</span>
+    <span class="token keyword">private</span> String md5<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//ID</span>
+    <span class="token keyword">private</span> <span class="token keyword">long</span> seckillId<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//系统当前时间</span>
+    <span class="token keyword">private</span> <span class="token keyword">long</span> now<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//开始时间</span>
+    <span class="token keyword">private</span> <span class="token keyword">long</span> start<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//结束时间</span>
+    <span class="token keyword">private</span> <span class="token keyword">long</span> end<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">Exposer</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> exposed<span class="token punctuation">,</span> String md5<span class="token punctuation">,</span> <span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>exposed <span class="token operator">=</span> exposed<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>md5 <span class="token operator">=</span> md5<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>seckillId <span class="token operator">=</span> seckillId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">Exposer</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> exposed<span class="token punctuation">,</span> <span class="token keyword">long</span> now<span class="token punctuation">,</span> <span class="token keyword">long</span> start<span class="token punctuation">,</span> <span class="token keyword">long</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>exposed <span class="token operator">=</span> exposed<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>now <span class="token operator">=</span> now<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>start <span class="token operator">=</span> start<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>end <span class="token operator">=</span> end<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">Exposer</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> exposed<span class="token punctuation">,</span> <span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>exposed <span class="token operator">=</span> exposed<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>seckillId <span class="token operator">=</span> seckillId<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="SeckillExecution-java"><a href="#SeckillExecution-java" class="headerlink" title="SeckillExecution.java"></a>SeckillExecution.java</h5><p>秒杀执行后的结果</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SeckillExecution</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//成功失败</span>
+    <span class="token keyword">private</span> <span class="token keyword">long</span> seckillId<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//状态码</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> state<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//状态</span>
+    <span class="token keyword">private</span> String stateInfo<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//秒杀对象</span>
+    <span class="token keyword">private</span> SuccessKilled successKilled<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">SeckillExecution</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">,</span> SeckillStatEnum statEnum<span class="token punctuation">,</span> SuccessKilled successKilled<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>seckillId <span class="token operator">=</span> seckillId<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> statEnum<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>stateInfo <span class="token operator">=</span> statEnum<span class="token punctuation">.</span><span class="token function">getStateinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>successKilled <span class="token operator">=</span> successKilled<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">SeckillExecution</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">,</span> <span class="token keyword">int</span> state<span class="token punctuation">,</span> String stateInfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>seckillId <span class="token operator">=</span> seckillId<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> state<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>stateInfo <span class="token operator">=</span> stateInfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="使用枚举来封装数据字典"><a href="#使用枚举来封装数据字典" class="headerlink" title="使用枚举来封装数据字典"></a>使用枚举来封装数据字典</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">enum</span> SeckillStatEnum <span class="token punctuation">{</span>
+    <span class="token function">SUCCESS</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"成功"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">END</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"秒杀结束"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">REPEAT_KILL</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"重复秒杀"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">INNER_ERROR</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"系统异常"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">DATA_REWRITE</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"数据篡改"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> state<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String stateinfo<span class="token punctuation">;</span>
+
+    <span class="token function">SeckillStatEnum</span><span class="token punctuation">(</span><span class="token keyword">int</span> state<span class="token punctuation">,</span> String stateinfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> state<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>stateinfo <span class="token operator">=</span> stateinfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> state<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">getStateinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> stateinfo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//通过状态码找到数据信息</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> SeckillStatEnum <span class="token function">stateOf</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>SeckillStatEnum statEnum <span class="token operator">:</span> <span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>statEnum<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> statEnum<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="异常类编写"><a href="#异常类编写" class="headerlink" title="异常类编写"></a>异常类编写</h4><ol>
+<li>SeckillCloseException 秒杀关闭异常</li>
+<li>SeckillException 秒杀异常</li>
+<li>RepeatKillException 重复秒杀异常</li>
+</ol>
+<p>只举一个例子,其他类似</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RepeatKillException</span> <span class="token keyword">extends</span> <span class="token class-name">RuntimeException</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">RepeatKillException</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="Service层正式编写"><a href="#Service层正式编写" class="headerlink" title="Service层正式编写"></a>Service层正式编写</h4><p>接口</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">SeckillService</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//列出了</span>
+    List<span class="token operator">&lt;</span>Seckill<span class="token operator">></span> <span class="token function">getSeckillList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//通过id得到秒杀对象</span>
+    Seckill <span class="token function">getById</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//获得URL</span>
+    Exposer <span class="token function">exportSeckillUrl</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//执行秒杀</span>
+    SeckillExecution <span class="token function">executeSeckill</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">,</span> <span class="token keyword">long</span> userPhone<span class="token punctuation">,</span> String md5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>实现</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>serivce<span class="token punctuation">.</span>impl<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>dao<span class="token punctuation">.</span>SeckillDao<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>dao<span class="token punctuation">.</span>SuccessKilledDao<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>dto<span class="token punctuation">.</span>Exposer<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>dto<span class="token punctuation">.</span>SeckillExecution<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>entity<span class="token punctuation">.</span>Seckill<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>entity<span class="token punctuation">.</span>SuccessKilled<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>enums<span class="token punctuation">.</span>SeckillStatEnum<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>exception<span class="token punctuation">.</span>RepeatKillException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>exception<span class="token punctuation">.</span>SeckillCloseException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>exception<span class="token punctuation">.</span>SeckillException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>serivce<span class="token punctuation">.</span>SeckillService<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span>Logger<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span>LoggerFactory<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>beans<span class="token punctuation">.</span>factory<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Autowired<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span>Service<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>transaction<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Transactional<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>util<span class="token punctuation">.</span>DigestUtils<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Date<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @auther yuda
+ * Create on 2017/11/8 0:25.
+ * Project_name :   seckill
+ * Package_name :   com.yuda.serivce.impl
+ * Description  :   TODO
+ */</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token annotation punctuation">@Transactional</span> <span class="token comment" spellcheck="true">//每个方法执行在事务中</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SeckillServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">SeckillService</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> Logger loggger <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> SeckillDao seckillDao<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> SuccessKilledDao successKilledDao<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//混淆md5,随便写的,还可以提取出来,方便定期更改.</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> String slat <span class="token operator">=</span> <span class="token string">"abcafafafa;jo;213;ofj;"</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Seckill<span class="token operator">></span> <span class="token function">getSeckillList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> seckillDao<span class="token punctuation">.</span><span class="token function">queryAll</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Seckill <span class="token function">getById</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> seckillDao<span class="token punctuation">.</span><span class="token function">queryById</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Exposer <span class="token function">exportSeckillUrl</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Seckill seckill <span class="token operator">=</span> seckillDao<span class="token punctuation">.</span><span class="token function">queryById</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>seckill <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Date startTime <span class="token operator">=</span> seckill<span class="token punctuation">.</span><span class="token function">getStartTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Date endTime <span class="token operator">=</span> seckill<span class="token punctuation">.</span><span class="token function">getEndTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Date nowTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> startTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> endTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> seckillId<span class="token punctuation">,</span> nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> endTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//Md5转换为字符串,不可逆</span>
+        String md5 <span class="token operator">=</span> <span class="token function">getMD5</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> md5<span class="token punctuation">,</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> SeckillExecution <span class="token function">executeSeckill</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">,</span> <span class="token keyword">long</span> userPhone<span class="token punctuation">,</span> String md5<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//判断md5</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>md5 <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token operator">!</span>md5<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token function">getMD5</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">SeckillException</span><span class="token punctuation">(</span><span class="token string">"seckill data rewrite"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Date nowTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> updateCount <span class="token operator">=</span> seckillDao<span class="token punctuation">.</span><span class="token function">reduceNumber</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> nowTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>updateCount <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">SeckillCloseException</span><span class="token punctuation">(</span><span class="token string">"seckill is closed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//记录购买记录</span>
+                <span class="token keyword">int</span> insertCount <span class="token operator">=</span> successKilledDao<span class="token punctuation">.</span><span class="token function">insertSucceccKilled</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> userPhone<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>insertCount <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//重复秒杀</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RepeatKillException</span><span class="token punctuation">(</span><span class="token string">"seckill repeated"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//秒杀成功</span>
+                    SuccessKilled successKilled <span class="token operator">=</span> successKilledDao<span class="token punctuation">.</span><span class="token function">queryByIdWithSeckill</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> userPhone<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SeckillExecution</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> SeckillStatEnum<span class="token punctuation">.</span>SUCCESS<span class="token punctuation">,</span> successKilled<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">SeckillCloseException</span> ee<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> ee<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RepeatKillException</span> eee<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> eee<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            loggger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//所有编译期异常,转换为运行期异常</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">SeckillException</span><span class="token punctuation">(</span><span class="token string">"seckill inner error"</span> <span class="token operator">+</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">private</span> String <span class="token function">getMD5</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String base <span class="token operator">=</span> seckillId <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> slat<span class="token punctuation">;</span>
+        String md5 <span class="token operator">=</span> DigestUtils<span class="token punctuation">.</span><span class="token function">md5DigestAsHex</span><span class="token punctuation">(</span>base<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> md5<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.854Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/201711083091/" target="_blank" rel="external">http://blog.canyuda.top/posts/201711083091/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/myporject/">个人项目</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/concurrent/">高并发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201711083091/&title=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201711083091/&title=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201711083091/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&url=http://blog.canyuda.top/posts/201711083091/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201711083091/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/201711082776/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">基于SSM实现高并发秒杀API(Web层)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017110710576/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于SSM实现高并发秒杀API(DAO层)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/201711083091/&title=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/201711083091/&title=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/201711083091/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于SSM实现高并发秒杀API(Service层)》 — 灿若繁星&url=http://blog.canyuda.top/posts/201711083091/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/201711083091/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aQXKDMAwF0Nz/0nTbTqbkS4JOsZ9XGeKAHwvFsvR6xeP4Nt6vv895H+d3Pn/KZQMDA+OxjOTx51fOF927T/nVYGBgbMBIQuFv80ePj5/7Yc0YGBgYp2E0wVSvYGBgYFzFyBPO8/nnW0MMDAyMPImdB9/q3W7JxTEwMB7IyMPl33++pb6BgYHxKMZRHEmQnRQmj9bAwMBYm5EHuPx2PXZy/UNKjIGBsTSj2hiRPPi+QkJzJ4uBgfFYRi9o9njV47x8DgYGxg6MZCn5ofykqJlvH398i4GBsTSjWibsHahN2jLyoI+BgbEqI2/8ym+aJ6WXBXEMDIylGXnovKokkCeu5bYMDAyMjRlJ0KyWFiZbzKgSi4GBsRyjekw2KTfOt4OFNgsMDIwlGNVwmb+Vy477q7k4BgbGcow8+Zz8qneoV95EYmBgLM3oJZyTZc0bOzAwMPZhJBu7ahtE79VUj/MwMDD2YfQaJiap6Xn4Hv0WAwNjA0avPDkpVealgug6BgbGBoy8SStPWaulzUlxFAMDYwdGvhGcp7jXbhMxMDDWZhzFkSx6XtpMSpiFqI+BgfFwRj56ye2kPFlNmzEwMNZmVFuy8ixykmnmB3YYGBj7MHqBLy8D9I7+C6EfAwMDoxVA56XNwnowMDAwigG3+jp6R3W3/29gYGD8M0beMJGf3s3nFxJgDAyMpRl56lidk7eaJUG2Gr4xMDCWYHwBbfEi4DVnyOkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

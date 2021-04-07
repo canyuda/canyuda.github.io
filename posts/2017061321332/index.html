@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017061321332/">
+    
+    
+    <title>Java的零碎知识 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="小知识">
+    <meta name="description" content="略">
+<meta name="keywords" content="小知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java的零碎知识">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017061321332/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java的零碎知识">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java的零碎知识</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java的零碎知识</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-13T07:27:19.000Z" itemprop="datePublished" class="page-time">
+  2017-06-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-a-b与a-a-b的区别"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.a+=b与a=a+b的区别:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-amp-amp-与-amp-的区别"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.&amp;&amp;与&amp;的区别:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-变量length-方法size-和方法lenght-的区别"><span class="post-toc-number">3.</span> <span class="post-toc-text">3.变量length,方法size()和方法lenght()的区别:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-String-StringBuilder和StringBuffer的区别"><span class="post-toc-number">4.</span> <span class="post-toc-text">4.String,StringBuilder和StringBuffer的区别:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-countinue-break和return的区别"><span class="post-toc-number">5.</span> <span class="post-toc-text">5.countinue,break和return的区别:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-使用get和set方法与使用public修饰的属性的区别"><span class="post-toc-number">6.</span> <span class="post-toc-text">6.使用get和set方法与使用public修饰的属性的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-代码规范-equals比较"><span class="post-toc-number">7.</span> <span class="post-toc-text">7.代码规范-equals比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-代码规范-浮点数计算"><span class="post-toc-number">8.</span> <span class="post-toc-text">8.代码规范-浮点数计算</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#9-代码规范-大数转换"><span class="post-toc-number">9.</span> <span class="post-toc-text">9.代码规范-大数转换</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java的零碎知识"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java的零碎知识</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-13 15:27:19" datetime="2017-06-13T07:27:19.000Z"  itemprop="datePublished">2017-06-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>2 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h4 id="1-a-b与a-a-b的区别"><a href="#1-a-b与a-a-b的区别" class="headerlink" title="1.a+=b与a=a+b的区别:"></a>1.<code>a+=b</code>与<code>a=a+b</code>的区别:</h4><p>  <code>a+=b</code>自带类型转换，而<code>a=a+b</code>由于有<code>+</code>运算符<code>a+b</code>会自动转换为<code>int</code>类型.举个例子:</p>
+<pre class=" language-java"><code class="language-java">  <span class="token keyword">short</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  a <span class="token operator">=</span> a <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//此句为错误的,因为a+1会返回一个int类型,int类型赋给a需要强制类型转换</span>
+  a <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//此句正确,+=会自动类型转换,a依然是一个short型数据</span>
+</code></pre>
+<h4 id="2-amp-amp-与-amp-的区别"><a href="#2-amp-amp-与-amp-的区别" class="headerlink" title="2.&amp;&amp;与&amp;的区别:"></a>2.<code>&amp;&amp;</code>与<code>&amp;</code>的区别:</h4><p>  结果一样,但是<code>&amp;</code>两边都会执行,<code>&amp;&amp;</code>左边为false,右边不执行;<code>|</code>同理,两边都会执行,而<code>||</code>左边为true,右边不执行.</p>
+<p>  对于<code>&amp;</code>和<code>&amp;&amp;</code>,根据执行顺序,一旦左边为false,结果已经确定了为false;</p>
+<p>  对于<code>|</code>和<code>||</code>,根据执行顺序,一旦左边为true,结果已经确定了为true;</p>
+<h4 id="3-变量length-方法size-和方法lenght-的区别"><a href="#3-变量length-方法size-和方法lenght-的区别" class="headerlink" title="3.变量length,方法size()和方法lenght()的区别:"></a>3.变量<code>length</code>,方法<code>size()</code>和方法<code>lenght()</code>的区别:</h4><h4 id="4-String-StringBuilder和StringBuffer的区别"><a href="#4-String-StringBuilder和StringBuffer的区别" class="headerlink" title="4.String,StringBuilder和StringBuffer的区别:"></a>4.String,StringBuilder和StringBuffer的区别:</h4><h4 id="5-countinue-break和return的区别"><a href="#5-countinue-break和return的区别" class="headerlink" title="5.countinue,break和return的区别:"></a>5.countinue,break和return的区别:</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// TODO 自动生成的方法存根</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>n <span class="token operator">&lt;=</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            n<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">/*****插入三个之一*****/</span>
+            <span class="token punctuation">}</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token string">"\t"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"结束"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<pre><code>- 输入continue：输出 “1 2    4    5    6    7    8    9    10    结束”
+- 输入break: 输出 &quot;1    2    结束&quot;
+- 输入return: 输出 &quot;1    2    &quot;
+
+可以知道,`continue`是跳过本次循环,但是循环依然执行;`break`是跳过本次循环,并且循环也结束;`return`是整个方法提前结束.
+</code></pre><h4 id="6-使用get和set方法与使用public修饰的属性的区别"><a href="#6-使用get和set方法与使用public修饰的属性的区别" class="headerlink" title="6.使用get和set方法与使用public修饰的属性的区别"></a>6.使用get和set方法与使用public修饰的属性的区别</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> String name<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setName</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//使用时</span>
+<span class="token comment" spellcheck="true">//1.</span>
+student1<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"canyuda"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//2.</span>
+student1<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"canyuda"</span>
+</code></pre>
+<p>通过方法可以给传递的参数进行分析,使程序更加灵活,可定制性更强.并且隐藏了成员变量,保证了代码的安全性.</p>
+<h4 id="7-代码规范-equals比较"><a href="#7-代码规范-equals比较" class="headerlink" title="7.代码规范-equals比较"></a>7.代码规范-equals比较</h4><p>建议使用 <code>&quot;test&quot;.equals(object)</code> 来代替 <del><code>object.equals(&quot;test&quot;)</code></del> 防止出现空指针.</p>
+<h4 id="8-代码规范-浮点数计算"><a href="#8-代码规范-浮点数计算" class="headerlink" title="8.代码规范-浮点数计算"></a>8.代码规范-浮点数计算</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">float</span> a <span class="token operator">=</span> <span class="token number">1.0f</span> <span class="token operator">-</span> <span class="token number">0.9f</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> b <span class="token operator">=</span> <span class="token number">0.9f</span> <span class="token operator">-</span> <span class="token number">0.8f</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">==</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 不会进入本方法</span>
+<span class="token punctuation">}</span>
+
+Float x <span class="token operator">=</span> Float<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Float y <span class="token operator">=</span> Float<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 不会进入本方法</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">float</span> a <span class="token operator">=</span> <span class="token number">1.0f</span> <span class="token operator">-</span> <span class="token number">0.9f</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> b <span class="token operator">=</span> <span class="token number">0.9f</span> <span class="token operator">-</span> <span class="token number">0.8f</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> diff  <span class="token operator">=</span> <span class="token number">1e-6f</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span> <span class="token operator">&lt;</span> diff<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 进入本方法</span>
+<span class="token punctuation">}</span>
+
+BigDecimal a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"1.0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+BigDecimal b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"0.9"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+BigDecimal c <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"0.8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+BigDecimal x <span class="token operator">=</span> a<span class="token punctuation">.</span><span class="token function">subtract</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+BigDecimal y <span class="token operator">=</span> b<span class="token punctuation">.</span><span class="token function">subtract</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>x<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 进入本方法</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h4 id="9-代码规范-大数转换"><a href="#9-代码规范-大数转换" class="headerlink" title="9.代码规范-大数转换"></a>9.代码规范-大数转换</h4><p>使用构造方法 <code>BigDecimal(double)</code> 存在精度缺失风险, 建议使用 <code>BigDecimal(String)</code> 来解决 或者使用 <code>BigDecimal.valueOf(double)</code>.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.846Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017061321332/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017061321332/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">小知识</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061321332/&title=《Java的零碎知识》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061321332/&title=《Java的零碎知识》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061321332/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java的零碎知识》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061321332/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061321332/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017061422785/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">不用+,-,*,/实现两数相加</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017061325646/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">最大（小）子段和</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061321332/&title=《Java的零碎知识》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061321332/&title=《Java的零碎知识》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061321332/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java的零碎知识》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061321332/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061321332/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3ay26EMAwF0Pn/n6bbSjPQa5uORHKyqmBKOCwsP/J6xev4tc6uvF9/v9t75m0LAwPjsYzjciUbJBvnz7++fvomGBgYGzCuXy4JnUnAzUN2/m4YGBgYve2ryeL1XhgYGBiTR1fDZZJ0YmBgYEyK2LxkTZprveL2hlocAwPjgYz8Jb7/97/MNzAwMB7FOIqrGgSr4fJoLQwMjLUZ8wFkr+lWLlCTRBMDA2MDRm+gmBe9eVOveVAMAwNjA8Zkg/wwWfVK4dNgYGBsw7hry2QkMEkfP9zFwMBYlNEbByZhNz9Alqebp3cxMDCWZvQOck1aY71RZbmIxcDAWIjRa+5Xg2/yafJ088N/YWBgbMC4t+k/qqfjoP8hw8XAwNiGMUkEkyfk1ELzDgMDYxtGDsvHmdWqs0rCwMDYk1FtulWPf+WFayElxcDA2IAxD6DVXn3z4NfZ8zEwMJZmzEvQ3u/zZ1aPYmBgYKzKqIba3ghhEsqjYQMGBsYGjHz7vHHWSxardzEwMPZk5A2yfNw4H3D+UeJiYGBswMjD5bwBF6V6xXklBgbGqoyjuCbhOAmy1ZIYAwNjB8YkXOYBMUnyrn/f+zQYGBgrMapHsvJgXf0EecAtJ4gYGBhLMJJ0rbpls3HWC/0YGBgYxeA7TyurCSgGBgZGtR1WPVhWPZBxW8DFwMB4FKNaiFaL2HlT77Z2GwYGxgMZvSMOecDtjQfm6SMGBsYSjB+pVUHPBJ1+ZAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

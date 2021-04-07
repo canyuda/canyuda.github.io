@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017012461258/">
+    
+    
+    <title>二进制中1的个数 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="剑指offer">
+    <meta name="description" content="略">
+<meta name="keywords" content="剑指offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制中1的个数">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017012461258/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二进制中1的个数">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">二进制中1的个数</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">二进制中1的个数</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-01-24T12:23:42.000Z" itemprop="datePublished" class="page-time">
+  2017-01-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可能有死循环的解法"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">可能有死循环的解法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正常情况下的解法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">正常情况下的解法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一个很好的解法"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">一个很好的解法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-二进制中1的个数"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">二进制中1的个数</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-01-24 20:23:42" datetime="2017-01-24T12:23:42.000Z"  itemprop="datePublished">2017-01-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>7 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<blockquote>
+<p>题目：输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+</blockquote>
+<p>  题目是要求用位运算来实现，位运算是计算机学科的基石，很多底层的技术都离不开位运算，位运算总共有5种运算：与、或、异或、左移和右移。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">与（&amp;）</th>
+<th style="text-align:center">或（&#124;）</th>
+<th style="text-align:center">异或（^）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0&amp;0=0</td>
+<td style="text-align:center">0&#124;0=0</td>
+<td style="text-align:center">0^0=0</td>
+</tr>
+<tr>
+<td style="text-align:center">1&amp;0=0</td>
+<td style="text-align:center">1&#124;0=1</td>
+<td style="text-align:center">1^0=1</td>
+</tr>
+<tr>
+<td style="text-align:center">0&amp;1=0</td>
+<td style="text-align:center">0&#124;1=1</td>
+<td style="text-align:center">0^1=1</td>
+</tr>
+<tr>
+<td style="text-align:center">1&amp;1=1</td>
+<td style="text-align:center">1&#124;1=1</td>
+<td style="text-align:center">1^1=0</td>
+</tr>
+</tbody>
+</table>
+<p>  关于位移，左位移<code>m&lt;&lt;n</code>就是把二进制m数向左移动n位，然后右边补个0；而右位移有所不同，对于有符号数，如果它是正数(m&gt;0)，<code>m&gt;&gt;n</code>就是把m向右移动n位，左边补个0，如果它是负数(m&lt;0)，那么他的最高位应该是1，右移动n位后，左边补个1。例如：</p>
+<blockquote>
+<p>左移：</p>
+<p>0000 1010 &lt;&lt; 2 = 0010 1000</p>
+<p>1000 1010 &lt;&lt; 3 = 01010000</p>
+<p>右移：</p>
+<p>0000 1010 &gt;&gt; 2 = 0000 0010</p>
+<p>1000 1010 &gt;&gt; 3 = 1111 0001</p>
+</blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>  根据题目，只需要输出一个数的二进制数中1的个数，直观的反应就是：把这个数的每一位扫描一遍，用一个变量<code>count</code>记录1的个数，遇到1<code>count</code>就加一，扫描完毕就输出<code>count</code></p>
+<h3 id="可能有死循环的解法"><a href="#可能有死循环的解法" class="headerlink" title="可能有死循环的解法"></a>可能有死循环的解法</h3><p>  但是，要判断每一位是否为一有点困难，例如验证第一位是否为1，需要和0000 0001与运算，如果结果为0000 0001则第一位为1，否则为0；然后第二位要和0000 0010与运算，如果结果为0000 0010则第二位为1，否则为0；然后第三位，第四位…需要一直用新的数来做与运算，这样太麻烦。</p>
+<p>  所以我们可以用依次右移要测试的数，然后依次用0000 0001与其做与运算，如果结果为1，则最低位为1，即是要验证的那一位数。代码可以这样写：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">NumberOf1_CanNotUse</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">/*
+            * 用1和n进行位与运算，
+            * 结果要是为1则n的二进制形式
+            * 最右边那位肯定是1，否则为0
+            */</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>n <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                count<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//把n的2进制形式往右推一位</span>
+            n <span class="token operator">=</span> n <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> count<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p>  但是，这种方法存在弊端，当输入一个负数例如-1，它的二进制数位1000 0001，由于它是个负数，当他右移一位时会变成1100 0000，随着右移，他就会变成1111 1111的死循环，所以需要一个更好的算法。</p>
+<h3 id="正常情况下的解法"><a href="#正常情况下的解法" class="headerlink" title="正常情况下的解法"></a>正常情况下的解法</h3><p>  上个解法可以形象的比喻成这样，数n是一个要测试01的数字串，而0000 0001是一个测量工具，上文的解法是让测量工具不动，然后要测的东西移动，测量工具验证是否为0000 0001，但是这种方法可能出现死循环，为了不出现死循环的尴尬局面，我们可以不去采取移动要测试的物体，而是移动测试工具，就是数字串不动，标尺测一下第一位，然后左移一下，测试一下第二位，然后标尺再左移再测试，一直到标尺变成0000 0000，停止测试，输出结果。代码为：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">NumberOf1_low</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> flag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//标尺</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>flag <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//标尺为0时结束</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>n <span class="token operator">&amp;</span> flag<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//标尺测试结果匹配，数值加一。</span>
+                count<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            flag <span class="token operator">=</span> flag <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//移动标尺</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> count<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="一个很好的解法"><a href="#一个很好的解法" class="headerlink" title="一个很好的解法"></a>一个很好的解法</h3><p>  改方法的原理：有一个二进制数，如果它不等于0，则它必定有一位是个1。如果它的最右位为1，减去1，那么就最后一位发生了改变，由1变成0了；但如果它的最右位为0，减去1，那么从这个数最右一个1开始，它的右边所有的数都会取反，例如1100，减去1，变成1011，它的第三位是最右的1，减去1后，那个1再包括他右边所有的数就全部取反了。</p>
+<p>  我们可以总结：一个二进制数减去1，就是从最右边看起，它的最右边第一个1，包括它和它右边所有的数就会全部取反。1010减一变1001，1100减一变1011等等。</p>
+<p>  根据这个现象，我们可以对要测试的数减去1，例如1100，变成1011，然后1100和1011做与运算，得到了1000。对比一下原来的数1100和一系列变化过后的数1000，会发现它的最右一位1变成了0，他就少了个1，然后可以让计数器加一，一直到那个数变化成了0000为止，输出结果。</p>
+<p>  再举个例子：1111，一次变化后变1110，计数器加一；二次变化后变1100，计数器再加一；三、四次同样操作，计数器最后加到了4，停止循环，输出计数器的结果。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>代码如下：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">NumberOf1</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//初始化计数器</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//如果数中的1还存在就一直的循环，</span>
+                      <span class="token comment" spellcheck="true">//每去掉一个1，计数器就加1，直到一个1都没有</span>
+            <span class="token operator">++</span>count<span class="token punctuation">;</span>
+            n <span class="token operator">=</span> <span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>n<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> count<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>把数除以2和把数右移一位<strong>数学上</strong>是等价的，但是计算机中<strong>位运算的效率要优于除法运算</strong>，所以对于除法运算，尽可能的使用位运算来代替。</p>
+</li>
+<li><p>对于正数和负数，它们的右移是不同的，对于负数，右移时最高位保持为1。（<strong>注意</strong>：右移n位为相当与右移1位n次，所以1000 0000 &gt;&gt; 4 = 1111 1000）所以当编程中遇到右移运算，要多个心眼，注意最高位自动补1是否影响结果。</p>
+</li>
+<li><p>使用与运算（&amp;）验证某位为1或0，可以让该位为1，其他位为0的数与它与运算（&amp;），如果结果为0，则该位为0，如果结果为非0，则该位为1。</p>
+<blockquote>
+<p>例如：验证00X0 1101的第3位是否为1，则它与0010 0000 与运算（&amp;），如果结果为0，则该位为0，如果结果为（0010 0000标尺本身）非0，则该位为1。</p>
+</blockquote>
+</li>
+<li><p>同理可以用或运算（|）来验证某位为1或0，可以让该位为0，其他位为1的数与它或运算（|），</p>
+<blockquote>
+<p>例如：验证00X0 1101的第3位是否为0，则它与1101 1111或运算（|），如果结果为（1101 1111标尺本身），则该位为0，如果结果为全1（1111 1111），则该位为1。</p>
+</blockquote>
+</li>
+<li><p>与运算（&amp;）类似于一票否决（一个为0，结果为0），或运算（|）类似于非诚勿扰，一盏灯亮就可以牵走。</p>
+</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.849Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017012461258/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017012461258/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/offer-book/">剑指offer</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017012461258/&title=《二进制中1的个数》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017012461258/&title=《二进制中1的个数》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017012461258/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《二进制中1的个数》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017012461258/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017012461258/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017012452899/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用hexo的技巧（持续更新）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017012351227/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">斐波那契数列</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017012461258/&title=《二进制中1的个数》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017012461258/&title=《二进制中1的个数》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017012461258/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《二进制中1的个数》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017012461258/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017012461258/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3awW6lMAwF0P7/T79uZjeC3uvQSiSH1RNFkJNKlmP76yu+PrfX/ZPJO6/uPHxhYGC8lpEs8erO/7/br9zj8+3DwMA4gXH14WShyYLun2y/i4GBgbESUpNQm38LAwMDY8ZIkryrNz+VdGJgYJzJWFlcWw1bOdw+cBbHwMB4ISNfxN///pX+BgYGxqsYn/JKivizxudsPf/eg4GBsTVjvQF5X9ZPjq952e6HRBMDA2NTxuz42gbftiVQD4phYGAcwJiNUKwMk+UjF9HWYGBgHMbIm4vtIMUsb402GgMDY2vGbMyrTSuTzcq3pm5kYmBgbMTID5nr4LZVWTQ1MTAwtmO0zciVpuPwgJqMZWBgYBzAyA+xbXhdfz5KOjEwMI5k5Clg8slZAa4o3mFgYBzJyMte9wnijNGGeAwMjNMYK0MSbSMzH+aohy0wMDA2YiRhbmW5yTvrhWJgYBzGaFO6WXGtHR2rhy0wMDC2ZrRBsD2+tgF3qdmAgYFxMKP9QPtkW6S7vIOBgXEMY30M4qmEry7tYWBgHMDIw+V6aI5SvbJfiYGBsSvjU15Jw6At8eeh/If/AwYGxqaM32gA5EvMy3mzrcHAwNiJkQfZNky3BbVZQMfAwDiHkQTK/JmlwtkIiYGBgbGSdc6alHnKiIGBgdEuN1l60vJMxiweCLgYGBivYrQH0TywPpD2PVtuw8DAeCFjNuKQl+Rmf52ljxgYGNsxvgHEiImH3gYW3AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017062025290/">
+    
+    
+    <title>JVM之垃圾收集器与内存分配策略 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="略">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM之垃圾收集器与内存分配策略">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017062025290/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.844Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM之垃圾收集器与内存分配策略">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM之垃圾收集器与内存分配策略</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM之垃圾收集器与内存分配策略</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-20T01:21:22.000Z" itemprop="datePublished" class="page-time">
+  2017-06-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象挂了吗"><span class="post-toc-number">2.</span> <span class="post-toc-text">对象挂了吗?</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#引用计数算法"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">引用计数算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可达性分析算法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">可达性分析算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解释一下引用"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">解释一下引用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一个对象的自我救赎"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">一个对象的自我救赎</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#注意"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法区的回收"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">方法区的回收</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#常量的回收"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">常量的回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#无用类的回收"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">无用类的回收</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#垃圾收集算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">垃圾收集算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#标记-清除算法"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">标记-清除算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#复制算法"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">复制算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#标记-整理算法"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">标记-整理算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分代收集算法"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">分代收集算法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HotSpot的算法实现"><span class="post-toc-number">4.</span> <span class="post-toc-text">HotSpot的算法实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#垃圾收集器"><span class="post-toc-number">5.</span> <span class="post-toc-text">垃圾收集器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Serial收集器"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Serial收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ParNew收集器"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">ParNew收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Parallel-Scavenge收集器"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">Parallel Scavenge收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Serial-Old收集器"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">Serial Old收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Parallel-Old收集器"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">Parallel Old收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CMS收集器"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">CMS收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#G1收集器"><span class="post-toc-number">5.7.</span> <span class="post-toc-text">G1收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#理解GC日志"><span class="post-toc-number">5.8.</span> <span class="post-toc-text">理解GC日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#垃圾收集器参数总结"><span class="post-toc-number">5.9.</span> <span class="post-toc-text">垃圾收集器参数总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存分配与回收策略"><span class="post-toc-number">6.</span> <span class="post-toc-text">内存分配与回收策略</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM之垃圾收集器与内存分配策略"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM之垃圾收集器与内存分配策略</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-20 09:21:22" datetime="2017-06-20T01:21:22.000Z"  itemprop="datePublished">2017-06-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>7 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>GC主要需要完成3件事情:</p>
+<ol>
+<li>哪些内存需要回收?</li>
+<li>什么时候回收?</li>
+<li>如何回收?</li>
+</ol>
+<h2 id="对象挂了吗"><a href="#对象挂了吗" class="headerlink" title="对象挂了吗?"></a>对象挂了吗?</h2><p>JVM首先要知道哪些内存已经不用了,即对象已死.</p>
+<h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>虚拟机不用,具体实现是:每个对象有一个引用计数器,当有地方引用它的时候,计数器就加上1,引用失效时,计数器减去1,计数器为0时表示该对象没有被引用可以被回收.</p>
+<p>但是这样有个弊端:当对象a,b互相引用,并且a,b都应该被回收时,它们如果使用引用技术法,它们都不会被回收,导致内存泄漏.</p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>基本思想是:先找到一个使用率最高的对象作为一个”GC Roots”,以它为起点,向下搜索,搜索所走的路径被称为引用链,不在引用链的对象都被视为已死对象,可以被GC回收.</p>
+<p>可以作为GC Roots的对象包括如下:</p>
+<ul>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中JNI引用的对象</li>
+</ul>
+<h3 id="解释一下引用"><a href="#解释一下引用" class="headerlink" title="解释一下引用"></a>解释一下引用</h3><p>JDK1.2之前,引用和被引用在于reference类型的数据中存储的数值是某块内存地址和内存地址被reference类型的数值所记载,这样显得特别牵强,一个对象是否对引用有点生硬.所以在JDK1.2之后给引用增加了许多的类型,分为:</p>
+<ul>
+<li>强引用</li>
+<li>软引用</li>
+<li>弱引用</li>
+<li>虚引用</li>
+</ul>
+<h3 id="一个对象的自我救赎"><a href="#一个对象的自我救赎" class="headerlink" title="一个对象的自我救赎"></a>一个对象的自我救赎</h3><p>从前,有一个叫A对象的人,在人口普查中(可达性分析算法),他掉队了没有一个人认识他,他也不认识任何人.他就会被警察(GC)第一次标记,标记的条件是:他是否有finalize()免死金牌,第一次标记代表他即将要被回收掉.如果它有免死金牌它会被放入到一个F-Queue的队列中,虚拟机会让另外一个组织来(finalize线程)处理队列中的对象,这个组织是低优先级的线程,他们去检查队列中对象的免死金牌,在检查的时候如果这个对象和引用链中的对象建立了联系,那么他就会被移出死亡的队伍,他就不用死亡了.</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li><p>finalize()方法是用来拖延死亡时间的方法,拖延的时期内需要建立连接才不死.</p>
+</li>
+<li><p>另外一个组织(finalize线程)是不会等待finalize()方法执行完成的(不耐烦的组织啊),为了避免finalize()方法太耗时导致队列不会停止不前.</p>
+</li>
+<li><p>一个对象的finalize()只会被执行一次,下次如果该对象再次陷入回收的边缘,他不会执行.</p>
+</li>
+<li><p>这个方法用的不多,大家可以忘记Java有这个方法(原谅我最后才说).</p>
+</li>
+</ol>
+<h3 id="方法区的回收"><a href="#方法区的回收" class="headerlink" title="方法区的回收"></a>方法区的回收</h3><p>方法区不好回收,效率比较低,分为常量的回收和无用类的回收.</p>
+<h4 id="常量的回收"><a href="#常量的回收" class="headerlink" title="常量的回收"></a>常量的回收</h4><p>例如字符串<code>&quot;abc&quot;</code>当没有任何一个String对象叫做<code>&quot;abc&quot;</code>时,它就会被移出常量池.</p>
+<h4 id="无用类的回收"><a href="#无用类的回收" class="headerlink" title="无用类的回收"></a>无用类的回收</h4><p>需要满足三个条件:</p>
+<ol>
+<li>该类的实例都已经被回收,Java堆中没有该类的任何实例.</li>
+<li>加载类的ClassLoader已经被回收.</li>
+<li>该类对应的java.lang.Class对象没有在任何地方被引用,无法在任何地方通过反射获取该类的方法.</li>
+</ol>
+<p>满足以上3个条件就可以被回收了,但不一定会被回收.(不像对象一样,无用就必然被回收)．</p>
+<p>回收方法区主要用在，大量的反射，动态代理,CGLib等ByteCode框架,动态生成JSP,以及OSGi等类频繁自定义ClassLoader的场景时,需要类的卸载.</p>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>分为标记和清除两个阶段.第一个阶段是标记,就是把已死的对象所在的内存区域进行标记,第二个阶段是清除,就是标记的内存区域的空间释放掉.</p>
+<p>它主要有两点不足,一是:标记和清除的效率都不高,另外一个是空间的问题,标记-清除后会有大量的不连续的内存碎片,空间碎片太多会导致以后程序如果需要大块的内存区域时候,无法得到足够大小德连续内存,而触发多一次垃圾收集动作.</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>为了解决效率的问题,可以使用复制算法,复制算法是先把内存分为两个相同大小的内存,一个用于存储对象,另外一个空闲着准备在垃圾收集时,先把不需要回收的内存复制到空闲内存中去,然后再把需要清除的区域完全释放干净.下次垃圾收集依次类推.</p>
+<p>这样的算法的缺点在于,它对内存有极大的浪费,它的有效内存空间只有一半,有点太高了.</p>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>标记-整理与标记-清除类似,是先把可回收的标记起来,然后把存活对象都向一端移动,然后直接把端边界以外的内存直接清除.</p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据对象存活的周期不同将内存划分为几块,一般是新生代和老年代,然后根据不同的代来确定使用的收集算法.</p>
+<p>新生代中,每次都有大量的对象死去,只有少量的存活,那么就用复制算法,只需要复制少量的内存,即可实现垃圾收集</p>
+<p>老年代中,对象存活率比较高,那就使用标记-清理或者标记整理算法来进行回收.</p>
+<h2 id="HotSpot的算法实现"><a href="#HotSpot的算法实现" class="headerlink" title="HotSpot的算法实现"></a>HotSpot的算法实现</h2><p>先不看</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>垃圾收集器是内存回收的具体实现.介绍7个,它们使用场景不同,作用也不同,有适用于新生代的,也后适用于老年代的,他们之间也可以配合使用.</p>
+<h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><h3 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h3><h3 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h3><h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><h3 id="理解GC日志"><a href="#理解GC日志" class="headerlink" title="理解GC日志"></a>理解GC日志</h3><h3 id="垃圾收集器参数总结"><a href="#垃圾收集器参数总结" class="headerlink" title="垃圾收集器参数总结"></a>垃圾收集器参数总结</h3><h2 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h2>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.844Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017062025290/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017062025290/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017062025290/&title=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017062025290/&title=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017062025290/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017062025290/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017062025290/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017073116466/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数据库-查询数据</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017061562334/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JVM之内存区域与内存溢出异常</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017062025290/&title=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017062025290/&title=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017062025290/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM之垃圾收集器与内存分配策略》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017062025290/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017062025290/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3aQW7DMAwEwPz/0ynQU4Gg8pK0i1oenQKnjT0+LERSr1e83t/r83PyN5+ff6719ZMXBgbGbRnv5UoY6/9d46u8X6kYGBgPYPQCNGesf38S7hgYGBjVSJ0sDAwMjCsCdx2v60dMrmBgYGBUi9geIAnW5C6n1eIYGBg3ZEwGA1d//qP5BgYGxj9mzEvNSUSeVQZjYGDszUg2edXw7Y0TegXwK/85DAyMLRj5t+eGcnLkIno2DAyMTRnVcKxG9vxKNBjAwMDYmjHf/OVjg2pw914TBgbG3owk+OZDxGqAlu+LgYHxAEbvgEXvoEZ1Ihm16jAwMLZjVH86aY0l44HegPPX+2JgYDySsX7EvOFVLXqbd8fAwHgYYzILrYKrZfDB6TYMDIxNGfnDTY6C5Y283uvAwMDYm1G9ff5tXuj2GnwYGBjPYVS3X70idhLuzYWBgbERIwnBKxpn1QHDwavEwMDYmjGPv+RmvRZbrzzGwMDYlVGNyOp2sLfdvHCDiIGBcVtGvkVLjnDlmPzA2cFWFQMDY2vGvPWftPV7j3vCYQsMDIybM97FlRSZvajtNdowMDCewJgXur2/TFp4SVmLgYHxHEY1EKubyEmUlwcDGBgYWzPy4JuE8iT7D4peDAwMjEHrP2/GVb/FwMDAqLbAqiVu9ZcPAhoDA+MBjElcnnXsbH2lMHfFwMDYjlEdDPSuV5tuvReBgYGxHeMLG3qyUPenphMAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

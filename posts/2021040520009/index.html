@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2021040520009/">
+    
+    
+    <title>JetCache的使用 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="缓存">
+    <meta name="description" content="JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:  TTL 两级缓存 分布式自动刷新 通过注解创建并配置缓存 缓存使用的统计 Key生成策略与Value序列化方式自定义 异步CacheAPI Spring Boot支持">
+<meta name="keywords" content="缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JetCache的使用">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2021040520009/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:  TTL 两级缓存 分布式自动刷新 通过注解创建并配置缓存 缓存使用的统计 Key生成策略与Value序列化方式自定义 异步CacheAPI Spring Boot支持">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-07T01:34:00.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JetCache的使用">
+<meta name="twitter:description" content="JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:  TTL 两级缓存 分布式自动刷新 通过注解创建并配置缓存 缓存使用的统计 Key生成策略与Value序列化方式自定义 异步CacheAPI Spring Boot支持">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JetCache的使用</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JetCache的使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-04-05T12:57:20.000Z" itemprop="datePublished" class="page-time">
+  2021-04-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#要求"><span class="post-toc-number">1.</span> <span class="post-toc-text">要求</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">基本使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建缓存实例的方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">创建缓存实例的方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#快速开始"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">快速开始</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一级缓存"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">一级缓存</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#二级缓存"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">二级缓存</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建方法缓存的方式"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">创建方法缓存的方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CacheAPI"><span class="post-toc-number">3.</span> <span class="post-toc-text">CacheAPI</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#特殊的API"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">特殊的API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注解的使用"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">注解的使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#成员变量上的注解CreateCache"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">成员变量上的注解CreateCache</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法上的注解Cached-CacheUpdate-CacheInvalidate-CacheRefresh-CachePenetrationProtect"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Cached"><span class="post-toc-number">3.2.2.1.</span> <span class="post-toc-text">Cached</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CacheUpdate"><span class="post-toc-number">3.2.2.2.</span> <span class="post-toc-text">CacheUpdate</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CacheInvalidate"><span class="post-toc-number">3.2.2.3.</span> <span class="post-toc-text">CacheInvalidate</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CacheRefresh"><span class="post-toc-number">3.2.2.4.</span> <span class="post-toc-text">CacheRefresh</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CachePenetrationProtect"><span class="post-toc-number">3.2.2.5.</span> <span class="post-toc-text">CachePenetrationProtect</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#高级功能"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">高级功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异步API"><span class="post-toc-number">3.4.1.</span> <span class="post-toc-text">异步API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#自动load"><span class="post-toc-number">3.4.2.</span> <span class="post-toc-text">自动load</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#自动刷新缓存"><span class="post-toc-number">3.4.3.</span> <span class="post-toc-text">自动刷新缓存</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#远程缓存"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">远程缓存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Jedis"><span class="post-toc-number">3.5.1.</span> <span class="post-toc-text">Jedis</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Lettuce"><span class="post-toc-number">3.5.2.</span> <span class="post-toc-text">Lettuce</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地缓存"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">本地缓存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LinkedHashMapCache"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">LinkedHashMapCache</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CaffeineCache"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">CaffeineCache</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存的统计与监控"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">缓存的统计与监控</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#不使用注解"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">不使用注解</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">4.</span> <span class="post-toc-text">最后</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注意"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">注意</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#看源码"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">看源码</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JetCache的使用"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JetCache的使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-04-05 20:57:20" datetime="2021-04-05T12:57:20.000Z"  itemprop="datePublished">2021-04-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>16 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:</p>
+<ol>
+<li>TTL</li>
+<li>两级缓存</li>
+<li>分布式自动刷新</li>
+<li>通过注解创建并配置缓存</li>
+<li>缓存使用的统计</li>
+<li>Key生成策略与Value序列化方式自定义</li>
+<li>异步CacheAPI</li>
+<li>Spring Boot支持</li>
+</ol>
+<a id="more"></a>
+<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><ol>
+<li>JDK1.8</li>
+<li>可选Spring Framework 4.0.8+</li>
+<li>可选Spring Boot 1.1.9+</li>
+</ol>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
+<p>仅仅介绍 SpringBoot 下的使用</p>
+</blockquote>
+<h3 id="创建缓存实例的方式"><a href="#创建缓存实例的方式" class="headerlink" title="创建缓存实例的方式"></a>创建缓存实例的方式</h3><h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.alicp.jetcache<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jetcache-starter-redis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.5.14<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+</code></pre>
+<pre class=" language-yml"><code class="language-yml">jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: 127.0.0.1
+      port: 6379
+</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableMethodCache</span><span class="token punctuation">(</span>basePackages <span class="token operator">=</span> <span class="token string">"com.company.mypackage"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@EnableCreateCacheAnnotation</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MySpringBootApp</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>MySpringBootApp<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@CreateCache</span><span class="token punctuation">(</span>expire <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span> UserDO<span class="token operator">></span> userCache<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@CreateCache</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"UserService.userCache"</span><span class="token punctuation">,</span> expire <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">,</span> cacheType <span class="token operator">=</span> CacheType<span class="token punctuation">.</span>BOTH<span class="token punctuation">,</span> localLimit <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span> UserDO<span class="token operator">></span> userCache<span class="token punctuation">;</span>
+</code></pre>
+<h3 id="创建方法缓存的方式"><a href="#创建方法缓存的方式" class="headerlink" title="创建方法缓存的方式"></a>创建方法缓存的方式</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Cached</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"UserService.getUserById"</span><span class="token punctuation">,</span> expire <span class="token operator">=</span> <span class="token number">3600</span><span class="token punctuation">)</span>
+    User <span class="token function">getUserById</span><span class="token punctuation">(</span><span class="token keyword">long</span> userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="CacheAPI"><a href="#CacheAPI" class="headerlink" title="CacheAPI"></a>CacheAPI</h2><blockquote>
+<p><code>com.alicp.jetcache.Cache</code>接口是缓存的主要操作对象, 缓存的写入与读取都通过这个进行</p>
+</blockquote>
+<p>基本api如下:</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 获取</span>
+V <span class="token function">get</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 插入</span>
+<span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 指定过期时间</span>
+<span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span>
+<span class="token keyword">boolean</span> <span class="token function">putIfAbsent</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//多级缓存MultiLevelCache不支持此方法</span>
+<span class="token keyword">boolean</span> <span class="token function">remove</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span>T<span class="token operator">></span> T <span class="token function">unwrap</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span>T<span class="token operator">></span> clazz<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//2.2版本前，多级缓存MultiLevelCache不支持此方法</span>
+Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token function">getAll</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">putAll</span><span class="token punctuation">(</span>Map<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token punctuation">,</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">V</span><span class="token operator">></span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">removeAll</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 当key对应的缓存不存在时，使用loader加载。</span>
+<span class="token comment" spellcheck="true">// cacheNullWhenLoaderReturnNull参数指定了当loader加载出来时null值的时候，是否要进行缓存（有时候即使是null值也是通过很繁重的查询才得到的，需要缓存）。</span>
+<span class="token comment" spellcheck="true">// expire和timeUnit指定了缓存的超时时间，会覆盖缓存的默认超时时间。</span>
+V <span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> Function<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader<span class="token punctuation">)</span>
+V <span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> Function<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader<span class="token punctuation">,</span> <span class="token keyword">boolean</span> cacheNullWhenLoaderReturnNull<span class="token punctuation">)</span>
+V <span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> Function<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader<span class="token punctuation">,</span> <span class="token keyword">boolean</span> cacheNullWhenLoaderReturnNull<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 尝试获取锁</span>
+AutoReleaseLock <span class="token function">tryLock</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//可能获取到AutoReleaseLock为null,需要自行判断</span>
+<span class="token keyword">boolean</span> <span class="token function">tryLockAndRun</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">,</span> Runnable action<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="特殊的API"><a href="#特殊的API" class="headerlink" title="特殊的API"></a>特殊的API</h3><blockquote>
+<p>jetCache提供了大写的API, 与小写的区别是返回一个CacheResult对象, 例如:可以通过大写的<code>GET</code>判断获取到的key不存在还是发生了异常情况导致没有获取到,还是缓存过期导致没有获取到.</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">CacheGetResult<span class="token operator">&lt;</span>V<span class="token operator">></span> <span class="token function">GET</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+MultiGetResult<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> <span class="token function">GET_ALL</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">PUT</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">PUT</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">PUT_ALL</span><span class="token punctuation">(</span>Map<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token punctuation">,</span> <span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">V</span><span class="token operator">></span> map<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">PUT_ALL</span><span class="token punctuation">(</span>Map<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token punctuation">,</span> <span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">V</span><span class="token operator">></span> map<span class="token punctuation">,</span> <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">REMOVE</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">REMOVE_ALL</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CacheResult <span class="token function">PUT_IF_ABSENT</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>使用上要这样</p>
+<pre class=" language-java"><code class="language-java">CacheGetResult<span class="token operator">&lt;</span>OrderDO<span class="token operator">></span> r <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span> r<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    OrderDO order <span class="token operator">=</span> r<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>NOT_EXISTS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"cache miss:"</span> <span class="token operator">+</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>EXPIRED<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"cache expired:"</span> <span class="token operator">+</span> orderId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"cache get error:"</span> <span class="token operator">+</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="注解的使用"><a href="#注解的使用" class="headerlink" title="注解的使用"></a>注解的使用</h3><h4 id="成员变量上的注解CreateCache"><a href="#成员变量上的注解CreateCache" class="headerlink" title="成员变量上的注解CreateCache"></a>成员变量上的注解CreateCache</h4><p>有如下参数:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果需要连接多个缓存系统，可在配置多个cache area，这个属性指定要使用的那个area的name</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的名称，不是必须的，如果没有指定，会使用类名+方法名。name会被用于远程缓存的key前缀。另外在统计中，一个简短有意义的名字会提高可读性。如果两个<code>@CreateCache</code>的<code>name</code>和<code>area</code>相同，它们会指向同一个<code>Cache</code>实例</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>未定义</td>
+<td>该Cache实例的默认超时时间定义，注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取无穷大</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>指定expire的单位</td>
+</tr>
+<tr>
+<td>cacheType</td>
+<td>CacheType.REMOTE</td>
+<td>缓存的类型，包括CacheType.REMOTE、CacheType.LOCAL、CacheType.BOTH。如果定义为BOTH，会使用LOCAL和REMOTE组合成两级缓存</td>
+</tr>
+<tr>
+<td>localLimit</td>
+<td>未定义</td>
+<td>如果cacheType为CacheType.LOCAL或CacheType.BOTH，这个参数指定本地缓存的最大元素数量，以控制内存占用。注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取100</td>
+</tr>
+<tr>
+<td>serialPolicy</td>
+<td>未定义</td>
+<td>如果cacheType为CacheType.REMOTE或CacheType.BOTH，指定远程缓存的序列化方式。JetCache内置的可选值为SerialPolicy.JAVA和SerialPolicy.KRYO。注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取SerialPolicy.JAVA</td>
+</tr>
+<tr>
+<td>keyConvertor</td>
+<td>未定义</td>
+<td>指定KEY的转换方式，用于将复杂的KEY类型转换为缓存实现可以接受的类型，JetCache内置的可选值为KeyConvertor.FASTJSON和KeyConvertor.NONE。NONE表示不转换，FASTJSON通过fastjson将复杂对象KEY转换成String。如果注解上没有定义，则使用全局配置。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="方法上的注解Cached-CacheUpdate-CacheInvalidate-CacheRefresh-CachePenetrationProtect"><a href="#方法上的注解Cached-CacheUpdate-CacheInvalidate-CacheRefresh-CachePenetrationProtect" class="headerlink" title="方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect"></a>方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect</h4><h5 id="Cached"><a href="#Cached" class="headerlink" title="Cached"></a>Cached</h5><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，不是必须的，如果没有指定，会使用类名+方法名。name会被用于远程缓存的key前缀。另外在统计中，一个简短有意义的名字会提高可读性。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定key，如果没有指定会根据所有参数自动生成。</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>未定义</td>
+<td>超时时间。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为无穷大</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>指定expire的单位</td>
+</tr>
+<tr>
+<td>cacheType</td>
+<td>CacheType.REMOTE</td>
+<td>缓存的类型，包括CacheType.REMOTE、CacheType.LOCAL、CacheType.BOTH。如果定义为BOTH，会使用LOCAL和REMOTE组合成两级缓存</td>
+</tr>
+<tr>
+<td>localLimit</td>
+<td>未定义</td>
+<td>如果cacheType为LOCAL或BOTH，这个参数指定本地缓存的最大元素数量，以控制内存占用。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为100</td>
+</tr>
+<tr>
+<td>localExpire</td>
+<td>未定义</td>
+<td>仅当cacheType为BOTH时适用，为内存中的Cache指定一个不一样的超时时间，通常应该小于expire</td>
+</tr>
+<tr>
+<td>serialPolicy</td>
+<td>未定义</td>
+<td>指定远程缓存的序列化方式。可选值为SerialPolicy.JAVA和SerialPolicy.KRYO。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为SerialPolicy.JAVA</td>
+</tr>
+<tr>
+<td>keyConvertor</td>
+<td>未定义</td>
+<td>指定KEY的转换方式，用于将复杂的KEY类型转换为缓存实现可以接受的类型，当前支持KeyConvertor.FASTJSON和KeyConvertor.NONE。NONE表示不转换，FASTJSON可以将复杂对象KEY转换成String。如果注解上没有定义，会使用全局配置。</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>true</td>
+<td>是否激活缓存。例如某个dao方法上加缓存注解，由于某些调用场景下不能有缓存，所以可以设置enabled为false，正常调用不会使用缓存，在需要的地方可使用CacheContext.enableCache在回调中激活缓存，缓存激活的标记在ThreadLocal上，该标记被设置后，所有enable=false的缓存都被激活</td>
+</tr>
+<tr>
+<td>cacheNullValue</td>
+<td>false</td>
+<td>当方法返回值为null的时候是否要缓存</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定条件，如果表达式返回true的时候才去缓存中查询</td>
+</tr>
+<tr>
+<td>postCondition</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定条件，如果表达式返回true的时候才更新缓存，该评估在方法执行后进行，因此可以访问到#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="CacheUpdate"><a href="#CacheUpdate" class="headerlink" title="CacheUpdate"></a>CacheUpdate</h5><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定key</td>
+</tr>
+<tr>
+<td>value</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定value</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定条件，如果表达式返回true才执行更新，可访问方法结果#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="CacheInvalidate"><a href="#CacheInvalidate" class="headerlink" title="CacheInvalidate"></a>CacheInvalidate</h5><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定key</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">SpEL</a>指定条件，如果表达式返回true才执行删除，可访问方法结果#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="CacheRefresh"><a href="#CacheRefresh" class="headerlink" title="CacheRefresh"></a>CacheRefresh</h5><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>refresh</td>
+<td>未定义</td>
+<td>刷新间隔</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>时间单位</td>
+</tr>
+<tr>
+<td>stopRefreshAfterLastAccess</td>
+<td>未定义</td>
+<td>指定该key多长时间没有访问就停止刷新，如果不指定会一直刷新</td>
+</tr>
+<tr>
+<td>refreshLockTimeout</td>
+<td>60秒</td>
+<td>类型为BOTH/REMOTE的缓存刷新时，同时只会有一台服务器在刷新，这台服务器会在远程缓存放置一个分布式锁，此配置指定该锁的超时时间</td>
+</tr>
+</tbody>
+</table>
+<h5 id="CachePenetrationProtect"><a href="#CachePenetrationProtect" class="headerlink" title="CachePenetrationProtect"></a>CachePenetrationProtect</h5><blockquote>
+<p>放穿透机制</p>
+</blockquote>
+<p>当缓存访问未命中的情况下，对并发进行的加载行为进行保护。<br>当前版本实现的是单JVM内的保护，即同一个JVM中同一个key只有一个线程去加载，其它线程等待结果。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.alibaba
+  local:
+    default:
+      type: caffeine
+      limit: 100
+      keyConvertor: fastjson
+      expireAfterWriteInMillis: 100000
+    otherArea:
+      type: linkedhashmap
+      limit: 100
+      keyConvertor: none
+      expireAfterWriteInMillis: 100000
+  remote:
+    default:
+      type: redis
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${redis.host}
+      port: ${redis.port}
+    otherArea:
+      type: redis
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${redis.host}
+      port: ${redis.port}
+</code></pre><p>配置通用说明如下</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jetcache.statIntervalMinutes</td>
+<td>0</td>
+<td>统计间隔，0表示不统计</td>
+</tr>
+<tr>
+<td>jetcache.areaInCacheName</td>
+<td>true</td>
+<td>jetcache-anno把cacheName作为远程缓存key前缀，2.4.3以前的版本总是把areaName加在cacheName中，因此areaName也出现在key前缀中。2.4.4以后可以配置，为了保持远程key兼容默认值为true，但是新项目的话false更合理些。</td>
+</tr>
+<tr>
+<td>jetcache.hiddenPackages</td>
+<td>无</td>
+<td>@Cached和@CreateCache自动生成name的时候，为了不让name太长，hiddenPackages指定的包名前缀被截掉</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.type</td>
+<td>无</td>
+<td>缓存类型。tair、redis为当前支持的远程缓存；linkedhashmap、caffeine为当前支持的本地缓存类型</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.keyConvertor</td>
+<td>无</td>
+<td>key转换器的全局配置，当前只有一个已经实现的keyConvertor：<code>fastjson</code>。仅当使用@CreateCache且缓存类型为LOCAL时可以指定为<code>none</code>，此时通过equals方法来识别key。方法缓存必须指定keyConvertor</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.valueEncoder</td>
+<td>java</td>
+<td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.valueDecoder</td>
+<td>java</td>
+<td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.limit</td>
+<td>100</td>
+<td>每个缓存实例的最大元素的全局配置，仅local类型的缓存需要指定。注意是每个缓存实例的限制，而不是全部，比如这里指定100，然后用@CreateCache创建了两个缓存实例（并且注解上没有设置localLimit属性），那么每个缓存实例的限制都是100</td>
+</tr>
+<tr>
+<td>jetcache.[local\</td>
+<td>remote].${area}.expireAfterWriteInMillis</td>
+<td>无穷大</td>
+<td>以毫秒为单位指定超时时间的全局配置(以前为defaultExpireInMillis)</td>
+</tr>
+<tr>
+<td>jetcache.local.${area}.expireAfterAccessInMillis</td>
+<td>0</td>
+<td>需要jetcache2.2以上，以毫秒为单位，指定多长时间没有访问，就让缓存失效，当前只有本地缓存支持。0表示不使用这个功能。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>上表中${area}对应@Cached和@CreateCache的area属性。注意如果注解上没有指定area，默认值是”default”。</p>
+</blockquote>
+<blockquote>
+<p>多个地方能配置过期时间,优先级为: 方法传参&gt;注解参数&gt;全局参数</p>
+</blockquote>
+<h3 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h3><h4 id="异步API"><a href="#异步API" class="headerlink" title="异步API"></a>异步API</h4><p>大写API会返回CacheGetResult对象,CacheGetResult对象的<code>future()</code>方法可以返回一个CompletionStage,能支持异步调用某些逻辑.</p>
+<pre class=" language-java"><code class="language-java">CacheGetResult<span class="token operator">&lt;</span>UserDO<span class="token operator">></span> r <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+CompletionStage<span class="token operator">&lt;</span>ResultData<span class="token operator">></span> future <span class="token operator">=</span> r<span class="token punctuation">.</span><span class="token function">future</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+future<span class="token punctuation">.</span><span class="token function">thenRun</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>无返回值的操作使用异步调用,能减少RT</p>
+</blockquote>
+<h4 id="自动load"><a href="#自动load" class="headerlink" title="自动load"></a>自动load</h4><p>Cache的get方法有时候会出现没有命中的情况, 可以设置一个loader, 没有命中时自动的加载.</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// loadUserFromDatabase</span>
+Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span>UserDO<span class="token operator">></span> userCache <span class="token operator">=</span> LinkedHashMapCacheBuilder<span class="token punctuation">.</span><span class="token function">createLinkedHashMapCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">loader</span><span class="token punctuation">(</span>key <span class="token operator">-</span><span class="token operator">></span> <span class="token function">loadUserFromDatabase</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>如果loader抛出异常，get和getAll会抛出CacheInvokeException。</p>
+</blockquote>
+<blockquote>
+<p>大写GET,GET_ALL不调用loader; 使用多级缓存时, loader不要设置到子Cache中, 应该是父Cache(MultiLevelCache)上</p>
+</blockquote>
+<blockquote>
+<p>@CreateCache情况下使用, 例子如下</p>
+</blockquote>
+<pre><code>@CreateCache
+private Cache&lt;Long,UserDO&gt; userCache;
+
+@PostConstruct
+public void init(){
+    userCache.config().setLoader(this::loadUserFromDatabase);
+}
+</code></pre><h4 id="自动刷新缓存"><a href="#自动刷新缓存" class="headerlink" title="自动刷新缓存"></a>自动刷新缓存</h4><p>能设置刷新策略, 防止缓存过期.</p>
+<blockquote>
+<p>@CreateCache情况下使用, 例子如下</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@CreateCache</span>
+<span class="token keyword">private</span> Cache<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Long<span class="token operator">></span> orderSumCache<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@PostConstruct</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    RefreshPolicy policy <span class="token operator">=</span> RefreshPolicy<span class="token punctuation">.</span><span class="token function">newPolicy</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MINUTES<span class="token punctuation">)</span>
+                          <span class="token punctuation">.</span><span class="token function">stopRefreshAfterLastAccess</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MINUTES<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    orderSumCache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setLoader</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">:</span><span class="token operator">:</span>loadOrderSumFromDatabase<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    orderSumCache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setRefreshPolicy</span><span class="token punctuation">(</span>policy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="远程缓存"><a href="#远程缓存" class="headerlink" title="远程缓存"></a>远程缓存</h3><h4 id="Jedis"><a href="#Jedis" class="headerlink" title="Jedis"></a>Jedis</h4><blockquote>
+<p>jetcache-starter-redis</p>
+</blockquote>
+<p>配置:</p>
+<pre><code>jetcache: 
+  areaInCacheName: false
+  remote:
+    default:
+      type: redis
+      keyConvertor: fastjson
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      host: ${redis.host}
+      port: ${redis.port}
+      #password:***
+      #sentinels: 127.0.0.1:26379 , 127.0.0.1:26380, 127.0.0.1:26381
+      #masterName: mymaster
+</code></pre><p>如果需要直接操作JedisPool，可以通过以下方式获取</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"defaultPool"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@DependsOn</span><span class="token punctuation">(</span>RedisAutoConfiguration<span class="token punctuation">.</span>AUTO_INIT_BEAN_NAME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> JedisPoolFactory <span class="token function">defaultPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JedisPoolFactory</span><span class="token punctuation">(</span><span class="token string">"remote.default"</span><span class="token punctuation">,</span> JedisPool<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>然后可以直接使用</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">private</span> Pool<span class="token operator">&lt;</span>Jedis<span class="token operator">></span> defaultPool<span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Lettuce"><a href="#Lettuce" class="headerlink" title="Lettuce"></a>Lettuce</h4><blockquote>
+<p>jetcache-starter-redis-lettuce</p>
+</blockquote>
+<p>配置</p>
+<pre><code>jetcache: 
+  areaInCacheName: false
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      uri: redis://127.0.0.1:6379/
+      #uri: redis-sentinel://127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381/?sentinelMasterId=mymaster
+      #readFrom: slavePreferred
+# 集群使用如下
+jetcache: 
+  areaInCacheName: false
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      #readFrom: slavePreferred
+      uri:
+        - redis://127.0.0.1:7000
+        - redis://127.0.0.1:7001
+        - redis://127.0.0.1:7002
+</code></pre><p>如果需要直接使用lettuce的RedisClient：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"defaultClient"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@DependsOn</span><span class="token punctuation">(</span>RedisLettuceAutoConfiguration<span class="token punctuation">.</span>AUTO_INIT_BEAN_NAME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> LettuceFactory <span class="token function">defaultClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">LettuceFactory</span><span class="token punctuation">(</span><span class="token string">"remote.default"</span><span class="token punctuation">,</span> RedisClient<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>然后可以直接使用</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">private</span> RedisClient defaultClient<span class="token punctuation">;</span>
+</code></pre>
+<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><h4 id="LinkedHashMapCache"><a href="#LinkedHashMapCache" class="headerlink" title="LinkedHashMapCache"></a>LinkedHashMapCache</h4><p>LinkedHashMapCache是JetCache中实现的一个最简单的Cache，使用LinkedHashMap做LRU方式淘汰。</p>
+<pre class=" language-java"><code class="language-java">Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span> OrderDO<span class="token operator">></span> cache <span class="token operator">=</span> LinkedHashMapCacheBuilder<span class="token punctuation">.</span><span class="token function">createLinkedHashMapCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">expireAfterWrite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="CaffeineCache"><a href="#CaffeineCache" class="headerlink" title="CaffeineCache"></a>CaffeineCache</h4><p>caffeine cache的介绍看<a href="https://github.com/ben-manes/caffeine" target="_blank" rel="noopener">这里</a>，它是guava cache的后续作品。</p>
+<pre class=" language-java"><code class="language-java">Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span> OrderDO<span class="token operator">></span> cache <span class="token operator">=</span> CaffeineCacheBuilder<span class="token punctuation">.</span><span class="token function">createCaffeineCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">expireAfterWrite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="缓存的统计与监控"><a href="#缓存的统计与监控" class="headerlink" title="缓存的统计与监控"></a>缓存的统计与监控</h3><p>jetcache.statIntervalMinutes大于0时, jetCache会自动在日志上打印缓存的使用情况.</p>
+<pre><code>2017-01-12 19:00:00,001 INFO  support.StatInfoLogger - jetcache stat from 2017-01-12 18:59:00,000 to 2017-01-12 19:00:00,000
+cache                                                |       qps|   rate|           get|           hit|          fail|        expire|avgLoadTime|maxLoadTime
+-----------------------------------------------------+----------+-------+--------------+--------------+--------------+--------------+-----------+-----------
+default_AlicpAppChannelManager.getAlicpAppChannelById|      0.00|  0.00%|             0|             0|             0|             0|        0.0|          0
+.....
+-----------------------------------------------------+----------+-------+--------------+--------------+--------------+--------------+-----------+-----------
+</code></pre><p>只有使用computeIfAbsent方法或者@Cached注解才会统计loadTime。用get方法取缓存，没有命中的话自己去数据库load，显然是无法统计到的。</p>
+<p>也可以自定义输出</p>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">// for 2.6+</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> Consumer<span class="token operator">&lt;</span>StatInfo<span class="token operator">></span> <span class="token function">metricsCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> Consumer<span class="token operator">&lt;</span>StatInfo<span class="token operator">></span> <span class="token function">statCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// return new StatInfoLogger(false);</span>
+            <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// 实现自己的logger</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+</code></pre>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">// for 2.5</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> SpringConfigProvider <span class="token function">springConfigProvider</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SpringConfigProvider</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">public</span> Consumer<span class="token operator">&lt;</span>StatInfo<span class="token operator">></span> <span class="token function">statCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// return new StatInfoLogger(false);</span>
+                <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// 实现自己的logger</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+</code></pre>
+<p>可以输出成单独的log文件</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>JETCACHE_LOGFILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>jetcache.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.TimeBasedRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>jetcache.log.%d{yyyy-MM-dd}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxHistory</span><span class="token punctuation">></span></span>30<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxHistory</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>%-4relative [%thread] %-5level %logger{35} - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>logger</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>com.alicp.jetcache<span class="token punctuation">"</span></span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span> <span class="token attr-name">additivity</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>JETCACHE_LOGFILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>logger</span><span class="token punctuation">></span></span>
+</code></pre>
+<h3 id="不使用注解"><a href="#不使用注解" class="headerlink" title="不使用注解"></a>不使用注解</h3><p>不使用注解来创建缓存实例要利用各种Builder</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 本地</span>
+Cache<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">></span> cache <span class="token operator">=</span> LinkedHashMapCacheBuilder<span class="token punctuation">.</span><span class="token function">createLinkedHashMapCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">expireAfterWrite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// redis</span>
+GenericObjectPoolConfig pc <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GenericObjectPoolConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pc<span class="token punctuation">.</span><span class="token function">setMinIdle</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pc<span class="token punctuation">.</span><span class="token function">setMaxIdle</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pc<span class="token punctuation">.</span><span class="token function">setMaxTotal</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        JedisPool pool <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JedisPool</span><span class="token punctuation">(</span>pc<span class="token punctuation">,</span> <span class="token string">"localhost"</span><span class="token punctuation">,</span> <span class="token number">6379</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Cache<span class="token operator">&lt;</span>Long<span class="token punctuation">,</span> OrderDO<span class="token operator">></span> orderCache <span class="token operator">=</span> RedisCacheBuilder<span class="token punctuation">.</span><span class="token function">createRedisCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">keyConvertor</span><span class="token punctuation">(</span>FastjsonKeyConvertor<span class="token punctuation">.</span>INSTANCE<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">valueEncoder</span><span class="token punctuation">(</span>JavaValueEncoder<span class="token punctuation">.</span>INSTANCE<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">valueDecoder</span><span class="token punctuation">(</span>JavaValueDecoder<span class="token punctuation">.</span>INSTANCE<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">jedisPool</span><span class="token punctuation">(</span>pool<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">keyPrefix</span><span class="token punctuation">(</span><span class="token string">"orderCache"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">expireAfterWrite</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 多级</span>
+Cache multiLevelCache <span class="token operator">=</span> MultiLevelCacheBuilder<span class="token punctuation">.</span><span class="token function">createMultiLevelCacheBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">addCache</span><span class="token punctuation">(</span>memoryCache<span class="token punctuation">,</span> redisCache<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">expireAfterWrite</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">buildCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>key、condition等表达式中使用参数名需要javac命令的<code>-parameters</code>支持<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugins</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugin</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.maven.plugins<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>maven-compiler-plugin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.7.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span><span class="token punctuation">></span></span>1.8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>source</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>target</span><span class="token punctuation">></span></span>1.8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>target</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>compilerArgument</span><span class="token punctuation">></span></span>-parameters<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>compilerArgument</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugins</span><span class="token punctuation">></span></span>
+</code></pre>
+</li>
+<li>自定义序列化器可以自定义SpringConfigProvider的Bean,实现<code>parseValueEncoder</code>和<code>parseValueDecoder</code>方法</li>
+</ol>
+<h3 id="看源码"><a href="#看源码" class="headerlink" title="看源码"></a>看源码</h3><p>Cache的实现:</p>
+<ul>
+<li>RedisCache: redis实现，使用jedis客户端</li>
+<li>RedisLettuceCache： redis实现，使用lettuce客户端</li>
+<li>CaffeineCache: 基于内存的缓存，使用Caffeine</li>
+<li>LinkedHashMapCache: 自制的简易内存缓存，没有任何依赖</li>
+<li>LoadingCache：基于Decorator模式，提供自动加载功能</li>
+<li>RefreshCache：基于Decorator模式，提供自动刷新功能</li>
+<li>MultiLevelCache：多级缓存，注解方式配置只支持了两级，实际上这个类支持N级</li>
+</ul>
+<p>jetcache-anno提供了注解支持，顺着这两个注解类看就可以了：</p>
+<ul>
+<li>EnableCreateCacheAnnotation</li>
+<li>EnableMethodCache</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-07T01:34:00.114Z" itemprop="dateUpdated">2021-04-07 09:34:00</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2021040520009/" target="_blank" rel="external">http://blog.canyuda.top/posts/2021040520009/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2021040520009/&title=《JetCache的使用》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040520009/&title=《JetCache的使用》 — 灿若繁星&source=JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:
+
+TTL
+两级缓存
+分布式自动刷新
+通过注解创建..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2021040520009/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JetCache的使用》 — 灿若繁星&url=http://blog.canyuda.top/posts/2021040520009/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2021040520009/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2021040542562/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JetCache的源码</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2020112522511/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-组合模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2021040520009/&title=《JetCache的使用》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040520009/&title=《JetCache的使用》 — 灿若繁星&source=JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:
+
+TTL
+两级缓存
+分布式自动刷新
+通过注解创建..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2021040520009/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JetCache的使用》 — 灿若繁星&url=http://blog.canyuda.top/posts/2021040520009/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2021040520009/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3aQXKDMAwF0Nz/0nTTLe6XRDqD/VhlQgp+XqiypM8nvq7ltf5l8sy7bx6+MDAwXstIlpjc7b1ljc+3DwMD4wTG3YvvPid378LxOrwmG4SBgYGRMNZJXjVZzN+FgYGBMWH0wEn4xsDAwMgPsQkjL671DrcPnMUxMDBeyMir7v//+Sv9DQwMjFcxruKVFPF7jc/een6fg4GBsTVj3oDM08S88dlMNDEwMA5gTI6veVMzSTqbg2IYGBibMta388GIJInsfRNtDQYGxmGMyfhXnhTmCV+UPmJgYGzNmLQHJoldL93Mh8wwMDB2ZSQjXL1dyRsJ1UGNwk5jYGC8ltFrMSYBNw+aefPydj0YGBgHML6X2OV1+/yo/Ee5DQMDY2tG3gDIA+4kYy0U7zAwMLZm9M6DeWLXY+SjZhgYGGcy8mJ9tcPQa4j2Rs0wMDB2Yqx/1BuVyFPMSeDGwMA4h1FdxFNLn3QhC8MWGBgYmzImCVxy+Owll4VmAwYGxqaMatD8tK7Jk6NtwsDAOIxRPXBO2gzJVkZvx8DAOIDRW9C8OVptUka5LQYGxkaMq3hVy2fVbcqP0xgYGOcwJuGy+rd54ezZxioGBsYejN5IVu/AWW0DJGvAwMA4h5EEyiq7WTjrhX4MDAyMIJmbjIVFITUpumFgYGDEow/VcbHqQMbD/zcwMDBewqimetV0cF7Uw8DAOJnRG3HojXb17vbSRwwMjC0YP5lU0T/7eD3mAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

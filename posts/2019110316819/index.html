@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019110316819/">
+    
+    
+    <title>SpringCloud-Hystrix的使用 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Spring-Cloud,Hystrix">
+    <meta name="description" content="Hystrix的基本使用 Hystrix的属性">
+<meta name="keywords" content="Spring-Cloud,Hystrix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud-Hystrix的使用">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019110316819/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="Hystrix的基本使用 Hystrix的属性">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.834Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud-Hystrix的使用">
+<meta name="twitter:description" content="Hystrix的基本使用 Hystrix的属性">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringCloud-Hystrix的使用</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringCloud-Hystrix的使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-03T10:22:18.000Z" itemprop="datePublished" class="page-time">
+  2019-11-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本使用"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建命令"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">创建命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义降级"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">定义降级</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#异常处理"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">异常处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#命令分组与资源划分"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">命令分组与资源划分</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#请求的缓存与合并"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">请求的缓存与合并</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#属性配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">属性配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Command属性"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Command属性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#execution配置"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">execution配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#fallback配置"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">fallback配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#circuitBreaker配置"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">circuitBreaker配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#metrics配置"><span class="post-toc-number">2.1.4.</span> <span class="post-toc-text">metrics配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#requestContext配置"><span class="post-toc-number">2.1.5.</span> <span class="post-toc-text">requestContext配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#collapse属性"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">collapse属性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#threadPool配置"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">threadPool配置</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-SpringCloud-Hystrix的使用"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringCloud-Hystrix的使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-03 18:22:18" datetime="2019-11-03T10:22:18.000Z"  itemprop="datePublished">2019-11-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>11 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>Hystrix的基本使用</li>
+<li>Hystrix的属性</li>
+</ul>
+<a id="more"></a>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><blockquote>
+<p>例子为:<strong>HystrixCommand</strong>命令对象的<strong>同步执行</strong>方式.</p>
+</blockquote>
+<p><strong>配置:</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableHystrix</span> <span class="token comment" spellcheck="true">//开启Hystrix功能</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HystrixConfig</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String API_COMMAND_KEY <span class="token operator">=</span> <span class="token string">"apiCommandKey"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String API_THREADPOOL_KEY <span class="token operator">=</span> <span class="token string">"apiThreadpoolKey"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String API_COMMAND_GROUPKEY <span class="token operator">=</span> <span class="token string">"apiCommandGroupKey"</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${api.thread.timeoutInSeconds:1}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> Long apiTimeoutInSeconds<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${api.circuitBreaker.requestVolumeThreshold:100}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> Long apiCircuitBreakThreshold<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${api.circuitBreaker.sleepWindowInSeconds:5}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> Long apiCiruitBreakSleepWindowInSeconds<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> AbstractConfiguration <span class="token function">configurationManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        AbstractConfiguration configurationManager <span class="token operator">=</span> ConfigurationManager<span class="token punctuation">.</span><span class="token function">getConfigInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 命令的配置</span>
+        <span class="token comment" spellcheck="true">// 命令执行策略 默认 使用线程池方式</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".execution.isolation.strategy"</span><span class="token punctuation">,</span> HystrixCommandProperties<span class="token punctuation">.</span>ExecutionIsolationStrategy<span class="token punctuation">.</span>THREAD<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 命令超时设置 单位为毫秒 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".execution.isolation.thread.timeoutInMilliseconds"</span><span class="token punctuation">,</span> apiTimeoutInSeconds <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 开启命令超时 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".execution.timeout.enabled"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 命令超时后被中断 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".execution.isolation.thread.interruptOnTimeout"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 熔断开启 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".circuitBreaker.enabled"</span><span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 熔断临界值 一个滚动窗口（比如10s）请求失败数达到临界值则熔断标志打开 默认100</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".circuitBreaker.requestVolumeThreshold"</span><span class="token punctuation">,</span> apiCircuitBreakThreshold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 跳闸后的多长时间可再次确认电路是否闭合 默认5000</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".circuitBreaker.sleepWindowInMilliseconds"</span><span class="token punctuation">,</span> apiCiruitBreakSleepWindowInSeconds <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 错误比例(熔断需要请求错误比例以及错误数到达临界值) 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".circuitBreaker.errorThresholdPercentage"</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 滚动窗口持续时间 （默认10s）</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".metrics.rollingStats.timeInMilliseconds"</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 滚动统计窗口分成的桶数 滚动窗口持续时间%桶数 == 0 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".metrics.rollingStats.numBuckets"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 桶的大小 桶数*大小/滚动窗口>每秒请求数</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".metrics.rollingPercentile.bucketSize"</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 请求缓存功能</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".requestCache.enabled"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 请求日志功能</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.command."</span> <span class="token operator">+</span> API_COMMAND_KEY <span class="token operator">+</span> <span class="token string">".requestLog.enabled"</span><span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 线程池的配置</span>
+        <span class="token comment" spellcheck="true">// 核心线程数：在健康时每秒的请求高峰数 × 99%的延迟秒数+一些喘息的空间时 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".coreSize"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 最大线程数 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".maximumSize"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 队列实现以及大小 -1-SynchronousQueue 其他正值-LinkedBlockingQueue</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".maxQueueSize"</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 队列大小拒绝临界值，可小于队列大小</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".queueSizeRejectionThreshold"</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 非核心线程在释放前的空闲时间 默认</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".keepAliveTimeMinutes"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 允许核心线程数和最大线程数值不同</span>
+        configurationManager<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"hystrix.threadpool."</span> <span class="token operator">+</span> API_THREADPOOL_KEY <span class="token operator">+</span> <span class="token string">".allowMaximumSizeToDivergeFromCoreSize"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> configurationManager<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>业务逻辑:</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@HystrixCommand</span><span class="token punctuation">(</span>fallbackMethod <span class="token operator">=</span> <span class="token string">"homeworkInfoFallback"</span><span class="token punctuation">,</span>
+        commandKey <span class="token operator">=</span> HystrixConfig<span class="token punctuation">.</span>API_COMMAND_KEY<span class="token punctuation">,</span>
+        threadPoolKey <span class="token operator">=</span> HystrixConfig<span class="token punctuation">.</span>API_THREADPOOL_KEY<span class="token punctuation">,</span>
+        groupKey <span class="token operator">=</span> HystrixConfig<span class="token punctuation">.</span>API_COMMAND_GROUPKEY<span class="token punctuation">,</span>
+        ignoreExceptions <span class="token operator">=</span> <span class="token punctuation">{</span>ErrorCodeException<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">public</span> List<span class="token operator">&lt;</span>HomeworkInfoItem<span class="token operator">></span> <span class="token function">homeworkInfo</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Long<span class="token operator">></span> homeworkIds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>CollectionsUtil<span class="token punctuation">.</span><span class="token function">isNullOrEmpty</span><span class="token punctuation">(</span>homeworkIds<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Collections<span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    HomeworksInfoResponse response <span class="token operator">=</span> HttpManagerUtil<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>homeworkUrl<span class="token punctuation">,</span> homeworkIds<span class="token punctuation">,</span> HomeworksInfoResponse<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">getHomeworkInfoListList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 降级逻辑</span>
+<span class="token keyword">public</span> List<span class="token operator">&lt;</span>HomeworkInfoItem<span class="token operator">></span> <span class="token function">homeworkInfoFallback</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Long<span class="token operator">></span> homeworkIds<span class="token punctuation">,</span> Throwable e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    logger<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span><span class="token string">"execute homeworkInfoFallback,homeworkIds:{}, ex:{}"</span><span class="token punctuation">,</span> homeworkIds<span class="token punctuation">,</span> e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> Collections<span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="创建命令"><a href="#创建命令" class="headerlink" title="创建命令"></a>创建命令</h3><p>使用<code>@HystrixCommand</code>注解, 注解标注的地方就是命令的内容, 方法返回值为业务对象时,是通过同步执行, 如果方法返回值为<code>Futrue&lt;业务对象&gt;</code>, 并且<code>return new AsyncResult&lt;业务对象&gt;{实现invoke()}</code>时, 是通过异步执行的.</p>
+<h3 id="定义降级"><a href="#定义降级" class="headerlink" title="定义降级"></a>定义降级</h3><p><code>@HystrixCommand</code> 有个参数 <code>fallbackMethod</code> 可以配置fallback逻辑, 配置一个方法名字符串, 并且当前类中定义一个方法与之对应. 当命令无法执行时就会降级到这个方法去处理, 注意降级方法的参数和返回值需要与命令方法对应.</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p><code>HystrixCommand</code>实现的<code>run()</code>方法抛出异常时, 除了<code>HystrixBadRequestException</code>以外, 都会被Hystrix认为是执行失败, 并触发降级逻辑, 如果不想处理某些异常, 可以配置参数 <code>ignoreExceptions</code>, 比如例子中的<code>ErrorCodeException</code>, 将会不被Hystrix处理, 而是向外抛出.</p>
+<p>降级方法中的参数最后一个传入<code>Throwable</code>可以在降级方法中获得异常相关信息.</p>
+<h3 id="命令分组与资源划分"><a href="#命令分组与资源划分" class="headerlink" title="命令分组与资源划分"></a>命令分组与资源划分</h3><p>参数<code>groupKey</code>,<code>commandKey</code>,<code>threadPoolKey</code> 分别表示分组名, 命令名, 线程池名. 可以通过这些名称, 批量的设置一些属性以灵活的使用Hystrix.</p>
+<h3 id="请求的缓存与合并"><a href="#请求的缓存与合并" class="headerlink" title="请求的缓存与合并"></a>请求的缓存与合并</h3><blockquote>
+<p>请求缓存: 第一次命令的结果缓存起来, 第二次相同的命令直接从缓存中取, 不用再执行具体的命令<br>请求合并: 命令执行前经过一个合并处理器, 合并很短的时间窗口内的对同一个服务的多次请求, 多个请求变成单个批量请求, 以减少资源的占用.</p>
+</blockquote>
+<p>没用过, 就先略了, 以后用到了再写.</p>
+<h2 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h2><p>属性存在于下面4个不同优先级别的配置(由低到高)</p>
+<ol>
+<li>全局默认</li>
+<li>全局配置</li>
+<li>实例默认值</li>
+<li>实例默认属性</li>
+</ol>
+<p>全局的配置可以使用<code>AbstractConfiguration</code>来配置. 如上述例子, 实例配置使用<code>@HystrixCommand</code>注解的<code>commandProperties</code>参数, 例如:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@HystrixCommand</span><span class="token punctuation">(</span>
+        commandProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+                <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX1"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX2"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        threadPoolProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+                <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX1"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX2"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@HystrixCollapser</span><span class="token punctuation">(</span>batchMethod <span class="token operator">=</span> <span class="token string">"ZZZ"</span><span class="token punctuation">,</span> collapserProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX1"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"XXX2"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"yyy2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> List<span class="token operator">&lt;</span>HomeworkInfoItem<span class="token operator">></span> <span class="token function">homeworkInfo</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Long<span class="token operator">></span> homeworkIds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 略</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="Command属性"><a href="#Command属性" class="headerlink" title="Command属性"></a>Command属性</h3><p>包含5个不同类型的属性配置:</p>
+<ul>
+<li><code>{HystrixCommandKey}</code>,<code>{HystrixCollapserKey}</code>,<code>{HystrixThreadPoolKey}</code>为<code>&quot;default&quot;</code>时为全局配置属性</li>
+</ul>
+<h4 id="execution配置"><a href="#execution配置" class="headerlink" title="execution配置"></a>execution配置</h4><p>execution配置控制了<code>HystrixCommand.run()</code>执行.</p>
+<pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>execution.isolation.strategy</td>
+<td>THREAD</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.isolation.strategy</td>
+</tr>
+<tr>
+<td>execution.isolation.thread.timeoutInMilliseconds</td>
+<td>1000</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.isolation.thread.timeoutInMilliseconds</td>
+</tr>
+<tr>
+<td>execution.timeout.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.timeout.enabled</td>
+</tr>
+<tr>
+<td>execution.isolation.thread.interruptOnTimeout</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.isolation.thread.interruptOnTimeout</td>
+</tr>
+<tr>
+<td>execution.isolation.thread.interruptOnCancel</td>
+<td>false</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.isolation.thread.interruptOnCancel</td>
+</tr>
+<tr>
+<td>execution.isolation.semaphore.maxConcurrentRequests</td>
+<td>10</td>
+<td>hystrix.command.{HystrixCommandKey}.execution.isolation.semaphore.maxConcurrentRequests</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>HystrixCommand.run()执行的隔离策略, 有两个选项 <code>THREAD</code>, <code>SEMAPHORE</code>.</li>
+<li>HystrixCommand执行的超时时间, 单位毫秒. 当执行超过这个时间, Hystrix将会进入降级逻辑.</li>
+<li>设置HystrixCommand.run()的执行是否启用超时时间, 默认为true. 配置为false, 会导致上一个的配置无效.</li>
+<li>用来配置HystrixCommand.run()超时时是否要将其中断.</li>
+<li>用来配置HystrixCommand.run()执行被取消时是否要将其中断.</li>
+<li>隔离策略为 <code>SEMAPHORE</code>时, 用这个配置信号量大小, 最大并发达到这个时, 后续请求会被拒绝.</li>
+</ul>
+<h4 id="fallback配置"><a href="#fallback配置" class="headerlink" title="fallback配置"></a>fallback配置</h4><p>fallback配置控制<code>HystrixCommand.getFallback()</code>执行.</p>
+<pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fallback.isolation.semaphore.maxConcurrentRequests</td>
+<td>10</td>
+<td>hystrix.command.{HystrixCommandKey}.fallback.isolation.semaphore.maxConcurrentRequests</td>
+</tr>
+<tr>
+<td>fallback.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.fallback.enabled</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>设置从调用线程中允许进入<code>HystrixCommand.getFallback()</code>方法执行的最大并发请求数. 若超过了, 后续请求会直接被拒绝并抛出异常.</li>
+<li>设置服务降级是否启用, 默认true. 如果为false, 请求失败或拒绝时不会进入降级逻辑.</li>
+</ul>
+<h4 id="circuitBreaker配置"><a href="#circuitBreaker配置" class="headerlink" title="circuitBreaker配置"></a>circuitBreaker配置</h4><p>circuitBreaker配置控制<code>HystrixCircuitBreaker</code>的行为.</p>
+<pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>circuitBreaker.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.enabled</td>
+</tr>
+<tr>
+<td>circuitBreaker.requestVolumeThreshold</td>
+<td>20</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.requestVolumeThreshold</td>
+</tr>
+<tr>
+<td>circuitBreaker.sleepWindowInMilliseconds</td>
+<td>5000</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.sleepWindowInMilliseconds</td>
+</tr>
+<tr>
+<td>circuitBreaker.errorThresholdPercentage</td>
+<td>50</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.errorThresholdPercentage</td>
+</tr>
+<tr>
+<td>circuitBreaker.forceOpen</td>
+<td>false</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.forceOpen</td>
+</tr>
+<tr>
+<td>circuitBreaker.forceClosed</td>
+<td>false</td>
+<td>hystrix.command.{HystrixCommandKey}.circuitBreaker.forceClosed</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>当服务请求失败时, 是否使用断路器来跟踪健康度和熔断请求. 如果为false, 请求失败后后续的请求依然会走正常逻辑.</li>
+<li>设置滚动时间窗口内, 断路器熔断的最小请求数. 即:一个时间段内, 失败次数超过了这个值才会熔断(有可能熔断,还有其他条件呦).</li>
+<li>设置断路器打开后的休眠时间窗. 休眠时间窗结束后, 进入半开状态, 将会尝试执行一个命令, 如果失败了断路器打开, 如果成功了断路器关闭.</li>
+<li>设置断路器打开的错误百分比条件, 时间窗口内, 请求数超过阈值的前提下, 错误比例超过这个配置设置的值时, 才会打开断路器, 否则关闭.</li>
+<li>强制打开断路器. 优先级大于<code>circuitBreaker.forceClosed</code>. 用于服务异常时, 人为修改以拒绝服务.</li>
+<li>强制关闭断路器. 如果<code>circuitBreaker.forceOpen</code>为true, 这个没效. 用于强制设置不断路.</li>
+</ul>
+<h4 id="metrics配置"><a href="#metrics配置" class="headerlink" title="metrics配置"></a>metrics配置</h4><p>metrics配置与<code>HystrixCommand</code>和<code>HystrixObservableCommand</code>执行中捕获的指标信息有关.</p>
+<pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>metrics.rollingStats.timeInMilliseconds</td>
+<td>10000</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingStats.timeInMilliseconds</td>
+</tr>
+<tr>
+<td>metrics.rollingStats.numBuckets</td>
+<td>10</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingStats.numBuckets</td>
+</tr>
+<tr>
+<td>metrics.rollingPercentile.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.enabled</td>
+</tr>
+<tr>
+<td>metrics.rollingPercentile.timeInMilliseconds</td>
+<td>60000</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.timeInMilliseconds</td>
+</tr>
+<tr>
+<td>metrics.rollingPercentile.numBuckets</td>
+<td>6</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.numBuckets</td>
+</tr>
+<tr>
+<td>metrics.rollingPercentile.bucketSize</td>
+<td>100</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.bucketSize</td>
+</tr>
+<tr>
+<td>metrics.healthSnapshot.intervalInMilliseconds</td>
+<td>500</td>
+<td>hystrix.command.{HystrixCommandKey}.metrics.healthSnapshot.intervalInMilliseconds</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>滚动时间窗口的长度, 单位毫秒, 需要能被<code>metrics.rollingStats.numBuckets</code>整除, 否则启动抛异常, 且无法使用动态参数.</li>
+<li>滚动时间窗口统计的指标信息划分的桶的数量.对<code>metrics.rollingStats.timeInMilliseconds</code>的划分. 控制健康指标的存储粒度. 且无法使用动态参数.</li>
+<li>设置命令执行的延迟是否使用百分位来跟踪和计算. 如果为false, 所有概率统计都返回-1.</li>
+<li>设置百分位统计的滚动时间窗口的持续时间, 单位毫秒. 需要能被<code>metrics.rollingPercentile.numBuckets</code>整除. 且无法使用动态参数.</li>
+<li>设置百分位统计滚动窗口中使用的桶的数量. 对<code>metrics.rollingPercentile.timeInMilliseconds</code>的划分.</li>
+<li>设置执行过程中每个桶中保留的最大执行次数. 例如: 设置为100, 滚动窗口10秒, 如果10秒内一个桶发生了500次执行, 那么这个桶中保留最后100次执行的统计. 另外增加该值大小会增加内存量的消耗, 并增加排序百分位数所需的计算时间. 且无法使用动态参数.</li>
+<li>设置采集影响断路器状态的健康快照(请求的成败比)的间隔等待时间.</li>
+</ul>
+<h4 id="requestContext配置"><a href="#requestContext配置" class="headerlink" title="requestContext配置"></a>requestContext配置</h4><p>requestContext配置涉及到<code>HystrixCommand</code>使用的<code>HystrixRequestContext</code>的配置.</p>
+<pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requestCache.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.requestCache.enabled</td>
+</tr>
+<tr>
+<td>requestLog.enabled</td>
+<td>true</td>
+<td>hystrix.command.{HystrixCommandKey}.requestLog.enabled</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>是否开启请求缓存.</li>
+<li>HystrixCommand的执行和事件是否打印日志到HystrixRequestLog中.</li>
+</ul>
+<h3 id="collapse属性"><a href="#collapse属性" class="headerlink" title="collapse属性"></a>collapse属性</h3><pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maxRequestsInBatch</td>
+<td>Integer.MAX_VALUE</td>
+<td>hystrix.collapser.{HystrixCollapserKey}.maxRequestsInBatch</td>
+</tr>
+<tr>
+<td>timerDelayInMilliseconds</td>
+<td>10</td>
+<td>hystrix.collapser.{HystrixCollapserKey}.timerDelayInMilliseconds</td>
+</tr>
+<tr>
+<td>requestCache.enabled</td>
+<td>true</td>
+<td>hystrix.collapser.{HystrixCollapserKey}.requestCache.enabled</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>设置一次请求合并批处理中允许的最大请求数.</li>
+<li>设置批处理过程中每个命令延迟的时间, 单位毫秒.</li>
+<li>设置批处理过程中是否开始请求缓存.</li>
+</ul>
+<h3 id="threadPool配置"><a href="#threadPool配置" class="headerlink" title="threadPool配置"></a>threadPool配置</h3><pre class="blockpre"><table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>默认</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coreSize</td>
+<td>10</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.coreSize</td>
+</tr>
+<tr>
+<td>maximumSize</td>
+<td>10</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.maximumSize</td>
+</tr>
+<tr>
+<td>maxQueueSize</td>
+<td>-1</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.maxQueueSize</td>
+</tr>
+<tr>
+<td>queueSizeRejectionThreshold</td>
+<td>5</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.queueSizeRejectionThreshold</td>
+</tr>
+<tr>
+<td>keepAliveTimeMinutes</td>
+<td>1</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.keepAliveTimeMinutes</td>
+</tr>
+<tr>
+<td>allowMaximumSizeToDivergeFromCoreSize</td>
+<td>false</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.allowMaximumSizeToDivergeFromCoreSize</td>
+</tr>
+<tr>
+<td>metrics.rollingStats.timeInMilliseconds</td>
+<td>10000</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.metrics.rollingStats.timeInMilliseconds</td>
+</tr>
+<tr>
+<td>metrics.rollingStats.numBuckets</td>
+<td>10</td>
+<td>hystrix.threadpool.{HystrixThreadPoolKey}.metrics.rollingStats.numBuckets</td>
+</tr>
+</tbody>
+</table>
+</pre>
+<p>分别用来设置:</p>
+<ul>
+<li>执行命令线程池核心线程数(命令执行最大并发量).</li>
+<li>最大容量大小</li>
+<li>线程池的最大队列大小. 如果为-1, 使用<code>SynchronousQueue</code>实现, 否则使用<code>LinkedBlockingQueue</code>. 且无法使用动态参数.</li>
+<li>为队列设置拒绝阈值, 超过这个的将被拒绝. <code>LinkedBlockingQueue</code>队列不能动态修改其对象的大小, 这个配置可以动态改, 不用<code>LinkedBlockingQueue</code>时这配置无效.</li>
+<li>保活时间, 单位分钟.</li>
+<li>允许最大大小偏离核心大小</li>
+<li>滚动时间窗口的长度, 单位毫秒, 需要能被<code>metrics.rollingStats.numBuckets</code>整除, 否则启动抛异常, 且无法使用动态参数.(注意与metrics设置的区别)</li>
+<li>滚动时间窗口统计的指标信息划分的桶的数量.对<code>metrics.rollingStats.timeInMilliseconds</code>的划分. 控制健康指标的存储粒度. 且无法使用动态参数.(注意与metrics设置的区别)</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.834Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019110316819/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019110316819/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hystrix/">Hystrix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-cloud/">Spring-Cloud</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019110316819/&title=《SpringCloud-Hystrix的使用》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019110316819/&title=《SpringCloud-Hystrix的使用》 — 灿若繁星&source=
+Hystrix的基本使用
+Hystrix的属性
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019110316819/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringCloud-Hystrix的使用》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019110316819/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019110316819/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019112921409/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">设计模式-适配器模式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019102041455/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-命令模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019110316819/&title=《SpringCloud-Hystrix的使用》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019110316819/&title=《SpringCloud-Hystrix的使用》 — 灿若繁星&source=
+Hystrix的基本使用
+Hystrix的属性
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019110316819/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringCloud-Hystrix的使用》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019110316819/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019110316819/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aS27DMAwFwN7/0ukBWjuPpBNA0ngVJK3t0YLg7+cnvl631/1fJve8+ubhCwMDY1lG8opX3/z9XH3KPT4/PgwMjBMYVw+++pz8ehWO78NrckAYGBgYCSO6dZwsPvAsDAwMjEHwrRauGBgYGJMitle+JongV2txDAyMBRn5S3z/80fmGxgYGEsxXsVrPs5MStnyW2FgYGzNmA8g79v6Sfmat+3eJJoYGBgHMPLyNV+SSJa98vs3E0QMDIwtGHnhWk0Q59/0jgYDA2NvRj5crC5S5Alf/l8YGBgnMKpl5CRxTMYMydFcdg0xMDA2ZcwDbtIgS1K9apn9QFaLgYGxCCNv7s9Hj0ngrq5//TOJxcDA2JQxGVvmr5gPI6tsDAyMcxh542yeh046gm+2RTAwMLZj9ILsfctszshXzTAwMM5hVIvYyfrXZKjw5lkYGBgHMOaDyd4AcjKKwMDAOIFRHShWFymq5XF1qICBgXECo7cSkYwec1J+fNGhY2BgbMqoNst6/bxmAA0SRAwMjHMY+arW5xK+ausNAwPjNMZTo83qHXqBuxn7MTAwFmS8ilcvmasugZWpGBgYWzPm62LV7axeO29ebGNgYKzOyIPsZGGiNwZISBgYGOcwknRt3u6PGmctJAYGBkYefAsPLh7cwwEXAwPjAEZ1XSx/YvL3jwVcDAyMpRjVYUB1kFBN+8rDBgwMjK0ZvRWHyQCg+mu1tMbAwNiI8QsQdImH+OKoVAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+<title>灿宇达-Java开发.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+<body>
+<h2 id="%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF">基本信息</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">头像</th>
+<th style="text-align:left"><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/can_h.JPG" width="80" height="120" alt="图片名称" align="center"></th>
+<th style="text-align:left">求职意向</th>
+<th style="text-align:left">Java开发工程师<br>上海<br>薪资15k-19k<br>现在职<br>3周-4周到岗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>姓名</strong></td>
+<td style="text-align:left">灿宇达</td>
+<td style="text-align:left"><strong>年龄</strong></td>
+<td style="text-align:left">24岁</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>工作经验</strong></td>
+<td style="text-align:left">2年</td>
+<td style="text-align:left"><strong>学历</strong></td>
+<td style="text-align:left">本科</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>电话</strong></td>
+<td style="text-align:left">15623060836</td>
+<td style="text-align:left"><strong>学校</strong></td>
+<td style="text-align:left">湖北第二师范学院</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>邮箱</strong></td>
+<td style="text-align:left">helloyuda95@gmail.com</td>
+<td style="text-align:left"><strong>专业</strong></td>
+<td style="text-align:left">计算机科学与技术</td>
+</tr>
+</tbody>
+</table>
+<h2 id="%E4%B8%AA%E4%BA%BA%E8%83%BD%E5%8A%9B">个人能力</h2>
+<ul>
+<li>有2年开发经验, 经常总结并写博客, 博客:<a href="http://blog.canyuda.top">http://blog.canyuda.top</a></li>
+<li>负责过多次功能模块的设计与开发, 并保留设计文档, 具备独立开发能力.</li>
+<li>善于合作, 积极配合其他团队完成开发.</li>
+<li>工作认真负责, 电脑不离手, bug远程修.</li>
+<li>热爱Java编程, Java是世界上最好的语言.</li>
+</ul>
+<h2 id="%E6%8A%80%E6%9C%AF%E6%A0%88">技术栈</h2>
+<h3 id="%E7%B1%BB%E5%9E%8B%E7%BB%B4%E5%BA%A6"><strong>类型维度</strong></h3>
+<ul>
+<li>Java, 常用设计模式</li>
+<li>MySQL, Hive, ‎Presto</li>
+<li>SpringBoot, SpringMvc, MyBatis</li>
+<li>Redis, ZooKeeper, RabbitMQ</li>
+<li>第三方工具包: ProtoBuf, UniTest</li>
+<li>Linux常用命令</li>
+<li>版本控制工具 Git, 开发工具 IntelliJ IDEA</li>
+<li>第三方服务: 腾讯云对象存储, 阿里云对象存储, 腾讯云直播点播, 腾讯云万象图片, 阿里云ECI容器服务</li>
+<li>特定领域工具: ppt转码工具iSpring, 前端框架Vue, 前端组件库Element-UI, 动态网页技术Jsp, HTML+CSS+JQuery, 权限框架Shiro, 容器引擎Docker, DockerJob管理工具Chronos+Mesos, Kubernetes任务功能, 配置管理中心Apollo和Disconf, KafKa, 报表生成POI</li>
+<li>文档与图表制作: 基于PlantUML的类图, 活动图, 状态图, 时序图的绘制, markdown文档编辑</li>
+</ul>
+<h3 id="%E7%86%9F%E7%BB%83%E7%A8%8B%E5%BA%A6%E7%BB%B4%E5%BA%A6"><strong>熟练程度维度</strong></h3>
+<ul>
+<li>经常使用
+Java, 设计模式, MySQL, SpringBoot, SpringMvc, MyBatis, Redis, ZooKeeper, RabbitMQ, ProtoBuf, uniTest, Git, IntelliJ IDEA, 对象存储, iSpring, PlantUML, markdown</li>
+<li>用过的
+Hive, ‎Presto, Linux常用命令, 腾讯云直播点播, 腾讯云万象图片, Vue, 前端组件库Element-UI, HTML+CSS, Jsp, 权限框架Shiro, Chronos+Mesos, Apollo和Disconf</li>
+<li>调研过(形成文档)
+容器引擎Docker, 阿里云ECI容器服务, Kubernetes任务</li>
+<li>了解过
+CSS, KafKa, 报表生成POI</li>
+</ul>
+<h2 id="%E6%95%99%E8%82%B2%E8%83%8C%E6%99%AF">教育背景</h2>
+<ul>
+<li><strong>2013年9月-2017年6月</strong> 就读于 <strong>湖北第二师范学院</strong> 的 <strong>计算机科学与技术专业</strong></li>
+</ul>
+<h2 id="%E5%B7%A5%E4%BD%9C%E7%BB%8F%E5%8E%86">工作经历</h2>
+<ul>
+<li><strong>2017年12月-至今</strong> 正式进入 <strong>上海轻轻信息技术有限公司</strong>, 担任<strong>在线课堂后端开发工程师</strong>职务, 主要负责课程及周边业务(如课件, 回放等).</li>
+</ul>
+<h2 id="%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9">工作内容</h2>
+<p>本人主要负责课件管理与转码服务, 课堂智能分析服务, 资源服务, 音视频线路模块, 技术客服工作台, 以及后端服务控制台, 并作为backup负责课程管理, 视频录制服务, 具体请见项目经历.<br>
+工作主要围绕下面几项:</p>
+<ul>
+<li>需求拆分, 开发排期协调.</li>
+<li>功能设计文档编写, 编码与bugfix.</li>
+<li>线上问题跟进, 每日error级别错误统计与修复, 慢SQL/慢接口统计与优化.</li>
+<li>某些报表生成.</li>
+<li>线上脏数据的修补.</li>
+</ul>
+<p>在线课堂后端团队6-7人, 项目采用敏捷开发, 2-3周为一个版本, 版本初期通过需求评审会了解需求, 会后进行需求的拆分并预估开发时长, 之后与产品协调开发时间安排；</p>
+<p>排期完成后进入编码阶段, 分为设计, 编码和bugfix三步:将会在设计评审会确定设计方案, 之后在规定期限内把代码交付给测试人员, 最后对测试人员提出的bug进行fix.</p>
+<p>一切完成后确认上线流程文档 正确, 等待上线, 上线完成后确认自己负责的功能正常.如有需要还会生成报表, 用于监控每日服务状态, 某些bug导致的线上脏数据, 提交sql上线, 进行修改.</p>
+<h2 id="%E9%A1%B9%E7%9B%AE%E7%BB%8F%E9%AA%8C">项目经验</h2>
+<blockquote>
+<p>项目使用敏捷式, 版本迭代式的开发, 故以下项目没有顺序概念, 均属于长期维护的项目.</p>
+</blockquote>
+<h3 id="%E8%AF%BE%E4%BB%B6%E7%AE%A1%E7%90%86%E4%B8%8E%E8%BD%AC%E7%A0%81%E6%9C%8D%E5%8A%A1"><strong>课件管理与转码服务</strong></h3>
+<h4 id="%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF">使用的技术</h4>
+<ul>
+<li>SpringBoot, MyBatis</li>
+<li>Redis实现的任务队列与机器选举.</li>
+<li>ZooKeeper实现的通知.</li>
+<li>腾讯云点播服务实现视频转码, 腾讯, 阿里云提供对象存储.</li>
+<li>第三方工具iSpring动画转码Sdk与插件方式的转码.</li>
+<li>cmd脚本编写与云服务器基础镜像.</li>
+<li>RabbitMQ 用于课件服务与转码服务之间的数据交互.</li>
+</ul>
+<h4 id="%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD">服务功能</h4>
+<p>课件功能分为课件管理服务与课件转码服务, 包含了:</p>
+<ul>
+<li>源课件管理:原始课件的管理</li>
+<li>老师课件库:在源课件上增加一层, 用来维护课件与课件列表的关系, 包含了用户相关属性和课件文件夹层级属性.</li>
+<li>课件共享库:在源课件增加的一层, 用来维护在课件商城上架的课件, 包含了价格, 分类等属性.</li>
+<li>转码任务相关:课件上传后将根据课件类型触发转码任务的创建, 转码任务由转码服务维护, 转码成功后将上报给课件服务, 转码分为图片转码(针对doc, pdf), 动画转码(针对ppt), 加水印(针对图片), 视频转码(针对基于腾讯云点播服务).
+其中图片有两种转码方式:基于百度云服务和基于自建的转码程序, 动画同样也有通过iSpring公司提供的两种转码工具, 针对这个做了主备队列功能, 实现了通过配置动态更改转码方式的功能, 能够在某个转码方式异常的情况下切换到另外一种转码方式.</li>
+<li>动画转码程序, 自建图片转码程序分别部署在windows机器上的多台, 并且区分腾讯云机房和阿里云机房保证内网上传下载, 并通过镜像实现了可水平扩容.转码服务通过策略基于ZooKeeper分配任务给转码程序.</li>
+<li>课件图片, 动画文件多地备份逻辑, 课件属于重要资源, 实现腾讯云/阿里云两地备份, 当一个地方访问不通, 会使用另外一个访问.</li>
+</ul>
+<h4 id="%E6%88%91%E7%9A%84%E6%88%90%E5%B0%B1">我的成就</h4>
+<ul>
+<li>每日新增课件监控报表, 转码任务报表, 失败转码错误详情报表, 及时反馈前一天的课件转码情况.</li>
+<li>老师课件库列表转码状态与错误提示, 给用户更友好的提示.</li>
+<li>动画, 视频转码任务创建与执行过程.</li>
+<li>基于redis的主备队列和最空闲转码程序分配.</li>
+<li>基于ZooKeeper的通知任务处理, ZooKeeper断开后转码程序转变为轮询模式.</li>
+<li>图片, 动画转码程序编写(包含ui自动化脚本, 通过点击的方式触发转码), 云服务器镜像生成.</li>
+<li>转码重试和降级重试逻辑.</li>
+<li>与前端对接接口和课件上传流程.</li>
+<li>图片, 动画 备份worker编写.</li>
+</ul>
+<hr>
+<h3 id="%E5%BD%95%E5%88%B6%E8%BD%AC%E7%A0%81%E6%9C%8D%E5%8A%A1"><strong>录制转码服务</strong></h3>
+<h4 id="%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF">使用的技术</h4>
+<ul>
+<li>SpringBoot, MyBatis</li>
+<li>Redis缓存, 记录临时值.</li>
+<li>RabbitMQ 实现的降级重试.</li>
+<li>对接Zego音视频提供商</li>
+</ul>
+<h4 id="%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD">服务功能</h4>
+<ul>
+<li>录制转码服务主要负责用户音视频线路的选举, 切换, 和视频的录制转码等功能.</li>
+<li>音视频线路对接了Agora, Zego和好未来旗下的直播云 3条线路.</li>
+<li>用户首次进入房间, 将会根据用户当前支持的线路, 历史支持的线路, 同学/老师支持的线路, 课程类型, 后端开关 等众多因素选举合适的线路分给课程, 老师可以切换到大家都可用的线路.</li>
+<li>线路切换逻辑, 老师点击切换, 通知各个学生客户端切换, 切换完成汇报.</li>
+<li>zego线路直播录制接入:对接zego接口和回调, 实现推流到zego, 它负责混流, 混流后推往腾讯云直播进行录制的功能.(后期考虑到费用太高和zego提供录制了sdk, 废弃了直播录制, 采用了录制程序录制).</li>
+</ul>
+<h4 id="%E6%88%91%E7%9A%84%E6%88%90%E5%B0%B1">我的成就</h4>
+<ul>
+<li>与zego开发对接, 实现录制功能.</li>
+<li>协调处理zego用户开关播回调顺序不保证问题.</li>
+<li>线路选举功能.</li>
+<li>线路切换功能, 以及切线率, 单线路完课率每日报表.</li>
+<li>zego线路直播录制, 对接zego和腾讯云直播服务.</li>
+<li>处理录制程序同时写入一个CFS, 导致的IO阻塞问题.</li>
+<li>基于ZooKeeper通知实现的配置及时生效逻辑.</li>
+<li>灰度录制, 灰度情况下的视频切换和线上录制压测基础功能实现.</li>
+</ul>
+<hr>
+<h3 id="%E6%99%BA%E8%83%BD%E5%88%86%E6%9E%90%E6%9C%8D%E5%8A%A1"><strong>智能分析服务</strong></h3>
+<h4 id="%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF">使用的技术</h4>
+<ul>
+<li>SpringBoot, MyBatis.</li>
+<li>Redis实现的任务队列.</li>
+<li>ZooKeeper实现的分布式锁.</li>
+<li>MongoDB实现第三方服务返回结果的保存.</li>
+<li>Chronos+Mesos提供的worker的多机房执行(后来将由Kubernetes Job代替).</li>
+</ul>
+<h4 id="%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD">服务功能</h4>
+<p>本服务主要负责分析类型的任务, 分为视频分析, 语言文字分析, 课件分析.</p>
+<ul>
+<li>视频分析:由BI同学提供SDK, 对接其并编写worker程序, 由Chronos+Mesos启动worker程序, 分析出结果汇报给分析service, service筛选结果再汇报给核心层.其中Chrons+Mesos为多机房部署, 会根据视频的存储位置(腾讯云/阿里云)选择合适的集群, 调度过去, 为了保证视频的内网下载.</li>
+<li>语言文字分析:由录制转码服务触发创建视频转文字任务, 任务由好未来AiLab处理, 并触发后续的基于文字的分析任务, 例如关键词分析, 语言特征分析等等, 此类分析的结果由MonogoDB保存, BI同学将从中取数进行分析.</li>
+<li>课件logo分析:由两种方式同步进行(AiLab和BI提供SDK), 课件图片转码完成后触发, 分析课件Logo的使用情况, 并汇报给课件管理服务.</li>
+</ul>
+<h4 id="%E6%88%91%E7%9A%84%E6%88%90%E5%B0%B1">我的成就</h4>
+<ul>
+<li>与好未来AiLab的小伙伴对接, 并反馈问题.</li>
+<li>AiLab相关分析任务的处理流程设计, 如视频转文字, 关键词分析等等.</li>
+<li>AiLab相关分析任务状态每日监控报表.</li>
+<li>自研的课件图片分析任务处理流程(非worker).</li>
+<li>Chronos+Mesos 任务调度逻辑.</li>
+</ul>
+<hr>
+<h3 id="%E8%B5%84%E6%BA%90%E6%9C%8D%E5%8A%A1%E4%BC%98%E5%8C%96"><strong>资源服务优化</strong></h3>
+<h4 id="%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF">使用的技术</h4>
+<ul>
+<li>SpringBoot, MyBatis.</li>
+<li>Redis实现的任务队列.</li>
+<li>腾讯云/阿里云对象存储</li>
+<li>Chronos+Mesos提供的worker的多机房执行(后来将由Kubernetes Job代替).</li>
+</ul>
+<h4 id="%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD">服务功能</h4>
+<p>资源管理由三个服务负责, 一个负责资源的写入(简称Resource), 一个负责资源的鉴权访问(简称Play), 还有一个负责资源的统计(简称ResourceReport):</p>
+<ul>
+<li>Resource:负责对接腾讯云云点播(视频保存与转码), 腾讯云/阿里云对象存储, 资源的生命周期管理(归档任务与销毁任务).</li>
+<li>Play:负责各种资源的鉴权访问和缓存.</li>
+<li>ResourceReport:负责资源的统计, 统计每个业务的资源使用量保存到数据库中, 每日更新.</li>
+</ul>
+<h4 id="%E6%88%91%E7%9A%84%E6%88%90%E5%B0%B1">我的成就</h4>
+<ul>
+<li>实现了对象存储不同bucket不同文件夹与不同业务的映射逻辑, 方便根据不同业务统计资源用量 .</li>
+<li>由于腾讯云对象存储 旧版本没有归档桶功能, 所以需要版本升级, 配合与跟进前端sdk的升级工作.</li>
+<li>资源归档功能, 实现了资源从普通桶到归档桶间的转移功能, 以及归档桶资源解冻访问逻辑.</li>
+<li>资源销毁功能, 删除存储太久的资源, 以减轻对象存储费用压力.</li>
+</ul>
+<hr>
+<h3 id="%E5%85%B6%E4%BB%96%E9%9B%B6%E6%95%A3%E7%9A%84%E5%8A%9F%E8%83%BD"><strong>其他零散的功能</strong></h3>
+<h4 id="%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD">服务功能</h4>
+<ul>
+<li>技术客服工作台(web服务): 主要给技术客服提供调试申请, 用户求助处理, 课程查询等功能.</li>
+<li>后端服务控制台(web服务): 维护即时生效的配置(基于ZooKeeper)以及各种服务异常情况下的备用方案启动开关.</li>
+<li>课程核心服务:主要管理课程相关和其他小型的无法拆分成服务的功能.</li>
+</ul>
+<h4 id="%E6%88%91%E7%9A%84%E6%88%90%E5%B0%B1">我的成就</h4>
+<ul>
+<li>从其他团队服务内拆分出技术客服工作台服务.</li>
+<li>技术客服工作台服务:首课预约调试功能.</li>
+<li>后端服务控制台 : 对接CAS的权限控制, 基于ZooKeeper的即时生效配置的管理, 某些重要配置的UI开关, 后门功能快捷按钮.</li>
+<li>核心服务: 扫码传图功能, 问卷功能.</li>
+<li>资源服务:使用Zxing实现二维码生成.</li>
+<li>配合其他团队, 写点非版本排期内的接口.</li>
+</ul>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

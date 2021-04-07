@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017081149224/">
+    
+    
+    <title>Java Web之Cookie&amp;Session | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java Web">
+    <meta name="description" content="略">
+<meta name="keywords" content="Java Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Web之Cookie&amp;Session">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017081149224/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.844Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Web之Cookie&amp;Session">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java Web之Cookie&amp;Session</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java Web之Cookie&amp;Session</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-11T02:48:54.000Z" itemprop="datePublished" class="page-time">
+  2017-08-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Cookie"><span class="post-toc-number">1.</span> <span class="post-toc-text">Cookie</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Cookie的API"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Cookie的API</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加Cookie"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">添加Cookie</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除Cookie"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">删除Cookie</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#服务器获取Cookie"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">服务器获取Cookie</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Session"><span class="post-toc-number">2.</span> <span class="post-toc-text">Session</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Session使用"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Session使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#范围总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">范围总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Request范围"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Request范围</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Session范围"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Session范围</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ServletContext范围"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">ServletContext范围</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java-Web之Cookie-Session"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java Web之Cookie&Session</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-11 10:48:54" datetime="2017-08-11T02:48:54.000Z"  itemprop="datePublished">2017-08-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>3 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>存在于浏览器中的<strong><em>一小段</em></strong> 数据,可用于保存用户名,请求时可以通过request传到服务器,服务器可以获取到Cookie的数据,并处理它,然后可以通过response响应,可以根据cookie的不同来做成不同的响应.</p>
+<p>但是Cookie并不安全,它是存在于浏览器的数据,用户可以直接接触到,从而导致不安全,一般需要进行加密处理.</p>
+<h3 id="Cookie的API"><a href="#Cookie的API" class="headerlink" title="Cookie的API"></a>Cookie的API</h3><ol>
+<li><p>构造方法</p>
+<p>Cookie(String name,String value)</p>
+<p>Cookie数据存储是k-v方式的.</p>
+</li>
+<li><p>其他方法</p>
+<ul>
+<li><code>getName()</code> 得到名字</li>
+<li><code>getValue()</code> 得到值</li>
+<li><code>setDomain()</code> 设置有效域名</li>
+<li><code>setPath()</code> 设置有效路径</li>
+<li><code>setMaxAge()</code> 设置有效时长</li>
+</ul>
+</li>
+</ol>
+<h3 id="添加Cookie"><a href="#添加Cookie" class="headerlink" title="添加Cookie"></a>添加Cookie</h3><pre class=" language-java"><code class="language-java">Cookie cookie <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Cookie</span><span class="token punctuation">(</span><span class="token string">"remember"</span><span class="token punctuation">,</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//key=remember,value=hello</span>
+cookie<span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"/Day11"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//路径</span>
+cookie<span class="token punctuation">.</span><span class="token function">setMaxAge</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token operator">*</span><span class="token number">60</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//有效时长,默认为会话级别(关浏览器即无)</span>
+response<span class="token punctuation">.</span><span class="token function">addCookie</span><span class="token punctuation">(</span>cookie<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//添加到response,然后返回给浏览器</span>
+</code></pre>
+<h3 id="删除Cookie"><a href="#删除Cookie" class="headerlink" title="删除Cookie"></a>删除Cookie</h3><p>cookie并没有方法可以直接删除,可以写一个同路径,同名的Cookie,有效时长设置为0,返回给浏览器的Cookie在0秒后就删除.</p>
+<pre class=" language-java"><code class="language-java">Cookie cookie <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Cookie</span><span class="token punctuation">(</span><span class="token string">"remember"</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+cookie<span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"/Day11"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+cookie<span class="token punctuation">.</span><span class="token function">setMaxAge</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//时长为0</span>
+response<span class="token punctuation">.</span><span class="token function">addCookie</span><span class="token punctuation">(</span>cookie<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="服务器获取Cookie"><a href="#服务器获取Cookie" class="headerlink" title="服务器获取Cookie"></a>服务器获取Cookie</h3><ol>
+<li><p>EL表达式</p>
+<pre><code>${cookie.get(&quot;remember&quot;).value}
+</code></pre></li>
+<li><p>Java代码</p>
+<pre class=" language-JSp"><code class="language-JSp"><%
+String str = "";
+Cookie[] cookies = request.getCookies();
+if (cookies!=null){
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("remember")) {
+            str = cookie.getValue();
+        }
+    }
+}
+%>
+
+<%=str%>
+</code></pre>
+</li>
+</ol>
+<p>request 获取的是Cookie数组,想要特定的Cookie需要遍历,通过name找到该Cookie.</p>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>用于服务器端的数据保存,是一次会话,会话在用户第一次请求开始,在用户关闭浏览器结束,但是Session并不会在服务器端立刻被销毁而是等待一段时间(Tomcat默认为30分钟),如果等待时间内,用户用同一个SessionID请求,即可重新唤起该Session.SessionID是一段cookie数据,Session技术的实现需要依赖于Cookie.Session是浏览器隔离的,不同浏览器的请求会有不同的会话产生于服务器后台,它们之间没有联系,不可数据传输.但是同一个Seesion下,可以实现数据传输.</p>
+<h3 id="Session使用"><a href="#Session使用" class="headerlink" title="Session使用"></a>Session使用</h3><ol>
+<li><p>获得Session</p>
+<pre><code>HttpSession session = request.getSession();
+</code></pre><p>很多地方可以获得Session,不要局限于使用request来获得.</p>
+</li>
+<li><p>保存数据</p>
+<pre><code>session.setAttribute(&quot;user&quot;, user);
+</code></pre><p>k-v形式,不过value不同于Cookie的value,它可以传输Object类型的数据(Cookie仅仅可以存字符串),</p>
+</li>
+<li><p>取得数据</p>
+<pre><code>Object user = session.getAttribute(&quot;user&quot;);
+</code></pre><p>同一Session下,可以用<code>getAttribute(key)</code> 方法获得该数据.</p>
+</li>
+</ol>
+<h2 id="范围总结"><a href="#范围总结" class="headerlink" title="范围总结"></a>范围总结</h2><h3 id="Request范围"><a href="#Request范围" class="headerlink" title="Request范围"></a>Request范围</h3><ol>
+<li>创建于用户发送一次请求</li>
+<li>销毁于服务器作出响应</li>
+<li>set/getAttribute(…)来存取数据</li>
+<li>作用范围:一次请求</li>
+</ol>
+<h3 id="Session范围"><a href="#Session范围" class="headerlink" title="Session范围"></a>Session范围</h3><ol>
+<li>创建于服务器端第一次调用getSession()方法的时候.</li>
+<li>销毁于Session过期,非正常关闭服务器,手动调用session.invalidate();</li>
+<li>存取数据与request类似</li>
+<li>作用范围:一次会话(多次请求)</li>
+</ol>
+<h3 id="ServletContext范围"><a href="#ServletContext范围" class="headerlink" title="ServletContext范围"></a>ServletContext范围</h3><ol>
+<li>创建于服务器启动时期,一个web项目对应一个单独的ServletContext.</li>
+<li>销毁于服务器关闭</li>
+<li>存取数据与上面两个类似</li>
+<li>作用范围:整个应用</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.844Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017081149224/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017081149224/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-Web/">Java Web</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017081149224/&title=《Java Web之Cookie&Session》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017081149224/&title=《Java Web之Cookie&Session》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017081149224/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java Web之Cookie&Session》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017081149224/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017081149224/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017081344034/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java Web之Listener&amp;Filter</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017081012843/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java Web之Servlet</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017081149224/&title=《Java Web之Cookie&Session》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017081149224/&title=《Java Web之Cookie&Session》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017081149224/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java Web之Cookie&Session》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017081149224/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017081149224/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3awW6sMAwF0P7/T/O2lapJ7zX0SSQnqxEg4LDw2LG/vuJ1fVufjvw8/vPs7J6PLQwMjNcyruVaX/P97Owpa3zybhgYGOcwPj04edHkhdZXts/FwMDAWN+uTemSZHH9LAwMDIw7jHWauC5x10cwMDAwZkVsmzKuAbPi9oFaHAMD44WM/CX+/+8/6W9gYGC8inGVK98mm4XLa7QwMDD2ZtxvQCaYpFhN7vBLoomBgbEpo32tdkgibxvMWg5RHYyBgbEFYzZCMUsi20Qz+jQYGBhbM2btySTgJi2B2R/Ax0iLgYFxMKNtGLQbc8kmXXQWAwPjMMazwTQpdPOPNeyyYmBgvJYxazE+1TzIP98vYxkYGBgHMPJUb5YOzvAJGwMD42RGe7wtgBNqkYxiYGBszWjblm2Ds5hNWwLychcDA+MExiwQtylg/slmo2YYGBi7MvJm4Z2Q2m6l1QkiBgbGdoxnXzR5ZH5NMWyBgYGxNSO5RVJS5uMUbblbfDIMDIwDGH+y4XWj5dBu+WFgYJzAaMcmnk34itGKdT8WAwPjAEYeNNsQnG+0tX1JDAyMvRlXuWYDE3mQbUtiDAyMExh3StA7AxnJfR6YGcHAwNiIkQTZdUDMC847Ceit/gYGBsYWjCRdy7fnZshZMYyBgYERBbu4SdmWssV9MDAwMMqg2Q6WtQMZD/9vYGBgvISRp3RtI+GBtO/Z7TYMDIwXMmYjDvmW3OzsLH3EwMDYjvEPyLmodpUa1hsAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

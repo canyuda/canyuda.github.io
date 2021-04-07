@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/20191212830/">
+    
+    
+    <title>Java8中的StreamAPI | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="基础">
+    <meta name="description" content="你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧.">
+<meta name="keywords" content="基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8中的StreamAPI">
+<meta property="og:url" content="http://blog.canyuda.top/posts/20191212830/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.835Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java8中的StreamAPI">
+<meta name="twitter:description" content="你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧.">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java8中的StreamAPI</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java8中的StreamAPI</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-12-12T15:39:27.000Z" itemprop="datePublished" class="page-time">
+  2019-12-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为啥需要用Stream"><span class="post-toc-number">1.</span> <span class="post-toc-text">为啥需要用Stream</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#应用场景"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">应用场景</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Stream详细介绍"><span class="post-toc-number">2.</span> <span class="post-toc-text">Stream详细介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据源生成"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">数据源生成</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#中间操作"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">中间操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结束操作"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">结束操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常用的api"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">常用的api</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#map-flatMap"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">map/flatMap</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#filter"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">filter</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#forEach-peek"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">forEach/peek</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#findFirst"><span class="post-toc-number">2.4.4.</span> <span class="post-toc-text">findFirst</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#reduce"><span class="post-toc-number">2.4.5.</span> <span class="post-toc-text">reduce</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#limit-skip"><span class="post-toc-number">2.4.6.</span> <span class="post-toc-text">limit/skip</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#sorted"><span class="post-toc-number">2.4.7.</span> <span class="post-toc-text">sorted</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#min-max-distinct"><span class="post-toc-number">2.4.8.</span> <span class="post-toc-text">min/max/distinct</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Match"><span class="post-toc-number">2.4.9.</span> <span class="post-toc-text">Match</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自己生成流"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">自己生成流</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Stream-generate"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">Stream.generate</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Stream-iterate"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">Stream.iterate</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用-Collectors-来进行-reduction-操作"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">用 Collectors 来进行 reduction 操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#grooupingBy-partitioningBy-toMap"><span class="post-toc-number">2.6.1.</span> <span class="post-toc-text">grooupingBy/partitioningBy/toMap</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#并行处理"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">并行处理</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java8中的StreamAPI"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java8中的StreamAPI</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-12-12 23:39:27" datetime="2019-12-12T15:39:27.000Z"  itemprop="datePublished">2019-12-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>6 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧.</p>
+<a id="more"></a>
+<h2 id="为啥需要用Stream"><a href="#为啥需要用Stream" class="headerlink" title="为啥需要用Stream"></a>为啥需要用Stream</h2><ol>
+<li>方便, 高效的处理集合对象</li>
+<li>处理过程更加清晰, 提高可读性.</li>
+<li>配合Lambda表达式, 少写代码, 提高编程效率.</li>
+<li>方便编写高性能的并发程序.</li>
+</ol>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>Java7写法</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>UserInfo<span class="token operator">></span> userInfos <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">2d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">3d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">4d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 过滤</span>
+Iterator<span class="token operator">&lt;</span>UserInfo<span class="token operator">></span> iterator <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    UserInfo userinfo <span class="token operator">=</span> iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>userinfo<span class="token punctuation">.</span><span class="token function">isSex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        iterator<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 排序</span>
+userInfos<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Comparator</span><span class="token operator">&lt;</span>UserInfo<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">compare</span><span class="token punctuation">(</span>UserInfo o1<span class="token punctuation">,</span> UserInfo o2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>o1<span class="token punctuation">.</span><span class="token function">getScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> o2<span class="token punctuation">.</span><span class="token function">getScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>o1<span class="token punctuation">.</span><span class="token function">getScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> o2<span class="token punctuation">.</span><span class="token function">getScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 取id</span>
+List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> ids <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>userInfos<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>UserInfo userInfo <span class="token operator">:</span> userInfos<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ids<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>userInfo<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// use ids do something</span>
+</code></pre>
+<p>Java8写法</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>UserInfo<span class="token operator">></span> userInfos <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">2d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">3d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">4d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> ids <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>s <span class="token operator">-</span><span class="token operator">></span> <span class="token operator">!</span>s<span class="token punctuation">.</span><span class="token function">isSex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">//过滤</span>
+        <span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span>Comparator<span class="token punctuation">.</span><span class="token function">comparingDouble</span><span class="token punctuation">(</span>UserInfo<span class="token operator">:</span><span class="token operator">:</span>getScore<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//排序</span>
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>UserInfo<span class="token operator">:</span><span class="token operator">:</span>getId<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// 取id</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// use ids do something</span>
+</code></pre>
+<p>简单的对比可以看出两者的不同, 当然是stream更胜一筹!!!</p>
+<h2 id="Stream详细介绍"><a href="#Stream详细介绍" class="headerlink" title="Stream详细介绍"></a>Stream详细介绍</h2><p>Stream有三部分组成, 分别是数据源, 中间操作, 结束操作.</p>
+<h3 id="数据源生成"><a href="#数据源生成" class="headerlink" title="数据源生成"></a>数据源生成</h3><p>数据源生成常用的有如下方式:</p>
+<ul>
+<li>从 Collection 数组<ul>
+<li>Collection.stream()</li>
+<li>Collection.parallelStream()</li>
+<li>Arrays.stream(T array) 或者 Stream.of()</li>
+</ul>
+</li>
+<li>从 BufferdReader<ul>
+<li>java.io.BufferedReader.lines()</li>
+</ul>
+</li>
+<li>静态工厂<ul>
+<li>java.util.stream.IntStream.range()</li>
+<li>java.nio.file.Files.walk()</li>
+</ul>
+</li>
+<li>其他<ul>
+<li>Random.ints()</li>
+<li>BitSet.stream()</li>
+<li>Pattern.splitAsStream(java.lang.CharSequence)</li>
+<li>JarFile.stream()</li>
+</ul>
+</li>
+<li>等等</li>
+</ul>
+<h3 id="中间操作"><a href="#中间操作" class="headerlink" title="中间操作"></a>中间操作</h3><p>Stream的中间操作只是一个标记, 一种声明, 只有在结束操作的时候才会进行真正的计算, 中间操作有两种分类:</p>
+<ul>
+<li>无状态:元素的处理不受前面元素的影响<ul>
+<li>unordered()</li>
+<li>filter()</li>
+<li>map()</li>
+<li>mapToInt()</li>
+<li>mapToLong()</li>
+<li>mapToDouble()</li>
+<li>flatMap()</li>
+<li>flatMapToInt()</li>
+<li>flatMapToLong()</li>
+<li>flatMapToDouble()</li>
+<li>peek()</li>
+</ul>
+</li>
+<li>有状态:必须等到所有元素处理后才会知道最后结果<ul>
+<li>disinct()</li>
+<li>sorted()</li>
+<li>limit()</li>
+<li>skip()</li>
+</ul>
+</li>
+</ul>
+<h3 id="结束操作"><a href="#结束操作" class="headerlink" title="结束操作"></a>结束操作</h3><p>结束操作也有两种分类</p>
+<ul>
+<li>非短路操作:需要处理完全部元素才能知晓结果<ul>
+<li>forEach()</li>
+<li>forEachOrdered()</li>
+<li>toArray()</li>
+<li>reduce()</li>
+<li>collect()</li>
+<li>max()</li>
+<li>min()</li>
+<li>count()</li>
+</ul>
+</li>
+<li>短路操作:不用处理全部元素就可能会返回结果<ul>
+<li>anyMatch()</li>
+<li>allMatch()</li>
+<li>noneMatch()</li>
+<li>findFirst()</li>
+<li>findAny()</li>
+</ul>
+</li>
+</ul>
+<h3 id="常用的api"><a href="#常用的api" class="headerlink" title="常用的api"></a>常用的api</h3><h4 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map/flatMap"></a>map/flatMap</h4><blockquote>
+<p>把输入流的元素, 映射成另外一种元素.</p>
+</blockquote>
+<p>对象转字符串</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>String<span class="token operator">></span> collect <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>userInfo <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> userInfo<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    String name <span class="token operator">=</span> userInfo<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> name <span class="token operator">+</span> <span class="token string">"-"</span> <span class="token operator">+</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>平方数</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> nums <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> squareNums <span class="token operator">=</span> nums<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+<span class="token function">map</span><span class="token punctuation">(</span>n <span class="token operator">-</span><span class="token operator">></span> n <span class="token operator">*</span> n<span class="token punctuation">)</span><span class="token punctuation">.</span>
+<span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>flatMap用于把有层级的结构扁平化处理.</p>
+</blockquote>
+<p>多List扁平化输出</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> collect1 <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>Collection<span class="token operator">:</span><span class="token operator">:</span>stream<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h4><blockquote>
+<p>对元素进行过滤, 通过的元素会留下来生成一个新的Stream.</p>
+</blockquote>
+<p>过滤奇数</p>
+<pre class=" language-java"><code class="language-java">Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> sixNums <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> collect2 <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>n <span class="token operator">-</span><span class="token operator">></span> n <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="forEach-peek"><a href="#forEach-peek" class="headerlink" title="forEach/peek"></a>forEach/peek</h4><blockquote>
+<p>遍历每个元素</p>
+</blockquote>
+<p>遍历打印</p>
+<pre class=" language-java"><code class="language-java">Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> sixNums <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>forEach是结束操作, 无法重复执行, 而peek可以做到重复执行.</p>
+<pre class=" language-java"><code class="language-java">Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> sixNums <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span>s <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"1-peek"</span> <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>n <span class="token operator">-</span><span class="token operator">></span> n <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span>s <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"2-peek"</span> <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>s <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"forEach"</span> <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>返回内容为:</p>
+<pre class=" language-text"><code class="language-text">1-peek1
+2-peek1
+forEach1
+1-peek2
+1-peek3
+2-peek3
+forEach3
+1-peek4
+1-peek5
+2-peek5
+forEach5
+1-peek6
+</code></pre>
+<h4 id="findFirst"><a href="#findFirst" class="headerlink" title="findFirst"></a>findFirst</h4><blockquote>
+<p>short-circuiting 操作, 总是返回第一个元素, 或者为空</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">Optional<span class="token operator">&lt;</span>Integer<span class="token operator">></span> first <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Integer integer <span class="token operator">=</span> first<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>它返回一个Optional对象, 使用 Optional 代码的可读性更好, 而且它提供的是编译时检查, 能极大的降低 NPE 这种 Runtime Exception 对程序的影响, 或者迫使程序员更早的在编码阶段处理空值问题, 而不是留到运行时再发现和调试.</p>
+<h4 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h4><blockquote>
+<p>主要是用来吧元素组合起来. 需要一个起始位置和一个组合规则, sum/min/max/average都是一种reduce.</p>
+</blockquote>
+<p>求最大</p>
+<pre class=" language-java"><code class="language-java">Integer<span class="token punctuation">[</span><span class="token punctuation">]</span> sixNums <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Integer reduce <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">></span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="limit-skip"><a href="#limit-skip" class="headerlink" title="limit/skip"></a>limit/skip</h4><blockquote>
+<p>limit 返回前n个元素; skip 扔掉前n个元素</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> collect <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> collect1 <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">skip</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>注意: 放到sorted后面会让short-circuiting失效, stream会遍历完所有的元素.</p>
+<h4 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h4><blockquote>
+<p>对元素排序, 使用要注意顺序, 可以先进行limit/skip, 然后对较短的集合进行排序</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>sixNums<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span>Integer<span class="token operator">:</span><span class="token operator">:</span>compareTo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="min-max-distinct"><a href="#min-max-distinct" class="headerlink" title="min/max/distinct"></a>min/max/distinct</h4><blockquote>
+<p>找最小/最大/过滤重复</p>
+</blockquote>
+<p>某个英文小说的词汇</p>
+<pre class=" language-java"><code class="language-java">BufferedReader br <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FileReader</span><span class="token punctuation">(</span><span class="token string">"c:\\SUService.log"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+List<span class="token operator">&lt;</span>String<span class="token operator">></span> words <span class="token operator">=</span> br<span class="token punctuation">.</span><span class="token function">lines</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">flatMap</span><span class="token punctuation">(</span>line <span class="token operator">-</span><span class="token operator">></span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>line<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">filter</span><span class="token punctuation">(</span>word <span class="token operator">-</span><span class="token operator">></span> word<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">map</span><span class="token punctuation">(</span>String<span class="token operator">:</span><span class="token operator">:</span>toLowerCase<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">distinct</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+br<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h4><blockquote>
+<p>匹配某些元素, 有三种方式:</p>
+</blockquote>
+<ol>
+<li>allMatch 全部匹配返回true, 有一个不满足就会短路, 返回false.</li>
+<li>anyMatch 只要有一个则返回true, 有一个满足就会短路, 返回true.</li>
+<li>noneMatch 没有一个则返回true, 有一个满足就会短路, 返回false.</li>
+</ol>
+<p>通过名字找人</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>UserInfo<span class="token operator">></span> userInfos <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">2d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">3d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+userInfos<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserInfo</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">4d</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">boolean</span> b <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">anyMatch</span><span class="token punctuation">(</span>a <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"1"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="自己生成流"><a href="#自己生成流" class="headerlink" title="自己生成流"></a>自己生成流</h3><h4 id="Stream-generate"><a href="#Stream-generate" class="headerlink" title="Stream.generate"></a>Stream.generate</h4><p>随机数</p>
+<pre class=" language-java"><code class="language-java">Random seed <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Supplier<span class="token operator">&lt;</span>Integer<span class="token operator">></span> random <span class="token operator">=</span> seed<span class="token operator">:</span><span class="token operator">:</span>nextInt<span class="token punctuation">;</span>
+Stream<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span>random<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//Another way</span>
+IntStream<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">nanoTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+<span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Stream-iterate"><a href="#Stream-iterate" class="headerlink" title="Stream.iterate"></a>Stream.iterate</h4><p>等差数列</p>
+<pre class=" language-java"><code class="language-java">Stream<span class="token punctuation">.</span><span class="token function">iterate</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span><span class="token operator">></span> n <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>x <span class="token operator">-</span><span class="token operator">></span> System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">.</span>
+</code></pre>
+<h3 id="用-Collectors-来进行-reduction-操作"><a href="#用-Collectors-来进行-reduction-操作" class="headerlink" title="用 Collectors 来进行 reduction 操作"></a>用 Collectors 来进行 reduction 操作</h3><h4 id="grooupingBy-partitioningBy-toMap"><a href="#grooupingBy-partitioningBy-toMap" class="headerlink" title="grooupingBy/partitioningBy/toMap"></a>grooupingBy/partitioningBy/toMap</h4><p>对数据分组</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 按照名字分组</span>
+Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>UserInfo<span class="token operator">>></span> collect <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span>UserInfo<span class="token operator">:</span><span class="token operator">:</span>getName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 按照性别分组</span>
+Map<span class="token operator">&lt;</span>Boolean<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>UserInfo<span class="token operator">>></span> collect1 <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">partitioningBy</span><span class="token punctuation">(</span>UserInfo<span class="token operator">:</span><span class="token operator">:</span>isSex<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 根据id分组</span>
+Map<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> UserInfo<span class="token operator">></span> collect2 <span class="token operator">=</span> userInfos<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span>UserInfo<span class="token operator">:</span><span class="token operator">:</span>getId<span class="token punctuation">,</span> userInfo <span class="token operator">-</span><span class="token operator">></span> userInfo<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="并行处理"><a href="#并行处理" class="headerlink" title="并行处理"></a>并行处理</h3><ul>
+<li><code>stream()</code> 串行流</li>
+<li><code>parallelStream()</code> 并行流</li>
+</ul>
+<p>串行流和并行流差别就是单线程和多线程的执行. 任务量小或者机器是单核的选用串行流; 任务量大且机器是多核的, 考虑使用串行流.</p>
+<p>通过<code>parallel()</code>和<code>sequential()</code>能够实现并行流和串行流之间的切换.</p>
+<p>并行流的使用需要符合两个规则</p>
+<ol>
+<li>初始值必须为组合函数的恒定值</li>
+<li>组合操作必须符合结合律</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.835Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/20191212830/" target="_blank" rel="external">http://blog.canyuda.top/posts/20191212830/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/base/">基础</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/20191212830/&title=《Java8中的StreamAPI》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/20191212830/&title=《Java8中的StreamAPI》 — 灿若繁星&source=你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/20191212830/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java8中的StreamAPI》 — 灿若繁星&url=http://blog.canyuda.top/posts/20191212830/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/20191212830/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/202005261297/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JVM字节码之初探</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019112921409/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-适配器模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/20191212830/&title=《Java8中的StreamAPI》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/20191212830/&title=《Java8中的StreamAPI》 — 灿若繁星&source=你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/20191212830/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java8中的StreamAPI》 — 灿若繁星&url=http://blog.canyuda.top/posts/20191212830/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/20191212830/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAB0klEQVR42u3ay27DIBAF0Pz/T7vbSm7MHQaQVR1WVRqbQxajefD5xOv6tZ4/uf/3/s379xcvXFzcNvd6XN9wq46UG3Bxcc9zv20/9+rBlo/vH9hwcXFfz803TkIeLi7u/+DmR3pR3MXFxY25Scry7RX5xnlKtKBWw8XFbXDzLuW+v7f0d3Fxcae4V3FVRyad4PXHU7i4uEe4c42MPN2Za4U8P4WLi7ub27lU8dz+6JQxgxCGi4u7mRvFufYVjfzA5eYILi7uZm4+LJkrb5IxSZ5I4eLi7uMWRptTIS//OaK34eLiHuQWHmh8koSwwbgFFxf3IDe/YJFfs6gGvujYuLi4R7jJNYtkm7yY6YROXFzcM9y8MVFtnay9VYWLi3uSO3dDsjqOrQ5Zqw0aXFzcHdxq0zMZqFSHJQUJLi7uQW6e1sxdyEjCWXRsXFzc49wk1cgTnSQ4lrMwXFzczdy5VkU13akmRuVqDBcXdym32p6IpjGN9msn/OHi4q7l5kGnU/Z0DlOIvri4uEu51YInKYQ21mq4uLiv5OZF0VyBtDiQ4eLibubmrLkW7SDdwcXFPcjthJ6kgZKPagY/Fi4u7hFu3jBNLlV0GiJzR8XFxV3K/QHxiM59buod1wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017110924161/">
+    
+    
+    <title>基于SSM实现高并发秒杀API(高并发) | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="个人项目,高并发">
+    <meta name="description" content="略">
+<meta name="keywords" content="个人项目,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SSM实现高并发秒杀API(高并发)">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017110924161/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于SSM实现高并发秒杀API(高并发)">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于SSM实现高并发秒杀API(高并发)</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于SSM实现高并发秒杀API(高并发)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-09T09:26:14.000Z" itemprop="datePublished" class="page-time">
+  2017-11-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#秒杀系统高并发优化"><span class="post-toc-number">1.</span> <span class="post-toc-text">秒杀系统高并发优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#高并发发生在哪"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">高并发发生在哪?</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#详情页"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">详情页</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#为什么要单独获取系统时间"><span class="post-toc-number">1.1.1.1.</span> <span class="post-toc-text">为什么要单独获取系统时间?</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CDN是个啥"><span class="post-toc-number">1.1.1.2.</span> <span class="post-toc-text">CDN是个啥?</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#获取系统时间不用优化"><span class="post-toc-number">1.1.1.3.</span> <span class="post-toc-text">获取系统时间不用优化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#秒杀地址接口"><span class="post-toc-number">1.1.1.4.</span> <span class="post-toc-text">秒杀地址接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#秒杀操作"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">秒杀操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#问题"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化"><span class="post-toc-number">1.1.2.2.</span> <span class="post-toc-text">优化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Java控制事务的分析"><span class="post-toc-number">1.1.2.3.</span> <span class="post-toc-text">Java控制事务的分析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.1.2.4.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开始优化"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">开始优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#spring-dao-xml添加"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">spring-dao.xml添加</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RedisDao-java编写"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">RedisDao.java编写</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#exportSeckillUrl-修改"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">exportSeckillUrl()修改</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#并发优化"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">并发优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缩短行级锁时间"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">缩短行级锁时间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#深度优化"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">深度优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#大型系统部署架构"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">大型系统部署架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#细说"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">细说</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-基于SSM实现高并发秒杀API-高并发"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于SSM实现高并发秒杀API(高并发)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-09 17:26:14" datetime="2017-11-09T09:26:14.000Z"  itemprop="datePublished">2017-11-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>6 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="秒杀系统高并发优化"><a href="#秒杀系统高并发优化" class="headerlink" title="秒杀系统高并发优化"></a>秒杀系统高并发优化</h2><h3 id="高并发发生在哪"><a href="#高并发发生在哪" class="headerlink" title="高并发发生在哪?"></a>高并发发生在哪?</h3><h4 id="详情页"><a href="#详情页" class="headerlink" title="详情页"></a>详情页</h4><h5 id="为什么要单独获取系统时间"><a href="#为什么要单独获取系统时间" class="headerlink" title="为什么要单独获取系统时间?"></a>为什么要单独获取系统时间?</h5><p>等待秒杀时,用户会大量刷新页面<strong>(解决::使用CDN,detail页面静态化,静态资源css,js)</strong>,此时的时间就需要通过请求来获取了.</p>
+<h5 id="CDN是个啥"><a href="#CDN是个啥" class="headerlink" title="CDN是个啥?"></a>CDN是个啥?</h5><ol>
+<li>(内容分发网络)加速用户获取数据的系统;</li>
+<li>部署在离用户最近的网络节点;</li>
+<li><strong>命中CDN后不用访问后端服务器;</strong></li>
+<li>互联网公司自己搭建或租用CDN;</li>
+</ol>
+<h5 id="获取系统时间不用优化"><a href="#获取系统时间不用优化" class="headerlink" title="获取系统时间不用优化"></a>获取系统时间不用优化</h5><p>java访问一次内存(Cacheline)大约10ns,特别小,一秒一亿次,获取系统时间没有任何后端访问,仅仅是<code>new Date()</code>,然后输出;</p>
+<h5 id="秒杀地址接口"><a href="#秒杀地址接口" class="headerlink" title="秒杀地址接口"></a>秒杀地址接口</h5><ol>
+<li>无法使用CDN缓存,随着时间接口是变化的(接口从不可访问,到可以访问,再到不可访问的变化,即等秒杀,秒杀,过期);</li>
+<li>适合服务器端缓存:如redis等,可以抗一秒10万次的qps,还可以做集群,可以抗百万次的qps;</li>
+<li>一致性维护成本低,通过业务代码很容易同步数据库和缓存里的数据;</li>
+</ol>
+<p><strong>优化</strong>: 先查询redis,如果有数据就从redis中取得,如果没有就从mysql中取,然后保存到redis中,下一次访问就从redis中取,redis中还有限制时间的配置,例如:配置半小时后redis中的数据过期,过期后直接穿透redis来访问mysql,或者mysql更新时主动更新redis;</p>
+<h4 id="秒杀操作"><a href="#秒杀操作" class="headerlink" title="秒杀操作"></a>秒杀操作</h4><h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><ol>
+<li>无法使用CDN,因为它存在写操作</li>
+<li>后端缓存困难:库存问题</li>
+<li>一行数据竞争:热点商品</li>
+</ol>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><ol>
+<li>执行秒杀</li>
+<li>原子计数器 实现减库存 使用redis等Nosql</li>
+<li>记录行为消息 实现消息转移 使用分布式MQ</li>
+<li>消费消息并落地 实现数据保存 使用mysql</li>
+<li>结束</li>
+</ol>
+<p>优点:可以抗很高并发,redis和mq都可以支持很高的qps<br>缺点:运维成本和稳定性:NoSQL和MQ等;开发成本:数据一致性和回滚方案等;幂等性保证:重复秒杀问题;不适合新手:比较复杂<br>运用:抢红包</p>
+<blockquote>
+<p>为什么不用mysql解决?mysql低效?真的低效吗?测试后发现一条update可以有约4万QPS的压力(一个商品一秒可以支持4万次)</p>
+</blockquote>
+<h5 id="Java控制事务的分析"><a href="#Java控制事务的分析" class="headerlink" title="Java控制事务的分析"></a>Java控制事务的分析</h5><p>对于同一个商品的减库存,当A用户update并且insert时,它会锁住该行(该商品),其他用户B,C,D等处于等待,等ACommit或者RollBack后,其他用户才能获得锁,然后B开始Update,Insert并加锁,然后C,D,E等处于等待状态.很明显,这样串行化的操作会让后面的用户等待相当长的一段时间,因为他要等前面所有的用户都释放掉锁才会执行.</p>
+<p><strong>瓶颈分析</strong>:</p>
+<p>update到insert到commit/rollback , 这里面每个过程中都存在网络延迟和java的GC操作 ,都会耗费想当多的时间.<strong>所以啊!!这个锅,咱mysql不背</strong>.</p>
+<blockquote>
+<p>行级锁在Commit/RollBack后释放,所以重点在如何减少行级锁持有时间</p>
+</blockquote>
+<p><strong>延迟问题</strong>很关键,经测试,同城机房网络:(0.5ms-2ms) max(1000qps),update后JVM的GC(50ms) max(20qps).如果出现一次GC,况且还很频繁出现,那就等的久了,累计下来,最后个用户要等到不耐烦的.跟何况还可能是异地访问(20ms).</p>
+<p>判断Update更新库存成功</p>
+<ol>
+<li>不出错</li>
+<li>客户端确认Update影响记录数</li>
+</ol>
+<p><strong>优化思路: 把客户端逻辑放到MySQL服务器上,避免网络延迟和GC影响*
+</strong>优化方案: 1.定制SQL方案,修改MySQL源码(技术要6,大公司搞的)例如update后面加auto_commit(当记录数为1的时候不会滚,为其他就回滚);2.存储过程,服务器端控制事务**</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
+<li>前端控制-暴露接口,按钮防重复</li>
+<li>动静态数据缓存-CDN缓存,后端缓存</li>
+<li>事务竞争优化-减少事务锁时间</li>
+</ul>
+<h3 id="开始优化"><a href="#开始优化" class="headerlink" title="开始优化"></a>开始优化</h3><h4 id="spring-dao-xml添加"><a href="#spring-dao-xml添加" class="headerlink" title="spring-dao.xml添加"></a>spring-dao.xml添加</h4><pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- redis --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redisPoolConfig<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redis.clients.jedis.JedisPoolConfig<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>maxIdle<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>maxWaitMillis<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>3000<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>testOnBorrow<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redisConnectionFactory<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.data.redis.connection.jedis.JedisConnectionFactory<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>hostName<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>localhost<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>port<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>6379<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>database<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>root<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>poolConfig<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redisPoolConfig<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redisTemplate<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.data.redis.core.RedisTemplate<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>connectionFactory<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>redisConnectionFactory<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--序列化--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>keySerializer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.data.redis.serializer.StringRedisSerializer<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>valueSerializer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.springframework.data.redis.serializer.JdkSerializationRedisSerializer<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="RedisDao-java编写"><a href="#RedisDao-java编写" class="headerlink" title="RedisDao.java编写"></a>RedisDao.java编写</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Repository</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RedisDao</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> RedisTemplate<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Seckill<span class="token operator">></span> redisTemplate<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> Seckill <span class="token function">getSeckill</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Seckill seckill <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        String key <span class="token operator">=</span> <span class="token string">"seckill:"</span> <span class="token operator">+</span> seckillId<span class="token punctuation">;</span>
+        seckill <span class="token operator">=</span> redisTemplate<span class="token punctuation">.</span><span class="token function">boundValueOps</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> seckill<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setSeckill</span><span class="token punctuation">(</span>Seckill seckill<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String key <span class="token operator">=</span> <span class="token string">"seckill:"</span> <span class="token operator">+</span> seckill<span class="token punctuation">.</span><span class="token function">getSeckillId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        redisTemplate<span class="token punctuation">.</span><span class="token function">boundValueOps</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>seckill<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>HOURS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="exportSeckillUrl-修改"><a href="#exportSeckillUrl-修改" class="headerlink" title="exportSeckillUrl()修改"></a>exportSeckillUrl()修改</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Exposer <span class="token function">exportSeckillUrl</span><span class="token punctuation">(</span><span class="token keyword">long</span> seckillId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//通过Redis进行缓存 使用超时来维护redis</span>
+    <span class="token comment" spellcheck="true">//1. 访问redis</span>
+    Seckill seckill <span class="token operator">=</span> redisDao<span class="token punctuation">.</span><span class="token function">getSeckill</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//如果不为空,就跳过数据库查找走Redis</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>seckill <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//访问数据库</span>
+        seckill <span class="token operator">=</span> seckillDao<span class="token punctuation">.</span><span class="token function">queryById</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>seckill <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//数据库查不到</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//查询到了放入redis</span>
+            redisDao<span class="token punctuation">.</span><span class="token function">setSeckill</span><span class="token punctuation">(</span>seckill<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    Date startTime <span class="token operator">=</span> seckill<span class="token punctuation">.</span><span class="token function">getStartTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Date endTime <span class="token operator">=</span> seckill<span class="token punctuation">.</span><span class="token function">getEndTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Date nowTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> startTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> endTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> seckillId<span class="token punctuation">,</span> nowTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> endTime<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//Md5转换为字符串,不可逆</span>
+    String md5 <span class="token operator">=</span> <span class="token function">getMD5</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Exposer</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> md5<span class="token punctuation">,</span> seckillId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="并发优化"><a href="#并发优化" class="headerlink" title="并发优化"></a>并发优化</h3><h4 id="缩短行级锁时间"><a href="#缩短行级锁时间" class="headerlink" title="缩短行级锁时间"></a>缩短行级锁时间</h4><p>insert操作可以提前进行,然后再update,逻辑部分修改为:</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//记录购买记录</span>
+<span class="token keyword">int</span> insertCount <span class="token operator">=</span> successKilledDao<span class="token punctuation">.</span><span class="token function">insertSucceccKilled</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> userPhone<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>insertCount <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//重复秒杀</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RepeatKillException</span><span class="token punctuation">(</span><span class="token string">"seckill repeated"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//减库存</span>
+    <span class="token keyword">int</span> updateCount <span class="token operator">=</span> seckillDao<span class="token punctuation">.</span><span class="token function">reduceNumber</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> nowTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>updateCount <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//rollback</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">SeckillCloseException</span><span class="token punctuation">(</span><span class="token string">"seckill is closed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//Commit</span>
+        <span class="token comment" spellcheck="true">//秒杀成功</span>
+        SuccessKilled successKilled <span class="token operator">=</span> successKilledDao<span class="token punctuation">.</span><span class="token function">queryByIdWithSeckill</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> userPhone<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SeckillExecution</span><span class="token punctuation">(</span>seckillId<span class="token punctuation">,</span> SeckillStatEnum<span class="token punctuation">.</span>SUCCESS<span class="token punctuation">,</span> successKilled<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="深度优化"><a href="#深度优化" class="headerlink" title="深度优化"></a>深度优化</h4><p>使用存储过程:</p>
+<ol>
+<li>减少事务行级锁持有时间减少</li>
+<li>不要过度使用存储过程</li>
+<li>简单的逻辑可以使用存储过程</li>
+<li>QPS:一秒杀单6000/qps</li>
+</ol>
+<blockquote>
+<p>不会写</p>
+</blockquote>
+<h3 id="大型系统部署架构"><a href="#大型系统部署架构" class="headerlink" title="大型系统部署架构"></a>大型系统部署架构</h3><ol>
+<li>CDN(内容分发网络)</li>
+<li>WebServer: Nginx + Jetty</li>
+<li>Redis</li>
+<li>MySQL</li>
+</ol>
+<h4 id="细说"><a href="#细说" class="headerlink" title="细说"></a>细说</h4><pre><code>graph LR
+A[流量]--&gt;|用到| B[CDN缓存]
+A--&gt;C[智能DNS解析Nginx]
+C--&gt;D[逻辑集群Jetty]
+D--&gt;|用到| E[缓存集群redis]
+D--&gt;F[分库分表DB1,DB2..]
+F--&gt;G[统计分析]
+</code></pre>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.856Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017110924161/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017110924161/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/myporject/">个人项目</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/concurrent/">高并发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017110924161/&title=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017110924161/&title=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017110924161/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017110924161/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017110924161/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/201711098940/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">MyBatis(一)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/201711082776/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于SSM实现高并发秒杀API(Web层)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017110924161/&title=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017110924161/&title=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017110924161/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于SSM实现高并发秒杀API(高并发)》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017110924161/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017110924161/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNklEQVR42u3aQW7DMAwF0dz/0i7QVYHU0nxKCWBqvCpcW+brghVFvl74un6v9zt/7989w996/+3mS4YMGY9lXMOLfGD87h1pvAKPTYYMGecwxkmWB0dCGa8/TuK392XIkCGj9Ex6R4YMGTK+ySDlKE/EMmTIkMGL2PS8iyRWXjxvq8VlyJDxQEbaGPjmzx/sb8iQIeMhjCu8+BEb+SI/nptEJUOGjNaM2qE8H5tIS+I0u8Y1sQwZMh7LqDUv+VF+LZVvSPEyZMhoweCJjw9+8dGxtBq9XUeGDBmtGWmq5Uf/tXYCbyFM1pchQ0Y7Bk+m6+k1HchAYxYyZMg4hsHDJVtDkrg3b0NlyJBxDCPNYLWUzUPkMciQIaM3Y723QEKsFbTpn0CGDBn9GLxk3TU2kSZ3NLQhQ4aM1gxelK4n09qTcRErQ4aMpgyeWPcetK20FmTIkHEOg2zIaqGQw7h0wOJ2BRkyZLRm8AIyRa7f2TZsIUOGjBYMPu5ADsvWw+Jfn6wvQ4aMFgyyReMfIy1J3nIIVpMhQ8YxDH5ktuu4v7ZNnAxbyJAhox2Db+bI7nJlN7qrtSlDhox+jNoRfBruemNgcswnQ4aM1gx+8eBWxjV2Fc8yZMjox1hPsqRY5S0EAp7sbWXIkNGUwYcwdm3gav8B0MyIDBkyDmakIabv8pbqP3dkyJAhI9yupWUqGciYlM0yZMg4gFErYsfPpMHxtCtDhozTGGnpmG4K19/iQyEyZMhox/gBjcRlq24ykcUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

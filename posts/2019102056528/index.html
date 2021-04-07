@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019102056528/">
+    
+    
+    <title>SpringCloud-Hystrix | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Spring-Cloud,Hystrix">
+    <meta name="description" content="Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备服务降级,服务熔断,线程和信号隔离,请求缓冲,请求合并以及服务监控等强大功能.">
+<meta name="keywords" content="Spring-Cloud,Hystrix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud-Hystrix">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019102056528/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备服务降级,服务熔断,线程和信号隔离,请求缓冲,请求合并以及服务监控等强大功能.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191020/hystrix-command-flow-chart.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-return-flow.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/circuit-breaker.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-source-1.png">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud-Hystrix">
+<meta name="twitter:description" content="Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备服务降级,服务熔断,线程和信号隔离,请求缓冲,请求合并以及服务监控等强大功能.">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringCloud-Hystrix</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringCloud-Hystrix</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-20T07:17:33.000Z" itemprop="datePublished" class="page-time">
+  2019-10-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#容错手段"><span class="post-toc-number">1.</span> <span class="post-toc-text">容错手段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#出现的问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">出现的问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何解决"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">如何解决</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring-Cloud-Hystrix"><span class="post-toc-number">3.</span> <span class="post-toc-text">Spring Cloud Hystrix</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#简介"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工作流程"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">工作流程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#断路器如何工作"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">断路器如何工作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-12版本源码"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">1.5.12版本源码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#isOpen"><span class="post-toc-number">3.3.1.1.</span> <span class="post-toc-text">isOpen()</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#allowRequest"><span class="post-toc-number">3.3.1.2.</span> <span class="post-toc-text">allowRequest()</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#markSuccess-和markNonSuccess"><span class="post-toc-number">3.3.1.3.</span> <span class="post-toc-text">markSuccess()和markNonSuccess()</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#attemptExecution"><span class="post-toc-number">3.3.1.4.</span> <span class="post-toc-text">attemptExecution()</span></a></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-SpringCloud-Hystrix"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringCloud-Hystrix</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-20 15:17:33" datetime="2019-10-20T07:17:33.000Z"  itemprop="datePublished">2019-10-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>15 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备<code>服务降级</code>,<code>服务熔断</code>,<code>线程</code>和<code>信号隔离</code>,<code>请求缓冲</code>,<code>请求合并</code>以及<code>服务监控</code>等强大功能.</p>
+<a id="more"></a>
+<h2 id="容错手段"><a href="#容错手段" class="headerlink" title="容错手段"></a>容错手段</h2><h2 id="出现的问题"><a href="#出现的问题" class="headerlink" title="出现的问题"></a>出现的问题</h2><p>服务提供者如果响应非常缓慢, 导致了用户的请求被强制等待, 直到提供者能响应或者超时. 在高负载的情况下, 如果没有任何处理, 会导致服务提供者的资源耗尽甚至整个系统崩溃. 例如电商网站如果没有处理这种情况, 在双11期间有过多的并发请求, 导致用户支付的请求延迟很久没有响应, 等待很长时间就会超时失败, 支付失败又会导致用户频繁的刷新支付页面并尝试重新支付, 此时服务已经没有多余的资源了, 这样更加重了服务器的负载, 最终系统被压挂了.</p>
+<p>微服务架构下的系统会有多个服务共同支持, 每个服务负责不同的功能, 服务之间需要进行网络通信, 因此会出现嵌套调用, 网络通信有些情况是脆弱的, 请求超时无法避免. 此时如果某个基础服务A出现问题, 那么他的调用方B会调不通, 导致流量阻塞在B服务, 最终B服务也会出现问题, 然后导致B的调用方C出现问题, 这种问题逐渐放大的过程叫做<code>雪崩效应</code>.</p>
+<h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><ol>
+<li>为网络请求设置超时时间<br>调用网络请求会对应一个线程去处理这个请求, 就会占用某些资源, 资源一直不释放最终被耗尽, 导致服务不可用. 设置超时时间就是设置了最大可占用的时间, 超过这个时间就强制释放.</li>
+<li>使用断路器模式<br>断路器模拟了家中使用的电力保险, 电流过大会导致保险熔断, 保护电器不会被大电流烧毁. 服务中对断路器的应用也一样, 当调用量过大时, 可以强制让某些调用不进行, 当自动诊断出服务已经恢复了, 断路器再运行调用. 服务中的断路器需要比现实的电力断路器更加智能, 它需要在某些情况下自动断开, 需要在某些情况下恢复, 断开情况下需要走失败的处理逻辑, 它的<code>断开</code>不是真正意义上的<code>断开</code>, 而是允许少量的请求可以通过. 这些某个框架可以做到——<code>Spring Cloud Hystrix</code>;</li>
+</ol>
+<h2 id="Spring-Cloud-Hystrix"><a href="#Spring-Cloud-Hystrix" class="headerlink" title="Spring Cloud Hystrix"></a>Spring Cloud Hystrix</h2><p>Hystrix 是<code>豪猪</code>的意思. 豪猪是一种哺乳动物,全身是刺用以更好的保护自己. 下面是hystrix项目介绍图.</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png" alt="hystrix" title>
+                </div>
+                <div class="image-caption">hystrix</div>
+            </figure>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Hystrix是由Netfilx开源的一个延迟和容错库, 用于隔离访问远程服务, 防止出现级联失败, 从而提高系统的可用性和容错性. 主要有一下几点:</p>
+<ul>
+<li>包裹请求: 使用HystrixCommand或者HystrixObservableCommand包裹对依赖服务的调用, 每个命令启动一个线程去执行, 使用到了<code>命令模式</code>.</li>
+<li>跳闸模式: 某个服务的错误率超过阈值时, 会自动or手动跳闸, 停止请求该服务一段时间.</li>
+<li>资源隔离: 为每个依赖服务都提供了小的线程池(信号量), 线程池(信号量)被耗尽, 请求将会直接被拒绝, 加快响应.</li>
+<li>监控: 提供了监控api, 可以实时的看到服务依赖调用的状态.</li>
+<li>回退机制: 当被拒绝访问依赖服务的时候, 开发者可以指定一个默认的返回, 例如请求某个列表失败了, 默认会返回一个空的列表, 而不是报错.</li>
+<li>自我恢复: 断路一段时间后, 它会进入半开模式, 来判断是否已经恢复.</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191020/hystrix-command-flow-chart.png" alt="hystrix-command-flow-chart.png" title>
+                </div>
+                <div class="image-caption">hystrix-command-flow-chart.png</div>
+            </figure>
+<p><strong>第一步:实例化一个命令对象</strong></p>
+<p>首先会构造一个<code>HystrixCommand</code>or<code>HystrixObservableCommand</code>对象, 是对服务调用操作的封装. 从名字上看是使用了<code>命令模式</code>的设计模式. 这两个对象分别对应两个场景.</p>
+<ul>
+<li><code>HystrixCommand</code>: 用在依赖的服务返回单个操作结果的时候</li>
+<li><code>HystrixObservableCommand</code>: 用在依赖的服务返回多个操作结果的时候</li>
+</ul>
+<blockquote>
+<a href="/posts/2019102041455/" title="设计模式-命令模式">设计模式-命令模式</a>
+</blockquote>
+<p><strong>第二步:请求执行命令</strong></p>
+<p>图中可以看到4种命令的执行方式, 其中<code>HystrixCommand</code>有下面两种执行方式.</p>
+<ul>
+<li><code>execute()</code>: 同步执行</li>
+<li><code>queue()</code>: 异步执行, 返回一个Future对象.</li>
+</ul>
+<p>其中<code>HystrixObservableCommand</code>, 能返回多个操作结果, 有下面两种执行方式.</p>
+<ul>
+<li><code>observe()</code>: 返回Observable对象, 代表操作的多个结果, 是一个Hot Observable.</li>
+<li><code>toObservable()</code>: 同样返回Observable对象, 代表操作的多个结果, 但是是一个Cold Observable.</li>
+</ul>
+<p>Hystrix 底层大量使用了 <strong>RxJava</strong>, RxJava的核心内容就包含了<code>Observable</code>, 可以理解其为”事件源”, 和它对应的叫<code>Subscriber</code>, 理解为”订阅者”, 两者通过<code>subscribe</code>发生订阅.</p>
+<blockquote>
+<p>RxJava是一个响应性扩展的Java VM实现:一个通过使用可观察到的序列组合异步和基于事件的程序的库。<br>它扩展了observer模式，以支持数据/事件序列，并添加了操作符，允许您以声明的方式组合序列，同时抽象出底层线程、同步、线程安全和并发数据结构等方面的问题。<br>使用例子如下:</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>demo<span class="token punctuation">.</span>rxjavademo<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> rx<span class="token punctuation">.</span>Observable<span class="token punctuation">;</span>
+<span class="token keyword">import</span> rx<span class="token punctuation">.</span>Subscriber<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * CreateUser: canyuda
+ * CreateTime: 2019/11/3 13:51
+ * Description:
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Observable<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Observable<span class="token punctuation">.</span>OnSubscribe</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">call</span><span class="token punctuation">(</span>Subscriber<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">super</span> String<span class="token operator">></span> subscriber<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                subscriber<span class="token punctuation">.</span><span class="token function">onNext</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                subscriber<span class="token punctuation">.</span><span class="token function">onNext</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                subscriber<span class="token punctuation">.</span><span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Subscriber</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Main.onCompleted"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onError</span><span class="token punctuation">(</span>Throwable e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Main.onError"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onNext</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Main.onNext: s:"</span> <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li><code>Hot Observable</code>: 发布事件不需要订阅者, 事件执行过程中如果有了订阅者, 订阅者仅可以看到整个局部的过程.</li>
+<li><code>Cold Observable</code>: 发布事件需要订阅者, 没有时进行等待, 有订阅者时事件才会发布, 订阅者能看到整个事件过程.</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong> <code>HystrixCommand</code>其实底层也用到了RxJava, 区别是<code>HystrixCommand</code>保证了返回结果的单一.</p>
+</blockquote>
+<p>源码如下:</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> R <span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> Exceptions<span class="token punctuation">.</span><span class="token function">sneakyThrow</span><span class="token punctuation">(</span><span class="token function">decomposeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> Future<span class="token operator">&lt;</span>R<span class="token operator">></span> <span class="token function">queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> Future<span class="token operator">&lt;</span>R<span class="token operator">></span> delegate <span class="token operator">=</span> <span class="token function">toObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBlocking</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toFuture</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> Future<span class="token operator">&lt;</span>R<span class="token operator">></span> f <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Future</span><span class="token operator">&lt;</span>R<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">/// 省略实现 </span>
+            <span class="token comment" spellcheck="true">// 注:仅对cancel()方法进行了修饰</span>
+            <span class="token comment" spellcheck="true">// 修饰的内容是根据配置判断如果中断:executionIsolationThreadInterruptOnFutureCancel</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>f<span class="token punctuation">.</span><span class="token function">isDone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                f<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> f<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                Throwable t <span class="token operator">=</span> <span class="token function">decomposeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token keyword">instanceof</span> <span class="token class-name">HystrixBadRequestException</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> f<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token keyword">instanceof</span> <span class="token class-name">HystrixRuntimeException</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    HystrixRuntimeException hre <span class="token operator">=</span> <span class="token punctuation">(</span>HystrixRuntimeException<span class="token punctuation">)</span> t<span class="token punctuation">;</span>
+                    <span class="token keyword">switch</span> <span class="token punctuation">(</span>hre<span class="token punctuation">.</span><span class="token function">getFailureType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">case</span> COMMAND_EXCEPTION<span class="token operator">:</span>
+                    <span class="token keyword">case</span> TIMEOUT<span class="token operator">:</span>
+                        <span class="token keyword">return</span> f<span class="token punctuation">;</span>
+                    <span class="token keyword">default</span><span class="token operator">:</span>
+                        <span class="token keyword">throw</span> hre<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">throw</span> Exceptions<span class="token punctuation">.</span><span class="token function">sneakyThrow</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> f<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li><code>execute()</code>是通过<code>queue()</code>返回的<code>Future</code>的<code>get()</code>实现的同步.</li>
+<li><code>queue()</code> 是通过把<code>Observable</code>转换为<code>BlockingObservable</code>,然后在转换为<code>Future</code>, 然后用另外一个<code>Future</code>包装了一层, 最终返回出<code>Future</code>对象</li>
+</ul>
+<p><strong>第三步:判断响应是否已经缓存</strong></p>
+<p>如果缓存功能开启了, 并且命中了缓存, 那么就会立即以<code>Observable</code>对象的形式返回.</p>
+<p><strong>第四步:线路是否打开</strong></p>
+<p>如果缓存没有命中, 会在执行命令前检测断路器是否开启了.</p>
+<ul>
+<li>开启: 调用过程直接中断, 跳转到fallback处理逻辑</li>
+<li>关闭: 跳转到第五步, 去检测是否有足够的资源来执行命令.</li>
+</ul>
+<p><strong>第五步:线程池/队列/信号量是否满了</strong></p>
+<p>每一个命令的执行需要占用一定的资源, 可以是线程池, 请求队列, 或者是信号量. 如果这些资源被占满, Hystrix就认为并发太高了, 于是直接跳转到fallback处理逻辑.</p>
+<blockquote>
+<p>线程池: Hystrix为每个依赖的服务提供了专有线程池, 各个依赖服务之间采用舱璧模式(Bulkhead Pattern)隔离</p>
+</blockquote>
+<p><strong>第六步:命令执行者开始执行</strong></p>
+<p>执行 <code>HystrixObservableCommand.construct()</code> 或者 <code>HystrixCommand.run()</code>.</p>
+<p>如果命令设置了时间阈值, 并超过了这个时间, 则会抛一个<code>TimeoutException</code>, 然后跳转到fallback处理逻辑. </p>
+<p>如果正常执行, <code>HystrixObservableCommand</code>返回一个Observable对象; 而<code>HystrixCommand</code>返回一个Observable并发送一个结果,产生<code>onCompleted()</code>的结束通知,</p>
+<p><strong>第七步:计算线路健康度</strong></p>
+<p>执行出结果后, Hystrix会把刚刚执行命令时的<strong>执行状态信息(成功/失败/拒绝/超时)</strong> 反馈给断路器, 断路器会维护一组数组统计这些信息, 并且根据这些信息来判断是否需要打开断路器, 以及如何打开断路器.</p>
+<p><strong>第八步:后备处理</strong></p>
+<p>当命令由于某些原因无法执行时, 执行的降级逻辑, 无法执行的原因有很多, 比如:断路器打开了, 资源被占满了 或者执行时抛异常了.</p>
+<p><code>HystrixObservableCommand</code> 和 <code>HystrixCommand</code> 降级的执行有些区别:</p>
+<ul>
+<li><code>HystrixObservableCommand</code>: <code>resumeWithFallback()</code>返回一个Observable对象, 可以发射多个降级结果</li>
+<li><code>HystrixCommand</code>: <code>getFallback()</code> 返回一个结果.</li>
+</ul>
+<p>具体业务中降级逻辑尽量是能稳定执行的. 如果不能做到, 还可以针对降级逻辑使用Hystrix进行降级, 从而形成级联的降级策略. 但是最终的处理需要是稳定可靠的. 如果降级逻辑出现了异常, 则底层依然会返回一个Observable对象, 但是它是没有任何结果的, 而是通过<code>onError()</code>通知命令立即中断, 最后把异常发送给调用者. 下面是降级逻辑异常的现象:</p>
+<ul>
+<li><code>execute()</code>: 直接抛异常</li>
+<li><code>queue()</code>: 正常返回一个<code>Futrue</code>对象, 但是<code>get()</code>时会抛异常</li>
+<li><code>observe()</code>和<code>toObservable()</code>: 正常返回<code>Observable</code>对象, 当订阅时, 立即会通过调用者的<code>onError()</code>通知中止请求.</li>
+</ul>
+<p><strong>第九步:返回成功结果</strong></p>
+<p>下面可以看到4种处理方式的不同.</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-return-flow.png" alt="hystrix-return-flow" title>
+                </div>
+                <div class="image-caption">hystrix-return-flow</div>
+            </figure>
+<ul>
+<li><code>toObservable()</code> 返回原始的Observable对象, 订阅时才会触发执行.</li>
+<li><code>observe()</code> 先执行<code>toObservable()</code>, 然后立即订阅它, 马上就能开始执行. 并返回一个Observable对象.</li>
+<li><code>queue()</code> 同样是先执行<code>toObservable()</code>, 然后通过<code>toBlocking()</code>转换为一个<code>BlockingObservable</code>对象, 再通过<code>toFuture()</code>转换为一个<code>Future</code>对象, 最后返回这个对象.</li>
+<li><code>execute()</code> 通过<code>queue()</code>返回的<code>Future</code>对象对象, 执行<code>get()</code>方法返回.</li>
+</ul>
+<h3 id="断路器如何工作"><a href="#断路器如何工作" class="headerlink" title="断路器如何工作"></a>断路器如何工作</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/circuit-breaker.png" alt="circuit-breaker" title>
+                </div>
+                <div class="image-caption">circuit-breaker</div>
+            </figure>
+<blockquote>
+<p>图中未画出<code>attemptExecution()</code></p>
+</blockquote>
+<p>断流器核心是<code>HystrixCircuitBreaker</code>接口, 下面我们来看看这个接口能干嘛.</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-source-1.png" alt="HystrixCircuitBreaker" title>
+                </div>
+                <div class="image-caption">HystrixCircuitBreaker</div>
+            </figure>
+<h4 id="1-5-12版本源码"><a href="#1-5-12版本源码" class="headerlink" title="1.5.12版本源码"></a>1.5.12版本源码</h4><ul>
+<li><code>allowRequest()</code>: 每个命令通过它判断是否继续执行, 这是幂等的, 不改变内部状态.</li>
+<li><code>isOpen()</code>: 当前断路器的开关状态</li>
+<li><code>markSuccess()</code>: 在”半开路”状态使用, 如果命令执行成功, 调用这个方法关闭断路器.</li>
+<li><code>markNonSuccess()</code>: 在”半开路”状态使用, 如果命令执行成功, 调用这个方法打开断路器.</li>
+<li><code>attemptExection()</code>: 在命令执行开始时调用以尝试执行, 这是非幂等的, 它可以修改内部状态.</li>
+<li><code>Factory</code>类: 维护了一个<code>ConcurrentHashMap&lt;String, HystrixCircuitBreaker&gt;</code> 通过 <code>HystrixCommandKey</code> 找到对应的<code>HystrixCircuitBreaker</code>实例.</li>
+<li><code>NoOpCircuitBreaker</code>类: 实现了<code>HystrixCircuitBreaker</code>, 啥都不做的断路器, 断路器永远关闭状态.</li>
+<li><p><code>HystrixCircuitBreakerImpl</code>类: 实现了<code>HystrixCircuitBreaker</code>, 有5个成员:</p>
+<ul>
+<li><code>HystrixCommandProperties properties</code>: 属性对象</li>
+<li><code>HystrixCommandMetrics metrics</code>: 记录各类度量指标</li>
+<li><code>AtomicReference&lt;Status&gt; status</code>: 断路器状态(关/开/半开)</li>
+<li><code>AtomicLong circuitOpened</code>: 断路器打开或者上一次测试的时间戳, 断路器关时为-1</li>
+<li><code>AtomicReference&lt;Subscription&gt; activeSubscription</code>: 活动订阅者, 监控metrics中的<code>HealthCounts</code>以修改status, Subscription内容如下:</li>
+</ul>
+<pre class=" language-java"><code class="language-java">  <span class="token keyword">private</span> Subscription <span class="token function">subscribeToStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">/*
+      * This stream will recalculate the OPEN/CLOSED status on every onNext from the health stream
+      */</span>
+      <span class="token keyword">return</span> metrics<span class="token punctuation">.</span><span class="token function">getHealthCountsStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Subscriber</span><span class="token operator">&lt;</span>HealthCounts<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  <span class="token annotation punctuation">@Override</span>
+                  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  <span class="token punctuation">}</span>
+                  <span class="token annotation punctuation">@Override</span>
+                  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onError</span><span class="token punctuation">(</span>Throwable e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  <span class="token punctuation">}</span>
+                  <span class="token annotation punctuation">@Override</span>
+                  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onNext</span><span class="token punctuation">(</span>HealthCounts hc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                      <span class="token comment" spellcheck="true">// check if we are past the statisticalWindowVolumeThreshold</span>
+                      <span class="token keyword">if</span> <span class="token punctuation">(</span>hc<span class="token punctuation">.</span><span class="token function">getTotalRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> properties<span class="token punctuation">.</span><span class="token function">circuitBreakerRequestVolumeThreshold</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                          <span class="token comment" spellcheck="true">// we are not past the minimum volume threshold for the stat window,</span>
+                          <span class="token comment" spellcheck="true">// so no change to circuit status.</span>
+                          <span class="token comment" spellcheck="true">// if it was CLOSED, it stays CLOSED</span>
+                          <span class="token comment" spellcheck="true">// if it was half-open, we need to wait for a successful command execution</span>
+                          <span class="token comment" spellcheck="true">// if it was open, we need to wait for sleep window to elapse</span>
+                      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                          <span class="token keyword">if</span> <span class="token punctuation">(</span>hc<span class="token punctuation">.</span><span class="token function">getErrorPercentage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> properties<span class="token punctuation">.</span><span class="token function">circuitBreakerErrorThresholdPercentage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                              <span class="token comment" spellcheck="true">//we are not past the minimum error threshold for the stat window,</span>
+                              <span class="token comment" spellcheck="true">// so no change to circuit status.</span>
+                              <span class="token comment" spellcheck="true">// if it was CLOSED, it stays CLOSED</span>
+                              <span class="token comment" spellcheck="true">// if it was half-open, we need to wait for a successful command execution</span>
+                              <span class="token comment" spellcheck="true">// if it was open, we need to wait for sleep window to elapse</span>
+                          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                              <span class="token comment" spellcheck="true">// our failure rate is too high, we need to set the state to OPEN</span>
+                              <span class="token keyword">if</span> <span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>Status<span class="token punctuation">.</span>CLOSED<span class="token punctuation">,</span> Status<span class="token punctuation">.</span>OPEN<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                  circuitOpened<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                              <span class="token punctuation">}</span>
+                          <span class="token punctuation">}</span>
+                      <span class="token punctuation">}</span>
+                  <span class="token punctuation">}</span>
+              <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>下面看看<code>HystrixCircuitBreakerImpl</code>的具体实现吧.</p>
+</blockquote>
+<h5 id="isOpen"><a href="#isOpen" class="headerlink" title="isOpen()"></a>isOpen()</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceClosed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> circuitOpened<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>强制开关未设置的情况下, 判断circuitOpened是否大于0, 大于0表示断路开启.</p>
+<h5 id="allowRequest"><a href="#allowRequest" class="headerlink" title="allowRequest()"></a>allowRequest()</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">allowRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceClosed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>circuitOpened<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>Status<span class="token punctuation">.</span>HALF_OPEN<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">isAfterSleepWindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">isAfterSleepWindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> <span class="token keyword">long</span> circuitOpenTime <span class="token operator">=</span> circuitOpened<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> <span class="token keyword">long</span> currentTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> <span class="token keyword">long</span> sleepWindowTime <span class="token operator">=</span> properties<span class="token punctuation">.</span><span class="token function">circuitBreakerSleepWindowInMilliseconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> currentTime <span class="token operator">></span> circuitOpenTime <span class="token operator">+</span> sleepWindowTime<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>强制开关未设置的情况下,  判断circuitOpened是否等于-1, 如果不等于, 再判断是否处于半开模式, 如果不是半开模式, 再判断是否处于睡眠窗口之后, 超过睡眠窗口的命令让他执行.</p>
+<h5 id="markSuccess-和markNonSuccess"><a href="#markSuccess-和markNonSuccess" class="headerlink" title="markSuccess()和markNonSuccess()"></a>markSuccess()和markNonSuccess()</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">markSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>Status<span class="token punctuation">.</span>HALF_OPEN<span class="token punctuation">,</span> Status<span class="token punctuation">.</span>CLOSED<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//This thread wins the race to close the circuit - it resets the stream to start it over from 0</span>
+        metrics<span class="token punctuation">.</span><span class="token function">resetStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Subscription previousSubscription <span class="token operator">=</span> activeSubscription<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>previousSubscription <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            previousSubscription<span class="token punctuation">.</span><span class="token function">unsubscribe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        Subscription newSubscription <span class="token operator">=</span> <span class="token function">subscribeToStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        activeSubscription<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>newSubscription<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        circuitOpened<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token operator">-</span>1L<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">markNonSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>Status<span class="token punctuation">.</span>HALF_OPEN<span class="token punctuation">,</span> Status<span class="token punctuation">.</span>OPEN<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//This thread wins the race to re-open the circuit - it resets the start time for the sleep window</span>
+        circuitOpened<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>分别负责半开-&gt;关,半开-&gt;开的状态转换, 维护了<code>circuitOpened</code>, 并且<code>markSuccess()</code>还处理了<code>activeSubscription</code>的更新.</p>
+<h5 id="attemptExecution"><a href="#attemptExecution" class="headerlink" title="attemptExecution()"></a>attemptExecution()</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">attemptExecution</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceOpen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">circuitBreakerForceClosed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>circuitOpened<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isAfterSleepWindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>status<span class="token punctuation">.</span><span class="token function">compareAndSet</span><span class="token punctuation">(</span>Status<span class="token punctuation">.</span>OPEN<span class="token punctuation">,</span> Status<span class="token punctuation">.</span>HALF_OPEN<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//only the first request after sleep window should execute</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>命令请求执行, 断路器开启状态下, 如果超过睡眠窗口时间, 则切换未半开状态, 尝试执行命令.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.831Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019102056528/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019102056528/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hystrix/">Hystrix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-cloud/">Spring-Cloud</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019102056528/&title=《SpringCloud-Hystrix》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019102056528/&title=《SpringCloud-Hystrix》 — 灿若繁星&source=Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019102056528/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringCloud-Hystrix》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019102056528/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019102056528/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019102041455/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">设计模式-命令模式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019101641018/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-原型模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019102056528/&title=《SpringCloud-Hystrix》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019102056528/&title=《SpringCloud-Hystrix》 — 灿若繁星&source=Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019102056528/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringCloud-Hystrix》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019102056528/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019102056528/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOElEQVR42u3ay27DMAxEUf//T7tAVwEqKTNDJ6ioq1WQWLZPFgQfui553b/r9fPr+nvl7NfZlbNvHl4wYMDYlnEvV4Ux21v5y6ZUGDBgHMDQbzfbtQ6XOkBhw4ABA8Y6UGYAHQkDBgwYTwVcZa+SbrphHQYMGCczskdWGmdKkP1ILQ4DBowNGdlg4DufPz7fgAEDxr9n3OZaJ2furizIDu4PAwaM1oz1Cymlo4vPxg9SOIYBA0ZTRhYilYMXekFbL4ZhwIABQw/KWejMDo0NkkIYMGA0ZbjpmhtGs0Cs75ICMQwYMDZnuCFPSQ3dIxpKYfzmVxgwYBzDUEJnRlV+1cvjwd8BAwaM1ozs8Vm5qwRlN3GEAQPGCYxKIujuqlz/5k1gwIDRmqG39d1mnNvKd8tdGDBgnMbICk43dOqjAj3RvLLXggEDxlYM/eBC9hIZ0r4eBgwYrRlKWLQHimaT7uF+IQwYMNox9LTMbb25xa17IGMwiYUBA0ZThj5idB+cjTNLwwYYMGA0Zejpmh4K3T+iUtbCgAHjHIZSviq3dtv9jzXgYMCA0ZpRnwAqu9xQq9zHOK8BAwaMzRm3uSqHw9zU02jDwYABozVDX9lBCj3FVF60EqZhwICxO0MvX91MrB6O9cIYBgwYJzCUwOcmc5XjGu5AAgYMGDCU1NBtySkDVKPBBwMGDBjRcFFpmWWHPwZXwoAB4wBGdsxCT/Ky/p9CggEDxgmMegGZHbnImnclDAwYMPZj/ABhw3+tAFQtZAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

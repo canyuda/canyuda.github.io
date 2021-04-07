@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017081012843/">
+    
+    
+    <title>Java Web之Servlet | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java Web">
+    <meta name="description" content="略">
+<meta name="keywords" content="Java Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Web之Servlet">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017081012843/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Web之Servlet">
+<meta name="twitter:description" content="略">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java Web之Servlet</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java Web之Servlet</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-10T11:11:29.000Z" itemprop="datePublished" class="page-time">
+  2017-08-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提"><span class="post-toc-number">1.</span> <span class="post-toc-text">前提</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#WEB相关"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">WEB相关</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软件架构"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">软件架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Web服务器"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Web服务器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#资源"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">资源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Tomcat安装"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">Tomcat安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HTTP协议"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">HTTP协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#请求"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">请求</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#响应"><span class="post-toc-number">1.6.2.</span> <span class="post-toc-text">响应</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Servlet"><span class="post-toc-number">2.</span> <span class="post-toc-text">Servlet</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet的生命周期"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Servlet的生命周期</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动时加载"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">启动时加载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#访问路径的处理"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">访问路径的处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet中得到web目录下的文件"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">Servlet中得到web目录下的文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#乱码的解决"><span class="post-toc-number">3.</span> <span class="post-toc-text">乱码的解决</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Java-Web之Servlet"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java Web之Servlet</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-10 19:11:29" datetime="2017-08-10T11:11:29.000Z"  itemprop="datePublished">2017-08-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>4 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>略<br><a id="more"></a></p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><h3 id="WEB相关"><a href="#WEB相关" class="headerlink" title="WEB相关"></a>WEB相关</h3><p>web(World Wide Web)即全球广域网,也叫万维网.基于超文本和HTTP的分布式图形信息系统.</p>
+<h3 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h3><ol>
+<li><p>C/S</p>
+<p>即客户端/服务器的结构,需要同时开发客户端和服务器,服务器负担小点,一些逻辑可以分配给客户端处理.</p>
+</li>
+<li><p>B/S</p>
+<p>即浏览器/服务器的结构,不需要客户端,仅仅需要浏览器,使用方便,但是服务器处理所有逻辑,</p>
+</li>
+</ol>
+<h3 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h3><ol>
+<li>Tomcat服务器:Apache公司,开源,免费</li>
+<li>WebSphere服务器:IBM公司,大型,收费</li>
+<li>WebLogic服务器:BEA公司,大型,收费</li>
+<li>IIS服务器:微软,用于.Net平台</li>
+<li>Apache服务器:Apache公司,用于PHP平台</li>
+</ol>
+<h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><ol>
+<li>静态<ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JS</li>
+</ul>
+</li>
+<li>动态<ul>
+<li>Servlet</li>
+<li>JSP</li>
+<li>PHP</li>
+<li>ASP</li>
+</ul>
+</li>
+</ol>
+<h3 id="Tomcat安装"><a href="#Tomcat安装" class="headerlink" title="Tomcat安装"></a>Tomcat安装</h3><p>网上查</p>
+<h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><ol>
+<li>基于请求和响应模型<ul>
+<li>必须要先有请求，后有响应。</li>
+<li>请求和响应必须成对出现。</li>
+</ul>
+</li>
+<li>简单快捷<ul>
+<li>因为发送请求的时候只需要发送请求方式和请求路径即可</li>
+</ul>
+</li>
+</ol>
+<h4 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h4><p>三部分:</p>
+<ol>
+<li><p>请求行</p>
+<p>请求方式,请求路径,使用协议版本</p>
+<pre><code>GET / HTTP/1.1
+</code></pre></li>
+<li><p>请求头</p>
+<p>修饰请求的参数,key:value格式</p>
+<pre><code>Host: www.baidu.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6
+Cookie: PSTM=1499256449; 
+</code></pre></li>
+<li><p>请求体</p>
+<p>请求内容,key=value格式</p>
+<p><strong><em>只有post方式才有请求体</em></strong></p>
+<pre><code>BIDUPSID=466826E580D5EAA9916FE1722DFB567E; __cfduid=d35a63fec825c335b2020219e0e6d2f821499497945; BDUSS=TdoVWxnZTRPWHBWd0ZSQTdQMjY4UnpGV1ZtdEJPbE8zRldRcS00SXR4R0FVNXhaSVFBQUFBJCQAAAAAAAAAAAEAAADmWjVOstPf1di839UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDGdFmAxnRZS; BAIDUID=432F9D527217510DDA00119B0DC37E3B:SL=0:NR=20:FG=1; BD_UPN=12314753; BD_HOME=1; H_PS_PSSID=1449_13549_21126_18560_24093_22073; sug=3; sugstore=0; ORIGIN=0; bdime=0
+</code></pre></li>
+</ol>
+<h4 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h4><p>与请求类似,有响应行,响应头,响应体</p>
+<ol>
+<li>响应行<ul>
+<li>协议版本</li>
+<li>状态码<ul>
+<li>200-响应成功</li>
+<li>302-需要重定向</li>
+<li>304-需要查询本地缓存</li>
+<li>404-请求资源不存在</li>
+<li>500-服务器内部错误</li>
+</ul>
+</li>
+<li>状态码描述</li>
+</ul>
+</li>
+<li>响应头<ul>
+<li>key : value 格式</li>
+<li>重要响应头<ul>
+<li>Location重定向</li>
+<li>Refresh定时刷新</li>
+<li>Content-Disposition文件下载时候使用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>响应体<ul>
+<li>用户浏览的页面代码(html)</li>
+</ul>
+</li>
+</ol>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><p>Servlet其实就一个运行在web服务器上的小的Java程序，用于处理从web客户端发送的请求，并且对请求作出响应。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>底层是java类继承Servlet接口,</p>
+<p>开发使用的方式是:继承tomcat中的HttpServlet类,重写doPost()和doGet()方法来实现</p>
+<p>然后配置servlet(目的:使url映射到编写的servlet类上),有两种方式:</p>
+<ol>
+<li>web.xml中()</li>
+<li>Servlet类上使用@WebServlet(..)注解</li>
+</ol>
+<h3 id="Servlet的生命周期"><a href="#Servlet的生命周期" class="headerlink" title="Servlet的生命周期"></a>Servlet的生命周期</h3><p>Servlet是在第一次被访问的时候会被实例化，只要Servlet一被实例化那么Servlet中的init方法就会执行（init只会执行一次）。任何一次从客户端发送来的请求，那么Servlet中的service方法就会执行（在service方法的内部根据请求的方式不同调用不同doXXX方法）。当Servlet从服务器中移除或者服务器关闭的时候Servlet对象被销毁，里面的destroy方法就会执行，然后垃圾回收就会将其回收掉。</p>
+<h3 id="启动时加载"><a href="#启动时加载" class="headerlink" title="启动时加载"></a>启动时加载</h3><p>修改Servlet的加载时间为服务器启动加载</p>
+<p>给Servlet添加load-on-startup属性,属性值为 <strong><em>2</em></strong> (tomcat服务中存在一个值为1默认的Servlet,该Servlet必须先于任何一个Servlet启动)</p>
+<h3 id="访问路径的处理"><a href="#访问路径的处理" class="headerlink" title="访问路径的处理"></a>访问路径的处理</h3><p>Servlet的urlPattern属性<code>/url</code> 斜杠代表根路径即web目录,并且<code>*</code> 可以作为通配符来使用.</p>
+<h3 id="Servlet中得到web目录下的文件"><a href="#Servlet中得到web目录下的文件" class="headerlink" title="Servlet中得到web目录下的文件"></a>Servlet中得到web目录下的文件</h3><p>通过IO流获得</p>
+<ol>
+<li><pre><code>String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db.properties&quot;);
+InputStream is = new FileInputStream(path);
+//is就是该文件的io流
+</code></pre></li>
+<li><pre><code>InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);
+</code></pre></li>
+</ol>
+<h2 id="乱码的解决"><a href="#乱码的解决" class="headerlink" title="乱码的解决"></a>乱码的解决</h2><ol>
+<li><p>对于response</p>
+<pre><code>response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+</code></pre></li>
+<li><p>对于request</p>
+<pre><code>//post
+request.setCharacterEncoding(&quot;utf-8&quot;);
+//get,tomcat8以上不用考虑编码问题
+String str = new String(&quot;中文&quot;.getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);
+</code></pre></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.845Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017081012843/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017081012843/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-Web/">Java Web</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017081012843/&title=《Java Web之Servlet》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017081012843/&title=《Java Web之Servlet》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017081012843/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java Web之Servlet》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017081012843/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017081012843/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017081149224/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java Web之Cookie&amp;Session</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017080541550/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数据库-索引</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017081012843/&title=《Java Web之Servlet》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017081012843/&title=《Java Web之Servlet》 — 灿若繁星&source=略" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017081012843/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java Web之Servlet》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017081012843/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017081012843/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACPUlEQVR42u3aMY7DMAxEUd//0k6zRYBE8sxQWUDUdxXYga2ngqBIXpd83W/X6M7n/c+n2TuXXTBgwNiWcU+v+X/en2ZfmeOVtcGAAeMcxujDo9/K01E4VkK2vjYYMGDAGP1HuaMni/NNgQEDBozKq91wqRxcYcCAAaNyiHVD7RyQHW4XnMVhwICxIUOvuv//75/0N2DAgLEV4zYvpYjvhvLKev7eAwMGjNaMegMyK7rZB1Ql0YQBA0ZThrssfQhMH/ZSSm8PMBgwYLRmuAdXtxBWv5NtDQwYMDox9Baj+0mlJeBu3PD/MGDAOJ6RlcOUtqWbbg6fwoABozVDaSW6gVLBu63KMJOFAQNGC0b9A3ogVhJQ/fj6JTWEAQNGa4aSoultSHdTlCbow0pgwIBxDEM5dmYpYDZ4YRTvYMCA0Zqhl+b1sJsx3BAcdl9hwICxLaOSFLopoIIPZ0ZgwIDRmpG1B7KQmo2RGSEbBgwY7RjuMdINi/rhNmsqwIAB4wSGnsApIbKyEXqL1B6/gAEDRgtGNh7hlsMqb5a2CQYMGAcw6gWytQmfW+yDAQPGCQx3kMLtjrpHX71TCQMGjN6M27zccOxukzLkcblxHQYMGJszVoVLvdmpNxLqWwMDBoxOjFWNycpxVymxhY0BGDBgNGIo6Zr7mbBwFiFhwIABI1uiG3DdEP/DgAsDBoxGDOXOw5BENJCxOODCgAFjE4Y+7uA2ErK0T28ewIAB4wRGNuKgH2LrT/X0EQYMGO0YL2eg8C5c+3P8AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

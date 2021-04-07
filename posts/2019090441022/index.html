@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019090441022/">
+    
+    
+    <title>UML类图 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="图表">
+    <meta name="description" content="UML类图关系及介绍 与Java代码的对应关系 PlantUML制作类图 设计模式类图举例">
+<meta name="keywords" content="图表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML类图">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019090441022/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="UML类图关系及介绍 与Java代码的对应关系 PlantUML制作类图 设计模式类图举例">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-inheritance.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-implementation.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-dependency.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-association-composition-aggregation.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-5.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-6.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-5.png">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UML类图">
+<meta name="twitter:description" content="UML类图关系及介绍 与Java代码的对应关系 PlantUML制作类图 设计模式类图举例">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-1.png">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">UML类图</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">UML类图</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-04T01:46:34.000Z" itemprop="datePublished" class="page-time">
+  2019-09-04
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UML类图"><span class="post-toc-number">1.</span> <span class="post-toc-text">UML类图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#组成"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">组成</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#类"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#包"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">包</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#接口"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关系"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">关系</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关系与代码"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">关系与代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#继承（Inheritance）"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">继承（Inheritance）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实现-Realization-Implementation"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">实现(Realization/Implementation)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#依赖（Dependency）"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">依赖（Dependency）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关联（Association），组合（Composition），聚合（Aggregation）"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">关联（Association），组合（Composition），聚合（Aggregation）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他绘图"><span class="post-toc-number">2.</span> <span class="post-toc-text">其他绘图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关系标记"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">关系标记</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类标记"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">类标记</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注释标记"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">注释标记</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#设计模式的PLANTUML"><span class="post-toc-number">3.</span> <span class="post-toc-text">设计模式的PLANTUML</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Adapter模式"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Adapter模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Builder模式"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Builder模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Strategy模式"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">Strategy模式</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-UML类图"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">UML类图</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-04 09:46:34" datetime="2019-09-04T01:46:34.000Z"  itemprop="datePublished">2019-09-04</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>7 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>UML类图关系及介绍</li>
+<li>与Java代码的对应关系</li>
+<li>PlantUML制作类图</li>
+<li>设计模式类图举例</li>
+</ul>
+<a id="more"></a>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><blockquote>
+<p>UML类图 类图是一种静态的结构图，用于描述类与类之间的关联关系和类的属性。使用类图可以更好的理解代码的结构，简化对系统的理解。</p>
+</blockquote>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><p>类主要包含3部分：类名、属性和方法。某些情况下，类的性质和包含的内部类也可以包含在里面。其中类名不可省略，其他部分可以省略。<br>并且正体类名表示可以被实例化，斜体表示这个类是抽象的。</p>
+<p>属性的写法规范为：<code>修饰符[描述信息]属性, 方法名[参数][: 返回类型]</code>。 例如：<br><code>+doSomething(String name, int age) : void</code>。</p>
+<p>其中修饰符，加号（+）表示public；减号（-）表示private；井号(#)表示protected；省略这些修饰符表示具有package（包）级别的可见性。</p>
+<p>如果属性或方法具有下划线，则说明它是静态的。描述信息使用 <code>&lt;&lt;</code> 开头，使用 <code>&gt;&gt;</code> 结尾。类的性质是由一个属性、一个赋值方法和一个取值方法组成。书写方式和方法类似。</p>
+<h4 id="包"><a href="#包" class="headerlink" title="包"></a>包</h4><p>对应Java中的一个包。</p>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>接口是一系列操作的集合， 对应Java中的一个接口类型，UML中有两种表述方式： 1. 类似于类的方式；2.棒棒糖方式（适合接口中仅有一个方法）</p>
+<h4 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h4><p>常见的关系有： 继承（Inheritance），关联关系（Association），聚合关系（Aggregation），组合关系（Composition），依赖关系（Dependency）,实现关系(Realization/Implementation)。</p>
+<p>聚合和符合属于关联关系（Association），一般关系表现为继承或实现关系(is a)，关联关系表现为变量(has a )，依赖关系表现为函数中的参数（use a）。</p>
+<p>UML图如下：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-1.png" alt="20190904-uml-1.png" title>
+                </div>
+                <div class="image-caption">20190904-uml-1.png</div>
+            </figure></p>
+<h3 id="关系与代码"><a href="#关系与代码" class="headerlink" title="关系与代码"></a>关系与代码</h3><h4 id="继承（Inheritance）"><a href="#继承（Inheritance）" class="headerlink" title="继承（Inheritance）"></a>继承（Inheritance）</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Employee</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Programmer</span> <span class="token keyword">extends</span> <span class="token class-name">Employee</span><span class="token punctuation">{</span><span class="token punctuation">}</span>   
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-inheritance.png" alt="20190904-inheritance.png" title>
+                </div>
+                <div class="image-caption">20190904-inheritance.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-inheritance
+!define Class(name,desc) class name as "name\ndesc"
+namespace default{
+Class(Programmer, 程序员) {
+}
+abstract Class(Employee, 员工) {
+}
+Employee <|-- Programmer : 泛化(继承)
+}
+@enduml
+</code></pre>
+</details>
+<h4 id="实现-Realization-Implementation"><a href="#实现-Realization-Implementation" class="headerlink" title="实现(Realization/Implementation)"></a>实现(Realization/Implementation)</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">interface</span> <span class="token class-name">Code</span><span class="token punctuation">{</span> 
+    <span class="token keyword">void</span> <span class="token function">code</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Programmer</span> <span class="token keyword">interface</span> <span class="token class-name">Code</span><span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">code</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"coding"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-implementation.png" alt="20190904-implementation.png" title>
+                </div>
+                <div class="image-caption">20190904-implementation.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-implementation
+!define Class(name,desc) class name as "name\ndesc"
+!define Interface(name,desc) interface name as "name\ndesc"
+namespace default{
+Class(Programmer, 程序员) {
+}
+Interface(Code, 编码技能) {
+}
+Code <|.. Programmer : 实现
+}
+@enduml
+</code></pre>
+</details>
+<h4 id="依赖（Dependency）"><a href="#依赖（Dependency）" class="headerlink" title="依赖（Dependency）"></a>依赖（Dependency）</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Keyboard</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Programmer</span><span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">code</span><span class="token punctuation">(</span>Keyboard keyboard<span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-dependency.png" alt="20190904-dependency.png" title>
+                </div>
+                <div class="image-caption">20190904-dependency.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-dependency
+!define Class(name,desc) class name as "name\ndesc"
+!define Interface(name,desc) interface name as "name\ndesc"
+namespace default{
+Class(Programmer, 程序员) {
+    +code(Keyboard keyboard) : void
+}
+Class(Keyboard, 键盘) {
+}
+Keyboard <.. Programmer : 实现
+}
+@enduml
+</code></pre>
+</details>
+<h4 id="关联（Association），组合（Composition），聚合（Aggregation）"><a href="#关联（Association），组合（Composition），聚合（Aggregation）" class="headerlink" title="关联（Association），组合（Composition），聚合（Aggregation）"></a>关联（Association），组合（Composition），聚合（Aggregation）</h4><blockquote>
+<p>关联，组合，聚合 三者Java上无区别， 仅仅是<strong>概念上的差别</strong>。</p>
+<ul>
+<li>关联：A类有B类有逻辑上的连接，例如：学生-课程， 学生选课， 课被学生选；</li>
+<li>组合：A类拥有一个B类， 例如：汽车-引擎， 引擎是汽车的组成部分；</li>
+<li>聚合：A类有一个B类，例如：公司-员工， 公司内包含员工；</li>
+</ul>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Student</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Course<span class="token operator">></span> courses<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Course</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Student<span class="token operator">></span> students<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Car</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> Engine engine<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Tyre<span class="token operator">></span> tyres<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Engine</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Tyre</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Company</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Employee<span class="token operator">></span> employeies<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Employee</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-association-composition-aggregation.png" alt="20190904-association-composition-aggregation.png" title>
+                </div>
+                <div class="image-caption">20190904-association-composition-aggregation.png</div>
+            </figure>
+<details><summary>PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-association-composition-aggregation
+!define Class(name,desc) class name as "name\ndesc"
+!define Interface(name,desc) interface name as "name\ndesc"
+
+namespace association{
+    Class(Student, 学生) {
+        -List<Course> courses
+    }
+    Class(Course, 课程) {
+        -List<Student> students(非必需包含本属性)
+    }
+    Student "n" --> "n" Course : 关联
+}
+namespace composition{
+    Class(Car, 汽车) {
+        -Engine engine
+        -List<Tyre> tyres
+    }
+    Class(Engine, 引擎) {
+    }
+    Class(Tyre, 轮胎) {
+    }
+    Car "1" *--> "1" Engine : 一对一组合
+    Car "1" *--> "n" Tyre : 一对多组合
+}
+namespace aggregation{
+    Class(Company, 公司) {
+        -List<Employee> employee
+    }
+    Class(Employee, 员工) {
+    }
+    Company "1" o--> "n" Employee : 聚合
+}
+@enduml
+</code></pre>
+</details>
+<h2 id="其他绘图"><a href="#其他绘图" class="headerlink" title="其他绘图"></a>其他绘图</h2><h3 id="关系标记"><a href="#关系标记" class="headerlink" title="关系标记"></a>关系标记</h3><p>在标签的开始或结束位置添加&lt; 或 &gt;以表明是哪个对象作用到哪个对象上。</p>
+<pre class=" language-text"><code class="language-text">@startuml 20190904-mark-1
+class Car
+class Wheel
+class Person
+class Driver
+
+Driver - Car : drives >
+Car *- Wheel : have 4 >
+Car -- Person : < owns
+@enduml
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-1.png" alt="20190904-mark-1.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-1.png</div>
+            </figure>
+<h3 id="类标记"><a href="#类标记" class="headerlink" title="类标记"></a>类标记</h3><p>一旦你定义了域或者方法，你可以定义 相应条目的可访问性质。</p>
+<pre class=" language-text"><code class="language-text">@startuml 20190904-mark-2
+
+class Dummy {
+ -field1
+ #field2
+ ~method1()
+ +method2()
+}
+
+@enduml
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-2.png" alt="20190904-mark-2.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-2.png</div>
+            </figure>
+<p>通过修饰符<code>{static}</code>或者<code>{abstract}</code>，可以定义静态或者抽象的方法或者属性。</p>
+<pre class=" language-text"><code class="language-text">@startuml 20190904-mark-3
+class Dummy {
+  {static} String id
+  {abstract} void methods()
+}
+@enduml
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-3.png" alt="20190904-mark-3.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-3.png</div>
+            </figure>
+<p>分割线</p>
+<p>plantuml 默认会使用实线分割类名，成员，方法。同时也支持自定义分割线</p>
+<pre class=" language-text"><code class="language-text">@startuml 20190904-mark-4
+class Foo1 {
+  You can use
+  several lines
+  ..
+  as you want
+  and group
+  ==
+  things together.
+  __
+  You can have as many groups
+  as you want
+  --
+  End of class
+}
+
+class User {
+  .. Simple Getter ..
+  + getName()
+  + getAddress()
+  .. Some setter ..
+  + setName()
+  __ private data __
+  int age
+  -- encrypted --
+  String password
+}
+@enduml
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-4.png" alt="20190904-mark-4.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-4.png</div>
+            </figure>
+<h3 id="注释标记"><a href="#注释标记" class="headerlink" title="注释标记"></a>注释标记</h3><p>备注和模板</p>
+<p>模板通过类关键字(“&lt;&lt;”和”&gt;&gt;”)来定义</p>
+<p>你可以使用<code>note left of</code> , <code>note right of</code> , <code>note top of</code> , <code>note bottom of</code>这些关键字来添加备注。</p>
+<p>你还可以在类的声明末尾使用<code>note left</code>, <code>note right</code>,<code>note top</code>, <code>note bottom</code>来添加备注。</p>
+<p>此外，单独用note这个关键字也是可以的，使用<code>..</code>符号可以作出一条连接它与其它对象的虚线。</p>
+<pre class=" language-text"><code class="language-text">@startuml 20190904-mark-6
+class Object << general >>
+Object <|--- ArrayList
+
+note top of Object : In java, every class\nextends this one.
+
+note "This is a floating note" as N1
+note "This note is connected\nto several objects." as N2
+Object .. N2
+N2 .. ArrayList
+
+class Foo
+note left: On last defined class
+
+@enduml
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-5.png" alt="20190904-mark-5.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-5.png</div>
+            </figure>
+<p>可以在注释中使用部分html标签:</p>
+<ul>
+<li><code>&lt;b&gt;</code> <strong>加粗</strong></li>
+<li><code>&lt;u&gt;</code> <u>下划线</u></li>
+<li><code>&lt;i&gt;</code> <em>斜体</em></li>
+<li><code>&lt;s&gt;</code> <del>删除线</del></li>
+</ul>
+<pre><code>@startuml 20190904-mark-6
+
+class Foo
+note left: On last defined class
+
+note top of Object
+  In java,&lt;u&gt;class&lt;&#x2F;u&gt;
+  &lt;b&gt;extends&lt;&#x2F;b&gt;
+  &lt;i&gt;this&lt;&#x2F;i&gt; one.
+end note
+
+note as N1
+  This note is &lt;u&gt;also&lt;&#x2F;u&gt;
+  &lt;s&gt;words&lt;&#x2F;s&gt; lines
+  And this is hosted by
+end note
+
+@enduml</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-6.png" alt="20190904-mark-6.png" title>
+                </div>
+                <div class="image-caption">20190904-mark-6.png</div>
+            </figure>
+<h2 id="设计模式的PLANTUML"><a href="#设计模式的PLANTUML" class="headerlink" title="设计模式的PLANTUML"></a>设计模式的PLANTUML</h2><h3 id="Adapter模式"><a href="#Adapter模式" class="headerlink" title="Adapter模式"></a>Adapter模式</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-2.png" alt="20190904-uml-2.png" title>
+                </div>
+                <div class="image-caption">20190904-uml-2.png</div>
+            </figure>
+<details><summary>对象适配器模式PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-uml-2
+
+class Client {
+
+}
+
+interface Adapter {
+    +operation()
+}
+
+class ConcreteAdapter {
+    -adapteee
+    +operation()
+}
+
+class Adaptee {
+    +adaptedOperation()
+}
+
+note "对象适配器模式" as N1
+
+Client -right-> Adapter
+Adapter <|-down- ConcreteAdapter
+Adaptee <-right- ConcreteAdapter
+N1 -right- ConcreteAdapter
+
+@enduml
+</code></pre>
+</details>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-3.png" alt="20190904-uml-3.png" title>
+                </div>
+                <div class="image-caption">20190904-uml-3.png</div>
+            </figure>
+<details><summary>类适配器模式PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-uml-3
+
+class Client {
+
+}
+
+interface Adapter {
+    +operation()
+}
+
+class ConcreteAdapter {
+    +operation()
+}
+
+class Adaptee {
+    +adaptedOperation()
+}
+
+note "类适配器模式" as N1
+
+Client -right-> Adapter
+Adapter <|-down- ConcreteAdapter
+Adaptee <|-left- ConcreteAdapter
+N1 -right- ConcreteAdapter
+
+@enduml
+</code></pre>
+</details>
+<h3 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-4.png" alt="20190904-uml-4.png" title>
+                </div>
+                <div class="image-caption">20190904-uml-4.png</div>
+            </figure>
+<details><summary>Builder模式PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-uml-4
+class Director {
+    -pbuilder : Builder *
+    +constuct() : Product*
+    +setBuilder(Builder*) : void
+}
+
+class Builder {
+    + builderPartA() : void
+    + builderPartB() : void
+    + builderPartC() : void
+    + getResult() : void
+}
+
+class ConcreteBuilder {
+    + builderPartA() : void
+    + builderPartB() : void
+    + builderPartC() : void
+}
+
+class Product {
+
+}
+
+note as N1
+pbuilder->builderPartA();
+pbuilder->builderPartB();
+pbuilder->builderPartC();
+pbuilder->getResult();
+end note
+
+Director o-right- Builder
+Director -- N1
+Builder <|.down. ConcreteBuilder
+ConcreteBuilder .right.> Product
+
+@enduml
+</code></pre>
+</details>
+<h3 id="Strategy模式"><a href="#Strategy模式" class="headerlink" title="Strategy模式"></a>Strategy模式</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-5.png" alt="20190904-uml-5.png" title>
+                </div>
+                <div class="image-caption">20190904-uml-5.png</div>
+            </figure>
+<details><summary>Strategy模式PUML</summary><pre class=" language-text"><code class="language-text">@startuml 20190904-uml-5
+class Context {
+    -Strategy strategy
+    +doSomething() : void
+    +setStrategy(Strategy*) : void
+}
+
+interface Strategy {
+    +execute() : void
+}
+
+class StrategyA {
+    +execute() : void
+}
+
+class StrategyB {
+    +execute() : void
+}
+
+Context *-right- Strategy
+Strategy <-up- StrategyA
+Strategy <-up- StrategyB
+
+@enduml
+</code></pre>
+</details>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.829Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019090441022/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019090441022/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chart/">图表</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019090441022/&title=《UML类图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019090441022/&title=《UML类图》 — 灿若繁星&source=
+UML类图关系及介绍
+与Java代码的对应关系
+PlantUML制作类图
+设计模式类图举例
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019090441022/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《UML类图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019090441022/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019090441022/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019090539633/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">设计模式-概述</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2019082357928/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MyBatis(二)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019090441022/&title=《UML类图》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019090441022/&title=《UML类图》 — 灿若繁星&source=
+UML类图关系及介绍
+与Java代码的对应关系
+PlantUML制作类图
+设计模式类图举例
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019090441022/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《UML类图》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019090441022/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019090441022/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aQXLDIAwF0Nz/0um2M62JvuR2xvBYZeIU9LygCOn1Ko/3t3H1zc/vfz7tzXnbwMDAeCzjvRyVBSoL1+dff38ZCQYGxgGMdXBXG+vV5/V2XNmy67FhYGBgjKYuHxZvWAsDAwNjsKWmiSsGBgbGJImtL1O5XOsltzfk4hgYGA9k1IP4/89/Ut/AwMB4FOMdjnk5s5LKxlFhYGBszZgXINdJbCV9nRdEMTAw9makYaVNEmmjRrNRDAMD4wBG77LsrkNk5Vj5AYyBgXEYYxJE/VA4+QfwS7QYGBgHMNKwegXIXkNG6SkGBsbWjPqkd7VZ3DvDK303GBgYD2Sk11uT0mMzQa2UEDAwMA5g1JPYSaJbv9WvFx4wMDBOY6RbZPMcWqYGl3cYGBjHMCbtX2l7RHoAjZstMDAwtmZUeMECrcQ1bjXDwMA4gBEXCwetEs1A1y8FAwNja8Y8sezx0tLCDeVMDAyMLRi9I1raTlEJtHc9h4GBsTfjroat3i8n13O/lAcwMDC2ZqRJaa+oOSlwflgdAwPjAEYvoFd5pMfNtF6JgYGxK+MdjrQkmb6mNCXGwMA4gTHZLtO/7ZUfJq8GAwNjJ0avJat+ETZv2ljHgIGBcQ6jslFWpksv6dJN/PKlYGBgYBQ23HqBoX6IDObBwMDAWIa+3kY/NEmkTRW9SiwGBsYWjDSs9On8Uu+26zYMDIwHMnotDukyk6f14yMGBsZ2jC95HPoImcdyegAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2020061330600/">
+    
+    
+    <title>JVM字节码之字节码指令一 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="字节码指令大致分类 条件跳转类指令 对象初始化指令">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM字节码之字节码指令一">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2020061330600/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="字节码指令大致分类 条件跳转类指令 对象初始化指令">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM字节码之字节码指令一">
+<meta name="twitter:description" content="字节码指令大致分类 条件跳转类指令 对象初始化指令">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM字节码之字节码指令一</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM字节码之字节码指令一</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-13T06:27:49.000Z" itemprop="datePublished" class="page-time">
+  2020-06-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#字节码指令的分类"><span class="post-toc-number">1.</span> <span class="post-toc-text">字节码指令的分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#条件跳转类型指令"><span class="post-toc-number">2.</span> <span class="post-toc-text">条件跳转类型指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#循环遍历"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">循环遍历</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#判断"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">判断</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#switch-case"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">switch-case</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#tableswitch"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">tableswitch</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#lookupswitch"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">lookupswitch</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#特殊情况"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">特殊情况</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#枚举类型的switch"><span class="post-toc-number">2.3.4.</span> <span class="post-toc-text">枚举类型的switch</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符串类型的switch"><span class="post-toc-number">2.3.5.</span> <span class="post-toc-text">字符串类型的switch</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#hashCode相同的情况"><span class="post-toc-number">2.3.5.1.</span> <span class="post-toc-text">hashCode相同的情况</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象初始化指令"><span class="post-toc-number">3.</span> <span class="post-toc-text">对象初始化指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#main部分"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">main部分</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#static-部分"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">static 部分</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常见的题目"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">常见的题目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#先看下B的构造器的字节码"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">先看下B的构造器的字节码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#A-B实例化流程"><span class="post-toc-number">3.3.2.</span> <span class="post-toc-text">A,B实例化流程</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM字节码之字节码指令一"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM字节码之字节码指令一</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-13 14:27:49" datetime="2020-06-13T06:27:49.000Z"  itemprop="datePublished">2020-06-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>13 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>字节码指令大致分类</li>
+<li>条件跳转类指令</li>
+<li>对象初始化指令</li>
+</ul>
+<a id="more"></a>
+<h2 id="字节码指令的分类"><a href="#字节码指令的分类" class="headerlink" title="字节码指令的分类"></a>字节码指令的分类</h2><blockquote>
+<p>javac 源码中 com.sun.tools.javac.jvm.ByteCodes 接口类, 列举了所有的字节码指令.</p>
+</blockquote>
+<p>字节码根据用途不同可以有如下的分类:</p>
+<ul>
+<li>加载存储指令, 例如: iload, istore</li>
+<li>控制转移指令, 用于跳转, 例如: ifeq</li>
+<li>对象操作指令, 例如: new 用于创建实例</li>
+<li>方法调用指令, 例如: invokevirtual 用于调用对象的实例方法</li>
+<li>运算指令, 例如: iadd 加法</li>
+<li>线程同步指令, 例如: monitorenter, monitorexit</li>
+<li>异常处理指令, 例如: athrow 显式抛异常</li>
+</ul>
+<h2 id="条件跳转类型指令"><a href="#条件跳转类型指令" class="headerlink" title="条件跳转类型指令"></a>条件跳转类型指令</h2><blockquote>
+<p>ifeq、iflt、ifle、ifne、ifgt、ifge、ifnull、ifnonnull、if_icmpeq、 if_icmpne、if_icmplt, if_icmpgt、if_icmple、if_icmpge、if_acmpeq、if_acmpne、tableswitch、lookupswitch、goto、goto_w、jsr、jsr_w、ret</p>
+</blockquote>
+<h3 id="循环遍历"><a href="#循环遍历" class="headerlink" title="循环遍历"></a>循环遍历</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> numbers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> number <span class="token operator">:</span> numbers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>编译后关键的字节码为:</p>
+<pre class=" language-text"><code class="language-text">0: getstatic     #2                  // Field numbers:[I
+3: astore_1
+4: aload_1
+5: arraylength
+6: istore_2
+7: iconst_0
+8: istore_3
+9: iload_3
+10: iload_2
+11: if_icmpge     33
+14: aload_1
+15: iload_3
+16: iaload
+17: istore        4
+19: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+22: iload         4
+24: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V
+27: iinc          3, 1
+30: goto          9
+33: return
+</code></pre>
+<p>其中循环体从 <code>9: iload_3</code> 到 <code>33: return</code>, 可以看到首先加载了 3位置上的索引值<code>index</code> 和 2位置上的数组长度<code>length</code>, 然后进行了比较 <code>if_icmpge</code>, 如果循环完成将会跳转到<code>33</code>, 如果未完成循环, 它会从1位置取数组<code>array</code> 和 3位置上的<code>index</code>, 用<code>iaload</code>指令把<code>array</code>中下标为<code>index</code>的元素, 加入到操作数栈中, 然后存储到4位置的局部变量表中, 之后调用打印相关的指令, 最后会对3位置上的<code>index</code>进行<code>iinc</code>操作(iinc操作不需要依赖栈进行,效率比较高), 并执行<code>goto</code>跳转到<code>9</code>.</p>
+<blockquote>
+<p><code>for(item : array)</code> 是Java为了方便开发搞的语法糖, 原形还是<code>for(int i = 0;i &lt; array.length; i++)</code>.</p>
+</blockquote>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-text"><code class="language-text">0: iconst_1
+1: istore_1
+2: iload_1
+3: iconst_1
+4: if_icmpne     14
+7: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+10: iload_1
+11: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+14: return
+</code></pre>
+<p>这里使用了 <code>if_icmpne</code> 指令.</p>
+<h3 id="switch-case"><a href="#switch-case" class="headerlink" title="switch-case"></a>switch-case</h3><p><code>switch-case</code> 有两种指令负责<code>tableswitch</code>和<code>lookupswitch</code>, 两个的区别是:</p>
+<ol>
+<li><code>tableswitch</code>, case必须是连续的, 针对case比较紧凑的情况下, 查找的效率比较高;</li>
+<li><code>lookupswitch</code>, 查找方式上使用二分法, 应对与case比较稀疏的情况;</li>
+</ol>
+<p>java在编译成字节码时, 会分析成本, 选择使用<code>tableswitch</code>, 还是使用<code>lookupswitch</code>, 下面举几个例子.</p>
+<h4 id="tableswitch"><a href="#tableswitch" class="headerlink" title="tableswitch"></a>tableswitch</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">5</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成如下:</p>
+<pre class=" language-text"><code class="language-text">0: iconst_1
+1: istore_1
+2: iload_1
+3: tableswitch   { // 1 to 5
+            1: 36
+            2: 47
+            3: 80
+            4: 58
+            5: 69
+        default: 80
+}
+36: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+39: ldc           #3                  // String 1
+41: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+44: goto          88
+47: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+50: ldc           #5                  // String 2
+52: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+55: goto          88
+58: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+61: ldc           #6                  // String 4
+63: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+66: goto          88
+69: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+72: ldc           #7                  // String 5
+74: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+77: goto          88
+80: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+83: ldc           #8                  // String default
+85: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+88: return
+</code></pre>
+<p>可以看出<code>switch-case</code>中 case使用了 1,2,4,5;(没有使用3), 但是字节码中却自动补充了3, 那是应为java觉得补一个3并使用<code>tableswitch</code>的成本小于使用<code>lookupswitch</code>的成本, 所以字节码中自动补了<code>case 3</code>并让他跳转到<code>default</code>相同的位置.</p>
+<h4 id="lookupswitch"><a href="#lookupswitch" class="headerlink" title="lookupswitch"></a>lookupswitch</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">100</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">200</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"200"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">400</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"400"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">500</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"500"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成如下:</p>
+<pre class=" language-text"><code class="language-text">0: iconst_1
+1: istore_1
+2: iload_1
+3: lookupswitch  { // 4
+            100: 44
+            200: 55
+            400: 66
+            500: 77
+        default: 88
+}
+44: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+47: ldc           #3                  // String 100
+...略
+</code></pre>
+<p>这里使用了<code>lookupswitch</code>, 那是因为 100,200,400,500 跨度非常大, 如果自动补齐 100-200,200-400,400-500中的case, 并使用<code>tableswitch</code>, 这种的成本大于直接使用<code>lookupswitch</code>.</p>
+<h4 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成如下:</p>
+<pre class=" language-text"><code class="language-text">0: iconst_1
+1: istore_1
+2: iload_1
+3: lookupswitch  { // 2
+            1: 28
+            2: 39
+        default: 50
+}
+28: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+31: ldc           #3                  // String 1
+33: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+36: goto          58
+39: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+42: ldc           #5                  // String 2
+44: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+47: goto          58
+50: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+53: ldc           #6                  // String default
+55: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+58: return
+</code></pre>
+<p>这里case 只有 1和2, 而java选择了<code>lookupswitch</code>, 而不是<code>tableswitch</code>, 其实在case量比较小的情况下, 两种的效率没有大的差别, 之所以会选择<code>lookupswitch</code>, 要看看javac的源码(<code>com.sun.tools.javac.jvm.Gen</code>中的<code>visitSwitch(JCSwitch tree)</code>方法).</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">visitSwitch</span><span class="token punctuation">(</span>JCSwitch tree<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token keyword">long</span> table_space_cost <span class="token operator">=</span> <span class="token number">4</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">long</span><span class="token punctuation">)</span> hi <span class="token operator">-</span> lo <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// words</span>
+    <span class="token keyword">long</span> table_time_cost <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// comparisons</span>
+    <span class="token keyword">long</span> lookup_space_cost <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token keyword">long</span><span class="token punctuation">)</span> nlabels<span class="token punctuation">;</span>
+    <span class="token keyword">long</span> lookup_time_cost <span class="token operator">=</span> nlabels<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> opcode <span class="token operator">=</span>
+        nlabels <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+        table_space_cost <span class="token operator">+</span> <span class="token number">3</span> <span class="token operator">*</span> table_time_cost <span class="token operator">&lt;=</span>
+        lookup_space_cost <span class="token operator">+</span> <span class="token number">3</span> <span class="token operator">*</span> lookup_time_cost
+        <span class="token operator">?</span>
+        tableswitch <span class="token operator">:</span> lookupswitch<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol>
+<li><code>hi</code> = 2 , <code>lo</code> = 1, <code>nlabels</code> = 2 的情况下, <code>lookupswitch</code>成本比较低</li>
+<li><code>hi</code> = 3 , <code>lo</code> = 1, <code>nlabels</code> = 3 的情况下, <code>tableswitch</code>成本比较低</li>
+</ol>
+<h4 id="枚举类型的switch"><a href="#枚举类型的switch" class="headerlink" title="枚举类型的switch"></a>枚举类型的switch</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>yuda<span class="token punctuation">.</span>test<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Type a <span class="token operator">=</span> Type<span class="token punctuation">.</span>A<span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> A<span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> B<span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"B"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> C<span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"C"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">enum</span> Type <span class="token punctuation">{</span>
+    A<span class="token punctuation">,</span>
+    B<span class="token punctuation">,</span>
+    C<span class="token punctuation">,</span>
+    D<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成如下:</p>
+<pre class=" language-text"><code class="language-text">4: getstatic     #3                  // Field com/yuda/test/Main$1.$SwitchMap$com$yuda$test$Type:[I
+7: aload_1
+8: invokevirtual #4                  // Method com/yuda/test/Type.ordinal:()I
+11: iaload
+12: tableswitch   { // 1 to 3
+                1: 40
+                2: 51
+                3: 62
+            default: 73
+    }
+...略
+</code></pre>
+<p>可以看到使用了<code>tableswitch</code>, 对于枚举, 枚举类会有个<code>ordinal</code>方法, 每一个枚举项都会有个整数对应, 枚举类型被转换成整数类型来处理了.</p>
+<h4 id="字符串类型的switch"><a href="#字符串类型的switch" class="headerlink" title="字符串类型的switch"></a>字符串类型的switch</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String a <span class="token operator">=</span> args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token string">"1bcd"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"1bcd"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token string">"2111"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"2111"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token string">"33434"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"33434"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成如下:</p>
+<pre class=" language-text"><code class="language-text">0: aload_0
+1: iconst_0
+2: aaload
+3: astore_1
+4: aload_1
+5: astore_2
+6: iconst_m1
+7: istore_3
+8: aload_2
+9: invokevirtual #2                  // Method java/lang/String.hashCode:()I
+12: lookupswitch  { // 3
+        1538207: 62
+        1557106: 48
+    48670517: 76
+        default: 87
+}
+48: aload_2
+49: ldc           #3                  // String 1bcd
+51: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+54: ifeq          87
+57: iconst_0
+58: istore_3
+59: goto          87
+62: aload_2
+63: ldc           #5                  // String 2111
+65: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+68: ifeq          87
+71: iconst_1
+72: istore_3
+73: goto          87
+76: aload_2
+77: ldc           #6                  // String 33434
+79: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+82: ifeq          87
+85: iconst_2
+86: istore_3
+87: iload_3
+88: tableswitch   { // 0 to 2
+            0: 116
+            1: 127
+            2: 138
+        default: 149
+}
+116: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+119: ldc           #3                  // String 1bcd
+121: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+124: goto          157
+127: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+130: ldc           #5                  // String 2111
+132: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+135: goto          157
+138: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+141: ldc           #6                  // String 33434
+143: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+146: goto          157
+149: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+152: ldc           #9                  // String default
+154: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+157: return
+</code></pre>
+<p>局部变量表为:</p>
+<pre class=" language-text"><code class="language-text">+───────+────+────────+─────────────+
+| 0     | 1  | 2      | 3           |
++───────+────+────────+─────────────+
+| args  | a  | tempa  | matchIndex  |
++───────+────+────────+─────────────+
+</code></pre>
+<ul>
+<li><code>args</code> 是方法的参数</li>
+<li><code>a</code> 是 <code>String a = args[0];</code> 对应的</li>
+<li><code>tempa</code>和<code>matchIndex</code> 后面看看.</li>
+</ul>
+<p>通过字节码可以看出, 把入参 a 赋值给局部变量表下标为 2 的变量，记为<code>tempa</code>，初始化局部变量表 3 位置的变量为 -1，记为 <code>matchIndex</code>, 然后取字符串的hashCode, 使用<code>lookupswitch</code> 进行跳转, 分别跳转到62,48,76,87位置, 然后取出2位置保存的<code>tempa</code>, 使用String的<code>equals()</code>方法来判断是否相等, 如果不相等跳转到87位置, 如果相等, 会往3位置的matchIndex赋值, 可能赋的值为 <code>0,1,2</code>.</p>
+<p>然后进入第二阶段, 从3位置取出刚刚赋的值, 通过<code>tableswitch</code> 来进行跳转, 分别对应<code>116,127,138,149</code> 各个位置, 执行各种不同的<code>System.out.println()</code>方法.</p>
+<blockquote>
+<p>结论: 字符串使用<code>switch-case</code>,  就是通过字符串的hashCode, 进行一次跳转, 跳转后的逻辑是: 执行<code>equals()</code>方法, 如果符合条件, 则对一个标志位赋值, 然后再通过标志位的值来再进行一次跳转, 第二次跳转到真正需要执行的代码逻辑. (<code>tableswitch</code>与<code>lookupswitch</code>的成本分析对这两次跳转依然是生效的)</p>
+</blockquote>
+<h5 id="hashCode相同的情况"><a href="#hashCode相同的情况" class="headerlink" title="hashCode相同的情况"></a>hashCode相同的情况</h5><blockquote>
+<p>如何造出hashCode相同的字符串? 答: 根据hashCode生成源码来看, 例如有个两个字符的字符串, 第一个字符<code>-1</code>, 第二个字符<code>+31</code>, 则这两个字符串hashCode相同.</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String a <span class="token operator">=</span> args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token string">"CC"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"1bcd"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token string">"Bb"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"2111"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token string">"33434"</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"33434"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>得到如下:</p>
+<pre class=" language-text"><code class="language-text">0: aload_0
+1: iconst_0
+2: aaload
+3: astore_1
+4: aload_1
+5: astore_2
+6: iconst_m1
+7: istore_3
+8: aload_2
+9: invokevirtual #2                  // Method java/lang/String.hashCode:()I
+12: lookupswitch  { // 2
+        2144: 40
+    48670517: 68
+        default: 79
+}
+40: aload_2
+41: ldc           #3                  // String Bb
+43: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+46: ifeq          54
+49: iconst_1
+50: istore_3
+51: goto          79
+54: aload_2
+55: ldc           #5                  // String CC
+57: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+60: ifeq          79
+63: iconst_0
+64: istore_3
+65: goto          79
+68: aload_2
+69: ldc           #6                  // String 33434
+71: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+74: ifeq          79
+77: iconst_2
+78: istore_3
+79: iload_3
+80: tableswitch   { // 0 to 2
+            0: 108
+            1: 119
+            2: 130
+        default: 141
+}
+108: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+111: ldc           #8                  // String 1bcd
+113: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+116: goto          149
+119: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+122: ldc           #10                 // String 2111
+124: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+127: goto          149
+130: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+133: ldc           #6                  // String 33434
+135: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+138: goto          149
+141: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+144: ldc           #11                 // String default
+146: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+149: return
+</code></pre>
+<p>可以看到第一个<code>lookupswitch</code> 只有三种跳转逻辑, 那是<code>BB</code> 和 <code>Aa</code>的hashCode(2144)相同导致的. 2144 跳转到 40位置, 通过<code>equals()</code>方法判断是否等于Bb, 如果不等于再判断是否等于<code>CC</code>, 如果依然不等于将不会赋值.</p>
+<p>伪代码如下:</p>
+<pre class=" language-text"><code class="language-text">String a = ""
+int matchIndex = -1
+switch(a.hashCode()) {
+    case 2144:
+        if (a.equals("Bb")){
+            matchIndex = 1
+        } else if (a.equals("CC")) {
+            matchIndex = 0
+        }
+        break;
+    case 48670517:
+        matchIndex = 2
+    default:
+}
+switch(matchIndex){
+    case 0:
+        System.out.println("1bcd");
+    case 1:
+        System.out.println("2111");
+    case 2:
+        System.out.println("33434");
+    default:
+        System.out.println("default");
+}
+</code></pre>
+<h2 id="对象初始化指令"><a href="#对象初始化指令" class="headerlink" title="对象初始化指令"></a>对象初始化指令</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> <span class="token punctuation">{</span>
+        a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Object o <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-text"><code class="language-text">  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: new           #2                  // class java/lang/Object
+         3: dup
+         4: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         7: astore_1
+         8: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        11: getstatic     #4                  // Field a:I
+        14: invokevirtual #5                  // Method java/io/PrintStream.println:(I)V
+        17: return
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: iconst_1
+         1: putstatic     #4                  // Field a:I
+         4: iconst_2
+         5: putstatic     #4                  // Field a:I
+         8: return
+</code></pre>
+<h3 id="main部分"><a href="#main部分" class="headerlink" title="main部分"></a>main部分</h3><p><code>new</code>, <code>dup</code>, <code>invokespecial</code> 任何使用 <code>new XXX()</code> 来创建实例的方式, 都要这三个指令.</p>
+<ol>
+<li>调用new, 创建一个实例, 但是实例的构造器没有执行.</li>
+<li>调用dup, 操作数栈赋值一个栈顶元素.</li>
+<li>调用invokespecial, 执行栈顶元素的构造器, 完成对象的创建.</li>
+</ol>
+<blockquote>
+<p>为啥要<code>dup</code>? 答: 执行<code>invokespecial</code>指令时, 让操作数栈的栈顶元素出栈, 然后执行构造器, 然而<code>invokespecial</code>指令执行后, 不会再入栈(具体要看JVM源码), 最终导致与刚刚实例化的对象失去联系, <code>astore_1</code> 操作找不到对象, 所以需要曲线救国, <code>invokespecial</code>执行前先<code>dup</code>一下.</p>
+</blockquote>
+<h3 id="static-部分"><a href="#static-部分" class="headerlink" title="static 部分"></a>static 部分</h3><p><code>&lt;static&gt;</code> 是类的静态初始化 比 <code>&lt;init&gt;</code> 调用得更早一些，<code>&lt;static&gt;</code> 不会直接被调用，它在下面这个四个指令触发调用：<code>new</code>, <code>getstatic</code>, <code>putstatic</code> or <code>invokestatic</code>。也就是说，初始化一个类实例、访问一个静态变量或者一个静态方法，类的静态初始化方法就会被触发。</p>
+<h3 id="常见的题目"><a href="#常见的题目" class="headerlink" title="常见的题目"></a>常见的题目</h3><p>下面代码输出什么?</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        A b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"A init"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"A Instance"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token keyword">extends</span> <span class="token class-name">A</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"B init"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">B</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"B Instance"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>结果:</p>
+<pre class=" language-text"><code class="language-text">A init
+B init
+A Instance
+B Instance
+</code></pre>
+<h4 id="先看下B的构造器的字节码"><a href="#先看下B的构造器的字节码" class="headerlink" title="先看下B的构造器的字节码"></a>先看下B的构造器的字节码</h4><pre class=" language-text"><code class="language-text">0: aload_0
+1: invokespecial #1                  // Method com/yuda/test/A."<init>":()V
+4: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+7: ldc           #3                  // String B Instance
+9: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+12: return
+</code></pre>
+<p>可以看到 如果要输出<code>B Instance</code>, 首先需要<code>invokespecial</code>一下<code>A</code>的<code>&lt;init&gt;</code></p>
+<h4 id="A-B实例化流程"><a href="#A-B实例化流程" class="headerlink" title="A,B实例化流程"></a>A,B实例化流程</h4><ol>
+<li>首先需要执行B的构造器, 发现B的<code>&lt;static&gt;</code>没有执行, 于是需要先执行B的<code>&lt;static&gt;</code>.</li>
+<li>发现A的<code>&lt;static&gt;</code> 也没有执行, 先执行A的<code>&lt;static&gt;</code>.</li>
+<li>A的<code>&lt;static&gt;</code>执行后, 开始执行B的<code>&lt;static&gt;</code>.</li>
+<li>B的<code>&lt;static&gt;</code>执行完成, 需要执行B的构造器</li>
+<li>发现A的<code>&lt;static&gt;</code>没有执行.</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.837Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2020061330600/" target="_blank" rel="external">http://blog.canyuda.top/posts/2020061330600/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020061330600/&title=《JVM字节码之字节码指令一》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020061330600/&title=《JVM字节码之字节码指令一》 — 灿若繁星&source=
+字节码指令大致分类
+条件跳转类指令
+对象初始化指令
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020061330600/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之字节码指令一》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020061330600/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020061330600/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/202006154745/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JVM字节码之字节码指令二</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/202006062912/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JVM字节码之原理一</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020061330600/&title=《JVM字节码之字节码指令一》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020061330600/&title=《JVM字节码之字节码指令一》 — 灿若繁星&source=
+字节码指令大致分类
+条件跳转类指令
+对象初始化指令
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020061330600/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之字节码指令一》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020061330600/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020061330600/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3ay26DQAwF0Pz/T6dSV5WiwPV4qIQ5rCrCYw4L1/b49YqP9+/xeebv+W/X5Hd9/rr5wMDAuC3jfXhUX/9tKceLS957/HwMDIwnMI6DbL64ZCnJh8jXhoGBgdG5pnoGAwMD4zpGkkpW78XAwMBYK2Krna4ksObF87ZaHAMD44aM6sbAf/594f4GBgbGTRjv4pG32JI35u25k1VhYGCMZqw15fNNzWpJXI2u5ZoYAwPjhozO5mXeyl8L5YUQj4GBMZrRqRMLEX3pCXkDDgMDYzYjLyB3jVb08SflKwYGxjjGrg3IziBFNfZ/vR4DA2M0oxo0q8MQu0Y3Cp8AAwNjHKPT8NobsjstOQwMjNmMKx5dDbJ5slguZTEwMG7OSILjYhlZvLc1tIGBgTGacRzm8l3QHFa9Ml8bBgbGVEYecNda/P27FoctMDAwBjE67bNkKbvK4PLIBQYGxiBGJymsJo7VM4XkEgMDYzRjb9qXD43laWi+LYqBgTGVkaR9a+37zkBYeQ0YGBiPZKwtt9ruzwc1NgxbYGBg3JaRpHqdlO6KAQ4MDIynMTo7CWvbn2sbAyelNQYGxmhGfuSPW0v78mS02s7DwMCYwahuT+apXjUc5+CT3BYDA2MoYy3IdkYo1v4DnAxbYGBgPJ7RSfXWBjgKTToMDAyMeHNxbVAjX/rXD4GBgfEARl7E9lv/1XI3WgkGBsZoxtrGQOf11dGNzlAIBgbGzRk/0Og84mUGEyUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

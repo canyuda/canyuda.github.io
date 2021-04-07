@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2020061729000/">
+    
+    
+    <title>JVM字节码之字节码指令三 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="异常处理指令 线程同步指令">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM字节码之字节码指令三">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2020061729000/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="异常处理指令 线程同步指令">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM字节码之字节码指令三">
+<meta name="twitter:description" content="异常处理指令 线程同步指令">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM字节码之字节码指令三</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM字节码之字节码指令三</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-17T05:34:18.000Z" itemprop="datePublished" class="page-time">
+  2020-06-17
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#异常处理"><span class="post-toc-number">1.</span> <span class="post-toc-text">异常处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#有返回值的情况"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">有返回值的情况</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#另外一种有返回值的情况"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">另外一种有返回值的情况</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#finally中抛出异常"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">finally中抛出异常</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程同步"><span class="post-toc-number">2.</span> <span class="post-toc-text">线程同步</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法上的synchronized"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">方法上的synchronized</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized-代码块"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">synchronized{} 代码块</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM字节码之字节码指令三"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM字节码之字节码指令三</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-17 13:34:18" datetime="2020-06-17T05:34:18.000Z"  itemprop="datePublished">2020-06-17</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>7 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>异常处理指令</li>
+<li>线程同步指令</li>
+</ul>
+<a id="more"></a>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IndexOutOfBoundsException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成:</p>
+<pre class=" language-text"><code class="language-text">  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=3, args_size=1
+         0: invokestatic  #2                  // Method test1:()V
+         3: invokestatic  #3                  // Method test3:()V
+         6: goto          35
+
+         9: astore_1
+        10: invokestatic  #5                  // Method test2:()V
+        13: invokestatic  #3                  // Method test3:()V
+        16: goto          35
+
+        19: astore_1
+        20: invokestatic  #5                  // Method test2:()V
+        23: invokestatic  #3                  // Method test3:()V
+        26: goto          35
+
+        29: astore_2
+        30: invokestatic  #3                  // Method test3:()V
+        33: aload_2
+        34: athrow
+        35: return
+      Exception table:
+         from    to  target type
+             0     3     9   Class java/lang/IndexOutOfBoundsException
+             0     3    19   Class java/lang/Exception
+             0     3    29   any
+             9    13    29   any
+            19    23    29   any
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           10       3     1     e   Ljava/lang/IndexOutOfBoundsException;
+           20       3     1     e   Ljava/lang/Exception;
+            0      36     0  args   [Ljava/lang/String;
+      StackMapTable: number_of_entries = 4
+        frame_type = 73 /* same_locals_1_stack_item */
+          stack = [ class java/lang/IndexOutOfBoundsException ]
+        frame_type = 73 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Exception ]
+        frame_type = 73 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 5 /* same */
+</code></pre>
+<p>可以看出多了这些东西 <code>goto</code>指令,<code>athrow</code>指令, <code>Exception table</code> 和 <code>StackMapTable</code>, 并且局部变量表里面增加了一条记录.</p>
+<ul>
+<li><code>goto</code> : 用于跳转</li>
+<li><code>athrow</code> : 通过 <code>athrow</code> 可以知道局部变量表中位置为 2 的变量是一个异常</li>
+<li><code>Exception table</code> : 中的from和to限定了异常的处理范围, target表示跳转的位置, type表示可以捕获的异常类型</li>
+<li><code>StackMapTable</code> : 为了提高JVM在类型检查的验证过程的效率, 在字节码规范中添加了Stack Map Table属性, <code>number_of_entries</code>代表了栈图frame的个数</li>
+</ul>
+<p>finally中执行了<code>test3()</code>方法, 可以看到之所以finally可以保证执行, 是因为finally框住的逻辑被拷贝了几份, 分别放在<code>try</code>和<code>catch</code>代码块下面, 伪代码是这样的:</p>
+<pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IndexOutOfBoundsException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="有返回值的情况"><a href="#有返回值的情况" class="headerlink" title="有返回值的情况"></a>有返回值的情况</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>运行结果为<code>3</code></p>
+<pre class=" language-text"><code class="language-text">  public int test();
+    descriptor: ()I
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=4, args_size=1
+         0: aload_0
+         1: invokespecial #2                  // Method test1:()I
+         4: istore_1
+         5: aload_0
+         6: invokespecial #3                  // Method test3:()I
+         9: ireturn
+
+        10: astore_1
+        11: aload_0
+        12: invokespecial #5                  // Method test2:()I
+        15: istore_2
+        16: aload_0
+        17: invokespecial #3                  // Method test3:()I
+        20: ireturn
+
+        21: astore_3
+        22: aload_0
+        23: invokespecial #3                  // Method test3:()I
+        26: ireturn
+</code></pre>
+<p>从字节码上看就能知道, finally 在任何情况下都会执行, 所以<code>return test3();</code>必定会被执行, 所以一定返回了<code>3</code>.</p>
+<h3 id="另外一种有返回值的情况"><a href="#另外一种有返回值的情况" class="headerlink" title="另外一种有返回值的情况"></a>另外一种有返回值的情况</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Main m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>m<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//            int err = 1 / 0;</span>
+            <span class="token comment" spellcheck="true">// 其他代码</span>
+            <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 其他代码</span>
+            <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            i <span class="token operator">=</span> <span class="token operator">++</span>i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>结果为:<code>0</code></p>
+<pre class=" language-text"><code class="language-text">  public int test();
+    descriptor: ()I
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=5, args_size=1
+         0: iconst_0
+         1: istore_1
+         2: iload_1
+         3: istore_2
+         4: iinc          1, 1
+         7: iload_1
+         8: istore_1
+         9: iload_2
+        10: ireturn
+
+        11: astore_2
+        12: iload_1
+        13: istore_3
+        14: iinc          1, 1
+        17: iload_1
+        18: istore_1
+        19: iload_3
+        20: ireturn
+
+        21: astore        4
+        23: iinc          1, 1
+        26: iload_1
+        27: istore_1
+        28: aload         4
+        30: athrow
+</code></pre>
+<p>为什么finally一定会执行, 但是结果缺不是<code>i = i + 1</code>只后的<code>1</code>, 而是<code>0</code>呢? 从字节码上同样可以看出原因.</p>
+<ol>
+<li>局部变量表第一个位置是this <code>(this,null,null,exception)</code></li>
+<li>局部变量表第二个位置写入0 <code>(this,0,null,exception)</code></li>
+<li>加载局部变量表第二个位置的值到操作数栈, <code>[0]</code></li>
+<li>写入局部变量表第三个位置的值 <code>(this,0,0,exception)</code></li>
+<li>局部变量表第二个位置值加一 <code>(this,1,0,exception)</code></li>
+<li>加载局部变量表第二个位置的值到操作数栈, <code>[1]</code></li>
+<li>写入局部变量表第二个位置 <code>(this,1,0,exception)</code></li>
+<li>加载局部变量表第三个位置的值到操作数栈 <code>[0]</code></li>
+<li>返回操作数栈内的值 <code>0</code></li>
+</ol>
+<p>翻译成伪代码是这样的:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 其他代码</span>
+    <span class="token keyword">int</span> temp <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    i <span class="token operator">=</span> <span class="token operator">++</span>i<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> temp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 其他代码</span>
+    <span class="token keyword">int</span> temp <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    i <span class="token operator">=</span> <span class="token operator">++</span>i<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> temp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>有<code>return</code>和<code>finally{}</code>的情况下, <code>return</code>返回的值会有一个<code>tmp</code>保存, 等<code>finally{}</code>执行完成后, 会返回这个<code>tmp</code>.</p>
+<blockquote>
+<p>发现<code>LocalVariableTable</code>里面显示的不全, <code>locals=5</code> 但是<code>LocalVariableTable</code>里面只有3条, <code>this</code>和<code>tmp</code>没有显示出来.(也有可能是我理解的有问题)</p>
+</blockquote>
+<h3 id="finally中抛出异常"><a href="#finally中抛出异常" class="headerlink" title="finally中抛出异常"></a>finally中抛出异常</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"try"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"catch"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"finally"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-text"><code class="language-text">0: new           #2                  // class java/lang/RuntimeException
+3: dup
+4: ldc           #3                  // String try
+6: invokespecial #4                  // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+9: athrow
+10: astore_1
+11: new           #2                  // class java/lang/RuntimeException
+14: dup
+15: ldc           #6                  // String catch
+17: invokespecial #4                  // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+20: athrow
+21: astore_2
+22: new           #2                  // class java/lang/RuntimeException
+25: dup
+26: ldc           #7                  // String finally
+28: invokespecial #4                  // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+31: athrow
+</code></pre>
+<p>无论如何都会抛出<code>finally</code>中抛出的异常, 导致某些异常无法捕捉到, 可以使用<code>addSuppressed(e)</code>, 把未被打出的异常信息记录起来, 写法:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Exception tmpException <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"try"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            tmpException <span class="token operator">=</span> e<span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"catch"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"finally"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                tmpException<span class="token punctuation">.</span><span class="token function">addSuppressed</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>异常打印结果:</p>
+<pre class=" language-text"><code class="language-text">Exception in thread "main" java.lang.RuntimeException: catch
+    at com.yuda.test.Main.main(Main.java:15)
+Caused by: java.lang.RuntimeException: try
+    at com.yuda.test.Main.main(Main.java:12)
+    Suppressed: java.lang.RuntimeException: finally
+        at com.yuda.test.Main.main(Main.java:18)
+</code></pre>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><h3 id="方法上的synchronized"><a href="#方法上的synchronized" class="headerlink" title="方法上的synchronized"></a>方法上的<code>synchronized</code></h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    descriptor<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>V
+    flags<span class="token operator">:</span> ACC_PRIVATE<span class="token punctuation">,</span> ACC_STATIC<span class="token punctuation">,</span> ACC_SYNCHRONIZED
+    Code<span class="token operator">:</span>
+      stack<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> locals<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> args_size<span class="token operator">=</span><span class="token number">0</span>
+         <span class="token number">0</span><span class="token operator">:</span> getstatic     #<span class="token number">3</span>                  <span class="token comment" spellcheck="true">// Field java/lang/System.out:Ljava/io/PrintStream;</span>
+         <span class="token number">3</span><span class="token operator">:</span> iconst_1
+         <span class="token number">4</span><span class="token operator">:</span> invokevirtual #<span class="token number">4</span>                  <span class="token comment" spellcheck="true">// Method java/io/PrintStream.println:(I)V</span>
+         <span class="token number">7</span><span class="token operator">:</span> <span class="token keyword">return</span>
+      LineNumberTable<span class="token operator">:</span>
+        line <span class="token number">14</span><span class="token operator">:</span> <span class="token number">0</span>
+        line <span class="token number">15</span><span class="token operator">:</span> <span class="token number">7</span>
+</code></pre>
+<p>用<code>flags</code>来标记方法为<code>ACC_SYNCHRONIZED</code>, 进入方法时, JVM会尝试获取锁, 如果是实例方法, 获取对象锁, 如果是类方法, 则获取类锁.</p>
+<h3 id="synchronized-代码块"><a href="#synchronized-代码块" class="headerlink" title="synchronized{} 代码块"></a><code>synchronized{}</code> 代码块</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>Main<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>生成:</p>
+<pre class=" language-text"><code class="language-text">  private void test();
+    descriptor: ()V
+    flags: ACC_PRIVATE
+    Code:
+      stack=2, locals=3, args_size=1
+         0: ldc           #2                  // class com/yuda/test/Main
+         2: dup
+         3: astore_1
+
+         4: monitorenter
+
+         5: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         8: iconst_1
+         9: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V
+        12: aload_1
+        13: monitorexit
+        14: goto          22
+
+        17: astore_2
+        18: aload_1
+        19: monitorexit
+        20: aload_2
+        21: athrow
+        22: return
+      Exception table:
+         from    to  target type
+             5    14    17   any
+            17    20    17   any
+</code></pre>
+<ol>
+<li>将<code>com/yuda/test/Main</code>压入栈</li>
+<li>复制一个栈顶元素</li>
+<li>放到局部变量表的2位置</li>
+<li><code>monitorenter</code>指令, 用栈顶元素做锁.</li>
+<li>块内打印逻辑执行</li>
+<li>从局部变量表的2位置取出, 压入栈</li>
+<li><code>monitorexit</code>指令, 用栈顶元素释放锁</li>
+<li>跳转到<code>return</code>.</li>
+</ol>
+<p>为了保证锁一定能释放, JVM自动对<code>synchronized{}</code>加了异常处理的逻辑(即<code>finally{}</code>)</p>
+<blockquote>
+<p>牛逼的文章: <a href="https://juejin.im/post/5d5374076fb9a06ac76da894" target="_blank" rel="noopener">Synchronized解析——如果你愿意一层一层剥开我的心</a></p>
+</blockquote>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.837Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2020061729000/" target="_blank" rel="external">http://blog.canyuda.top/posts/2020061729000/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020061729000/&title=《JVM字节码之字节码指令三》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020061729000/&title=《JVM字节码之字节码指令三》 — 灿若繁星&source=
+异常处理指令
+线程同步指令
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020061729000/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之字节码指令三》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020061729000/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020061729000/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2020061826498/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JVM字节码之其他</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/202006154745/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JVM字节码之字节码指令二</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2020061729000/&title=《JVM字节码之字节码指令三》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2020061729000/&title=《JVM字节码之字节码指令三》 — 灿若繁星&source=
+异常处理指令
+线程同步指令
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2020061729000/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之字节码指令三》 — 灿若繁星&url=http://blog.canyuda.top/posts/2020061729000/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2020061729000/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKklEQVR42u3aS27DMAwFwNz/0u42QGDlkVIKWBqtAqu1PV4Q/Oj1itf1tu6ufF7/3O3dc9nCwMB4LOMarvHfvO/2njLGJ++GgYFxDuPuwePfd7vjcJyE7PzdMDAwMJKQOk7pkmQx/2QYGBgY1VuP08Rxidu7AwYGxsmMvEztNcjy9tzPa3EMDIwHMvKu+////sl8AwMD41GMq7iqQbAaLq/WwsDA2JuxagCZl8TNAjVJNDEwMA5g9IaOedGbN/WaB8UwMDA2Zcw8oNos612JPg0GBsZhjPyQVq80rSZ8UfqIgYFxAOMX48bkPsmBjGgXAwNja0b13+ZbY71RZbmUxcDA2IiRBMTx9fnRZnKfL0/HwMA4gNE7bZUkdklgnSFhYGCcyagmiMkje221QoGNgYFxJKMQ7IpHK3qFcVSFY2BgHMNY2+JfW7iWM1wMDIwtGMlL945KzAxB86CMgYFxDiMPnQm4OiKdGSpgYGCcyegNA6pNtJlQ/iUNxcDA2JSRtLeqA4Pq2a1esC6MBzAwMLZg9A5v5SE4f6F8FIGBgXEa4xWsakrXa7Ql96lsYGBgPJtxFddMOE4GnPk4EwMD4xzGTLjMA2KS5CUjiuqnwcDA2InRGwb0itLeoY2obMbAwDiAkaRrVXazcdYL/RgYGBhF0nxaWU1AMTAwMFYF3HzkWR6FYmBgHMCovlY+SFg1Il3WbsPAwHggo3fEIWmHrdrtpY8YGBhbMP4AK4/wLtcanpkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

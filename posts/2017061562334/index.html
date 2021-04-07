@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2017061562334/">
+    
+    
+    <title>JVM之内存区域与内存溢出异常 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="概述与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。 运行时数据区域Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM之内存区域与内存溢出异常">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017061562334/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="概述与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。 运行时数据区域Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM之内存区域与内存溢出异常">
+<meta name="twitter:description" content="概述与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。 运行时数据区域Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM之内存区域与内存溢出异常</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM之内存区域与内存溢出异常</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-15T06:23:17.000Z" itemprop="datePublished" class="page-time">
+  2017-06-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行时数据区域"><span class="post-toc-number">2.</span> <span class="post-toc-text">运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java虚拟机栈"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Java虚拟机栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java堆"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Java堆</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法区"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">方法区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时常量池"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">运行时常量池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#直接内存"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">直接内存</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HotSpot虚拟机对象探秘"><span class="post-toc-number">3.</span> <span class="post-toc-text">HotSpot虚拟机对象探秘</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象的创建"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">对象的创建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-指针碰撞"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">1.指针碰撞</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-空闲列表"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">2.空闲列表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象的内存布局"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">对象的内存布局</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象的访问定位"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">对象的访问定位</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用句柄"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">使用句柄</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用直接指针"><span class="post-toc-number">3.3.2.</span> <span class="post-toc-text">使用直接指针</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实战-OutOfMemoryError异常"><span class="post-toc-number">4.</span> <span class="post-toc-text">实战:OutOfMemoryError异常</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM之内存区域与内存溢出异常"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM之内存区域与内存溢出异常</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-15 14:23:17" datetime="2017-06-15T06:23:17.000Z"  itemprop="datePublished">2017-06-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>9 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <a id="more"></a>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。</p>
+<h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+<p>运行时数据区分为：所有线程共享的数据区和线程隔离的数据区。</p>
+<p>线程隔离的数据区有：程序计数器、Java虚拟机栈、本地方法栈。</p>
+<p>所有线程共享的数据区有：方法区和堆。</p>
+<p>下面进行一一介绍：</p>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器是一块较小的内存空间，通俗的讲它就是当前线程所执行的字节码的行号指示器，概念模型中，字节码解释器就是通过改变这个计数器的值来选取下一条需要执行的字节码指令。特点：各条线程都有一个特有的程序计数器，独立存储。</p>
+<p>如果该线程正在执行一个Java方法，这个计数器记录的是正在执行的虚拟机字节码指定地址：如果执行的是Native方法，这个计数器值为空（Undefined）。</p>
+<p>虚拟机规范中唯一没有规定任何OutOfMemoryError情况的区域。</p>
+<h3 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h3><p>线程私有的，生命周期同线程一样。描述的是Java方法执行的内存模型：</p>
+<blockquote>
+<p>每个方法在执行的时候会创建一个栈帧（Stack Frame）用于存储<br>局部变量表<br>操作数栈<br>动态链接<br>方法出口等信息。</p>
+</blockquote>
+<p>每个方法从调用直到完成的过程，对应这一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<p><strong>我的声音:</strong> 虚拟机栈中存放了一个挺重要的东西，叫局部变量表。局部变量表中包含了：</p>
+<ul>
+<li>编译器可知的各种基本数据类型（boolean、btye、char、short、int、float、long、double）</li>
+<li>对象引用（reference类型）(不是对象本身,可能是一个指向对象起始地址的引用指针,也可能是与此对象相关的位置)</li>
+<li>returnAddress类型(指向一条字节码指令的地址)</li>
+</ul>
+<p><strong>注:</strong> 其中64位长度的long和double类型的数据会占2个局部变量空间,其余的占1个.并且局部变量表所需的内存空间在编译期间完成分配.进入一个方法时,这个方法需要在帧中分配的空间是完全确定的.方法运行过程中不会改变局部变量表的大小.</p>
+<p>该区域存在两个异常状况:</p>
+<ol>
+<li>如果线程请求的栈深度大于虚拟机允许的深度,会抛出StackOverflowError异常.</li>
+<li>如果虚拟机栈可以动态拓展,并且拓展时无法得到足够的内存,就会抛出OutOfMemoryError异常.</li>
+</ol>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>本地方法栈(Native Method Stack) 与虚拟机栈所发挥的作用非常类似,它们的区别在于:虚拟机栈为虚拟机执行Java方法(字节码)服务;而本地方法栈则为虚拟机用到的Native方法服务.(虚拟机规范对其没有强制规定,例如Sun HotSpot虚拟机把虚拟机栈与本地方法栈合二为一).</p>
+<p>本地方法栈与虚拟机栈一样会抛出StackOverflowError和OutOfMemoryError异常.</p>
+<h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><p>Java Heap特别重要,是虚拟机所管理的内存中最大的区域,并且被所有线程所共有,用于存放对象实例,几乎所有的对象实例都在这里分配内存.</p>
+<p>Java堆是GC管理的主要区域.虚拟机规范规定,Java堆可以是物理上不连续的内存空间.</p>
+<p>如果堆中没有内存用来完成实例的分配,并且无法再拓展,就会抛出OutOfMemoryError异常.</p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><p>Method Area与Java堆一样,是线程共享的内存,用于存储已经被虚拟机加载的:</p>
+<ul>
+<li>类信息</li>
+<li>常量</li>
+<li>静态变量</li>
+<li>即时编译器编译后的代码</li>
+<li>等等数据</li>
+</ul>
+<blockquote>
+<p><strong>我的声音:</strong> 方法区中的数据很难被GC回收,回收主要是常量池的回收和对类型的卸载,代码中直接写的<code>&quot;字符串&quot;</code>,<code>1</code>,<code>true</code>等等就会在方法区中保存.</p>
+</blockquote>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>Runtime Constant Pool是方法区的一部分.详情看书&lt;&lt;深入理解Java虚拟机&gt;&gt;.</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>Direct Memory 详情看书&lt;&lt;深入理解Java虚拟机&gt;&gt;.</p>
+<h2 id="HotSpot虚拟机对象探秘"><a href="#HotSpot虚拟机对象探秘" class="headerlink" title="HotSpot虚拟机对象探秘"></a>HotSpot虚拟机对象探秘</h2><p>移HotSpot虚拟机为例,探讨其在Java堆中对象分配,布局和访问全过程.</p>
+<h3 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h3><p>下面说的对象是普通对象,并不包括:数组和Class对象等.</p>
+<p>当虚拟机遇到了一个new指令时,首先去检查这个指令的参数是否能在常量池中定位到一个类的符号引用,并且检查该符号引用代表的类是否已经被加载,解析和初始化过.如果没有就会先执行相应类的类加载过程.</p>
+<p>类加载并且检查通过后,虚拟机将会给新生的对象分配内存.内存大小在类加载完成后就完全确定,(分配内存就是从Java堆中划出一个已定大小的区域给此对象实例),分配主要有两种方式:</p>
+<h4 id="1-指针碰撞"><a href="#1-指针碰撞" class="headerlink" title="1.指针碰撞"></a>1.指针碰撞</h4><p>如果Java堆中内存是规整的,就像一个整齐的仓库,已用的空间整齐的摆放着实例对象,中间放一个指针用于分界点的指示器,已用和未用的空间泾渭分明.有新的对象需要加入时,就把指示器移动一定大小德空间,然后再把对象放入进去.</p>
+<h4 id="2-空闲列表"><a href="#2-空闲列表" class="headerlink" title="2.空闲列表"></a>2.空闲列表</h4><p>如果Java堆中内存是不规整的,就像一个”杂乱的仓库”,可用空间和不可以空间交错,此时虚拟机就要维护一个列表,记录了哪些区域是可用的.分配空间的时候,从列表中找到一块足够大的区域划分出去,再更新列表的记录即可.</p>
+<p>这两种方式主要由Java堆是否规整来决定,如果规整就用指针碰撞,否则用空闲列表;而是否规整又由采用的垃圾收集器是否带有压缩整理功能决定.</p>
+<p>划分空间也是门学问,虚拟机中频繁有对象产生和销毁,A和B同时需要分配内存时,虚拟机需要解决个冲突的问题.解决这个问题有两个方案.</p>
+<ol>
+<li>对分配内存空间的动作进行同步处理.</li>
+<li>每个线程有一小块内存区域,称为本地线程分配缓存,不同线程的操作区域不同,当一小块满了后才需要同步锁定.</li>
+</ol>
+<p>内存分配完成后,虚拟机需要将分配完成的空间初始化为零值,接下来虚拟机对对象进行设置.完成了后对于虚拟机来说,一个对象产生了.但是对于java程序还没结束,init方法执行后,初始化完成后才能算是对象被new出来了.</p>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>略</p>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>Java虚拟机栈中的本地变量表中,有reference类型的对象引用,根据它的指向来确定是代表那个实例对象,目前有两种主流的访问方式,分别为:</p>
+<h4 id="使用句柄"><a href="#使用句柄" class="headerlink" title="使用句柄"></a>使用句柄</h4><p>本地变量表中的reference类型先指向Java堆中的句柄池,句柄中包含了对象实例数据与类型数据各自的具体地址,这些地址指向了Java堆中的对象或者方法区中类型数据.</p>
+<h4 id="使用直接指针"><a href="#使用直接指针" class="headerlink" title="使用直接指针"></a>使用直接指针</h4><p>本地变量表中的reference类型直接指向Java堆中的实例对象,如果实例对象包含了类型数据,则由对象实例中的类型数据指针指向方法区中的对象类型数据.</p>
+<p>这两种方法各有优势,使用句柄访问好处是:reference中存储的是稳定的句柄地址,在对象被移动的时候(垃圾回收时需要整理内存,所以要移动),只要改版句柄中的实例数据指针,而reference本身不需要改变.</p>
+<p>使用直接指针的好处在于,速度快,虚拟机中的定位需要耗时,它节省了指针定位的时间开销.<strong>注意:目前主要用的是直接指针,HotSpot也是,使用句柄比较罕见.</strong></p>
+<h2 id="实战-OutOfMemoryError异常"><a href="#实战-OutOfMemoryError异常" class="headerlink" title="实战:OutOfMemoryError异常"></a>实战:OutOfMemoryError异常</h2><p>略</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.843Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2017061562334/" target="_blank" rel="external">http://blog.canyuda.top/posts/2017061562334/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061562334/&title=《JVM之内存区域与内存溢出异常》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061562334/&title=《JVM之内存区域与内存溢出异常》 — 灿若繁星&source=I am a slow walker, but I never walk backwards." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061562334/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM之内存区域与内存溢出异常》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061562334/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061562334/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2017062025290/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JVM之垃圾收集器与内存分配策略</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2017061455468/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">设计模式-六大设计原则（三）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2017061562334/&title=《JVM之内存区域与内存溢出异常》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2017061562334/&title=《JVM之内存区域与内存溢出异常》 — 灿若繁星&source=I am a slow walker, but I never walk backwards." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2017061562334/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM之内存区域与内存溢出异常》 — 灿若繁星&url=http://blog.canyuda.top/posts/2017061562334/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2017061562334/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3aQW6EMAwF0Ln/pem6akm/nVAp5GWFZhDksbAc259PvK7hGt+ZPPPul8ULAwNjW0ayxfELkhfnzx//frsTDAyMAxjjzd0F1rvrcTgef5rxe29/x8DAwAhI4+fkIRsDAwNjFWOczOXg6hMwMDBOZvQ2lxfI8vLc42dxDAyMDRl51f3/rx/pb2BgYGzFuIqr2nqshsurtTAwMN7NmG9Ajsv6yfF1viGKgYFxDqPXdMwPvXlRrzkohoGB8WpGfnB9IolM0sqZMh8GBsbujKo4b2Tmoxi99PHbvxgYGAcwqsfIVWW4ZCAj+hcDA+PVjLXDYT129RzavBUDA2NbRi9Ermoe9JLOX64xMDAOYORF/2p47SWaeeMBAwPjNEa13VhthVapheIdBgbGqxnVtmU1NBeGuoaA8rAFBgbGixhrB7Zmgmw+uhENW2BgYLyUUR25SJqL1XvyT4OBgXEOoze2lY9N5IfbXlMBAwPjNEbyuKihGLDz424hEGNgYBzDWFa3i2tizfD6c1cYGBgHMPLD6kxSONPg/GNvGBgYxzDyQYo8scsLbdUma3kKAwMDY0PGVVyrJhxmhjzK3xgDA2NzRu8Imm8ob4gmSWf102BgYLyJUW0AzBw4q22AvAmBgYFxAiMvqCXhsjr4NXMYxsDAwOhtfT6trCagGBgYGNVyWGFIojWQsSzgYmBgbMXIU7pqYF2Q9q0tt2FgYGzI6I04zDQAVg1bYGBgHMD4AjPd0T8syF/7AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

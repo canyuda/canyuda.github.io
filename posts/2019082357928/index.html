@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/2019082357928/">
+    
+    
+    <title>MyBatis(二) | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="MyBatis">
+    <meta name="description" content="动态SQL Java API 日志">
+<meta name="keywords" content="MyBatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis(二)">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019082357928/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="动态SQL Java API 日志">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis(二)">
+<meta name="twitter:description" content="动态SQL Java API 日志">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MyBatis(二)</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MyBatis(二)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-23T03:45:44.000Z" itemprop="datePublished" class="page-time">
+  2019-08-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态SQL"><span class="post-toc-number">1.</span> <span class="post-toc-text">动态SQL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#if"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">if</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#choose-when-otherwise"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">choose, when, otherwise</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#trim-where-set"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">trim, where, set</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#foreach"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">foreach</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他语句"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">其他语句</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#script"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">script</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#bind"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">bind</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#多数据库支持"><span class="post-toc-number">1.5.3.</span> <span class="post-toc-text">多数据库支持</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#动态-SQL-中的可插拔脚本语言"><span class="post-toc-number">1.5.4.</span> <span class="post-toc-text">动态 SQL 中的可插拔脚本语言</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java-API"><span class="post-toc-number">2.</span> <span class="post-toc-text">Java API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SqlSessionFactoryBuilder"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">SqlSessionFactoryBuilder</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SqlSessionFactory"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">SqlSessionFactory</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SqlSession"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">SqlSession</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#执行语句"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">执行语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事务控制方法"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">事务控制方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地缓存"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">本地缓存</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用映射器"><span class="post-toc-number">2.3.4.</span> <span class="post-toc-text">使用映射器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#映射器注解"><span class="post-toc-number">2.3.5.</span> <span class="post-toc-text">映射器注解</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#日志1"><span class="post-toc-number">3.</span> <span class="post-toc-text">日志1</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#日志配置-Log4J"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">日志配置(Log4J)</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-MyBatis-二"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MyBatis(二)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-23 11:45:44" datetime="2019-08-23T03:45:44.000Z"  itemprop="datePublished">2019-08-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>11 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>动态SQL</li>
+<li>Java API</li>
+<li>日志</li>
+</ul>
+<a id="more"></a>
+<h2 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h2><blockquote>
+<p>MyBatis 可以根据参数来动态拼接SQL, 以免为了不同业务, 而写出大量近乎雷同的SQL, 极大简化了开发</p>
+</blockquote>
+<ul>
+<li>if</li>
+<li>choose (when, otherwise)</li>
+<li>trim (where, set)</li>
+<li>foreach</li>
+</ul>
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>findActiveBlogWithTitleLike<span class="token punctuation">"</span></span>
+     <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Blog<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT * FROM BLOG
+  WHERE state = ‘ACTIVE’
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    AND title like #{title}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>author !<span class="token punctuation">=</span> null and author.name !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    AND author_name like #{author.name}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>如果传递了title 那么 <code>AND title like #{title}</code> 将会拼接到SQL中, 如果传递了author, 并且author包含了name属性, <code>AND author_name like #{author.name}</code> 将会被拼接到SQL.</p>
+<blockquote>
+<p>没有 <code>else</code> 这点有点不习惯, 不过可以使用 <code>choose, when, otherwise</code> 来实现 <code>if-else</code></p>
+</blockquote>
+<h3 id="choose-when-otherwise"><a href="#choose-when-otherwise" class="headerlink" title="choose, when, otherwise"></a>choose, when, otherwise</h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>findActiveBlogLike<span class="token punctuation">"</span></span>
+     <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Blog<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT * FROM BLOG WHERE state = ‘ACTIVE’
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>choose</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>when</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      AND title like #{title}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>when</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>when</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>author !<span class="token punctuation">=</span> null and author.name !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      AND author_name like #{author.name}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>when</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>otherwise</span><span class="token punctuation">></span></span>
+      AND featured = 1
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>otherwise</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>choose</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><code>choose, when, otherwise</code> 类似于 Java 里面的 <code>switch</code> 语句, 上述表示, 如果 title 不为空, 则拼接 <code>AND title like #{title}</code>; 否则如果 author不为空, author.name不为空, 则拼接 <code>AND author_name like #{author.name}</code>; 如果都不满足, 则拼接 <code>AND featured = 1</code>;</p>
+<h3 id="trim-where-set"><a href="#trim-where-set" class="headerlink" title="trim, where, set"></a>trim, where, set</h3><p>使用 <code>if</code> 有一个弊端, 拼接出的SQL可能会出现问题, 例如:</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>findActiveBlogLike<span class="token punctuation">"</span></span>
+     <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Blog<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT * FROM BLOG
+  WHERE
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>state !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    state = #{state}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    AND title like #{title}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>author !<span class="token punctuation">=</span> null and author.name !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    AND author_name like #{author.name}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>如果都不满足, 将会拼接出:</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> BLOG
+<span class="token keyword">WHERE</span>
+</code></pre>
+<p>如果第一个不满足, 会拼接出:</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> BLOG
+<span class="token keyword">WHERE</span>
+<span class="token operator">AND</span> title <span class="token operator">like</span> ‘someTitle’
+</code></pre>
+<p>查询必定失败, 为了解决这个问题, 出现了 <code>where</code></p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>findActiveBlogLike<span class="token punctuation">"</span></span>
+     <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Blog<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT * FROM BLOG
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>where</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>state !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+         state = #{state}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        AND title like #{title}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>author !<span class="token punctuation">=</span> null and author.name !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        AND author_name like #{author.name}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>where</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><code>where</code> 会在至少有一个元素被拼接时插入 where 语言, 但是这样还会有 <code>SELECT * FROM BLOG WHERE AND title like ‘someTitle’</code>, 这是就有了 <code>trim</code>, 例如:</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>trim</span> <span class="token attr-name">prefix</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>WHERE<span class="token punctuation">"</span></span> <span class="token attr-name">prefixOverrides</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>AND |OR <span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  ...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>trim</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><code>trim</code> 是一个代替 <code>where</code>的存在, 他能配合 <code>if</code> 拼接出正确的语句, 同理 <code>set</code> 也会出现 <code>where</code> 一样的问题, 这样的问题可以通过 <code>trim</code> 来解决.</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>update</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>updateAuthorIfNecessary<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  update Author
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>set</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>username !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>username=#{username},<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>password !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>password=#{password},<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>email !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>email=#{email},<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bio !<span class="token punctuation">=</span> null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>bio=#{bio}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>set</span><span class="token punctuation">></span></span>
+  where id=#{id}
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>update</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>异常情况下会拼接出:</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">update</span> Author
+<span class="token keyword">set</span>
+username<span class="token operator">=</span><span class="token string">'haha'</span><span class="token punctuation">,</span>
+<span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span>
+</code></pre>
+<p><code>set</code> 后的 <code>,</code> 号, 会导致执行失败, 通过 <code>trim</code> 可写为:</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>trim</span> <span class="token attr-name">prefix</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>SET<span class="token punctuation">"</span></span> <span class="token attr-name">suffixOverrides</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>,<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  ...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>trim</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>合理使用 <code>prefix</code>，<code>prefixOverrides</code>，<code>suffix</code>，<code>suffixOverrides</code> 这4个标签, 可以解决这个问题</p>
+<ul>
+<li>prefix : 如果里面有字符串, 它会拼接到前面</li>
+<li>suffix : 如果里面有字符串, 它会拼接到后面</li>
+<li>prefixOverrides: 如果里面有字符串, 前面的这个字符串会被删掉</li>
+<li>suffixOverrides: 如果里面有字符串, 后面的这个字符串会被删掉</li>
+</ul>
+<h3 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h3><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectPostIn<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>domain.blog.Post<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT *
+  FROM POST P
+  WHERE ID in
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>foreach</span> <span class="token attr-name">item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">index</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>index<span class="token punctuation">"</span></span> <span class="token attr-name">collection</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>list<span class="token punctuation">"</span></span> <span class="token attr-name">open</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(<span class="token punctuation">"</span></span> <span class="token attr-name">separator</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>,<span class="token punctuation">"</span></span> <span class="token attr-name">close</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        #{item}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>foreach</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>经常会出现根据id来查东西的情况, id数量不固定, 可能有多个可能有一个, 针对这种情况, 使用 foreach 可以利用变量来生成语句, 有下面的属性:</p>
+<ul>
+<li>item 类似于 <code>for(int a in list)</code> 中的 <code>a</code></li>
+<li>index 索引</li>
+<li>collection 传入的集合</li>
+<li>open 开头的字符</li>
+<li>separator 分割字符</li>
+<li>close 结尾的字符</li>
+</ul>
+<h3 id="其他语句"><a href="#其他语句" class="headerlink" title="其他语句"></a>其他语句</h3><h4 id="script"><a href="#script" class="headerlink" title="script"></a>script</h4><blockquote>
+<p>用于注解方式的SQL编写</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Update</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"&lt;script>"</span><span class="token punctuation">,</span>
+  <span class="token string">"update Author"</span><span class="token punctuation">,</span>
+  <span class="token string">"  &lt;set>"</span><span class="token punctuation">,</span>
+  <span class="token string">"    &lt;if test='username != null'>username=#{username},&lt;/if>"</span><span class="token punctuation">,</span>
+  <span class="token string">"    &lt;if test='password != null'>password=#{password},&lt;/if>"</span><span class="token punctuation">,</span>
+  <span class="token string">"    &lt;if test='email != null'>email=#{email},&lt;/if>"</span><span class="token punctuation">,</span>
+  <span class="token string">"    &lt;if test='bio != null'>bio=#{bio}&lt;/if>"</span><span class="token punctuation">,</span>
+  <span class="token string">"  &lt;/set>"</span><span class="token punctuation">,</span>
+  <span class="token string">"where id=#{id}"</span><span class="token punctuation">,</span>
+  <span class="token string">"&lt;/script>"</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">void</span> <span class="token function">updateAuthorValues</span><span class="token punctuation">(</span>Author author<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h4><p><code>bind</code> 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文。比如：</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectBlogsLike<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Blog<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bind</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pattern<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>%<span class="token punctuation">'</span> + _parameter.getTitle() + <span class="token punctuation">'</span>%<span class="token punctuation">'</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  SELECT * FROM BLOG
+  WHERE title LIKE #{pattern}
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>当sql比较复杂, 重复的比较多的使用, 用这个应该会很方便.</p>
+<h4 id="多数据库支持"><a href="#多数据库支持" class="headerlink" title="多数据库支持"></a>多数据库支持</h4><blockquote>
+<p>针对不同数据库的语句不同的情况使用, 不过一般情况下, 数据库选定后不会轻易的改变, 所以这种比较少用哦.</p>
+</blockquote>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>insert</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>insert<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>selectKey</span> <span class="token attr-name">keyProperty</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>int<span class="token punctuation">"</span></span> <span class="token attr-name">order</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>BEFORE<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>_databaseId <span class="token punctuation">=</span><span class="token punctuation">=</span> <span class="token punctuation">'</span>oracle<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      select seq_users.nextval from dual
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>_databaseId <span class="token punctuation">=</span><span class="token punctuation">=</span> <span class="token punctuation">'</span>db2<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      select nextval for seq_users from sysibm.sysdummy1"
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>selectKey</span><span class="token punctuation">></span></span>
+  insert into users values (#{id}, #{name})
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>insert</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="动态-SQL-中的可插拔脚本语言"><a href="#动态-SQL-中的可插拔脚本语言" class="headerlink" title="动态 SQL 中的可插拔脚本语言"></a>动态 SQL 中的可插拔脚本语言</h4><blockquote>
+<p>MyBatis 从 3.2 开始支持可插拔脚本语言，这允许你插入一种脚本语言驱动，并基于这种语言来编写动态 SQL 查询语句, MyBatis 提供了极大的可定制空间.</p>
+</blockquote>
+<ol>
+<li>实现如下接口<pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">LanguageDriver</span> <span class="token punctuation">{</span>
+   ParameterHandler <span class="token function">createParameterHandler</span><span class="token punctuation">(</span>MappedStatement mappedStatement<span class="token punctuation">,</span> Object parameterObject<span class="token punctuation">,</span> BoundSql boundSql<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   SqlSource <span class="token function">createSqlSource</span><span class="token punctuation">(</span>Configuration configuration<span class="token punctuation">,</span> XNode script<span class="token punctuation">,</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> parameterType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   SqlSource <span class="token function">createSqlSource</span><span class="token punctuation">(</span>Configuration configuration<span class="token punctuation">,</span> String script<span class="token punctuation">,</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> parameterType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><p>在 mybatis-config.xml 文件中将它设置为默认语言, 或者针对某一个语句设置特定语言.</p>
+<ol>
+<li>设置为默认语言<pre class=" language-xml"><code class="language-xml">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>typeAliases</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>typeAlias</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>org.sample.MyLanguageDriver<span class="token punctuation">"</span></span> <span class="token attr-name">alias</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>myLanguage<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>typeAliases</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>settings</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>setting</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>defaultScriptingLanguage<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>myLanguage<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>settings</span><span class="token punctuation">></span></span>
+</code></pre>
+</li>
+<li><p>针对某一个语句设置特定语言</p>
+<pre class=" language-xml"><code class="language-xml">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectBlog<span class="token punctuation">"</span></span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>myLanguage<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  SELECT * FROM BLOG
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>  or</p>
+<pre class=" language-java"><code class="language-java">  <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Mapper</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Lang</span><span class="token punctuation">(</span>MyLanguageDriver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Select</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM BLOG"</span><span class="token punctuation">)</span>
+    List<span class="token operator">&lt;</span>Blog<span class="token operator">></span> <span class="token function">selectBlog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Java-API"><a href="#Java-API" class="headerlink" title="Java API"></a>Java API</h2><blockquote>
+<p>这里主要介绍下 SqlSessions, 他是MyBatis中比较重要的接口.</p>
+</blockquote>
+<h3 id="SqlSessionFactoryBuilder"><a href="#SqlSessionFactoryBuilder" class="headerlink" title="SqlSessionFactoryBuilder"></a>SqlSessionFactoryBuilder</h3><blockquote>
+<p>SqlSessions 由 SqlSessionFactory 实例创建, SqlSessionFactory 由 SqlSessionFactoryBuilder 构建, 也可以由 XML, 注解 创建</p>
+</blockquote>
+<p>有5个方法, 用来创建 SqlSessionFactory</p>
+<pre><code>SqlSessionFactory build(InputStream inputStream);
+SqlSessionFactory build(InputStream inputStream, String environment);
+SqlSessionFactory build(InputStream inputStream, Properties properties);
+SqlSessionFactory build(InputStream inputStream, String env, Properties props);
+SqlSessionFactory build(Configuration config);
+</code></pre><p>属性可以从 mybatis-config.xml 中配置, 也可以方法传入, 还可以resource 或 url 指定, 对于相同的配置在多个地方配置, 是有优先级的, 对于重复属性, 前面加载的会被后面加载的所覆盖, 加载顺序是: </p>
+<ol>
+<li>首先读取在 mybatis-config.xml 中的 properties 元素体中指定的属性；</li>
+<li>其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；</li>
+<li>最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。</li>
+</ol>
+<h3 id="SqlSessionFactory"><a href="#SqlSessionFactory" class="headerlink" title="SqlSessionFactory"></a>SqlSessionFactory</h3><p>SqlSessionFactory 有六个方法创建 SqlSession 实例。通常来说，当你选择这些方法时你需要考虑以下几点：</p>
+<ul>
+<li><strong><em>事务处理</em></strong>：我需要在 session 使用事务或者使用自动提交功能（auto-commit）吗？（通常意味着很多数据库和/或 JDBC 驱动没有事务）</li>
+<li><strong><em>连接</em></strong>：我需要依赖 MyBatis 获得来自数据源的配置吗？还是使用自己提供的配置？</li>
+<li><strong><em>执行语句</em></strong>：我需要 MyBatis 复用预处理语句和/或批量更新语句（包括插入和删除）吗？</li>
+</ul>
+<pre><code>SqlSession openSession();
+SqlSession openSession(boolean autoCommit);
+SqlSession openSession(Connection connection);
+SqlSession openSession(TransactionIsolationLevel level);
+SqlSession openSession(ExecutorType execType, TransactionIsolationLevel level);
+SqlSession openSession(ExecutorType execType);
+SqlSession openSession(ExecutorType execType, boolean autoCommit);
+SqlSession openSession(ExecutorType execType, Connection connection);
+Configuration getConfiguration();
+</code></pre><h3 id="SqlSession"><a href="#SqlSession" class="headerlink" title="SqlSession"></a>SqlSession</h3><p>MyBatis 是通过 SqlSession 执行语句, 提交事务, 回滚事务 等操作的.</p>
+<h4 id="执行语句"><a href="#执行语句" class="headerlink" title="执行语句"></a>执行语句</h4><p>这些方法被用来执行定义在 SQL 映射的 XML 文件中的 增, 删, 改, 查 语句。它们都会自行解释，每一句都使用语句的 ID 属性和参数对象，参数可以是原生类型（自动装箱或包装类）、JavaBean、POJO 或 Map。</p>
+<h4 id="事务控制方法"><a href="#事务控制方法" class="headerlink" title="事务控制方法"></a>事务控制方法</h4><p>控制事务作用域有四个方法。 但是使用场景有限，如果已经设置了自动提交或你正在使用外部事务管理器，这就没有任何效果了。然而，如果你正在使用 JDBC 事务管理器，由Connection 实例来控制，那么这四个方法就会派上用场：</p>
+<blockquote>
+<p>Mybatis 一般会结合 Spring 使用, 一般会使用Spring来管理事务</p>
+</blockquote>
+<pre><code>void commit();
+void commit(boolean force);
+void rollback();
+void rollback(boolean force);
+</code></pre><h4 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h4><p>有两种: 本地缓存 和 二级缓存</p>
+<p>每创建一个新的 session, MyBatis 会创建一个关联的本地缓存, 保证不会重复查询数据库, 本地缓存默认能在整个Session周期内使用, 也可以设置 localCacheScope=STATEMENT 表示缓存仅在语句执行时有效。</p>
+<p><strong><em>注意</em></strong>: 如果 localCacheScope 被设置为 SESSION，那么 MyBatis 所返回的引用将传递给保存在本地缓存里的相同对象。对返回的对象（例如 list）做出任何更新将会影响本地缓存的内容，进而影响存活在 session 生命周期中的缓存所返回的值。因此，不要对 MyBatis 所返回的对象作出更改，以防后患。</p>
+<h4 id="使用映射器"><a href="#使用映射器" class="headerlink" title="使用映射器"></a>使用映射器</h4><p>MyBatis的sql是一般情况写到xml中的, 所以我们需要一个映射器, 来关联这语句, 调用这些映射器方法, 即可执行相应的SQL.</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AuthorMapper</span> <span class="token punctuation">{</span>
+  Author <span class="token function">selectAuthor</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Param</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> <span class="token keyword">int</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  List<span class="token operator">&lt;</span>Author<span class="token operator">></span> <span class="token function">selectAuthors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token annotation punctuation">@MapKey</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span>
+  Map<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Author<span class="token operator">></span> <span class="token function">selectAuthors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> <span class="token function">insertAuthor</span><span class="token punctuation">(</span>Author author<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> <span class="token function">updateAuthor</span><span class="token punctuation">(</span>Author author<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> <span class="token function">deleteAuthor</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>可以通过 <code>@Param</code> 来映射参数.</p>
+<h4 id="映射器注解"><a href="#映射器注解" class="headerlink" title="映射器注解"></a>映射器注解</h4><p>不仅仅可以使用xml来写sql, 注解也可以使用, 注解提供了一种简单的方式来实现简单映射语句，而不会引入大量的开销.</p>
+<p>仅仅列举我用过的啊, 感觉还是xml用着方便, 注解方式会让 XXXMapper.java 变的很难看, 我更喜欢干净的 XXXMapper.java</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>使用对象</th>
+<th>相对应的 XML</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Param</code></td>
+<td>参数</td>
+<td>N/A</td>
+<td>如果你的映射方法的形参有多个，这个注解使用在映射方法的参数上就能为它们取自定义名字。若不给出自定义名字，多参数（不包括 <code>RowBounds</code> 参数）则先以 “param” 作前缀，再加上它们的参数位置作为参数别名。例如 <code>#{param1}</code>, <code>#{param2}</code>，这个是默认值。如果注解是 <code>@Param(&quot;person&quot;)</code>，那么参数就会被命名为 <code>#{person}</code>。</td>
+</tr>
+<tr>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="日志1"><a href="#日志1" class="headerlink" title="日志1"></a>日志<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></h2><p>Mybatis 的内置日志工厂提供日志功能，内置日志工厂将日志交给以下其中一种工具作代理：</p>
+<ul>
+<li>SLF4J</li>
+<li>Apache Commons Logging</li>
+<li>Log4j 2</li>
+<li>Log4j</li>
+<li>JDK logging</li>
+</ul>
+<p>MyBatis 会运行时查找并选择合适的日志工具, 从上到下依次查找, 如果没有找到日志将被禁用.</p>
+<p><strong><em>注意</em></strong>: 很多应用服务器会自带 commons logging, 这种情况下MyBatis会默认其为日志工具, 如果你想用其他的日志工具, 可以在 <code>mybatis-config.xml</code> 中指定.</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>settings</span><span class="token punctuation">></span></span>
+    ...
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>setting</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>logImpl<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>LOG4J<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    ...
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>settings</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>logImpl 可选的值有：<code>SLF4J</code>、<code>LOG4J</code>、<code>LOG4J2</code>、<code>JDK_LOGGING</code>、<code>COMMONS_LOGGING</code>、<code>STDOUT_LOGGING</code>、<code>NO_LOGGING</code>，或者是实现了接口 <code>org.apache.ibatis.logging.Log</code> 的，且构造方法是以字符串为参数的类的完全限定名。</p>
+<p>你也可以调用如下任一方法来使用日志工具：</p>
+<pre class=" language-java"><code class="language-java">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>ibatis<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>LogFactory<span class="token punctuation">.</span><span class="token function">useSlf4jLogging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>ibatis<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>LogFactory<span class="token punctuation">.</span><span class="token function">useLog4JLogging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>ibatis<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>LogFactory<span class="token punctuation">.</span><span class="token function">useJdkLogging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>ibatis<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>LogFactory<span class="token punctuation">.</span><span class="token function">useCommonsLogging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>ibatis<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>LogFactory<span class="token punctuation">.</span><span class="token function">useStdOutLogging</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>如果你决定要调用以上某个方法，请在调用其它 MyBatis 方法之前调用它。另外，仅当运行时类路径中存在该日志工具时，调用与该日志工具对应的方法才会生效，否则 MyBatis 一概忽略。如你环境中并不存在 Log4J，你却调用了相应的方法，MyBatis 就会忽略这一调用，转而以默认的查找顺序查找日志工具。</p>
+<h3 id="日志配置-Log4J"><a href="#日志配置-Log4J" class="headerlink" title="日志配置(Log4J)"></a>日志配置(Log4J)</h3><ol>
+<li>引入Log4J</li>
+<li><p>配置</p>
+<pre class=" language-properties"><code class="language-properties"><span class="token comment" spellcheck="true"># Global logging configuration</span>
+<span class="token attr-name">log4j.rootLogger</span><span class="token punctuation">=</span><span class="token attr-value">ERROR, stdout</span>
+<span class="token comment" spellcheck="true"># MyBatis logging configuration...</span>
+<span class="token attr-name">log4j.logger.org.mybatis.example.BlogMapper</span><span class="token punctuation">=</span><span class="token attr-value">TRACE</span>
+<span class="token comment" spellcheck="true"># Console output...</span>
+<span class="token attr-name">log4j.appender.stdout</span><span class="token punctuation">=</span><span class="token attr-value">org.apache.log4j.ConsoleAppender</span>
+<span class="token attr-name">log4j.appender.stdout.layout</span><span class="token punctuation">=</span><span class="token attr-value">org.apache.log4j.PatternLayout</span>
+<span class="token attr-name">log4j.appender.stdout.layout.ConversionPattern</span><span class="token punctuation">=</span><span class="token attr-value">%5p [%t] - %m%n</span>
+
+<span class="token comment" spellcheck="true"># 指定某个sql</span>
+<span class="token attr-name">log4j.logger.org.mybatis.example.BlogMapper.selectBlog</span><span class="token punctuation">=</span><span class="token attr-value">TRACE</span>
+<span class="token comment" spellcheck="true"># 指定某个mapper</span>
+<span class="token attr-name">log4j.logger.org.mybatis.example.BlogMapper</span><span class="token punctuation">=</span><span class="token attr-value">TRACE</span>
+<span class="token comment" spellcheck="true"># 指定某个包下</span>
+<span class="token attr-name">log4j.logger.org.mybatis.example</span><span class="token punctuation">=</span><span class="token attr-value">TRACE</span>
+</code></pre>
+</li>
+<li><code>mybatis-config.xml</code> 中指定 <code>LOG4J</code>.</li>
+</ol>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;"><a href="http://www.mybatis.org/mybatis-3/zh/logging.html" target="_blank" rel="noopener">mybatis中文官网</a></span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.829Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/2019082357928/" target="_blank" rel="external">http://blog.canyuda.top/posts/2019082357928/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mybatis/">MyBatis</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019082357928/&title=《MyBatis(二)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019082357928/&title=《MyBatis(二)》 — 灿若繁星&source=
+动态SQL
+Java API
+日志
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019082357928/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MyBatis(二)》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019082357928/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019082357928/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2019090441022/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">UML类图</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/2018101635056/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">排序查找之概述</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/2019082357928/&title=《MyBatis(二)》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2019082357928/&title=《MyBatis(二)》 — 灿若繁星&source=
+动态SQL
+Java API
+日志
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/2019082357928/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MyBatis(二)》 — 灿若繁星&url=http://blog.canyuda.top/posts/2019082357928/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/2019082357928/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOUlEQVR42u3aQZKDMAwFUe5/aWYzW0x/iZkqy80qlVCG54UiS7oufN3La30nWfPpm48vGTJkbMsgr0h+rT1ljefbJ0OGjBMYTw9ef376dR2O1+GVbJAMGTJkEMb68WmyyLdMhgwZMtKl03BJDq4yZMiQ0TnEklfnxbXa4faDs7gMGTI2ZPCq+/9//pP+hgwZMrZi3OFFivi1xmftfX7XkSFDxmjGVw3ItOgWH1BJoilDhowDGPz4mgbftCVQHBSTIUPGaAYJebVCWO0b3jB44cmQIWMEg5T402MqbwmkwffxfhkyZBzAIKne+jE84Pa35qVqKEOGjHGMdDis0/7k5Ta+wsVfV4YMGdsySEBMi/6khcAPqMXUUIYMGeMYnYJap1XJ739JOmXIkHEkgwfcTqBEwTSdFpEhQ8Y4Bi/Nk9CcvmJts+IxCxkyZIxgpANba0AtBfxgs2TIkHEAozZIkY5KkJZnK8+VIUPGOEatoZgmbenoWHFmRIYMGUMZpBDPfyXhMm0zBM0GGTJkHMBIm4i10NxZ+WWbZMiQcQyDtyRrSWFnXCMot8mQIWMoIw2aafBNC23xsVmGDBlDGXd4pS1Jnvyl7VIZMmScw+gcQWshMi3SdbZGhgwZkxgkyJLl0nvSBDRoDMiQIWMogwRKshzZjs4/QDBsIUOGDBk460xbArUREBkyZMjgr9tpf6alvQ8CrgwZMrZi8JQuDay1tC8t28mQIWM2ozbiwEts/fYATx9lyJAxjvEDHBUD8dXt3dQAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>

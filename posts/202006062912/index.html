@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <link rel="canonical" href="http://blog.canyuda.top/posts/202006062912/">
+    
+    
+    <title>JVM字节码之原理一 | 灿若繁星 | 个人空间</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="简单的JVM运行原理 基于栈与基于寄存器的实现方式">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM字节码之原理一">
+<meta property="og:url" content="http://blog.canyuda.top/posts/202006062912/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="简单的JVM运行原理 基于栈与基于寄存器的实现方式">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-05T09:07:16.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM字节码之原理一">
+<meta name="twitter:description" content="简单的JVM运行原理 基于栈与基于寄存器的实现方式">
+    
+    <link rel="shortcut icon" href="/can.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/can.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">灿若繁星先生</h5>
+          <a href="mailto:helloyuda95@gmail.com" title="helloyuda95@gmail.com" class="mail">helloyuda95@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/navigation"  >
+                <i class="icon icon-lg icon-sitemap"></i>
+                导航
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books"  >
+                <i class="icon icon-lg icon-book"></i>
+                我的书单
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/canyuda" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-info"></i>
+                关于我
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM字节码之原理一</div>
+        
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="toc-toggle">
+                <i class="icon icon-lg icon-list"></i>
+            </a>
+        
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM字节码之原理一</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-05T16:06:53.000Z" itemprop="datePublished" class="page-time">
+  2020-06-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#两种常见的实现方式"><span class="post-toc-number">1.</span> <span class="post-toc-text">两种常见的实现方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于寄存器的执行"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基于寄存器的执行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于栈的执行"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">基于栈的执行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#区别"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#栈的具体实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">栈的具体实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局部变量表"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">局部变量表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#操作数栈"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">操作数栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#i-和-i"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">i++ 和 ++i</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#i"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">i++</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#i-1"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">++i</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如果更复杂点"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">如果更复杂点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结论"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">结论</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM字节码之原理一"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM字节码之原理一</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-06 00:06:53" datetime="2020-06-05T16:06:53.000Z"  itemprop="datePublished">2020-06-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            &nbsp;&nbsp;
+            <span>预计 </span>7 分钟读完
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ul>
+<li>简单的JVM运行原理</li>
+<li>基于栈与基于寄存器的实现方式</li>
+</ul>
+<a id="more"></a>
+<h2 id="两种常见的实现方式"><a href="#两种常见的实现方式" class="headerlink" title="两种常见的实现方式"></a>两种常见的实现方式</h2><p>JVM是java平台的根基, 主要负责屏蔽各个操作系统的差异, 让开发者写的同一份程序, 能够在各种平台上执行. 虚拟机常见的实现方式有两种: 基于栈(Stack based)与基于寄存器(Register based). 基于栈的虚拟机有Hotspot JVM, .net CLR. 这种实现方式是比较常见的. 基于寄存器的有LuaVM和DalvikVM(安卓虚拟机). 下面来看看两种有什么不一样.</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">void</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> c <span class="token operator">=</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="基于寄存器的执行"><a href="#基于寄存器的执行" class="headerlink" title="基于寄存器的执行"></a>基于寄存器的执行</h3><ol>
+<li>a 加载到 R0寄存器.</li>
+<li>b 加载到 R!寄存器.</li>
+<li>执行add指令, 结果保存到R2寄存器.</li>
+</ol>
+<h3 id="基于栈的执行"><a href="#基于栈的执行" class="headerlink" title="基于栈的执行"></a>基于栈的执行</h3><ol>
+<li>a 加载到栈顶</li>
+<li>b 加载到栈顶</li>
+<li>a,b出栈, 并相加</li>
+<li>结果入栈.</li>
+</ol>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ol>
+<li>基于栈的方式移植性比较好, 并且比较简单, 毕竟只用维护一个栈就可以了.</li>
+<li>基于寄存器的不用频繁的出入栈, 但是要维护很多寄存器, 实现更复杂些, 但是执行速度更快了.</li>
+</ol>
+<h2 id="栈的具体实现"><a href="#栈的具体实现" class="headerlink" title="栈的具体实现"></a>栈的具体实现</h2><p><code>Hotspot JVM</code>是基于栈实现的, 每个线程都有一个虚拟机栈, 存储的叫做栈帧, 每个方法的执行和结束执行对应了入栈和出栈. 每个栈帧里面包含了<strong>局部变量表</strong>,<strong>操作数栈</strong>,和<strong>指向运行时常量池的引用</strong>.</p>
+<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><p><code>Local Variables</code> 在编译期间就确定了, 编译时javac能够分析出每个方法属于类方法还是对象方法, 方法的参数有多少个, 方法中使用了多少变量, 方法中是否有异常处理逻辑.</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testa</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">double</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> tmp <span class="token operator">=</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">double</span> tmp2 <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        String str <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">double</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> tmp <span class="token operator">=</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">double</span> tmp2 <span class="token operator">=</span> b<span class="token punctuation">;</span>
+        String str <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            i <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-text"><code class="language-text">  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=0, locals=1, args_size=1
+         0: return
+      LineNumberTable:
+        line 11: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  args   [Ljava/lang/String;
+
+  public void testa(int, double);
+    descriptor: (ID)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=8, args_size=3
+         0: iload_1
+         1: istore        4
+         3: dload_2
+         4: dstore        5
+         6: ldc           #2                  // String Hello
+         8: astore        7
+        10: return
+      LineNumberTable:
+        line 14: 0
+        line 15: 3
+        line 16: 6
+        line 17: 10
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lcom/yuda/Main;
+            0      11     1     a   I
+            0      11     2     b   D
+            3       8     4   tmp   I
+            6       5     5  tmp2   D
+           10       1     7   str   Ljava/lang/String;
+
+  public static void test2(int, double);
+    descriptor: (ID)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=7, args_size=2
+         0: iload_0
+         1: istore_3
+         2: dload_1
+         3: dstore        4
+         5: ldc           #2                  // String Hello
+         7: astore        6
+         9: return
+      LineNumberTable:
+        line 21: 0
+        line 22: 2
+        line 23: 5
+        line 24: 9
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0     a   I
+            0      10     1     b   D
+            2       8     3   tmp   I
+            5       5     4  tmp2   D
+            9       1     6   str   Ljava/lang/String;
+  public static void test3();
+    descriptor: ()V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=3, args_size=0
+         0: iconst_0
+         1: istore_0
+         2: iconst_1
+         3: istore_0
+         4: iconst_2
+         5: istore_0
+         6: goto          22
+         9: astore_1
+        10: iconst_3
+        11: istore_0
+        12: iconst_2
+        13: istore_0
+        14: goto          22
+        17: astore_2
+        18: iconst_2
+        19: istore_0
+        20: aload_2
+        21: athrow
+        22: return
+      Exception table:
+         from    to  target type
+             2     4     9   Class java/lang/Exception
+             2     4    17   any
+             9    12    17   any
+      LineNumberTable:
+        line 27: 0
+        line 29: 2
+        line 33: 4
+        line 34: 6
+        line 30: 9
+        line 31: 10
+        line 33: 12
+        line 34: 14
+        line 33: 17
+        line 34: 20
+        line 35: 22
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           10       2     1     e   Ljava/lang/Exception;
+            2      21     0     i   I
+      StackMapTable: number_of_entries = 3
+        frame_type = 255 /* full_frame */
+          offset_delta = 9
+          locals = [ int ]
+          stack = [ class java/lang/Exception ]
+        frame_type = 71 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 4 /* same */
+</code></pre>
+<ul>
+<li><code>testa()</code> 方法<code>locals=8, args_size=3</code>, 是一个对象方法, 所以有一个this, 然后是参数列表, 最后是内部的局部变量. double类型占用两个位置, 所以一共有8个(8=this+a+b+b+tmp+tmp2+tmp2+str)</li>
+<li><code>test2()</code> 方法<code>locals=7, args_size=3</code>, 因为是个类方法(有static), 所以缺了一个<code>this</code>.</li>
+<li><code>test3()</code> 方法<code>locals=3, args_size=0</code>, 因为有一个<code>Exception</code>占用了一个位置, 并且有一个未显示的<code>Exception</code>, 用于<code>athrow</code>指令向外抛出异常.</li>
+</ul>
+<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>每个栈帧有一个栈, 一些指令的执行需要依赖于这个, 比如<code>1+2</code>加法就行先把加数和被加数压入栈内(<code>iconst_1</code>,<code>iconst_2</code>), 让他们都处于栈顶, 然后<code>iadd</code>指令,取出栈顶2个元素相加, 最后把结果放到栈顶, JVM的其他指令也类似于这种操作进行.</p>
+<h3 id="i-和-i"><a href="#i-和-i" class="headerlink" title="i++ 和 ++i"></a><code>i++</code> 和 <code>++i</code></h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">50</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">// i = ++i;</span>
+            i <span class="token operator">=</span> i<span class="token operator">++</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>通过字节码看出区别是:</p>
+<blockquote>
+<p><code>iinc</code> 指令能直接对局部变量表操作</p>
+</blockquote>
+<h4 id="i"><a href="#i" class="headerlink" title="i++"></a>i++</h4><pre class=" language-text"><code class="language-text">         0: iconst_0
+         1: istore_0
+         2: iconst_0
+         3: istore_1
+         4: iload_1
+         5: bipush        50
+         7: if_icmpge     21
+
+        10: iload_0
+        11: iinc          0, 1
+        14: istore_0
+
+        15: iinc          1, 1
+        18: goto          4
+
+        21: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        24: iload_0
+        25: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V
+        28: return
+</code></pre>
+<p>从10-14可以看出来过程如下:</p>
+<ol>
+<li>加载局部变量表0位置的值到操作数栈</li>
+<li>局部变量表0位置的值加一</li>
+<li>操作数栈顶元素放回局部变量表0位置, 0覆盖了1</li>
+<li>所以无论循环多少次, 结果局部变量表0位置都是0.</li>
+</ol>
+<h4 id="i-1"><a href="#i-1" class="headerlink" title="++i"></a>++i</h4><pre class=" language-text"><code class="language-text">         0: iconst_0
+         1: istore_0
+         2: iconst_0
+         3: istore_1
+         4: iload_1
+         5: bipush        50
+         7: if_icmpge     21
+
+        10: iinc          0, 1
+        13: iload_0
+        14: istore_0
+
+        15: iinc          1, 1
+        18: goto          4
+
+        21: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        24: iload_0
+        25: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V
+        28: return
+</code></pre>
+<ol>
+<li>局部变量表0位置的值加一</li>
+<li>加载局部变量表0位置的值到操作数栈</li>
+<li>操作数栈顶元素放回局部变量表0位置, 等于把局部变量表0位置的值移走又移动回来.</li>
+<li>所以局部变量能够根据循环数而增加.</li>
+</ol>
+<h3 id="如果更复杂点"><a href="#如果更复杂点" class="headerlink" title="如果更复杂点"></a>如果更复杂点</h3><pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        i<span class="token operator">=</span> <span class="token operator">++</span>i <span class="token operator">+</span> i<span class="token operator">++</span> <span class="token operator">+</span> i<span class="token operator">++</span> <span class="token operator">+</span> i<span class="token operator">++</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"i="</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p>结果为<code>7</code></p>
+<pre class=" language-text"><code class="language-text">         0: iconst_0
+         1: istore_0
+         2: iinc          0, 1
+         5: iload_0
+         6: iload_0
+         7: iinc          0, 1
+        10: iadd
+        11: iload_0
+        12: iinc          0, 1
+        15: iadd
+        16: iload_0
+        17: iinc          0, 1
+        20: iadd
+        21: istore_0
+</code></pre>
+<ol>
+<li>0 记录到局部变量i上.</li>
+<li>局部变量i 增加到1;</li>
+<li>写到操作数栈顶[1]</li>
+<li>再写到操作数栈顶[1,1]</li>
+<li>局部变量i 增加到2;</li>
+<li>栈顶两个元素取出相加, 结果放入栈顶 [2]</li>
+<li>写到操作数栈顶[2,2]</li>
+<li>局部变量i 增加到3;</li>
+<li>栈顶两个元素取出相加, 结果放入栈顶 [4]</li>
+<li>写到操作数栈顶[3,4]</li>
+<li>局部变量i 增加到4;</li>
+<li>栈顶两个元素取出相加, 结果放入栈顶 [7]</li>
+<li>栈顶元素取出, 放到局部变量i, 用7覆盖了4.</li>
+<li>最后结果为7.</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><code>javap -c -v -l -s -p XXX</code> 是个好命令.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2021-04-05T09:07:16.836Z" itemprop="dateUpdated">2021-04-05 17:07:16</time>
+</span><br>
+
+
+        
+        转载请注明来源(反正也没人看)：<a href="/posts/202006062912/" target="_blank" rel="external">http://blog.canyuda.top/posts/202006062912/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.canyuda.top">
+            <img src="/img/can.png" alt="灿若繁星先生">
+            灿若繁星先生
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/202006062912/&title=《JVM字节码之原理一》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/202006062912/&title=《JVM字节码之原理一》 — 灿若繁星&source=
+简单的JVM运行原理
+基于栈与基于寄存器的实现方式
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/202006062912/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之原理一》 — 灿若繁星&url=http://blog.canyuda.top/posts/202006062912/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/202006062912/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/posts/2020061330600/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JVM字节码之字节码指令一</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/posts/202005261297/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JVM字节码之初探</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+  
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+
+  
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: 'a80fe490092136f666fb',
+          clientSecret: '352163736368dae55f52e0fbb52f6ffa8343380f',
+          repo: 'comments',
+          owner: 'canyuda',
+          admin: ['canyuda'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false,  // Facebook-like distraction free mode
+          perPage: 50
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请吃辣条吧!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/weichat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/weichat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>灿若繁星先生 &copy; 2017 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.canyuda.top/posts/202006062912/&title=《JVM字节码之原理一》 — 灿若繁星&pic=http://blog.canyuda.top/img/can.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/202006062912/&title=《JVM字节码之原理一》 — 灿若繁星&source=
+简单的JVM运行原理
+基于栈与基于寄存器的实现方式
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.canyuda.top/posts/202006062912/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM字节码之原理一》 — 灿若繁星&url=http://blog.canyuda.top/posts/202006062912/&via=http://blog.canyuda.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.canyuda.top/posts/202006062912/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3ay46DMAxAUf7/p6k0q3aBubZhpDg3q6plAoeFx48cB17n34q/Ib+eX+vq+3jn1pIhQ8ayjDNcMSN+LE6K7xtfI0OGjH0YcdC82pqE4ziMdl6BDBkyZPBHJ7/2P8uQIUMGD7hxakiu5CWuDBkyZNSKSdJuIw/HA+7DtbgMGTIWZGQHA//5+cX5hgwZMhZhnI+ubGqYvfJyBxkyZIxmkMY9b+XXkst+QStDhozZDF468hv02/38tf7835AhQ8ZQBgmgtVYaGQnUBhKJ+YYMGTIGMbIFZC1NzHbMWmmiDBkyBjFqY0geRkm6yUvZmxmsDBkytmRkg2+tHI1hCC9DhozRjGzhyq/pB9PiUEGGDBlDGdkDEG8cI+NPctM1lCFDxlBGLXT2G/3Zx6o18mTIkLE6ozZE5GPFp5JCNNOQIUPGlgx+bOKpoxL8aJoMGTJ2Y/CwmB1Gdg5qHHzJkCFjAwZP8mq34QD+En8+y5AhYzSDFI380EP2ylp6ejPClCFDxjaMWou/doysUwy3TnnIkCFjQUan9cZDZKdIliFDxs6M7PCS3CCbLNZeNxpqypAhY3HGmVz8EfmYgQ8vL1+BDBkyRjM6uRbZlBe9/K9IASxDhox5DB5knx1MZkMzGgzIkCFjNKNT0L59XAPtIEOGDBnJ1JCMGfieaH8ZMmTIwC02juGJIKq/ZciQsQGjNm7sDAyyZfBNQilDhozRjOxgoLZpNu2rDRVkyJAxjvEBUg76COlmCGUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '灿若繁星先生';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)满满干货';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"superSample":2,"width":140,"height":280,"position":"right","hOffset":80,"vOffset":-20},"mobile":{"show":false,"scale":0.3},"react":{"opacityDefault":0.7,"opacityOnHover":0.2,"opacity":1},"dialog":{"enable":false,"hitokoto":false},"dev":{"border":false},"name":{"canvas":"live2dcanvas","div":"live2d-widget"},"log":false});</script></body>
+</html>
