@@ -22,19 +22,25 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content>
-    <meta name="description" content="这里添加摘要">
-<meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="keywords" content="缓存">
+    <meta name="description" content="$ git clone git@github.com:alibaba/jetcache.git">
+<meta name="keywords" content="缓存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JetCache的源码">
 <meta property="og:url" content="http://blog.canyuda.top/posts/2021040542562/index.html">
 <meta property="og:site_name" content="灿若繁星">
-<meta property="og:description" content="这里添加摘要">
+<meta property="og:description" content="$ git clone git@github.com:alibaba/jetcache.git">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-04-07T01:34:00.119Z">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224344.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224436.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224459.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224543.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224626.png">
+<meta property="og:updated_time" content="2021-04-10T14:58:23.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JetCache的源码">
-<meta name="twitter:description" content="这里添加摘要">
+<meta name="twitter:description" content="$ git clone git@github.com:alibaba/jetcache.git">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224344.png">
     
     <link rel="shortcut icon" href="/can.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -169,6 +175,8 @@
 </time>
 
 
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
             
         </h5>
     </div>
@@ -181,6 +189,13 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget" id="post-toc-id">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Cache"><span class="post-toc-number">1.</span> <span class="post-toc-text">Cache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AbstractCache"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">AbstractCache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#AbstractEmbeddedCache"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">AbstractEmbeddedCache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CaffeineCache"><span class="post-toc-number">1.1.1.1.</span> <span class="post-toc-text">CaffeineCache</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#LinkedHashMapCache"><span class="post-toc-number">1.1.1.2.</span> <span class="post-toc-text">LinkedHashMapCache</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#AbstractExternalCache"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">AbstractExternalCache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RedisCache"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">RedisCache</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RedisLettuceCache"><span class="post-toc-number">1.1.2.2.</span> <span class="post-toc-text">RedisLettuceCache</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MultiLevelCache"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">MultiLevelCache</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ProxyCache"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">ProxyCache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LoadingCache"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">LoadingCache</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RefreshCache"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">RefreshCache</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#具体的刷新逻辑"><span class="post-toc-number">1.2.2.1.</span> <span class="post-toc-text">具体的刷新逻辑</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CacheMonitor与CacheStat"><span class="post-toc-number">2.</span> <span class="post-toc-text">CacheMonitor与CacheStat</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CacheMonitorManager"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">CacheMonitorManager</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DefaultMetricsManager"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">DefaultMetricsManager</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#与Spring的对接"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">与Spring的对接</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
 
 <article id="post-JetCache的源码"
   class="post-article article-type-post fade" itemprop="blogPost">
@@ -191,6 +206,8 @@
             <time class="post-time" title="2021-04-05 20:57:40" datetime="2021-04-05T12:57:40.000Z"  itemprop="datePublished">2021-04-05</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">Java</a></li></ul>
+
 
 
             
@@ -200,11 +217,882 @@
 
 
             &nbsp;&nbsp;
-            <span>预计 </span>1 分钟读完
+            <span>预计 </span>21 分钟读完
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>这里添加摘要</p>
+            <pre class=" language-bash"><code class="language-bash">$ <span class="token function">git</span> clone git@github.com:alibaba/jetcache.git
+</code></pre>
 <a id="more"></a>
+<h2 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h2><p>Cache接口定义和一些了的新增, 插入, 移除等操作方法, 除此之外还有tryLock方法的默认实现</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">default</span> AutoReleaseLock <span class="token function">tryLock</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">final</span> String uuid <span class="token operator">=</span> UUID<span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> <span class="token keyword">long</span> expireTimestamp <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> timeUnit<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>expire<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 配置有些阈值要用其判断循环次数.</span>
+    <span class="token keyword">final</span> CacheConfig config <span class="token operator">=</span> <span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 实现AutoReleaseLock的解锁操作, 是通过缓存来实现的锁</span>
+    AutoReleaseLock lock <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> unlockCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>unlockCount<span class="token operator">++</span> <span class="token operator">&lt;</span> config<span class="token punctuation">.</span><span class="token function">getTryLockUnlockCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> expireTimestamp<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 锁未过期时, 尝试移除锁</span>
+                CacheResult unlockResult <span class="token operator">=</span> <span class="token function">REMOVE</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>unlockResult<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>FAIL
+                        <span class="token operator">||</span> unlockResult<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>PART_SUCCESS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 失败和半成功都需要重试</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>unlockResult<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 锁移除成功</span>
+                    <span class="token keyword">return</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// NOT_EXISTS, EXISTS, EXPIRED 等状态为异常状态, 兜底直接解</span>
+                    <span class="token keyword">return</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 超时了直接解锁</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 加锁操作, 是通过缓存来实现的锁</span>
+    <span class="token keyword">int</span> lockCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    Cache cache <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 循环尝试加锁, 配置中包含阈值</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>lockCount<span class="token operator">++</span> <span class="token operator">&lt;</span> config<span class="token punctuation">.</span><span class="token function">getTryLockLockCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        CacheResult lockResult <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">PUT_IF_ABSENT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> uuid<span class="token punctuation">,</span> expire<span class="token punctuation">,</span> timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>lockResult<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 成功向缓存插入记录, 即获取了锁</span>
+            <span class="token keyword">return</span> lock<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>lockResult<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>FAIL <span class="token operator">||</span> lockResult<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>PART_SUCCESS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 失败或者半成功</span>
+            <span class="token keyword">int</span> inquiryCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>inquiryCount<span class="token operator">++</span> <span class="token operator">&lt;</span> config<span class="token punctuation">.</span><span class="token function">getTryLockInquiryCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 循环查询刚刚put的锁, 等待加锁完成</span>
+                CacheGetResult inquiryResult <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>inquiryResult<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>uuid<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>inquiryResult<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 查询加锁成功并且uuid和当前线程生成的一毛一样, 表示是自己刚刚put的锁.</span>
+                        <span class="token keyword">return</span> lock<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 查询加锁成功,但是内部的value不是自己生成的, 这个说不是自己刚刚put的.</span>
+                        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 配置的阈值范围内, 循环验证刚加的锁是否成功.</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 其他方控制了锁, 返回未获取到锁</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="AbstractCache"><a href="#AbstractCache" class="headerlink" title="AbstractCache"></a>AbstractCache</h3><blockquote>
+<p>使用了模板方法模式, 实现了Cache接口, 支持了各种事件发布的功能(CacheEvent的实现), 并且对外暴露abstract方法, 供不同Cache实现自己的新增, 插入, 移除等操作</p>
+</blockquote>
+<p>实现了同步加载的静态方法<code>synchronizedLoad</code>, 目的是为了支持<code>computeIfAbsent</code>的逻辑, <code>computeIfAbsent</code>会在查找缓存不到的时候, 自动执行load, 但是会有缓存穿透的风险, 大量请求可能导致一些问题(load操作很耗资源的情况下)</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 支持computeIfAbsent方法</span>
+<span class="token keyword">static</span> <span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> V <span class="token function">computeIfAbsentImpl</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> Function<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader<span class="token punctuation">,</span> <span class="token keyword">boolean</span> cacheNullWhenLoaderReturnNull<span class="token punctuation">,</span>
+                                            <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">,</span> Cache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 这是个强转型</span>
+    AbstractCache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> abstractCache <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">getAbstractCache</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 使用了函数式接口, 并使用了代理模式，创建了一个缓存load代理对象，用于记录load耗时</span>
+    CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> newLoader <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">createProxyLoader</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span> loader<span class="token punctuation">,</span> abstractCache<span class="token operator">:</span><span class="token operator">:</span>notify<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CacheGetResult<span class="token operator">&lt;</span>V<span class="token operator">></span> r<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cache <span class="token keyword">instanceof</span> <span class="token class-name">RefreshCache</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// RefreshCache暂时不看</span>
+        RefreshCache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> refreshCache <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>RefreshCache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span><span class="token punctuation">)</span> cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        r <span class="token operator">=</span> refreshCache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        refreshCache<span class="token punctuation">.</span><span class="token function">addOrUpdateRefreshTask</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> newLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 获取一个CacheGetResult</span>
+        r <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 成功直接返回</span>
+        <span class="token keyword">return</span> r<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 不成功需要load</span>
+
+        <span class="token comment" spellcheck="true">// 定义插入缓存的Consumer</span>
+        Consumer<span class="token operator">&lt;</span>V<span class="token operator">></span> cacheUpdater <span class="token operator">=</span> <span class="token punctuation">(</span>loadedValue<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">needUpdate</span><span class="token punctuation">(</span>loadedValue<span class="token punctuation">,</span> cacheNullWhenLoaderReturnNull<span class="token punctuation">,</span> newLoader<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>timeUnit <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    cache<span class="token punctuation">.</span><span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> loadedValue<span class="token punctuation">,</span> expireAfterWrite<span class="token punctuation">,</span> timeUnit<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitForResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    cache<span class="token punctuation">.</span><span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> loadedValue<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">waitForResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+        V loadedValue<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 根据配置判断是否需要防穿透</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isCachePenetrationProtect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            loadedValue <span class="token operator">=</span> <span class="token function">synchronizedLoad</span><span class="token punctuation">(</span>cache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> abstractCache<span class="token punctuation">,</span> key<span class="token punctuation">,</span> newLoader<span class="token punctuation">,</span> cacheUpdater<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果不防, 先loader出数据, 然后更新缓存</span>
+            loadedValue <span class="token operator">=</span> newLoader<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cacheUpdater<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span>loadedValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> loadedValue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 同步load</span>
+<span class="token keyword">static</span> <span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> V <span class="token function">synchronizedLoad</span><span class="token punctuation">(</span>CacheConfig config<span class="token punctuation">,</span> AbstractCache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> abstractCache<span class="token punctuation">,</span>
+                                    K key<span class="token punctuation">,</span> Function<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> newLoader<span class="token punctuation">,</span> Consumer<span class="token operator">&lt;</span>V<span class="token operator">></span> cacheUpdater<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 获取一个ConcurrentHashMap的单例对象</span>
+    ConcurrentHashMap<span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> LoaderLock<span class="token operator">></span> loaderMap <span class="token operator">=</span> abstractCache<span class="token punctuation">.</span><span class="token function">initOrGetLoaderMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// key可用自定义keyConvertor</span>
+    Object lockKey <span class="token operator">=</span> <span class="token function">buildLoaderLockKey</span><span class="token punctuation">(</span>abstractCache<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 数组标记位, 记录是否被创建</span>
+        <span class="token keyword">boolean</span> create<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 往loaderMap尝试插入, 插入成功标记为为true</span>
+LoaderLock ll <span class="token operator">=</span> loaderMap<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>lockKey<span class="token punctuation">,</span> <span class="token punctuation">(</span>unusedKey<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            create<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            LoaderLock loaderLock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LoaderLock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// LoaderLock对象中有个CountDownLatch, 并记录了当前线程</span>
+            loaderLock<span class="token punctuation">.</span>signal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            loaderLock<span class="token punctuation">.</span>loaderThread <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> loaderLock<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果标记物为true, 或者LoaderLock对象存在, 创建者是本线程, 即支持重入.</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>create<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">||</span> ll<span class="token punctuation">.</span>loaderThread <span class="token operator">==</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 执行load</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                V loadedValue <span class="token operator">=</span> newLoader<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                ll<span class="token punctuation">.</span>success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                ll<span class="token punctuation">.</span>value <span class="token operator">=</span> loadedValue<span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 让传入的cacheUpdater更新缓存</span>
+                cacheUpdater<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span>loadedValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> loadedValue<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 如果loaderMap的写入者是自己,释放资源</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>create<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    ll<span class="token punctuation">.</span>signal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    loaderMap<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>lockKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果创建者不是自己, 并且LoaderLock对象不做当前线程所创建的</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 查配置,穿透保护的超时时间, 选择使用哪种await方法来等待</span>
+                Duration timeout <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getPenetrationProtectTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>timeout <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 没有则永久等待</span>
+                    ll<span class="token punctuation">.</span>signal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 有时间的等待</span>
+                    <span class="token keyword">boolean</span> ok <span class="token operator">=</span> ll<span class="token punctuation">.</span>signal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span>timeout<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>ok<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 等待CountDownLatch计时结束, 如果时间过了, ll.signal.countDown();还没被调用, 证明是loader太久了, 当前线程就等不及了开始load</span>
+                        <span class="token keyword">return</span> newLoader<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 等待被中断也等不及, 当前线程马上load</span>
+                <span class="token keyword">return</span> newLoader<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 查看ConcurrentHashMap中的LoaderLock中的标记是否成功, 成功表示load完成, 返回LoaderLock对象中的结果, 否则继续下一波循环.</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ll<span class="token punctuation">.</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token punctuation">(</span>V<span class="token punctuation">)</span> ll<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="AbstractEmbeddedCache"><a href="#AbstractEmbeddedCache" class="headerlink" title="AbstractEmbeddedCache"></a>AbstractEmbeddedCache</h4><blockquote>
+<p>继承自AbstractCache, 加了个InnerMap的成员变量, InnerMap属于适配器模式, 用来屏蔽不同本地缓存的差异性(jetcache目前提供了LinkedHashMapCache和CaffeineCache,如果用的不爽可以自定义一个缓存集合,用InnerMap来适配一下增删改查等方法)</p>
+</blockquote>
+<p>并且AbstractEmbeddedCache引入了CacheValueHolder, 是对缓存中value的包装, 其中包含了过期时间.</p>
+<h5 id="CaffeineCache"><a href="#CaffeineCache" class="headerlink" title="CaffeineCache"></a>CaffeineCache</h5><blockquote>
+<p>基于内存的缓存，使用Caffeine</p>
+</blockquote>
+<p>需要引入:</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.github.ben-manes.caffeine<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>caffeine<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.8.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>Caffeine在算法上对本地缓存做了优化, 缓存性能接近理论最优, 采用了一种结合LRU、LFU优点的算法：W-TinyLFU</p>
+<blockquote>
+<p>TinyLfu 回收策略，提供了一个近乎最佳的命中率。当数据的访问模式不随时间变化的时候，LFU的策略能够带来最佳的缓存命中率。然而LFU有两个缺点：首先，它需要给每个记录项维护频率信息，每次访问都需要更新，这是个巨大的开销；其次，如果数据访问模式随时间有变，LFU的频率信息无法随之变化，因此早先频繁访问的记录可能会占据缓存，而后期访问较多的记录则无法被命中。因此，大多数的缓存设计都是基于LRU或者其变种来进行的。相比之下，LRU并不需要维护昂贵的缓存记录元信息，同时也能够反应随时间变化的数据访问模式。然而，在许多负载之下，LRU依然需要更多的空间才能做到跟,FU一致的缓存命中率。因此，一个“现代”的缓存，应当能够综合两者的长处。TinyLFU维护了近期访问记录的频率信息，作为一个过滤器，当新记录来时，只有满足TinyLFU要求的记录才可以被插入缓存。</p>
+</blockquote>
+<h5 id="LinkedHashMapCache"><a href="#LinkedHashMapCache" class="headerlink" title="LinkedHashMapCache"></a>LinkedHashMapCache</h5><blockquote>
+<p>自制的简易内存缓存，没有任何依赖</p>
+</blockquote>
+<p>使用LinkedHashMap实现了一个LRUMap, 缓存过期依赖于Cleaner</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Cleaner</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 内部一个LinkedList,保存每一个LinkedHashMapCache的弱引用</span>
+    <span class="token keyword">static</span> LinkedList<span class="token operator">&lt;</span>WeakReference<span class="token operator">&lt;</span>LinkedHashMapCache<span class="token operator">>></span> linkedHashMapCaches <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> <span class="token punctuation">{</span>
+        ScheduledExecutorService executorService <span class="token operator">=</span> JetCacheExecutor<span class="token punctuation">.</span><span class="token function">defaultExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        executorService<span class="token punctuation">.</span><span class="token function">scheduleWithFixedDelay</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span>LinkedHashMapCache cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>linkedHashMapCaches<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            linkedHashMapCaches<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WeakReference</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>linkedHashMapCaches<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 遍历每个Cache, 执行Cache的cleanExpiredEntry来做定时过期</span>
+            Iterator<span class="token operator">&lt;</span>WeakReference<span class="token operator">&lt;</span>LinkedHashMapCache<span class="token operator">>></span> it <span class="token operator">=</span> linkedHashMapCaches<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                WeakReference<span class="token operator">&lt;</span>LinkedHashMapCache<span class="token operator">></span> ref <span class="token operator">=</span> it<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                LinkedHashMapCache c <span class="token operator">=</span> ref<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    it<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    c<span class="token punctuation">.</span><span class="token function">cleanExpiredEntry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="AbstractExternalCache"><a href="#AbstractExternalCache" class="headerlink" title="AbstractExternalCache"></a>AbstractExternalCache</h4><p>外部存储的抽象, 由于是外部的存储, 所以涉及到Value的序列化和反序列化</p>
+<h5 id="RedisCache"><a href="#RedisCache" class="headerlink" title="RedisCache"></a>RedisCache</h5><blockquote>
+<p>redis实现，使用jedis客户端</p>
+</blockquote>
+<p>RedisCache可以做读写分离, 并且可以设置每个slave节点的权重, 相关代码如下:</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// RedisCache的初始化</span>
+<span class="token keyword">public</span> <span class="token function">RedisCache</span><span class="token punctuation">(</span>RedisCacheConfig<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>config <span class="token operator">=</span> config<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>valueEncoder <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getValueEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>valueDecoder <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getValueDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getJedisPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheConfigException</span><span class="token punctuation">(</span><span class="token string">"no pool"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 注意下面config中的配置对其影响</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">isReadFromSlave</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getJedisSlavePools</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null <span class="token operator">||</span> config<span class="token punctuation">.</span><span class="token function">getJedisSlavePools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheConfigException</span><span class="token punctuation">(</span><span class="token string">"slaves not config"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getSlaveReadWeights</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">initDefaultWeights</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getSlaveReadWeights</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">!=</span> config<span class="token punctuation">.</span><span class="token function">getJedisSlavePools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">initDefaultWeights</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">isExpireAfterAccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheConfigException</span><span class="token punctuation">(</span><span class="token string">"expireAfterAccess is not supported"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 初始化默认权重</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initDefaultWeights</span><span class="token punctuation">(</span>RedisCacheConfig<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> len <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getJedisSlavePools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> weights <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Arrays<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span>weights<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    config<span class="token punctuation">.</span><span class="token function">setSlaveReadWeights</span><span class="token punctuation">(</span>weights<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 获取读节点</span>
+Pool<span class="token operator">&lt;</span>Jedis<span class="token operator">></span> <span class="token function">getReadPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>config<span class="token punctuation">.</span><span class="token function">isReadFromSlave</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> config<span class="token punctuation">.</span><span class="token function">getJedisPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> weights <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getSlaveReadWeights</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token function">randomIndex</span><span class="token punctuation">(</span>weights<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> config<span class="token punctuation">.</span><span class="token function">getJedisSlavePools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 根据权重来</span>
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">randomIndex</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> weights<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sumOfWeights <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> w <span class="token operator">:</span> weights<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        sumOfWeights <span class="token operator">+=</span> w<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">int</span> r <span class="token operator">=</span> random<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span>sumOfWeights<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weights<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        x <span class="token operator">+=</span> weights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>r <span class="token operator">&lt;</span> x<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheException</span><span class="token punctuation">(</span><span class="token string">"assert false"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 批量插入操作使用了redis的Pipeline</span>
+<span class="token keyword">protected</span> CacheResult <span class="token function">do_PUT_ALL</span><span class="token punctuation">(</span>Map<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token punctuation">,</span> <span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">V</span><span class="token operator">></span> map<span class="token punctuation">,</span> <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">(</span>Jedis jedis <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getJedisPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> failCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        List<span class="token operator">&lt;</span>Response<span class="token operator">&lt;</span>String<span class="token operator">>></span> responses <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// Pipeline</span>
+        Pipeline p <span class="token operator">=</span> jedis<span class="token punctuation">.</span><span class="token function">pipelined</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Map<span class="token punctuation">.</span>Entry<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token punctuation">,</span> <span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">V</span><span class="token operator">></span> en <span class="token operator">:</span> map<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            CacheValueHolder<span class="token operator">&lt;</span>V<span class="token operator">></span> holder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CacheValueHolder</span><span class="token punctuation">(</span>en<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> timeUnit<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>expireAfterWrite<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Response<span class="token operator">&lt;</span>String<span class="token operator">></span> resp <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">psetex</span><span class="token punctuation">(</span><span class="token function">buildKey</span><span class="token punctuation">(</span>en<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> timeUnit<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>expireAfterWrite<span class="token punctuation">)</span><span class="token punctuation">,</span> valueEncoder<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>holder<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            responses<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>resp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 同步</span>
+        p<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Response<span class="token operator">&lt;</span>String<span class="token operator">></span> resp <span class="token operator">:</span> responses<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token string">"OK"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>resp<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                failCount<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> failCount <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">?</span> CacheResult<span class="token punctuation">.</span>SUCCESS_WITHOUT_MSG <span class="token operator">:</span>
+                failCount <span class="token operator">==</span> map<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> CacheResult<span class="token punctuation">.</span>FAIL_WITHOUT_MSG <span class="token operator">:</span> CacheResult<span class="token punctuation">.</span>PART_SUCCESS_WITHOUT_MSG<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CacheResult</span><span class="token punctuation">(</span>ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="RedisLettuceCache"><a href="#RedisLettuceCache" class="headerlink" title="RedisLettuceCache"></a>RedisLettuceCache</h5><blockquote>
+<p>redis实现，使用lettuce客户端</p>
+</blockquote>
+<p>redis操作的lettuce客户端版本, 本文没啥好说的, 有时间写篇介绍lettuce.</p>
+<blockquote>
+<p>Jedis是直连模式，在多个线程间共享一个Jedis实例时是线程不安全的，可以通过创建多个Jedis实例来解决，但当连接数量增多时，物理连接成本就较高同时会影响性能，因此较好的解决方法是使用JedisPool。<br>Lettuce的连接是基于Netty的，连接实例可以在多个线程间共享，Netty可以使多线程的应用使用同一个连接实例，而不用担心并发线程的数量。通过异步的方式可以让我们更好地利用系统资源。</p>
+</blockquote>
+<h4 id="MultiLevelCache"><a href="#MultiLevelCache" class="headerlink" title="MultiLevelCache"></a>MultiLevelCache</h4><blockquote>
+<p>多级缓存，注解方式配置只支持了两级，实际上这个类支持N级</p>
+</blockquote>
+<p>内部有个Cache数组, 从这里可以知道其是对Cache的包装, 并支持多个Cache, 子Cache不允许配置load</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token function">MultiLevelCache</span><span class="token punctuation">(</span>MultiLevelCacheConfig<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> cacheConfig<span class="token punctuation">)</span> <span class="token keyword">throws</span> CacheConfigException <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>config <span class="token operator">=</span> cacheConfig<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>caches <span class="token operator">=</span> cacheConfig<span class="token punctuation">.</span><span class="token function">getCaches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Cache</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">checkCaches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">checkCaches</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>caches <span class="token operator">==</span> null <span class="token operator">||</span> caches<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>Cache c <span class="token operator">:</span> caches<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 配置了会报错</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheConfigException</span><span class="token punctuation">(</span><span class="token string">"Loader on sub cache is not allowed, set the loader into MultiLevelCache."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>取数据时, 按照顺序从Cache数组中的各个元素中取, 如果上级没有命中, 下级命中了, 会有一个往上级同步的操作.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> CacheGetResult<span class="token operator">&lt;</span>V<span class="token operator">></span> <span class="token function">do_GET</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> caches<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Cache cache <span class="token operator">=</span> caches<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        CacheGetResult result <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            CacheValueHolder<span class="token operator">&lt;</span>V<span class="token operator">></span> holder <span class="token operator">=</span> <span class="token function">unwrapHolder</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">getHolder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">checkResultAndFillUpperCache</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> i<span class="token punctuation">,</span> holder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CacheGetResult</span><span class="token punctuation">(</span>CacheResultCode<span class="token punctuation">.</span>SUCCESS<span class="token punctuation">,</span> null<span class="token punctuation">,</span> holder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> CacheGetResult<span class="token punctuation">.</span>NOT_EXISTS_WITHOUT_MSG<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// i是索引, PUT_caches会插入i的所有上级Cache</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">checkResultAndFillUpperCache</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">,</span> CacheValueHolder<span class="token operator">&lt;</span>V<span class="token operator">></span> h<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Objects<span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> currentExpire <span class="token operator">=</span> h<span class="token punctuation">.</span><span class="token function">getExpireTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> now <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>now <span class="token operator">&lt;=</span> currentExpire<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">isUseExpireOfSubCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">PUT_caches</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> key<span class="token punctuation">,</span> h<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">long</span> restTtl <span class="token operator">=</span> currentExpire <span class="token operator">-</span> now<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>restTtl <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">PUT_caches</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> key<span class="token punctuation">,</span> h<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> restTtl<span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 多个cache的put可能会某些成功,某些失败, 这里用到CompletableFuture的thenCombine进行结合, 如果发现结果码不同则返回半成功状态的ResultData</span>
+<span class="token comment" spellcheck="true">// lastIndex表示 更新lastIndex之前的所有缓存</span>
+<span class="token keyword">private</span> CacheResult <span class="token function">PUT_caches</span><span class="token punctuation">(</span><span class="token keyword">int</span> lastIndex<span class="token punctuation">,</span> K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    CompletableFuture<span class="token operator">&lt;</span>ResultData<span class="token operator">></span> future <span class="token operator">=</span> CompletableFuture<span class="token punctuation">.</span><span class="token function">completedFuture</span><span class="token punctuation">(</span>null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> lastIndex<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Cache cache <span class="token operator">=</span> caches<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        CacheResult r<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>timeUnit <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            r <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            r <span class="token operator">=</span> cache<span class="token punctuation">.</span><span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> expire<span class="token punctuation">,</span> timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        future <span class="token operator">=</span> <span class="token function">combine</span><span class="token punctuation">(</span>future<span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CacheResult</span><span class="token punctuation">(</span>future<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">private</span> CompletableFuture<span class="token operator">&lt;</span>ResultData<span class="token operator">></span> <span class="token function">combine</span><span class="token punctuation">(</span>CompletableFuture<span class="token operator">&lt;</span>ResultData<span class="token operator">></span> future<span class="token punctuation">,</span> CacheResult result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> future<span class="token punctuation">.</span><span class="token function">thenCombine</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token function">future</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>d1<span class="token punctuation">,</span> d2<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>d1 <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> d2<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>d1<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> d2<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResultData</span><span class="token punctuation">(</span>CacheResultCode<span class="token punctuation">.</span>PART_SUCCESS<span class="token punctuation">,</span> null<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> d1<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>CacheResultCode.PART_SUCCESS 在 MultiLevelCache 下会出现, 表示操作多级缓存时, 某一部分没有操作成功</p>
+</blockquote>
+<p>MultiLevelCache的tryLock仅仅使用最后一级Cache的tryLock</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> AutoReleaseLock <span class="token function">tryLock</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> <span class="token keyword">long</span> expire<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> caches<span class="token punctuation">[</span>caches<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">tryLock</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> expire<span class="token punctuation">,</span> timeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>MultiLevelCache不支持putIfAbsent和do_PUT_IF_ABSENT方法, 会报错.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">putIfAbsent</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"putIfAbsent is not supported by MultiLevelCache"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> CacheResult <span class="token function">do_PUT_IF_ABSENT</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> <span class="token keyword">long</span> expireAfterWrite<span class="token punctuation">,</span> TimeUnit timeUnit<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token string">"PUT_IF_ABSENT is not supported by MultiLevelCache"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="ProxyCache"><a href="#ProxyCache" class="headerlink" title="ProxyCache"></a>ProxyCache</h3><p>ProxyCache接口继承了Cache接口, 作用是代理Cache实现一些牛批的功能, 例如下面</p>
+<h4 id="LoadingCache"><a href="#LoadingCache" class="headerlink" title="LoadingCache"></a>LoadingCache</h4><blockquote>
+<p>基于Decorator模式，提供自动加载功能</p>
+</blockquote>
+<p>主要是对get和getAll两个方法的处理, 如果配置了load, 这两方法将会在娶不到数据的时候自动load</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> V <span class="token function">get</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span> <span class="token keyword">throws</span> CacheInvokeException <span class="token punctuation">{</span>
+    CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>loader <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> AbstractCache<span class="token punctuation">.</span><span class="token function">computeIfAbsentImpl</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> loader<span class="token punctuation">,</span>
+                config<span class="token punctuation">.</span><span class="token function">isCacheNullValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> null<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 没配置load不会报错, 而是走被包装cache的get</span>
+        <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> <span class="token function">getAll</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span> <span class="token keyword">throws</span> CacheInvokeException <span class="token punctuation">{</span>
+    CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loader <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>loader <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 先取批量的结果</span>
+        MultiGetResult<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> r <span class="token operator">=</span> <span class="token function">GET_ALL</span><span class="token punctuation">(</span>keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> kvMap<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> r<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>PART_SUCCESS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 成功或者半成功取出 所有成功了的结果</span>
+            kvMap <span class="token operator">=</span> r<span class="token punctuation">.</span><span class="token function">unwrapValues</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            kvMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 找出没有成功的key的集合, 这些需要被load</span>
+        Set<span class="token operator">&lt;</span>K<span class="token operator">></span> keysNeedLoad <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashSet</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        keys<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>kvMap<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                keysNeedLoad<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 校验穿透保护开关</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>config<span class="token punctuation">.</span><span class="token function">isCachePenetrationProtect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 直接找出需要update的Values, 一个PUT_ALL方法load进去</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>eventConsumer <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                loader <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">createProxyLoader</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span> loader<span class="token punctuation">,</span> eventConsumer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> loadResult<span class="token punctuation">;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                loadResult <span class="token operator">=</span> loader<span class="token punctuation">.</span><span class="token function">loadAll</span><span class="token punctuation">(</span>keysNeedLoad<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> theLoader <span class="token operator">=</span> loader<span class="token punctuation">;</span>
+                Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> updateValues <span class="token operator">=</span> loadResult<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>kvEntry <span class="token operator">-</span><span class="token operator">></span> <span class="token function">needUpdate</span><span class="token punctuation">(</span>kvEntry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> theLoader<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span>Map<span class="token punctuation">.</span>Entry<span class="token operator">:</span><span class="token operator">:</span>getKey<span class="token punctuation">,</span> Map<span class="token punctuation">.</span>Entry<span class="token operator">:</span><span class="token operator">:</span>getValue<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token comment" spellcheck="true">// batch put</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>updateValues<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">PUT_ALL</span><span class="token punctuation">(</span>updateValues<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheInvokeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            kvMap<span class="token punctuation">.</span><span class="token function">putAll</span><span class="token punctuation">(</span>loadResult<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 循环keysNeedLoad, 依次调AbstractCache.synchronizedLoad方法来做同步load</span>
+            AbstractCache<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> abstractCache <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">getAbstractCache</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            loader <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">createProxyLoader</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span> loader<span class="token punctuation">,</span> eventConsumer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span>K key <span class="token operator">:</span> keysNeedLoad<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                Consumer<span class="token operator">&lt;</span>V<span class="token operator">></span> cacheUpdater <span class="token operator">=</span> <span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">needUpdate</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> config<span class="token punctuation">.</span><span class="token function">getLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">;</span>
+                V v <span class="token operator">=</span> AbstractCache<span class="token punctuation">.</span><span class="token function">synchronizedLoad</span><span class="token punctuation">(</span>config<span class="token punctuation">,</span> abstractCache<span class="token punctuation">,</span> key<span class="token punctuation">,</span> loader<span class="token punctuation">,</span> cacheUpdater<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                kvMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> kvMap<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">getAll</span><span class="token punctuation">(</span>keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="RefreshCache"><a href="#RefreshCache" class="headerlink" title="RefreshCache"></a>RefreshCache</h4><blockquote>
+<p>基于Decorator模式，提供自动刷新功能</p>
+</blockquote>
+<p>继承自LoadingCache, 即他的get和getAll能够自动load, 除此之外, 他自己做了这些工作:</p>
+<p>使用ConcurrentHashMap维护了一个刷新任务集合, 为了方便批量操作,例如停止刷新, 并且用boolean字段标识代理的Cache是不是一个MultiLevelCache(多级缓存和单级的处理逻辑不一样,下面关注下)</p>
+<p>RefreshCache同样也是对get和getAll做了增强, 添加了addOrUpdateRefreshTask的操作.</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> V <span class="token function">get</span><span class="token punctuation">(</span>K key<span class="token punctuation">)</span> <span class="token keyword">throws</span> CacheInvokeException <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token function">hasLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">addOrUpdateRefreshTask</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Map<span class="token operator">&lt;</span>K<span class="token punctuation">,</span> V<span class="token operator">></span> <span class="token function">getAll</span><span class="token punctuation">(</span>Set<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">K</span><span class="token operator">></span> keys<span class="token punctuation">)</span> <span class="token keyword">throws</span> CacheInvokeException <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token function">hasLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>K key <span class="token operator">:</span> keys<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">addOrUpdateRefreshTask</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">getAll</span><span class="token punctuation">(</span>keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>addOrUpdateRefreshTask 主要做了针对一个缓存的key, 创建一个RefreshTask任务, RefreshTask继承了Runnable, 它是个可被执行的.</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">addOrUpdateRefreshTask</span><span class="token punctuation">(</span>K key<span class="token punctuation">,</span> CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> loader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 看看有没有配置刷新策略, 没有策略不会刷新, 这点注意别忘记配置了</span>
+    RefreshPolicy refreshPolicy <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>refreshPolicy <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">long</span> refreshMillis <span class="token operator">=</span> refreshPolicy<span class="token punctuation">.</span><span class="token function">getRefreshMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 刷新时间不能小于等于0, 否则也不会刷新</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>refreshMillis <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Object taskId <span class="token operator">=</span> <span class="token function">getTaskId</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        RefreshTask refreshTask <span class="token operator">=</span> taskMap<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>taskId<span class="token punctuation">,</span> tid <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"add refresh task. interval={},  key={}"</span><span class="token punctuation">,</span> refreshMillis <span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            RefreshTask task <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RefreshTask</span><span class="token punctuation">(</span>taskId<span class="token punctuation">,</span> key<span class="token punctuation">,</span> loader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            task<span class="token punctuation">.</span>lastAccessTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 有一个单例的线程池heavyIOExecutor, 定时处理task</span>
+            ScheduledFuture<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> future <span class="token operator">=</span> JetCacheExecutor<span class="token punctuation">.</span><span class="token function">heavyIOExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">scheduleWithFixedDelay</span><span class="token punctuation">(</span>
+                    task<span class="token punctuation">,</span> refreshMillis<span class="token punctuation">,</span> refreshMillis<span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            task<span class="token punctuation">.</span>future <span class="token operator">=</span> future<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> task<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 更新最后请求时间</span>
+        refreshTask<span class="token punctuation">.</span>lastAccessTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>从上可知道, 一个支持刷新的缓存, 只有get或者getAll方法调用后才会去启动刷新任务, 这样做避免了无谓的资源浪费, 即一个可刷新缓存被put后, 一直没有被获取, 那么他不会自动刷新.</p>
+</blockquote>
+<h5 id="具体的刷新逻辑"><a href="#具体的刷新逻辑" class="headerlink" title="具体的刷新逻辑"></a>具体的刷新逻辑</h5><p>RefreshTask的run方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 没有刷新策略或没有配置load不会跑任何load逻辑</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null <span class="token operator">||</span> <span class="token punctuation">(</span>loader <span class="token operator">==</span> null <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token function">hasLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">long</span> now <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> stopRefreshAfterLastAccessMillis <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getStopRefreshAfterLastAccessMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 通过这个配置,如果一个key很久没有被请求了,超过阈值,停止刷新任务, 以免浪费资源</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>stopRefreshAfterLastAccessMillis <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>lastAccessTime <span class="token operator">+</span> stopRefreshAfterLastAccessMillis <span class="token operator">&lt;</span> now<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果是多级缓存, 会取最后一级缓存来更新, 最后一级缓存会驱动所有上级缓存更新.</span>
+        Cache concreteCache <span class="token operator">=</span> <span class="token function">concreteCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>concreteCache <span class="token keyword">instanceof</span> <span class="token class-name">AbstractExternalCache</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果是三方</span>
+            <span class="token function">externalLoad</span><span class="token punctuation">(</span>concreteCache<span class="token punctuation">,</span> now<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"refresh error: key="</span> <span class="token operator">+</span> key<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">externalLoad</span><span class="token punctuation">(</span><span class="token keyword">final</span> Cache concreteCache<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token keyword">long</span> currentTime<span class="token punctuation">)</span> <span class="token keyword">throws</span> Throwable <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 需要更新的缓存的key, 因为是三方的缓存, 所以要用buildKey生成</span>
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> newKey <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>AbstractExternalCache<span class="token punctuation">)</span> concreteCache<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">buildKey</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 构建锁key</span>
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> lockKey <span class="token operator">=</span> <span class="token function">combine</span><span class="token punctuation">(</span>newKey<span class="token punctuation">,</span> <span class="token string">"_#RL#"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> loadTimeOut <span class="token operator">=</span> RefreshCache<span class="token punctuation">.</span><span class="token keyword">this</span><span class="token punctuation">.</span>config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRefreshLockTimeoutMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> refreshMillis <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getRefreshPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getRefreshMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 构建时间key</span>
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> timestampKey <span class="token operator">=</span> <span class="token function">combine</span><span class="token punctuation">(</span>newKey<span class="token punctuation">,</span> <span class="token string">"_#TS#"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// AbstractExternalCache buildKey method will not convert byte[]</span>
+    CacheGetResult refreshTimeResult <span class="token operator">=</span> concreteCache<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span>timestampKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">boolean</span> shouldLoad <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>refreshTimeResult<span class="token punctuation">.</span><span class="token function">isSuccess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 当前时间 大于 刷新时间戳加刷新时间   表示很久没刷新了, 需要load一下, 否则不需要</span>
+        shouldLoad <span class="token operator">=</span> currentTime <span class="token operator">>=</span> Long<span class="token punctuation">.</span><span class="token function">parseLong</span><span class="token punctuation">(</span>refreshTimeResult<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> refreshMillis<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>refreshTimeResult<span class="token punctuation">.</span><span class="token function">getResultCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> CacheResultCode<span class="token punctuation">.</span>NOT_EXISTS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 第一次刷新, get不到refreshTimeResult 也需要load</span>
+        shouldLoad <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 不需要load</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>shouldLoad<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>multiLevelCache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果是多级缓存,需要刷新上级所有缓存</span>
+            <span class="token function">refreshUpperCaches</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 定义一个runable对象, 内部执行load, 并且load后刷新最后一次load时间到timestampKey</span>
+    Runnable r <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// AbstractExternalCache buildKey method will not convert byte[]</span>
+            concreteCache<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>timestampKey<span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">CacheException</span><span class="token punctuation">(</span><span class="token string">"refresh error"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// AbstractExternalCache buildKey method will not convert byte[]</span>
+    <span class="token comment" spellcheck="true">// 尝试获取锁, 并且执行加载操作</span>
+    <span class="token keyword">boolean</span> lockSuccess <span class="token operator">=</span> concreteCache<span class="token punctuation">.</span><span class="token function">tryLockAndRun</span><span class="token punctuation">(</span>lockKey<span class="token punctuation">,</span> loadTimeOut<span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>lockSuccess <span class="token operator">&amp;&amp;</span> multiLevelCache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 多级缓存如果没有load成功, 延迟一会会, 执行refreshUpperCaches刷新上级的缓存</span>
+        <span class="token comment" spellcheck="true">// 因为获取lockKey失败表示其他的实例可能在做refresh, 可能导致本地缓存错误, 延迟的目的是为了等待其他实例完成, 以免更新旧的值, </span>
+        <span class="token comment" spellcheck="true">// 如果refreshMillis配置有问题, 可能导致某些服务实例上的缓存有误差.</span>
+        JetCacheExecutor<span class="token punctuation">.</span><span class="token function">heavyIOExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">schedule</span><span class="token punctuation">(</span>
+                <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token function">refreshUpperCaches</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">long</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">0.2</span> <span class="token operator">*</span> refreshMillis<span class="token punctuation">)</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Throwable <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 通过load来获取最新值, 然后PUT到对应的key中</span>
+    CacheLoader<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> l <span class="token operator">=</span> loader <span class="token operator">==</span> null<span class="token operator">?</span> config<span class="token punctuation">.</span><span class="token function">getLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> loader<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>l <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        l <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">createProxyLoader</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span> l<span class="token punctuation">,</span> eventConsumer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        V v <span class="token operator">=</span> l<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">needUpdate</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> l<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cache<span class="token punctuation">.</span><span class="token function">PUT</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="CacheMonitor与CacheStat"><a href="#CacheMonitor与CacheStat" class="headerlink" title="CacheMonitor与CacheStat"></a>CacheMonitor与CacheStat</h2><p>CacheMonitor主要的作用是监听CacheEvent, jetCache实现了一个默认的CacheMonitor—–DefaultCacheMonitor;</p>
+<p>DefaultCacheMonitor 里面包含了CacheStat的成员变量, CacheStat用来描述jetCache管理的缓存属性信息</p>
+<p>一个Cache对应一个DefaultCacheMonitor, 一个DefaultCacheMonitor对应一个CacheStat, 每有个CacheEvent的发布, 都会通知到CacheMonitor, 并更新CacheStat</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CacheStat</span> <span class="token keyword">implements</span> <span class="token class-name">Serializable</span><span class="token punctuation">,</span> Cloneable <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token operator">-</span>8802969946750554026L<span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> String cacheName<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> statStartTime<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> statEndTime<span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getHitCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getMissCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getFailCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getExpireCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> getTimeSum<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> minGetTime <span class="token operator">=</span> Long<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> maxGetTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> putCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> putSuccessCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> putFailCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> putTimeSum<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> minPutTime <span class="token operator">=</span> Long<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> maxPutTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> removeCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> removeSuccessCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> removeFailCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> removeTimeSum<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> minRemoveTime <span class="token operator">=</span> Long<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> maxRemoveTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> loadCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> loadSuccessCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> loadFailCount<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> loadTimeSum<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> minLoadTime <span class="token operator">=</span> Long<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> <span class="token keyword">long</span> maxLoadTime <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 其他的略</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="CacheMonitorManager"><a href="#CacheMonitorManager" class="headerlink" title="CacheMonitorManager"></a>CacheMonitorManager</h3><p>CacheMonitor的管理者, 使用者可以通过其添加自定义的Monitor, jetcache有个默认的实现DefaultCacheMonitorManager</p>
+<p>对于多级缓存, DefaultCacheMonitorManager会新增两种Monitor</p>
+<blockquote>
+<p>针对多级缓存, DefaultCacheMonitorManager仅仅对前两个缓存做了监控.</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addMonitors</span><span class="token punctuation">(</span>String area<span class="token punctuation">,</span> String cacheName<span class="token punctuation">,</span> Cache cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// MetricsMonitor</span>
+    <span class="token function">addMetricsMonitor</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// CacheUpdateMonitor</span>
+    <span class="token function">addCacheUpdateMonitor</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">addMetricsMonitor</span><span class="token punctuation">(</span>String area<span class="token punctuation">,</span> String cacheName<span class="token punctuation">,</span> Cache cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>defaultMetricsManager <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cache <span class="token operator">=</span> CacheUtil<span class="token punctuation">.</span><span class="token function">getAbstractCache</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache <span class="token keyword">instanceof</span> <span class="token class-name">MultiLevelCache</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            MultiLevelCache mc <span class="token operator">=</span> <span class="token punctuation">(</span>MultiLevelCache<span class="token punctuation">)</span> cache<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>mc<span class="token punctuation">.</span><span class="token function">caches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 仅仅监控前面俩, 如果三级或更多, 不会有CacheMonitor</span>
+                Cache local <span class="token operator">=</span> mc<span class="token punctuation">.</span><span class="token function">caches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                Cache remote <span class="token operator">=</span> mc<span class="token punctuation">.</span><span class="token function">caches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                DefaultCacheMonitor localMonitor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultCacheMonitor</span><span class="token punctuation">(</span>cacheName <span class="token operator">+</span> <span class="token string">"_local"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                local<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMonitors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>localMonitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                DefaultCacheMonitor remoteMonitor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultCacheMonitor</span><span class="token punctuation">(</span>cacheName <span class="token operator">+</span> <span class="token string">"_remote"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                remote<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMonitors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>remoteMonitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                defaultMetricsManager<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>localMonitor<span class="token punctuation">,</span> remoteMonitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 有个默认的CacheMonitor</span>
+        DefaultCacheMonitor monitor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultCacheMonitor</span><span class="token punctuation">(</span>cacheName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMonitors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>monitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        defaultMetricsManager<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>monitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 可以自己实现 cacheMessagePublisher 把缓存的事件发布到其他地方去</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">addCacheUpdateMonitor</span><span class="token punctuation">(</span>String area<span class="token punctuation">,</span> String cacheName<span class="token punctuation">,</span> Cache cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cacheMessagePublisher <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        CacheMonitor monitor <span class="token operator">=</span> event <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token keyword">instanceof</span> <span class="token class-name">CachePutEvent</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                CacheMessage m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CacheMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                CachePutEvent e <span class="token operator">=</span> <span class="token punctuation">(</span>CachePutEvent<span class="token punctuation">)</span> event<span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setType</span><span class="token punctuation">(</span>CacheMessage<span class="token punctuation">.</span>TYPE_PUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setKeys</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>e<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cacheMessagePublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token keyword">instanceof</span> <span class="token class-name">CacheRemoveEvent</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                CacheMessage m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CacheMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                CacheRemoveEvent e <span class="token operator">=</span> <span class="token punctuation">(</span>CacheRemoveEvent<span class="token punctuation">)</span> event<span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setType</span><span class="token punctuation">(</span>CacheMessage<span class="token punctuation">.</span>TYPE_REMOVE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setKeys</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>e<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cacheMessagePublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token keyword">instanceof</span> <span class="token class-name">CachePutAllEvent</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                CacheMessage m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CacheMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                CachePutAllEvent e <span class="token operator">=</span> <span class="token punctuation">(</span>CachePutAllEvent<span class="token punctuation">)</span> event<span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setType</span><span class="token punctuation">(</span>CacheMessage<span class="token punctuation">.</span>TYPE_PUT_ALL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    m<span class="token punctuation">.</span><span class="token function">setKeys</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">keySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                cacheMessagePublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token keyword">instanceof</span> <span class="token class-name">CacheRemoveAllEvent</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                CacheMessage m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CacheMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                CacheRemoveAllEvent e <span class="token operator">=</span> <span class="token punctuation">(</span>CacheRemoveAllEvent<span class="token punctuation">)</span> event<span class="token punctuation">;</span>
+                m<span class="token punctuation">.</span><span class="token function">setType</span><span class="token punctuation">(</span>CacheMessage<span class="token punctuation">.</span>TYPE_REMOVE_ALL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    m<span class="token punctuation">.</span><span class="token function">setKeys</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                cacheMessagePublisher<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>area<span class="token punctuation">,</span> cacheName<span class="token punctuation">,</span> m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        cache<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMonitors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>monitor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="DefaultMetricsManager"><a href="#DefaultMetricsManager" class="headerlink" title="DefaultMetricsManager"></a>DefaultMetricsManager</h3><blockquote>
+<p>默认的指标监控器</p>
+</blockquote>
+<p>内部有个CopyOnWriteArrayList来保存需要监控的DefaultCacheMonitor, 有个ScheduledFuture用来定时扫描DefaultCacheMonitor, 可以通过参数resetTime和resetTimeUnit调整ScheduledFuture的执行间隔. 并且有个Consumer,用来定义如何处理每个缓存中的CacheStat信息, 默认的处理方式是StatInfoLogger,即日志打印出来. jetCache可以定时打印日志, 公布缓存使用情况.</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DefaultMetricsManager</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Logger logger <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>DefaultMetricsManager<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">protected</span> CopyOnWriteArrayList<span class="token operator">&lt;</span> DefaultCacheMonitor<span class="token operator">></span> monitorList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CopyOnWriteArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> ScheduledFuture<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> future<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">int</span> resetTime<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> TimeUnit resetTimeUnit<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> Consumer<span class="token operator">&lt;</span>StatInfo<span class="token operator">></span> metricsCallback<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// ... 省略某些方法</span>
+
+    <span class="token comment" spellcheck="true">// 构造一个"根据monitorList来构造一个StatInfo, 最终Consumer来处理"的run流程</span>
+    Runnable cmd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">long</span> time <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                List<span class="token operator">&lt;</span>CacheStat<span class="token operator">></span> stats <span class="token operator">=</span> monitorList<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                    CacheStat stat <span class="token operator">=</span> m<span class="token punctuation">.</span><span class="token function">getCacheStat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    m<span class="token punctuation">.</span><span class="token function">resetStat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> stat<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">long</span> endTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                StatInfo statInfo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StatInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                statInfo<span class="token punctuation">.</span><span class="token function">setStartTime</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                statInfo<span class="token punctuation">.</span><span class="token function">setEndTime</span><span class="token punctuation">(</span>endTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                statInfo<span class="token punctuation">.</span><span class="token function">setStats</span><span class="token punctuation">(</span>stats<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                time <span class="token operator">=</span> endTime<span class="token punctuation">;</span>
+
+                metricsCallback<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span>statInfo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"jetcache DefaultMetricsManager error"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 开始执行周期性定时任务</span>
+    <span class="token annotation punctuation">@PostConstruct</span>
+    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>future <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">long</span> delay <span class="token operator">=</span> <span class="token function">firstDelay</span><span class="token punctuation">(</span>resetTime<span class="token punctuation">,</span> resetTimeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        future <span class="token operator">=</span> JetCacheExecutor<span class="token punctuation">.</span><span class="token function">defaultExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">scheduleAtFixedRate</span><span class="token punctuation">(</span>
+                cmd<span class="token punctuation">,</span> delay<span class="token punctuation">,</span> resetTimeUnit<span class="token punctuation">.</span><span class="token function">toMillis</span><span class="token punctuation">(</span>resetTime<span class="token punctuation">)</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>MILLISECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"cache stat period at "</span> <span class="token operator">+</span> resetTime <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> resetTimeUnit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// ... 省略某些方法</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="与Spring的对接"><a href="#与Spring的对接" class="headerlink" title="与Spring的对接"></a>与Spring的对接</h3><p>jetcache继承了AbstractLifecycle并实现了Spring的ApplicationContextAware, 启动时将会自动执行<code>onInit()</code>方法, <code>onInit()</code>方法将会执行<code>initDefaultCacheMonitorInstaller</code>传入默认的<code>metricsCallback</code>(就是个<code>StatInfoLogger</code>), 并执行init方法, DefaultCacheMonitorManager中的DefaultMetricsManager将会被<code>start()</code>, <code>start()</code>内会启动一个周期性定时线程池来扫描<code>DefaultCacheMonitor</code>中的<code>CacheStat</code>, 最后转化成<code>StatInfo</code>, 交给<code>metricsCallback</code>去处理.</p>
+<p>上图:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224344.png" alt="screenshot-20210410-224344.png" title>
+                </div>
+                <div class="image-caption">screenshot-20210410-224344.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224436.png" alt="screenshot-20210410-224436.png" title>
+                </div>
+                <div class="image-caption">screenshot-20210410-224436.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224459.png" alt="screenshot-20210410-224459.png" title>
+                </div>
+                <div class="image-caption">screenshot-20210410-224459.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224543.png" alt="sscreenshot-20210410-224543.png" title>
+                </div>
+                <div class="image-caption">sscreenshot-20210410-224543.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/210410/screenshot-20210410-224626.png" alt="sscreenshot-20210410-224626.png" title>
+                </div>
+                <div class="image-caption">sscreenshot-20210410-224626.png</div>
+            </figure>
         </div>
 
         <blockquote class="post-copyright">
@@ -212,7 +1100,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2021-04-07T01:34:00.119Z" itemprop="dateUpdated">2021-04-07 09:34:00</time>
+    最后更新时间：<time datetime="2021-04-10T14:58:23.336Z" itemprop="dateUpdated">2021-04-10 22:58:23</time>
 </span><br>
 
 
@@ -238,6 +1126,8 @@
 
         <div class="post-footer">
             
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+
 
             
 <div class="page-share-wrap">
@@ -256,7 +1146,8 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040542562/&title=《JetCache的源码》 — 灿若繁星&source=这里添加摘要" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040542562/&title=《JetCache的源码》 — 灿若繁星&source=$ git clone git@github.com:alibaba/jetcache.git
+" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -429,7 +1320,8 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040542562/&title=《JetCache的源码》 — 灿若繁星&source=这里添加摘要" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.canyuda.top/posts/2021040542562/&title=《JetCache的源码》 — 灿若繁星&source=$ git clone git@github.com:alibaba/jetcache.git
+" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
