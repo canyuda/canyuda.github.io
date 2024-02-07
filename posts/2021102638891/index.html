@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>通讯协议之ModBus | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Modbus是一种串行通信协议，是Modicon公司（现在的施耐德电气 Schneider Electric）于1979年为使用可编程逻辑控制器（PLC）通信而发表。Modbus已经成为工业领域通信协议的业界标准（De facto），并且现在是工业电子设备之间常用的连接方式。  什么是ModBus 相关工具 ModBus poll ModBUs slave   传输方式 TCP RTU ASCII">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通讯协议之ModBus">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2021102638891/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="Modbus是一种串行通信协议，是Modicon公司（现在的施耐德电气 Schneider Electric）于1979年为使用可编程逻辑控制器（PLC）通信而发表。Modbus已经成为工业领域通信协议的业界标准（De facto），并且现在是工业电子设备之间常用的连接方式。  什么是ModBus 相关工具 ModBus poll ModBUs slave   传输方式 TCP RTU ASCII">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-26T13:23:27.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.772Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="通讯协议">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2021-10-通讯协议之ModBus" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2021102638891/" class="article-date">
+  <time class="dt-published" datetime="2021-10-26T13:23:27.000Z" itemprop="datePublished">2021-10-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/industrial-control/">工业控制</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      通讯协议之ModBus
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Modbus是一种串行通信协议，是Modicon公司（现在的施耐德电气 Schneider Electric）于1979年为使用可编程逻辑控制器（PLC）通信而发表。Modbus已经成为工业领域通信协议的业界标准（De facto），并且现在是工业电子设备之间常用的连接方式。</p>
+<ul>
+<li>什么是ModBus</li>
+<li>相关工具<ul>
+<li>ModBus poll</li>
+<li>ModBUs slave</li>
+</ul>
+</li>
+<li>传输方式<ul>
+<li>TCP</li>
+<li>RTU</li>
+<li>ASCII</li>
+</ul>
+</li>
+<li>消息帧</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="什么是ModBus"><a href="#什么是ModBus" class="headerlink" title="什么是ModBus"></a>什么是ModBus</h2><p>Modbus 协议是应用于电子控制器上的一种通用语言。通过此协议，控制器相互之间、控制器经由网络（例如以太网）和其它设备之间可以通信。Modbus 协议定义了一个控制器能认识使用的消息结构,而不管它们是经过何种网络进行通信的。它描述了一控制器请求访问其它设备的过程，如果回应来自其它设备的请求，以及怎样侦测错误并记录。它制定了消息域格局和内容的公共格式。</p>
+<p>Modbus比其他通信协议使用的更广泛的主要原因有：</p>
+<ol>
+<li>公开发表并且无著作权要求</li>
+<li>易于部署和维护</li>
+<li>对供应商来说，修改移动本地的比特或字节没有很多限制</li>
+</ol>
+<p>ModBus能够在点对点和多点网络上运行，ModBus设备采用主从技术进行通信，其中只有一个设备可以发送请求。其他设备通过向主站提供所请求的数据来响应，或者通过采取查询中请求的操作。从机可以是任何外围设备，比如I&#x2F;O传感器、阀门、网络驱动器、或者其他测量类型的设备。从站处理信息和使用ModBus将其响应消息发送给主站。</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:625px; height:350px;" src="https://www.processon.com/embed/617806fc5653bb7318d735e3"></iframe>
+
+<h2 id="相关工具"><a href="#相关工具" class="headerlink" title="相关工具"></a>相关工具</h2><ul>
+<li>主站模拟器 <a href="https://www.modbustools.com/modbus_poll.html">ModBus poll</a></li>
+<li>从站模拟器 <a href="https://www.modbustools.com/modbus_slave.html">ModBus slave</a></li>
+<li>串口工具 <a href="https://www.eltima.com/cn/products/vspdxp/">Virtual Serial Port Driver</a></li>
+<li>Java工具库 <a href="https://mango-os.com/modbus4j-open-source-modbus-library">ModBus4j</a></li>
+<li>golang工具库 <a href="https://github.com/goburrow/modbus">goburrow&#x2F;modbus</a></li>
+</ul>
+<h2 id="传输方式"><a href="#传输方式" class="headerlink" title="传输方式"></a>传输方式</h2><p>ModBus协议分为三种通信方式，分别是：</p>
+<ul>
+<li>异步串行: <code>ModBus RTU</code> 和 <code>ModBus ASCII</code>, 传输介质包括有线RS-232&#x2F;422&#x2F;485, 光纤, 无线</li>
+<li>以太网: <code>ModBus TCP/IP</code></li>
+<li>高速令牌传递网络: <code>ModBus PLUS</code></li>
+</ul>
+<blockquote>
+<p>下面主要介绍的是 <code>ModBus TCP/IP</code>, <code>ModBus RTU</code> 和 <code>ModBus ASCII</code></p>
+</blockquote>
+<h2 id="消息帧"><a href="#消息帧" class="headerlink" title="消息帧"></a>消息帧</h2><blockquote>
+<p>ADU: 应用数据单元</p>
+<p>PDU: 协议​数据​单元​</p>
+</blockquote>
+<h3 id="ModBus-TCP"><a href="#ModBus-TCP" class="headerlink" title="ModBus TCP"></a>ModBus TCP</h3><iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:525px; height:245px;" src="https://www.processon.com/embed/617810dd7d9c08459fb50b06"></iframe>
+
+<p>Modbus TCP的数据帧可分为两部分：<code>ADU=MBAP+PDU = MBAP + 功能码 + 数据域</code>，MBAP有7byte，功能码有1byte，数据域不确定，由具体功能决定。</p>
+<p>MBAP为报文头，长度为7字节，组成如下：</p>
+<ol>
+<li>事务处理标识 2个字节</li>
+<li>协议标识 2个字节</li>
+<li>长度 2个字节</li>
+<li>单元标识符 1个字节</li>
+</ol>
+<p>PDU格式如下:</p>
+<ol>
+<li>功能码 1个字节</li>
+<li>数据 (不同功能码,内部结构也不同)</li>
+</ol>
+<h3 id="ModBus-RTU"><a href="#ModBus-RTU" class="headerlink" title="ModBus RTU"></a>ModBus RTU</h3><iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:525px; height:245px;" src="https://www.processon.com/embed/61725d515653bb7318cd5aae"></iframe>
+
+<p>ADU整体的结构如下:</p>
+<ul>
+<li>从站地址 1个字节</li>
+<li>功能码 1个字节</li>
+<li>数据 0-253个字节</li>
+<li>校验段 2个字节<ul>
+<li>CRC1 1个字节</li>
+<li>CRC2 1个字节</li>
+</ul>
+</li>
+</ul>
+<p>Modbus RTU的报文格式没有定义帧的起始与结束字符, 因此对于帧识别有时间上的要求: 帧与帧之间的时间间隔要大于3.5个字符(字节)的时间, 否则认定为错误情况; 而帧内部的字符之间的间隔不能大于1.5个字符的时间, 否则, 不认为是同一个数据帧; 如下图所示.</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:525px; height:350px;" src="https://www.processon.com/embed/6172630e7d9c08459fab277a"></iframe>
+
+<h3 id="ModBus-ASCII"><a href="#ModBus-ASCII" class="headerlink" title="ModBus ASCII"></a>ModBus ASCII</h3><p>ASCII与RTU的区别是,  它的数据帧有开始和结束的标志位.</p>
+<p>在ASCII（AmericanStandard Code for Information Interchange）传输模式下，消息帧以英文冒号（“：”，ASCII3A Hex）开始，以回车和换号（CRLF，ASCII 0D and 0A Hex）符号结束，允许的传输的字符集为十六进制的0<del>9和A</del>F；网络中的从设备监视传输通路上是否有英文冒号（“：”），如果有的话，就对消息帧进行解码，查看消息中的地址是否与自己的地址相同，如果相同的话，就接收其中的数据；如果不同的话，则不予理会。</p>
+<p>在ASCII模式下，每个8位的字节被拆分成两个ASCII字符进行发送，比如十六进制数0xAF ,会被分解成ASCII字符“A”和“F”进行发送，发送的字符量比RTU增加一倍。ASCII模式的好处是允许两个字符之间间隔的时间长达1s而不引发通信故障，该模式采用纵向冗余校验（Longitudinal Redundancy Check ，LRC)） 的方法来检验错误。</p>
+<p>ADU整体的结构如下:</p>
+<ul>
+<li>起始	1个字节</li>
+<li>地址  2个字节</li>
+<li>功能码    2字节</li>
+<li>数据	0-252*2字节</li>
+<li>LRC	2个字节</li>
+<li>截止	2个字节</li>
+</ul>
+<h2 id="ModBuss数据模型"><a href="#ModBuss数据模型" class="headerlink" title="ModBuss数据模型"></a>ModBuss数据模型</h2><p>Modbus中，数据可以分为两大类，分别为位变量(Coil)和整形变量(Register)，每一种数据，根据读写方式的不同，又可细分为两种（只读，读写）。</p>
+<ol>
+<li><code>Discretes Input</code> 位变量 只读</li>
+<li><code>Coils</code> 位变量 读写</li>
+<li><code>Input Registers</code> 16-bit整型 只读</li>
+<li><code>Holding Registers</code> 16-bit整型 读写</li>
+</ol>
+<p>地址范围：</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>设备地址</strong></th>
+<th align="center"><strong>ModBus地址</strong></th>
+<th align="center"><strong>描述</strong></th>
+<th align="center"><strong>功能</strong></th>
+<th align="center"><strong>R&#x2F;W</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1~10000</td>
+<td align="center">address-1</td>
+<td align="center">Coils（Output）</td>
+<td align="center">0</td>
+<td align="center">R&#x2F;W</td>
+</tr>
+<tr>
+<td align="center">10001~20000</td>
+<td align="center">address-10001</td>
+<td align="center">Discrete Inputs</td>
+<td align="center">01</td>
+<td align="center">R</td>
+</tr>
+<tr>
+<td align="center">30001~40000</td>
+<td align="center">address-30001</td>
+<td align="center">Input Registers</td>
+<td align="center">04</td>
+<td align="center">R</td>
+</tr>
+<tr>
+<td align="center">40001~50000</td>
+<td align="center">address-40001</td>
+<td align="center">Holding Registers</td>
+<td align="center">03</td>
+<td align="center">R&#x2F;W</td>
+</tr>
+</tbody></table>
+<p>常见功能码：</p>
+<table>
+<thead>
+<tr>
+<th><strong>功能码</strong></th>
+<th><strong>名称</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>对应的地址类型</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>01</td>
+<td>读线圈状态</td>
+<td>读位（读N个bit）---读从机线圈寄存器，位操作</td>
+<td>0x</td>
+</tr>
+<tr>
+<td>02</td>
+<td>读输入离散量</td>
+<td>读位（读N个bit）---读离散输入寄存器，位操作</td>
+<td>1x</td>
+</tr>
+<tr>
+<td>03</td>
+<td>读多个寄存器</td>
+<td>读整型、字符型、状态字、浮点型（读N个words）---读保持寄存器，字节操作</td>
+<td>4X</td>
+</tr>
+<tr>
+<td>04</td>
+<td>读输入寄存器</td>
+<td>读整型、状态字、浮点型（读N个words）---读输入寄存器，字节操作</td>
+<td>3x</td>
+</tr>
+<tr>
+<td>05</td>
+<td>写单个线圈</td>
+<td>写位（写一个bit）---写线圈寄存器，位操作</td>
+<td>0x</td>
+</tr>
+<tr>
+<td>06</td>
+<td>写单个保持寄存器</td>
+<td>写整型、字符型、状态字、浮点型（写一个word）---写保持寄存器，字节操作</td>
+<td>4x</td>
+</tr>
+<tr>
+<td>0F</td>
+<td>写多个线圈</td>
+<td>写位（写n个bit）---强置一串连续逻辑线圈的通断</td>
+<td>0x</td>
+</tr>
+</tbody></table>
+<h3 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h3><blockquote>
+<p>使用ModBusTCP作为例子， RTU和ASCII格式参考不同</p>
+</blockquote>
+<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><h5 id="线圈读取"><a href="#线圈读取" class="headerlink" title="线圈读取"></a>线圈读取</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求：</span><br><span class="line">0003 0000 0006 01 01 00 00 00 01</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0003</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度（<code>01 01 00 00 00 01</code>）</li>
+<li><code>01</code>   单元标识符（设备地址）</li>
+<li><code>01</code>   功能码（线圈）</li>
+<li><code>0000</code> 从<code>0000</code>开始读</li>
+<li><code>0001</code> 读取<code>1</code>位</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">响应：</span><br><span class="line">0003 0000 0004 0101 0101</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0003</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0004</code> 长度 （<code>01 01 01 01</code>）</li>
+<li><code>01</code>   单元标识符（设备地址）</li>
+<li><code>01</code>   功能码（线圈）</li>
+<li><code>01</code>   长度为<code>1</code></li>
+<li><code>01</code>   值为<code>01</code></li>
+</ul>
+<h5 id="离散值读取"><a href="#离散值读取" class="headerlink" title="离散值读取"></a>离散值读取</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求:</span><br><span class="line">0001 0000 0006 01 02 0000 000a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 02 00 00 00 0a</code>)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>02</code> 功能码</li>
+<li><code>0000</code> 从<code>0000</code>开始读</li>
+<li><code>000a</code> 读取<code>0x0a</code> (十进制为<code>10</code>)个位</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">响应:</span><br><span class="line">0001 0000 0005 01 02 02 95 02</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0005</code> 长度为5(<code>01 02 02 95 02</code>)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>02</code> 功能码</li>
+<li><code>02</code> 值的长度(<code>95 02</code>)</li>
+<li><code>95</code> 第一个字节的值 二进制为: <code>10010101</code></li>
+<li><code>02</code> 第二个字节的值 二进制为: <code>10</code></li>
+</ul>
+<blockquote>
+<p>第一个字节：1 0 1 0 1 0 0 1 </p>
+<p>第二个字节：0 1</p>
+</blockquote>
+<h5 id="保持寄存器读取"><a href="#保持寄存器读取" class="headerlink" title="保持寄存器读取"></a>保持寄存器读取</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求:</span><br><span class="line">0001 0000 0006 01 03 00 00 00 0a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(01 03 00 00 00 0a)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>03</code> 功能码</li>
+<li><code>0000</code> 从0000开始读</li>
+<li><code>000a</code> 读取0x0a (十进制为10)个字符</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">响应:</span><br><span class="line">0003 0000 0017 01 03 14 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0017</code> 长度(<code>01 03 14 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</code>)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>03</code> 功能码</li>
+<li><code>14</code> 长度(十进制为<code>20</code>) (<code>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</code>) </li>
+<li><code>0000 0000 0000 0000 0000 0000 0000 0000 0000 0000</code>  具体的数据</li>
+</ul>
+<blockquote>
+<p>10条数据都为 0</p>
+<p>如果10条数据为1-10递增, 则表示为 <code>0001 0002 0003 0004 0005 0006 0007 0008 0009 000a</code></p>
+</blockquote>
+<h5 id="输入寄存器读取"><a href="#输入寄存器读取" class="headerlink" title="输入寄存器读取"></a>输入寄存器读取</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求:</span><br><span class="line">0001 0000 0006 01 04 0000 000a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 04 00 00 00 0a</code>)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>04</code> 功能码</li>
+<li><code>0000</code> 从<code>0000</code>开始读</li>
+<li><code>000a</code> 读取<code>0x0a</code> (十进制为<code>10</code>)个字符</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确的响应</span><br><span class="line">0003 0000 0017 01 04 14 0001 0002 0003 0004 0005 0006 0007 0008 0009 7fff</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0017</code> 长度(<code>01 03 14 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</code>)</li>
+<li><code>01</code> 单元标识符(设备地址)</li>
+<li><code>04</code> 功能码</li>
+<li><code>14</code> 长度(十进制为20) (<code>00 01 00 02 00 03 00 04 00 05 00 06 00 07 00 08 00 09 7f ff</code>) </li>
+<li><code>0001 0002 0003 0004 0005 0006 0007 0008 0009 7fff</code>  具体的数据</li>
+</ul>
+<blockquote>
+<p>前9个为 1 到 9 递增, 最后一个为 <code>32767</code>(十进制), 范围是(<code>-32768</code> 到 <code>32767</code>)</p>
+</blockquote>
+<h4 id="写数据"><a href="#写数据" class="headerlink" title="写数据"></a>写数据</h4><h5 id="单写"><a href="#单写" class="headerlink" title="单写"></a>单写</h5><h6 id="写线圈"><a href="#写线圈" class="headerlink" title="写线圈"></a>写线圈</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求</span><br><span class="line">0008 0000 0006 01 05 0000 ff00</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0008</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 05 00 00 ff 00</code>)</li>
+<li><code>01</code> 单元标识符（设备地址）</li>
+<li><code>05</code> 功能码</li>
+<li><code>0000</code> 写入<code>0000</code>地址</li>
+<li><code>ff00</code> 写入开 (<code>0000</code> 写入关)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">成功的响应</span><br><span class="line">0023 0000 0006 01 05 0001 0000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0023</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 05 00 00 00 00</code>)</li>
+<li><code>01</code> 单元标识符（设备地址）</li>
+<li><code>05</code> 功能码</li>
+<li><code>0000</code> 写入<code>0000</code>地址</li>
+<li><code>ff00</code> 写入开 (<code>0000</code> 写入关)</li>
+</ul>
+<h6 id="写保持寄存器"><a href="#写保持寄存器" class="headerlink" title="写保持寄存器"></a>写保持寄存器</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求:</span><br><span class="line">0001 0000 0006 01 06 0000 0001</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0001</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(01 06 0000 0001)</li>
+<li><code>01</code> 单元标识符（设备地址）</li>
+<li><code>06</code> 功能码</li>
+<li><code>0000</code> 写入0000地址</li>
+<li><code>0001</code> 写入的值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">成功的响应</span><br><span class="line">0069 0000 0006 01 06 0000 0068</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0069</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(01 06 00 00 00 68)</li>
+<li><code>01</code> 单元标识符（设备地址）</li>
+<li><code>06</code> 功能码</li>
+<li><code>0000</code> 写入0000地址</li>
+<li><code>0068</code> 写入值68(十进制:104)</li>
+</ul>
+<h5 id="批量写"><a href="#批量写" class="headerlink" title="批量写"></a>批量写</h5><h6 id="写线圈-1"><a href="#写线圈-1" class="headerlink" title="写线圈"></a>写线圈</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求</span><br><span class="line">000b 0000 0009 01 0f 00 00 00 09 02 7a 01</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>000b</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0009</code> 长度(<code>01 0f 0000 00 09 02 7a 01</code>)</li>
+<li><code>01</code> 单元标识符</li>
+<li><code>0f</code> 功能码 15</li>
+<li><code>0000</code> 从地址0000开始</li>
+<li><code>0009</code> 写入数量</li>
+<li><code>02</code> 长度(<code>7a 01</code>)</li>
+<li><code>7a 01</code> 输入这些值 (<code>7a</code> 二进制为 <code>0111 1010</code>,  <code>01</code> 二进制为 <code>0000 0001</code>)</li>
+</ul>
+<blockquote>
+<p>输入的值为 <code>0 1 0 1 1 1 1 0 1</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确响应</span><br><span class="line">000b 0000 0006 01 0f 0000 0009</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>000b</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 0f 0000 0009</code>)</li>
+<li><code>01</code> 单元标识符</li>
+<li><code>0f</code> 功能码 <code>15</code></li>
+<li><code>0000</code> 从地址<code>0000</code>开始</li>
+<li><code>0009</code> 更新值的个数</li>
+</ul>
+<h6 id="写保持寄存器-1"><a href="#写保持寄存器-1" class="headerlink" title="写保持寄存器"></a>写保持寄存器</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">请求</span><br><span class="line">0006 0000 001b 01 10 0000 000a 14 0006 0007 0008 0009 000a 000b 000c 000d 000e 8004</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0006</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>001b</code> 长度(十进制为27)</li>
+<li><code>01</code> 单元标识符</li>
+<li><code>10</code> 功能码(十进制为:16)</li>
+<li><code>0000</code> 从地址0000开始更改</li>
+<li><code>000a</code> 改的个数为a(十进制为:10)</li>
+<li><code>14</code> 字节长度(十进制为20)</li>
+<li><code>0006 0007 0008 0009 000a 000b 000c 000d 000e 8004</code>  具体的数据</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正确的响应</span><br><span class="line">0006 0000 0006 01 10 0000 000a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>0006</code> 序号</li>
+<li><code>0000</code> 协议标识符</li>
+<li><code>0006</code> 长度(<code>01 10 00 00 00 0a</code>)</li>
+<li><code>01</code> 单元标识符</li>
+<li><code>10</code> 功能码(十进制为:<code>16</code>)</li>
+<li><code>0000</code> 从地址<code>0000</code>开始更改</li>
+<li><code>000a</code> 改的个数为<code>a</code>(十进制为:<code>10</code>)</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2021102638891/" data-id="clsbfdtqa0092ewol86r88vq4" data-title="通讯协议之ModBus" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2022082359186/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          零拷贝技术
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2021040542562/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JetCache的源码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>设计模式-原型模式 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="原型模式(Prototype Pattern): 通过给出一个原型对象来指明所有创建的对象的类型, 然后用复制这个原型对象的办法创建出更多同类型的对象.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-原型模式">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019101641018/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="原型模式(Prototype Pattern): 通过给出一个原型对象来指明所有创建的对象的类型, 然后用复制这个原型对象的办法创建出更多同类型的对象.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-4.png">
+<meta property="article:published_time" content="2019-10-16T01:45:44.000Z">
+<meta property="article:modified_time" content="2024-02-07T06:22:10.958Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2019-10-设计模式-原型模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2019101641018/" class="article-date">
+  <time class="dt-published" datetime="2019-10-16T01:45:44.000Z" itemprop="datePublished">2019-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      设计模式-原型模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>原型模式(Prototype Pattern): 通过给出一个原型对象来指明所有创建的对象的类型, 然后用复制这个原型对象的办法创建出更多同类型的对象.</p>
+<span id="more"></span>
+
+<a href="/posts/2019090539633/" title="设计模式-概述">设计模式-概述</a>
+
+<p>当需要创建若干对象, 这些对象构造都极其复杂, 但是这些对象大部分属性是相同的. 此时使用原型模式能大大解决这种问题, 创建一个原型, 把相同的属性设置到其中, 其他的对象均是克隆自该原型, 然后根据使用的不同做少量的更改.</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><h3 id="简单的原型模式"><a href="#简单的原型模式" class="headerlink" title="简单的原型模式"></a>简单的原型模式</h3><p>涉及到3个角色</p>
+<ol>
+<li>Clinet : 客户端</li>
+<li>Prototype : 抽象出原型功能</li>
+<li>ConcretePrototype : 具体的原型</li>
+</ol>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-1.png" alt="prototype-1.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@startuml prototype-1</span><br><span class="line">!include common.cuml</span><br><span class="line"></span><br><span class="line">Class(Client,&quot;客户端&quot;) &#123;</span><br><span class="line">    - prototype : Prototype</span><br><span class="line">    + Client()</span><br><span class="line">    + operation() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Interface(Prototype,&quot;抽象原型方法&quot;) &lt;&lt;interface&gt;&gt; &#123;</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class(ConcretePrototype1,&quot;原型1&quot;) &#123;</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class(ConcretePrototype2,&quot;原型2&quot;) &#123;</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Client o--right--&gt; Prototype</span><br><span class="line">Prototype &lt;|.. ConcretePrototype1</span><br><span class="line">Prototype &lt;|.. ConcretePrototype2</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="登记形式的原型模式"><a href="#登记形式的原型模式" class="headerlink" title="登记形式的原型模式"></a>登记形式的原型模式</h3><blockquote>
+<p>针对可能有大量的原型, 相比简单原型模式, 增加了一个<code>PrototypeManager</code>的角色, 通过它来获取原型.</p>
+</blockquote>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-2.png" alt="prototype-2.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@startuml prototype-2</span><br><span class="line">!include common.cuml</span><br><span class="line"></span><br><span class="line">Class(PrototypeManager,&quot;原型管理器&quot;) &#123;</span><br><span class="line">    - prototypeMap : Map</span><br><span class="line">    + PrototypeManager()</span><br><span class="line">    + getPrototype() : Prototype</span><br><span class="line">    + addPrototype() : void</span><br><span class="line">    + removePrototype() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class(Client,&quot;客户端&quot;) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Interface(Prototype,&quot;抽象原型方法&quot;) &lt;&lt;interface&gt;&gt; &#123;</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">    + getName() : String</span><br><span class="line">    + setName() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class(ConcretePrototype1,&quot;原型1&quot;) &#123;</span><br><span class="line">    - name : String</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class(ConcretePrototype2,&quot;原型2&quot;) &#123;</span><br><span class="line">    - name : String</span><br><span class="line">    + clone() : Prototype</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Client o--right--&gt; Prototype</span><br><span class="line">Client ..&gt; PrototypeManager</span><br><span class="line">Prototype &lt;|.. ConcretePrototype1</span><br><span class="line">Prototype &lt;|.. ConcretePrototype2</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用时序"><a href="#使用时序" class="headerlink" title="使用时序"></a>使用时序</h2><h3 id="简单式"><a href="#简单式" class="headerlink" title="简单式"></a>简单式</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-3.png" alt="prototype-3.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml prototype-3</span><br><span class="line"></span><br><span class="line">!include common.cuml</span><br><span class="line"></span><br><span class="line">actor 用户 as U</span><br><span class="line">participant Client as C</span><br><span class="line">participant Prototype as P</span><br><span class="line"></span><br><span class="line">U --&gt; C : 想要获取原型</span><br><span class="line">U -&gt; C : setPrototype();\noperation();</span><br><span class="line">C -&gt; P : clone()</span><br><span class="line">U &lt;-- P : Prototype对象</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="登记式"><a href="#登记式" class="headerlink" title="登记式"></a>登记式</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191016/prototype-4.png" alt="prototype-4.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@startuml prototype-4</span><br><span class="line"></span><br><span class="line">!include common.cuml</span><br><span class="line"></span><br><span class="line">actor 用户 as U</span><br><span class="line">participant Client as C</span><br><span class="line"></span><br><span class="line">participant PrototypeManager as PM</span><br><span class="line">participant Prototype1 as P1</span><br><span class="line">participant Prototype2 as P2</span><br><span class="line"></span><br><span class="line">P1 -&gt; PM : addPrototype()</span><br><span class="line">P2 -&gt; PM : addPrototype()</span><br><span class="line">......</span><br><span class="line">U --&gt; C : 想要一个原型</span><br><span class="line">C -&gt; PM : getPrototype(prototypeName)</span><br><span class="line">PM -&gt; PM : foreach(prototypeMap)</span><br><span class="line">PM --&gt; C : Prototype对象</span><br><span class="line">U &lt;-- C : Prototype对象</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><blockquote>
+<p>登记式包含了简单式, 下面仅演示登记式</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * CreateUser: canyuda</span></span><br><span class="line"><span class="comment"> * CreateTime: 2019/10/16 10:28</span></span><br><span class="line"><span class="comment"> * Description:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 初始化</span></span><br><span class="line">        <span class="type">Prototype</span> <span class="variable">prototype1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ConcretePrototype1</span>();</span><br><span class="line">        <span class="type">Prototype</span> <span class="variable">prototype2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ConcretePrototype2</span>();</span><br><span class="line">        PrototypeManager.addPrototype(<span class="string">&quot;prototype1&quot;</span>, prototype1);</span><br><span class="line">        PrototypeManager.addPrototype(<span class="string">&quot;prototype2&quot;</span>, prototype2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用原型1创建实例</span></span><br><span class="line">        <span class="type">Prototype</span> <span class="variable">p1</span> <span class="operator">=</span> PrototypeManager.getPrototype(<span class="string">&quot;prototype1&quot;</span>).clone();</span><br><span class="line">        p1.setName(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        <span class="type">Prototype</span> <span class="variable">p2</span> <span class="operator">=</span> PrototypeManager.getPrototype(<span class="string">&quot;prototype1&quot;</span>).clone();</span><br><span class="line">        p2.setName(<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">        <span class="comment">// p1 p2 来源于同一个原型 prototype1</span></span><br><span class="line">        System.out.println(p1);</span><br><span class="line">        System.out.println(p2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用原型2创建实例</span></span><br><span class="line">        <span class="type">ConcretePrototype2</span> <span class="variable">p3</span> <span class="operator">=</span> (ConcretePrototype2) PrototypeManager.getPrototype(<span class="string">&quot;prototype2&quot;</span>).clone();</span><br><span class="line">        p3.setName(<span class="string">&quot;王二&quot;</span>);</span><br><span class="line">        p3.setAge(<span class="number">12</span>);</span><br><span class="line">        <span class="type">ConcretePrototype2</span> <span class="variable">p4</span> <span class="operator">=</span> (ConcretePrototype2) PrototypeManager.getPrototype(<span class="string">&quot;prototype2&quot;</span>).clone();</span><br><span class="line">        p4.setName(<span class="string">&quot;麻子&quot;</span>);</span><br><span class="line">        p4.setAge(<span class="number">15</span>);</span><br><span class="line">        <span class="comment">// p3 p4 来源于同一个原型 prototype2</span></span><br><span class="line">        System.out.println(p3);</span><br><span class="line">        System.out.println(p4);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Prototype</span> &#123;</span><br><span class="line">    Prototype <span class="title function_">clone</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span>;</span><br><span class="line"></span><br><span class="line">    String <span class="title function_">getName</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcretePrototype1</span> <span class="keyword">implements</span> <span class="title class_">Prototype</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Prototype <span class="title function_">clone</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ConcretePrototype1</span> <span class="variable">prototype</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ConcretePrototype1</span>();</span><br><span class="line">        prototype.setName(<span class="built_in">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> prototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype1&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ConcretePrototype2</span> <span class="keyword">implements</span> <span class="title class_">Prototype</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Prototype <span class="title function_">clone</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ConcretePrototype2</span> <span class="variable">prototype</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ConcretePrototype2</span>();</span><br><span class="line">        prototype.setName(<span class="built_in">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> prototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(Integer age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype2&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PrototypeManager</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Prototype&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">PrototypeManager</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">addPrototype</span><span class="params">(String id, Prototype prototype)</span> &#123;</span><br><span class="line">        map.put(id, prototype);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">removePrototype</span><span class="params">(String id)</span> &#123;</span><br><span class="line">        map.remove(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Prototype <span class="title function_">getPrototype</span><span class="params">(String id)</span> &#123;</span><br><span class="line">        <span class="type">Prototype</span> <span class="variable">prototype</span> <span class="operator">=</span> map.get(id);</span><br><span class="line">        <span class="keyword">if</span> (prototype == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;未找到原型&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prototype;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于拷贝的思考"><a href="#关于拷贝的思考" class="headerlink" title="关于拷贝的思考"></a>关于拷贝的思考</h2><p>原型模式是已某一个为模板来创建对象, 如果这个模板里面包含了引用类型, 使用<code>浅拷贝</code>会出现对个引用类型成员共同使用了同一个地址, 地址指向了同一个实例, 如果某个对象对其修改, 其他的对象也会读取到更改的内容, 所以针对引用类型的成员变量, 需要注意, 可以考虑使用<code>序列化+反序列化</code>来实现<code>深拷贝</code>.</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li>类初始化需要消化非常多的资源.</li>
+<li>通过new产生一个对象需要非常繁琐的数据准备或访问权限时.</li>
+<li>一个基础对象, 多个地方使用, 每个地方都可能会做修改.</li>
+</ul>
+<h2 id="具体应用"><a href="#具体应用" class="headerlink" title="具体应用"></a>具体应用</h2><ul>
+<li><code>Spring</code> 中 对bean加注解<code>@Scope(value=&quot;prototype&quot;)</code>, 可以标识这个bean是原型模式的(非单例).</li>
+<li><code>复杂</code> <code>粘贴</code> 功能.</li>
+<li><code>Struct2</code> 中的 <code>Action</code>对象, 每个请求会对应一个复杂的<code>Action</code>, 所以使用了原型模式.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2019101641018/" data-id="clsbfdtq5008hewol3hbubd6c" data-title="设计模式-原型模式" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2019102056528/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          SpringCloud-Hystrix
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2019101319482/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">设计模式-单例模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

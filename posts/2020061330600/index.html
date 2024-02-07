@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JVM字节码之字节码指令一 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="字节码指令大致分类 条件跳转类指令 对象初始化指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM字节码之字节码指令一">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2020061330600/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="字节码指令大致分类 条件跳转类指令 对象初始化指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-13T06:27:49.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.765Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2020-06-JVM字节码之字节码指令一" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2020061330600/" class="article-date">
+  <time class="dt-published" datetime="2020-06-13T06:27:49.000Z" itemprop="datePublished">2020-06-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JVM字节码之字节码指令一
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>字节码指令大致分类</li>
+<li>条件跳转类指令</li>
+<li>对象初始化指令</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="字节码指令的分类"><a href="#字节码指令的分类" class="headerlink" title="字节码指令的分类"></a>字节码指令的分类</h2><blockquote>
+<p>javac 源码中 com.sun.tools.javac.jvm.ByteCodes 接口类, 列举了所有的字节码指令.</p>
+</blockquote>
+<p>字节码根据用途不同可以有如下的分类:</p>
+<ul>
+<li>加载存储指令, 例如: iload, istore</li>
+<li>控制转移指令, 用于跳转, 例如: ifeq</li>
+<li>对象操作指令, 例如: new 用于创建实例</li>
+<li>方法调用指令, 例如: invokevirtual 用于调用对象的实例方法</li>
+<li>运算指令, 例如: iadd 加法</li>
+<li>线程同步指令, 例如: monitorenter, monitorexit</li>
+<li>异常处理指令, 例如: athrow 显式抛异常</li>
+</ul>
+<h2 id="条件跳转类型指令"><a href="#条件跳转类型指令" class="headerlink" title="条件跳转类型指令"></a>条件跳转类型指令</h2><blockquote>
+<p>ifeq、iflt、ifle、ifne、ifgt、ifge、ifnull、ifnonnull、if_icmpeq、 if_icmpne、if_icmplt, if_icmpgt、if_icmple、if_icmpge、if_acmpeq、if_acmpne、tableswitch、lookupswitch、goto、goto_w、jsr、jsr_w、ret</p>
+</blockquote>
+<h3 id="循环遍历"><a href="#循环遍历" class="headerlink" title="循环遍历"></a>循环遍历</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] numbers = <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> number : numbers) &#123;</span><br><span class="line">            System.out.println(number);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后关键的字节码为:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">0: getstatic     #2                  // Field numbers:[I</span><br><span class="line">3: astore_1</span><br><span class="line">4: aload_1</span><br><span class="line">5: arraylength</span><br><span class="line">6: istore_2</span><br><span class="line">7: iconst_0</span><br><span class="line">8: istore_3</span><br><span class="line">9: iload_3</span><br><span class="line">10: iload_2</span><br><span class="line">11: if_icmpge     33</span><br><span class="line">14: aload_1</span><br><span class="line">15: iload_3</span><br><span class="line">16: iaload</span><br><span class="line">17: istore        4</span><br><span class="line">19: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">22: iload         4</span><br><span class="line">24: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V</span><br><span class="line">27: iinc          3, 1</span><br><span class="line">30: goto          9</span><br><span class="line">33: return</span><br></pre></td></tr></table></figure>
+
+<p>其中循环体从 <code>9: iload_3</code> 到 <code>33: return</code>, 可以看到首先加载了 3位置上的索引值<code>index</code> 和 2位置上的数组长度<code>length</code>, 然后进行了比较 <code>if_icmpge</code>, 如果循环完成将会跳转到<code>33</code>, 如果未完成循环, 它会从1位置取数组<code>array</code> 和 3位置上的<code>index</code>, 用<code>iaload</code>指令把<code>array</code>中下标为<code>index</code>的元素, 加入到操作数栈中, 然后存储到4位置的局部变量表中, 之后调用打印相关的指令, 最后会对3位置上的<code>index</code>进行<code>iinc</code>操作(iinc操作不需要依赖栈进行,效率比较高), 并执行<code>goto</code>跳转到<code>9</code>.</p>
+<blockquote>
+<p><code>for(item : array)</code> 是Java为了方便开发搞的语法糖, 原形还是<code>for(int i = 0;i &lt; array.length; i++)</code>.</p>
+</blockquote>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (a == <span class="number">1</span>)&#123;</span><br><span class="line">            System.out.println(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0: iconst_1</span><br><span class="line">1: istore_1</span><br><span class="line">2: iload_1</span><br><span class="line">3: iconst_1</span><br><span class="line">4: if_icmpne     14</span><br><span class="line">7: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">10: iload_1</span><br><span class="line">11: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V</span><br><span class="line">14: return</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了 <code>if_icmpne</code> 指令.</p>
+<h3 id="switch-case"><a href="#switch-case" class="headerlink" title="switch-case"></a>switch-case</h3><p><code>switch-case</code> 有两种指令负责<code>tableswitch</code>和<code>lookupswitch</code>, 两个的区别是:</p>
+<ol>
+<li><code>tableswitch</code>, case必须是连续的, 针对case比较紧凑的情况下, 查找的效率比较高;</li>
+<li><code>lookupswitch</code>, 查找方式上使用二分法, 应对与case比较稀疏的情况;</li>
+</ol>
+<p>java在编译成字节码时, 会分析成本, 选择使用<code>tableswitch</code>, 还是使用<code>lookupswitch</code>, 下面举几个例子.</p>
+<h4 id="tableswitch"><a href="#tableswitch" class="headerlink" title="tableswitch"></a>tableswitch</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;4&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;5&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">0: iconst_1</span><br><span class="line">1: istore_1</span><br><span class="line">2: iload_1</span><br><span class="line">3: tableswitch   &#123; // 1 to 5</span><br><span class="line">            1: 36</span><br><span class="line">            2: 47</span><br><span class="line">            3: 80</span><br><span class="line">            4: 58</span><br><span class="line">            5: 69</span><br><span class="line">        default: 80</span><br><span class="line">&#125;</span><br><span class="line">36: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">39: ldc           #3                  // String 1</span><br><span class="line">41: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">44: goto          88</span><br><span class="line">47: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">50: ldc           #5                  // String 2</span><br><span class="line">52: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">55: goto          88</span><br><span class="line">58: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">61: ldc           #6                  // String 4</span><br><span class="line">63: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">66: goto          88</span><br><span class="line">69: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">72: ldc           #7                  // String 5</span><br><span class="line">74: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">77: goto          88</span><br><span class="line">80: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">83: ldc           #8                  // String default</span><br><span class="line">85: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">88: return</span><br></pre></td></tr></table></figure>
+
+<p>可以看出<code>switch-case</code>中 case使用了 1,2,4,5;(没有使用3), 但是字节码中却自动补充了3, 那是应为java觉得补一个3并使用<code>tableswitch</code>的成本小于使用<code>lookupswitch</code>的成本, 所以字节码中自动补了<code>case 3</code>并让他跳转到<code>default</code>相同的位置.</p>
+<h4 id="lookupswitch"><a href="#lookupswitch" class="headerlink" title="lookupswitch"></a>lookupswitch</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">100</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;100&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">200</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;200&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">400</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;400&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">500</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;500&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">0: iconst_1</span><br><span class="line">1: istore_1</span><br><span class="line">2: iload_1</span><br><span class="line">3: lookupswitch  &#123; // 4</span><br><span class="line">            100: 44</span><br><span class="line">            200: 55</span><br><span class="line">            400: 66</span><br><span class="line">            500: 77</span><br><span class="line">        default: 88</span><br><span class="line">&#125;</span><br><span class="line">44: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">47: ldc           #3                  // String 100</span><br><span class="line">...略</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了<code>lookupswitch</code>, 那是因为 100,200,400,500 跨度非常大, 如果自动补齐 100-200,200-400,400-500中的case, 并使用<code>tableswitch</code>, 这种的成本大于直接使用<code>lookupswitch</code>.</p>
+<h4 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">0: iconst_1</span><br><span class="line">1: istore_1</span><br><span class="line">2: iload_1</span><br><span class="line">3: lookupswitch  &#123; // 2</span><br><span class="line">            1: 28</span><br><span class="line">            2: 39</span><br><span class="line">        default: 50</span><br><span class="line">&#125;</span><br><span class="line">28: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">31: ldc           #3                  // String 1</span><br><span class="line">33: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">36: goto          58</span><br><span class="line">39: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">42: ldc           #5                  // String 2</span><br><span class="line">44: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">47: goto          58</span><br><span class="line">50: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">53: ldc           #6                  // String default</span><br><span class="line">55: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">58: return</span><br></pre></td></tr></table></figure>
+
+<p>这里case 只有 1和2, 而java选择了<code>lookupswitch</code>, 而不是<code>tableswitch</code>, 其实在case量比较小的情况下, 两种的效率没有大的差别, 之所以会选择<code>lookupswitch</code>, 要看看javac的源码(<code>com.sun.tools.javac.jvm.Gen</code>中的<code>visitSwitch(JCSwitch tree)</code>方法).</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitSwitch</span><span class="params">(JCSwitch tree)</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">table_space_cost</span> <span class="operator">=</span> <span class="number">4</span> + ((<span class="type">long</span>) hi - lo + <span class="number">1</span>); <span class="comment">// words</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">table_time_cost</span> <span class="operator">=</span> <span class="number">3</span>; <span class="comment">// comparisons</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">lookup_space_cost</span> <span class="operator">=</span> <span class="number">3</span> + <span class="number">2</span> * (<span class="type">long</span>) nlabels;</span><br><span class="line">    <span class="type">long</span> <span class="variable">lookup_time_cost</span> <span class="operator">=</span> nlabels;</span><br><span class="line">    <span class="type">int</span> <span class="variable">opcode</span> <span class="operator">=</span></span><br><span class="line">        nlabels &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">        table_space_cost + <span class="number">3</span> * table_time_cost &lt;=</span><br><span class="line">        lookup_space_cost + <span class="number">3</span> * lookup_time_cost</span><br><span class="line">        ?</span><br><span class="line">        tableswitch : lookupswitch;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>hi</code> &#x3D; 2 , <code>lo</code> &#x3D; 1, <code>nlabels</code> &#x3D; 2 的情况下, <code>lookupswitch</code>成本比较低</li>
+<li><code>hi</code> &#x3D; 3 , <code>lo</code> &#x3D; 1, <code>nlabels</code> &#x3D; 3 的情况下, <code>tableswitch</code>成本比较低</li>
+</ol>
+<h4 id="枚举类型的switch"><a href="#枚举类型的switch" class="headerlink" title="枚举类型的switch"></a>枚举类型的switch</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yuda.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Type</span> <span class="variable">a</span> <span class="operator">=</span> Type.A;</span><br><span class="line">        <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">            <span class="keyword">case</span> A:</span><br><span class="line">                System.out.println(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> B:</span><br><span class="line">                System.out.println(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> C:</span><br><span class="line">                System.out.println(<span class="string">&quot;C&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Type</span> &#123;</span><br><span class="line">    A,</span><br><span class="line">    B,</span><br><span class="line">    C,</span><br><span class="line">    D,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">4: getstatic     #3                  // Field com/yuda/test/Main$1.$SwitchMap$com$yuda$test$Type:[I</span><br><span class="line">7: aload_1</span><br><span class="line">8: invokevirtual #4                  // Method com/yuda/test/Type.ordinal:()I</span><br><span class="line">11: iaload</span><br><span class="line">12: tableswitch   &#123; // 1 to 3</span><br><span class="line">                1: 40</span><br><span class="line">                2: 51</span><br><span class="line">                3: 62</span><br><span class="line">            default: 73</span><br><span class="line">    &#125;</span><br><span class="line">...略</span><br></pre></td></tr></table></figure>
+
+<p>可以看到使用了<code>tableswitch</code>, 对于枚举, 枚举类会有个<code>ordinal</code>方法, 每一个枚举项都会有个整数对应, 枚举类型被转换成整数类型来处理了.</p>
+<h4 id="字符串类型的switch"><a href="#字符串类型的switch" class="headerlink" title="字符串类型的switch"></a>字符串类型的switch</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> args[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;1bcd&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;1bcd&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;2111&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;2111&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;33434&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;33434&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">0: aload_0</span><br><span class="line">1: iconst_0</span><br><span class="line">2: aaload</span><br><span class="line">3: astore_1</span><br><span class="line">4: aload_1</span><br><span class="line">5: astore_2</span><br><span class="line">6: iconst_m1</span><br><span class="line">7: istore_3</span><br><span class="line">8: aload_2</span><br><span class="line">9: invokevirtual #2                  // Method java/lang/String.hashCode:()I</span><br><span class="line">12: lookupswitch  &#123; // 3</span><br><span class="line">        1538207: 62</span><br><span class="line">        1557106: 48</span><br><span class="line">    48670517: 76</span><br><span class="line">        default: 87</span><br><span class="line">&#125;</span><br><span class="line">48: aload_2</span><br><span class="line">49: ldc           #3                  // String 1bcd</span><br><span class="line">51: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">54: ifeq          87</span><br><span class="line">57: iconst_0</span><br><span class="line">58: istore_3</span><br><span class="line">59: goto          87</span><br><span class="line">62: aload_2</span><br><span class="line">63: ldc           #5                  // String 2111</span><br><span class="line">65: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">68: ifeq          87</span><br><span class="line">71: iconst_1</span><br><span class="line">72: istore_3</span><br><span class="line">73: goto          87</span><br><span class="line">76: aload_2</span><br><span class="line">77: ldc           #6                  // String 33434</span><br><span class="line">79: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">82: ifeq          87</span><br><span class="line">85: iconst_2</span><br><span class="line">86: istore_3</span><br><span class="line">87: iload_3</span><br><span class="line">88: tableswitch   &#123; // 0 to 2</span><br><span class="line">            0: 116</span><br><span class="line">            1: 127</span><br><span class="line">            2: 138</span><br><span class="line">        default: 149</span><br><span class="line">&#125;</span><br><span class="line">116: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">119: ldc           #3                  // String 1bcd</span><br><span class="line">121: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">124: goto          157</span><br><span class="line">127: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">130: ldc           #5                  // String 2111</span><br><span class="line">132: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">135: goto          157</span><br><span class="line">138: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">141: ldc           #6                  // String 33434</span><br><span class="line">143: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">146: goto          157</span><br><span class="line">149: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">152: ldc           #9                  // String default</span><br><span class="line">154: invokevirtual #8                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">157: return</span><br></pre></td></tr></table></figure>
+
+<p>局部变量表为:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+───────+────+────────+─────────────+</span><br><span class="line">| 0     | 1  | 2      | 3           |</span><br><span class="line">+───────+────+────────+─────────────+</span><br><span class="line">| args  | a  | tempa  | matchIndex  |</span><br><span class="line">+───────+────+────────+─────────────+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>args</code> 是方法的参数</li>
+<li><code>a</code> 是 <code>String a = args[0];</code> 对应的</li>
+<li><code>tempa</code>和<code>matchIndex</code> 后面看看.</li>
+</ul>
+<p>通过字节码可以看出, 把入参 a 赋值给局部变量表下标为 2 的变量，记为<code>tempa</code>，初始化局部变量表 3 位置的变量为 -1，记为 <code>matchIndex</code>, 然后取字符串的hashCode, 使用<code>lookupswitch</code> 进行跳转, 分别跳转到62,48,76,87位置, 然后取出2位置保存的<code>tempa</code>, 使用String的<code>equals()</code>方法来判断是否相等, 如果不相等跳转到87位置, 如果相等, 会往3位置的matchIndex赋值, 可能赋的值为 <code>0,1,2</code>.</p>
+<p>然后进入第二阶段, 从3位置取出刚刚赋的值, 通过<code>tableswitch</code> 来进行跳转, 分别对应<code>116,127,138,149</code> 各个位置, 执行各种不同的<code>System.out.println()</code>方法.</p>
+<blockquote>
+<p>结论: 字符串使用<code>switch-case</code>,  就是通过字符串的hashCode, 进行一次跳转, 跳转后的逻辑是: 执行<code>equals()</code>方法, 如果符合条件, 则对一个标志位赋值, 然后再通过标志位的值来再进行一次跳转, 第二次跳转到真正需要执行的代码逻辑. (<code>tableswitch</code>与<code>lookupswitch</code>的成本分析对这两次跳转依然是生效的)</p>
+</blockquote>
+<h5 id="hashCode相同的情况"><a href="#hashCode相同的情况" class="headerlink" title="hashCode相同的情况"></a>hashCode相同的情况</h5><blockquote>
+<p>如何造出hashCode相同的字符串? 答: 根据hashCode生成源码来看, 例如有个两个字符的字符串, 第一个字符<code>-1</code>, 第二个字符<code>+31</code>, 则这两个字符串hashCode相同.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> args[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;CC&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;1bcd&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;Bb&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;2111&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;33434&quot;</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;33434&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.out.println(<span class="string">&quot;default&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>得到如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">0: aload_0</span><br><span class="line">1: iconst_0</span><br><span class="line">2: aaload</span><br><span class="line">3: astore_1</span><br><span class="line">4: aload_1</span><br><span class="line">5: astore_2</span><br><span class="line">6: iconst_m1</span><br><span class="line">7: istore_3</span><br><span class="line">8: aload_2</span><br><span class="line">9: invokevirtual #2                  // Method java/lang/String.hashCode:()I</span><br><span class="line">12: lookupswitch  &#123; // 2</span><br><span class="line">        2144: 40</span><br><span class="line">    48670517: 68</span><br><span class="line">        default: 79</span><br><span class="line">&#125;</span><br><span class="line">40: aload_2</span><br><span class="line">41: ldc           #3                  // String Bb</span><br><span class="line">43: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">46: ifeq          54</span><br><span class="line">49: iconst_1</span><br><span class="line">50: istore_3</span><br><span class="line">51: goto          79</span><br><span class="line">54: aload_2</span><br><span class="line">55: ldc           #5                  // String CC</span><br><span class="line">57: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">60: ifeq          79</span><br><span class="line">63: iconst_0</span><br><span class="line">64: istore_3</span><br><span class="line">65: goto          79</span><br><span class="line">68: aload_2</span><br><span class="line">69: ldc           #6                  // String 33434</span><br><span class="line">71: invokevirtual #4                  // Method java/lang/String.equals:(Ljava/lang/Object;)Z</span><br><span class="line">74: ifeq          79</span><br><span class="line">77: iconst_2</span><br><span class="line">78: istore_3</span><br><span class="line">79: iload_3</span><br><span class="line">80: tableswitch   &#123; // 0 to 2</span><br><span class="line">            0: 108</span><br><span class="line">            1: 119</span><br><span class="line">            2: 130</span><br><span class="line">        default: 141</span><br><span class="line">&#125;</span><br><span class="line">108: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">111: ldc           #8                  // String 1bcd</span><br><span class="line">113: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">116: goto          149</span><br><span class="line">119: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">122: ldc           #10                 // String 2111</span><br><span class="line">124: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">127: goto          149</span><br><span class="line">130: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">133: ldc           #6                  // String 33434</span><br><span class="line">135: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">138: goto          149</span><br><span class="line">141: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">144: ldc           #11                 // String default</span><br><span class="line">146: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">149: return</span><br></pre></td></tr></table></figure>
+
+<p>可以看到第一个<code>lookupswitch</code> 只有三种跳转逻辑, 那是<code>BB</code> 和 <code>Aa</code>的hashCode(2144)相同导致的. 2144 跳转到 40位置, 通过<code>equals()</code>方法判断是否等于Bb, 如果不等于再判断是否等于<code>CC</code>, 如果依然不等于将不会赋值.</p>
+<p>伪代码如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">String a = &quot;&quot;</span><br><span class="line">int matchIndex = -1</span><br><span class="line">switch(a.hashCode()) &#123;</span><br><span class="line">    case 2144:</span><br><span class="line">        if (a.equals(&quot;Bb&quot;))&#123;</span><br><span class="line">            matchIndex = 1</span><br><span class="line">        &#125; else if (a.equals(&quot;CC&quot;)) &#123;</span><br><span class="line">            matchIndex = 0</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    case 48670517:</span><br><span class="line">        matchIndex = 2</span><br><span class="line">    default:</span><br><span class="line">&#125;</span><br><span class="line">switch(matchIndex)&#123;</span><br><span class="line">    case 0:</span><br><span class="line">        System.out.println(&quot;1bcd&quot;);</span><br><span class="line">    case 1:</span><br><span class="line">        System.out.println(&quot;2111&quot;);</span><br><span class="line">    case 2:</span><br><span class="line">        System.out.println(&quot;33434&quot;);</span><br><span class="line">    default:</span><br><span class="line">        System.out.println(&quot;default&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对象初始化指令"><a href="#对象初始化指令" class="headerlink" title="对象初始化指令"></a>对象初始化指令</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        a = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">  descriptor: ([Ljava/lang/String;)V</span><br><span class="line">  flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">  Code:</span><br><span class="line">    stack=2, locals=2, args_size=1</span><br><span class="line">       0: new           #2                  // class java/lang/Object</span><br><span class="line">       3: dup</span><br><span class="line">       4: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       7: astore_1</span><br><span class="line">       8: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">      11: getstatic     #4                  // Field a:I</span><br><span class="line">      14: invokevirtual #5                  // Method java/io/PrintStream.println:(I)V</span><br><span class="line">      17: return</span><br><span class="line"></span><br><span class="line">static &#123;&#125;;</span><br><span class="line">  descriptor: ()V</span><br><span class="line">  flags: ACC_STATIC</span><br><span class="line">  Code:</span><br><span class="line">    stack=1, locals=0, args_size=0</span><br><span class="line">       0: iconst_1</span><br><span class="line">       1: putstatic     #4                  // Field a:I</span><br><span class="line">       4: iconst_2</span><br><span class="line">       5: putstatic     #4                  // Field a:I</span><br><span class="line">       8: return</span><br></pre></td></tr></table></figure>
+
+<h3 id="main部分"><a href="#main部分" class="headerlink" title="main部分"></a>main部分</h3><p><code>new</code>, <code>dup</code>, <code>invokespecial</code> 任何使用 <code>new XXX()</code> 来创建实例的方式, 都要这三个指令.</p>
+<ol>
+<li>调用new, 创建一个实例, 但是实例的构造器没有执行.</li>
+<li>调用dup, 操作数栈赋值一个栈顶元素.</li>
+<li>调用invokespecial, 执行栈顶元素的构造器, 完成对象的创建.</li>
+</ol>
+<blockquote>
+<p>为啥要<code>dup</code>? 答: 执行<code>invokespecial</code>指令时, 让操作数栈的栈顶元素出栈, 然后执行构造器, 然而<code>invokespecial</code>指令执行后, 不会再入栈(具体要看JVM源码), 最终导致与刚刚实例化的对象失去联系, <code>astore_1</code> 操作找不到对象, 所以需要曲线救国, <code>invokespecial</code>执行前先<code>dup</code>一下.</p>
+</blockquote>
+<h3 id="static-部分"><a href="#static-部分" class="headerlink" title="static 部分"></a>static 部分</h3><p><code>&lt;static&gt;</code> 是类的静态初始化 比 <code>&lt;init&gt;</code> 调用得更早一些，<code>&lt;static&gt;</code> 不会直接被调用，它在下面这个四个指令触发调用：<code>new</code>, <code>getstatic</code>, <code>putstatic</code> or <code>invokestatic</code>。也就是说，初始化一个类实例、访问一个静态变量或者一个静态方法，类的静态初始化方法就会被触发。</p>
+<h3 id="常见的题目"><a href="#常见的题目" class="headerlink" title="常见的题目"></a>常见的题目</h3><p>下面代码输出什么?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">A</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">B</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;A init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">A</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;A Instance&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;B init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">B</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;B Instance&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A init</span><br><span class="line">B init</span><br><span class="line">A Instance</span><br><span class="line">B Instance</span><br></pre></td></tr></table></figure>
+
+<h4 id="先看下B的构造器的字节码"><a href="#先看下B的构造器的字节码" class="headerlink" title="先看下B的构造器的字节码"></a>先看下B的构造器的字节码</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0: aload_0</span><br><span class="line">1: invokespecial #1                  // Method com/yuda/test/A.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">4: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">7: ldc           #3                  // String B Instance</span><br><span class="line">9: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">12: return</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 如果要输出<code>B Instance</code>, 首先需要<code>invokespecial</code>一下<code>A</code>的<code>&lt;init&gt;</code></p>
+<h4 id="A-B实例化流程"><a href="#A-B实例化流程" class="headerlink" title="A,B实例化流程"></a>A,B实例化流程</h4><ol>
+<li>首先需要执行B的构造器, 发现B的<code>&lt;static&gt;</code>没有执行, 于是需要先执行B的<code>&lt;static&gt;</code>.</li>
+<li>发现A的<code>&lt;static&gt;</code> 也没有执行, 先执行A的<code>&lt;static&gt;</code>.</li>
+<li>A的<code>&lt;static&gt;</code>执行后, 开始执行B的<code>&lt;static&gt;</code>.</li>
+<li>B的<code>&lt;static&gt;</code>执行完成, 需要执行B的构造器</li>
+<li>发现A的<code>&lt;static&gt;</code>没有执行.</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2020061330600/" data-id="clsbfdtqw00amewol1pj47hwt" data-title="JVM字节码之字节码指令一" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/202006154745/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          JVM字节码之字节码指令二
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/202006062912/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JVM字节码之原理一</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

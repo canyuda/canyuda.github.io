@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>替换空格 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="替换空格">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017011612603/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-01-16T06:32:57.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.794Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="剑指offer">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-替换空格" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2017011612603/" class="article-date">
+  <time class="dt-published" datetime="2017-01-16T06:32:57.000Z" itemprop="datePublished">2017-01-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/data-structures-algorithms/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      替换空格
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>略</p>
+<span id="more"></span>
+<blockquote>
+<p>题目：请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+</blockquote>
+<p>  替换空格在编程中很多时候会用到，例如在hexo博客的新建文章时，由于文件名不推荐存在空格，所以新建文章时候文章名的空格就会转换成“-”。网络编程中也一样，URL参数中的特殊字符很可能会导致服务器无法获得正确的参数，所以需要转换空格。</p>
+<blockquote>
+<p>转换规则：’%’后面跟上ASCII码的两位十六进制的表示。比如空格的ASCII码为32，转换为十六进制为0x20，因此空格替换为”%20“。同理’#’的ASCII码为35，十六进制为0x23，则被替换为”%23“。</p>
+</blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><h3 id="耿直的实现方法"><a href="#耿直的实现方法" class="headerlink" title="耿直的实现方法"></a>耿直的实现方法</h3><p>  最直观的方法就是从头开始扫描字符串，如果遇到空格，则把空格后面的所有字符全部向后移动两个字节，然后再把‘%‘、’2‘、’0‘这三个字符依次插入到空格和空格后两个位置中，再继续向后扫描字符串重复操作直到到达字符串结尾。</p>
+<p>  但是这样做会有一个问题：每遇到一个空格，都要把空格后面的字符串全部向后移动。假设字符串长度为n，对于每个空格需要移动后面O(n)个字符，如果空格有n个，则总的时间效率会是O(n²)。</p>
+<h3 id="换一种方式来思考问题"><a href="#换一种方式来思考问题" class="headerlink" title="换一种方式来思考问题"></a>换一种方式来思考问题</h3><p>  可以先遍历一次字符串，统计字符串的总长度和字符串中空格的个数。每有一个空格，字符串的长度增加2个字节，最后得到一个新字符串的长度。</p>
+<p>  可以从 新字符串最后一个字节开始填充字符串，准备两个指针，P1和P2，P1位于原字符串最后一个字符，P2位于新字符串的最后一个字符，把P1位置的字符赋给P2位置，然后向前移动P1，P2，直到P1指向了一个空格为止，这时P1向前移动一格，P2向前移动3格，并把<code>0</code>、<code>2</code>、<code>%</code>插入到这三格中，再然后接着复制，移动，直到碰到第二个空格，依次类推，当P1与P2指向同个位置时候，表明所有空格已经替换完成。</p>
+<p>  从上面可以看出：所有的字符都仅仅移动了一次，所以这个算法的时间复杂度为O(n)。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">replaceSpace</span><span class="params">(StringBuffer str)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">spacenum</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//spacenum为计算空格数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;str.length();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(str.charAt(i)==<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">                spacenum++;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="type">int</span> <span class="variable">newlength</span> <span class="operator">=</span> str.length() + spacenum*<span class="number">2</span>;<span class="comment">//计算空格转换成%20之后的str长度</span></span><br><span class="line">      </span><br><span class="line">        <span class="type">int</span> <span class="variable">indexold</span> <span class="operator">=</span> str.length()-<span class="number">1</span>; <span class="comment">//indexold为为替换前的str下标</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">indexnew</span> <span class="operator">=</span> newlength-<span class="number">1</span>;<span class="comment">//indexold为为把空格替换为%20后的str下标</span></span><br><span class="line">      </span><br><span class="line">        str.setLength(newlength);<span class="comment">//使str的长度扩大到转换成%20之后的长度,防止下标越界</span></span><br><span class="line">      </span><br><span class="line">        <span class="keyword">for</span>(;indexold&gt;=<span class="number">0</span> &amp;&amp; indexold&lt;newlength;--indexold)&#123; </span><br><span class="line">                <span class="keyword">if</span>(str.charAt(indexold) == <span class="string">&#x27; &#x27;</span>)&#123;  <span class="comment">//遇到空格时</span></span><br><span class="line">                str.setCharAt(indexnew--, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">                str.setCharAt(indexnew--, <span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">                str.setCharAt(indexnew--, <span class="string">&#x27;%&#x27;</span>);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    str.setCharAt(indexnew--, str.charAt(indexold));</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>换个角度看问题，从前向后与从后向前都要考虑到。</li>
+<li>注意用StringBuffer的setLength(int long)方法，确保容器大小合适。</li>
+<li>需要熟练掌握常用的方法，例如<code>setCharAt()</code>，<code>charAt()</code>，<code>setLength()</code>…等。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2017011612603/" data-id="clsbfdtos004mewolfqe061ya" data-title="替换空格" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017011758399/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          从尾到头打印链表
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017011545951/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">二维数组中的查找</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

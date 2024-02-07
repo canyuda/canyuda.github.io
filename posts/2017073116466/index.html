@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>数据库-查询数据 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库-查询数据">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017073116466/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-31T10:36:58.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.793Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据库-查询数据" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2017073116466/" class="article-date">
+  <time class="dt-published" datetime="2017-07-31T10:36:58.000Z" itemprop="datePublished">2017-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/database/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数据库-查询数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>略</p>
+<span id="more"></span>
+<h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ul>
+<li>了解基本查询语句</li>
+<li>掌握表单查询的方法</li>
+<li>掌握连接查询的方法</li>
+<li>掌握如何使用子查询</li>
+<li>熟悉合并查询结果</li>
+<li>使用正则表达式查询</li>
+</ul>
+<h2 id="基本查询语句"><a href="#基本查询语句" class="headerlink" title="基本查询语句"></a>基本查询语句</h2><p>SELECT语句的基本格式为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    &#123;<span class="operator">*</span> <span class="operator">|</span> <span class="operator">&lt;</span>字段列表<span class="operator">&gt;</span>&#125;</span><br><span class="line">    [</span><br><span class="line">        <span class="keyword">FROM</span> <span class="operator">&lt;</span>表<span class="number">1</span><span class="operator">&gt;</span>,<span class="operator">&lt;</span>表<span class="number">2</span><span class="operator">&gt;</span>...</span><br><span class="line">        [ <span class="keyword">WHERE</span> <span class="operator">&lt;</span>表达式<span class="operator">&gt;</span>]</span><br><span class="line">        [<span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="operator">&lt;</span><span class="keyword">group</span> <span class="keyword">by</span> definition<span class="operator">&gt;</span>]</span><br><span class="line">        [<span class="keyword">HAVING</span> <span class="operator">&lt;</span>expression<span class="operator">&gt;</span> [&#123;<span class="operator">&lt;</span>operator<span class="operator">&gt;</span> <span class="operator">&lt;</span>expression<span class="operator">&gt;</span>&#125;...]]</span><br><span class="line">        [<span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="operator">&lt;</span><span class="keyword">order</span> <span class="keyword">by</span> definition<span class="operator">&gt;</span>]</span><br><span class="line">        [LIMIT [<span class="operator">&lt;</span><span class="keyword">offset</span><span class="operator">&gt;</span>,] <span class="operator">&lt;</span><span class="type">row</span> count<span class="operator">&gt;</span>]</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> [字段<span class="number">1</span>,字段<span class="number">2</span>,....]</span><br><span class="line"><span class="keyword">FROM</span> [表或者视图]</span><br><span class="line"><span class="keyword">WHERE</span> [查询条件];</span><br></pre></td></tr></table></figure>
+
+<p>一个例子:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> fruits</span><br><span class="line">(</span><br><span class="line">f_id    <span class="type">char</span>(<span class="number">10</span>)        <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">s_id    <span class="type">INT</span>         <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">f_name  <span class="type">char</span>(<span class="number">255</span>)   <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">f_price <span class="type">decimal</span>(<span class="number">8</span>,<span class="number">2</span>)    <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"><span class="keyword">PRIMARY</span> KEY(f_id)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据如下</span></span><br><span class="line"> <span class="keyword">INSERT</span> <span class="keyword">INTO</span> fruits (f_id, s_id, f_name, f_price)</span><br><span class="line">     <span class="keyword">VALUES</span>(<span class="string">&#x27;a1&#x27;</span>, <span class="number">101</span>,<span class="string">&#x27;apple&#x27;</span>,<span class="number">5.2</span>),</span><br><span class="line">     (<span class="string">&#x27;b1&#x27;</span>,<span class="number">101</span>,<span class="string">&#x27;blackberry&#x27;</span>, <span class="number">10.2</span>),</span><br><span class="line">     (<span class="string">&#x27;bs1&#x27;</span>,<span class="number">102</span>,<span class="string">&#x27;orange&#x27;</span>, <span class="number">11.2</span>),</span><br><span class="line">     (<span class="string">&#x27;bs2&#x27;</span>,<span class="number">105</span>,<span class="string">&#x27;melon&#x27;</span>,<span class="number">8.2</span>),</span><br><span class="line">     (<span class="string">&#x27;t1&#x27;</span>,<span class="number">102</span>,<span class="string">&#x27;banana&#x27;</span>, <span class="number">10.3</span>),</span><br><span class="line">     (<span class="string">&#x27;t2&#x27;</span>,<span class="number">102</span>,<span class="string">&#x27;grape&#x27;</span>, <span class="number">5.3</span>),</span><br><span class="line">     (<span class="string">&#x27;o2&#x27;</span>,<span class="number">103</span>,<span class="string">&#x27;coconut&#x27;</span>, <span class="number">9.2</span>),</span><br><span class="line">     (<span class="string">&#x27;c0&#x27;</span>,<span class="number">101</span>,<span class="string">&#x27;cherry&#x27;</span>, <span class="number">3.2</span>),</span><br><span class="line">     (<span class="string">&#x27;a2&#x27;</span>,<span class="number">103</span>, <span class="string">&#x27;apricot&#x27;</span>,<span class="number">2.2</span>),</span><br><span class="line">     (<span class="string">&#x27;l2&#x27;</span>,<span class="number">104</span>,<span class="string">&#x27;lemon&#x27;</span>, <span class="number">6.4</span>),</span><br><span class="line">     (<span class="string">&#x27;b2&#x27;</span>,<span class="number">104</span>,<span class="string">&#x27;berry&#x27;</span>, <span class="number">7.6</span>),</span><br><span class="line">     (<span class="string">&#x27;m1&#x27;</span>,<span class="number">106</span>,<span class="string">&#x27;mango&#x27;</span>, <span class="number">15.6</span>),</span><br><span class="line">     (<span class="string">&#x27;m2&#x27;</span>,<span class="number">105</span>,<span class="string">&#x27;xbabay&#x27;</span>, <span class="number">2.6</span>),</span><br><span class="line">     (<span class="string">&#x27;t4&#x27;</span>,<span class="number">107</span>,<span class="string">&#x27;xbababa&#x27;</span>, <span class="number">3.6</span>),</span><br><span class="line">     (<span class="string">&#x27;m3&#x27;</span>,<span class="number">105</span>,<span class="string">&#x27;xxtt&#x27;</span>, <span class="number">11.6</span>),</span><br><span class="line">     (<span class="string">&#x27;b5&#x27;</span>,<span class="number">107</span>,<span class="string">&#x27;xxxx&#x27;</span>, <span class="number">3.6</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h2><p>单表查询是指从一个表中查询所需的数据,主要的操作有:</p>
+<ol>
+<li>查询所有字段</li>
+<li>查询指定字段</li>
+<li>查询指定记录</li>
+<li>查询空值</li>
+<li>多条件的查询</li>
+<li>对查询结果进行排序,等</li>
+</ol>
+<h3 id="查询所有字段"><a href="#查询所有字段" class="headerlink" title="查询所有字段"></a>查询所有字段</h3><h4 id="使用星号-通配符查询所有字段"><a href="#使用星号-通配符查询所有字段" class="headerlink" title="使用星号(*)通配符查询所有字段"></a>使用星号(<code>*</code>)通配符查询所有字段</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>题目: 从fruits表中查询出所有的字段的数据</p>
+</blockquote>
+<h4 id="使用指定所有字段查询所有值"><a href="#使用指定所有字段查询所有值" class="headerlink" title="使用指定所有字段查询所有值"></a>使用指定所有字段查询所有值</h4><p>星号通配符可以代表表内所有字段的名字,当然也可以直接表明要查询什么数据.例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `f_id`,`s_id`,`f_name`,`f_price` <span class="keyword">FROM</span> fruits;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询指定字段"><a href="#查询指定字段" class="headerlink" title="查询指定字段"></a>查询指定字段</h3><p>如果仅仅需要表内的特定列的数据,那就可以使用指定字段的查询方法,与上一查询类似,例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 列名<span class="number">1</span>,列名<span class="number">2</span>,列名<span class="number">3.</span>... <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>题目: 查询fruits表中的<code>f_name</code>字段和<code>f_price</code>的数据</p>
+</blockquote>
+<h3 id="带IN关键字的查询"><a href="#带IN关键字的查询" class="headerlink" title="带IN关键字的查询"></a>带IN关键字的查询</h3><p>IN关键字代表了在什么之中查询,将索引条件用括号包裹,多个条件用逗号分开,只有满足范围内的一个即为匹配项</p>
+<p>例如:查询<code>s_id</code>为101和102的记录,语句如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `s_id`,`f_name`,`f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> s_id <span class="keyword">IN</span> (<span class="number">101</span>,<span class="number">102</span>);</span><br></pre></td></tr></table></figure>
+
+<p>同样也可以查询不在101和102中的数据,只需要在IN改为NOT IN即可.例如.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `s_id`,`f_name`,`f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> s_id <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="number">101</span>,<span class="number">102</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="带BETWEEN-AND-的范围查询"><a href="#带BETWEEN-AND-的范围查询" class="headerlink" title="带BETWEEN AND 的范围查询"></a>带BETWEEN AND 的范围查询</h3><p>对于<strong>数值类型</strong>的数据,可以用BETWEEN a AND b 来限定范围.</p>
+<p>例如查询2.00元到10.20元范围内的水果.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `f_name`,`f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> `f_price` <span class="keyword">BETWEEN</span> <span class="number">2.00</span> <span class="keyword">AND</span> <span class="number">10.20</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如同IN,BETWEEN AND也可以使用NOT关键字表示不在这个范围内.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `f_name`,`f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> `f_price` <span class="keyword">NOT</span> <span class="keyword">BETWEEN</span> <span class="number">2.00</span> <span class="keyword">AND</span> <span class="number">10.20</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="带LIKE的字符匹配查询"><a href="#带LIKE的字符匹配查询" class="headerlink" title="带LIKE的字符匹配查询"></a>带LIKE的字符匹配查询</h3><p>当我们知道一个水果名中包含了一个字符<code>b</code>,但是全称不知道时,可以用LIKE进行模糊查询.</p>
+<p>用法为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">LIKE</span> <span class="string">&#x27;匹配规则&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通配符-表示任意长度的任意字符-包括空"><a href="#通配符-表示任意长度的任意字符-包括空" class="headerlink" title="%通配符,表示任意长度的任意字符,包括空"></a><code>%</code>通配符,表示任意长度的任意字符,包括空</h4><h4 id="通配符-一次表示一个任意字符"><a href="#通配符-一次表示一个任意字符" class="headerlink" title="_通配符,一次表示一个任意字符"></a><code>_</code>通配符,一次表示一个任意字符</h4><blockquote>
+<p>题目: 查询fruits表中水果名中包含b的水果数据.</p>
+</blockquote>
+<p>加入新数据:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customers</span><br><span class="line">(</span><br><span class="line">  c_id      <span class="type">int</span>       <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  c_name    <span class="type">char</span>(<span class="number">50</span>)  <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  c_address <span class="type">char</span>(<span class="number">50</span>)  <span class="keyword">NULL</span>,</span><br><span class="line">  c_city    <span class="type">char</span>(<span class="number">50</span>)  <span class="keyword">NULL</span>,</span><br><span class="line">  c_zip     <span class="type">char</span>(<span class="number">10</span>)  <span class="keyword">NULL</span>,</span><br><span class="line">  c_contact <span class="type">char</span>(<span class="number">50</span>)  <span class="keyword">NULL</span>,</span><br><span class="line">  c_email   <span class="type">char</span>(<span class="number">255</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (c_id)</span><br><span class="line">);</span><br><span class="line"><span class="comment">-- 为了演示需要插入数据，请读者插入执行以下语句。</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> customers(c_id, c_name, c_address, c_city,</span><br><span class="line">c_zip,  c_contact, c_email)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">10001</span>, <span class="string">&#x27;RedHook&#x27;</span>, <span class="string">&#x27;200 Street &#x27;</span>, <span class="string">&#x27;Tianjin&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;300000&#x27;</span>,  <span class="string">&#x27;LiMing&#x27;</span>, <span class="string">&#x27;LMing@163.com&#x27;</span>),</span><br><span class="line">(<span class="number">10002</span>, <span class="string">&#x27;Stars&#x27;</span>, <span class="string">&#x27;333 Fromage Lane&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;Dalian&#x27;</span>, <span class="string">&#x27;116000&#x27;</span>,  <span class="string">&#x27;Zhangbo&#x27;</span>,<span class="string">&#x27;Jerry@hotmail.com&#x27;</span>),</span><br><span class="line">(<span class="number">10003</span>, <span class="string">&#x27;Netbhood&#x27;</span>, <span class="string">&#x27;1 Sunny Place&#x27;</span>, <span class="string">&#x27;Qingdao&#x27;</span>,  <span class="string">&#x27;266000&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;LuoCong&#x27;</span>, <span class="keyword">NULL</span>),</span><br><span class="line">(<span class="number">10004</span>, <span class="string">&#x27;JOTO&#x27;</span>, <span class="string">&#x27;829 Riverside Drive&#x27;</span>, <span class="string">&#x27;Haikou&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;570000&#x27;</span>,  <span class="string">&#x27;YangShan&#x27;</span>, <span class="string">&#x27;sam@hotmail.com&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="查询空值"><a href="#查询空值" class="headerlink" title="查询空值"></a>查询空值</h3><p>表中会存在为空的数据,可以通过IS NULL查询出来,同样也可以用IS NOT NULL查询出所有不为空的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="带AND的多条件查询"><a href="#带AND的多条件查询" class="headerlink" title="带AND的多条件查询"></a>带AND的多条件查询</h3><p>当查询条件有多个,而且每一个都有符合时,就可以使用AND关键字.相当与&amp;运算</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 查询条件<span class="number">1</span> <span class="keyword">AND</span> 查询条件<span class="number">2</span> <span class="keyword">AND</span> 查询条件<span class="number">3.</span>....;</span><br></pre></td></tr></table></figure>
+
+<h3 id="带OR的多条件查询"><a href="#带OR的多条件查询" class="headerlink" title="带OR的多条件查询"></a>带OR的多条件查询</h3><p>当查询条件有多个,仅仅符合一个即可,就可以使用OR关键字.相当与|运算</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 查询条件<span class="number">1</span> <span class="keyword">OR</span> 查询条件<span class="number">2</span> <span class="keyword">OR</span> 查询条件<span class="number">3.</span>....;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询结果不重复"><a href="#查询结果不重复" class="headerlink" title="查询结果不重复"></a>查询结果不重复</h3><p>使用DISTINCT关键字可以去掉查询出来的数据的重复项,使用方法如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 字段名 <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>题目: 仅仅查询fruits中的s_id,要求结果不重复</p>
+</blockquote>
+<h3 id="对结果进行排序"><a href="#对结果进行排序" class="headerlink" title="对结果进行排序"></a>对结果进行排序</h3><p>使用ORDER BY可以对查询出来的数据进行排序</p>
+<h4 id="单列排序"><a href="#单列排序" class="headerlink" title="单列排序"></a>单列排序</h4><p>ORDER BY 后接按照哪一个列进行排序,例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 查询条件 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 列名;</span><br></pre></td></tr></table></figure>
+
+<p>如果列为数值类型,则默认为升序排列,如果为字符类型,则按照字母表进行升序排序.</p>
+<h4 id="多列排序"><a href="#多列排序" class="headerlink" title="多列排序"></a>多列排序</h4><p>ORDER BY后接多个字段名,中间用逗号隔开,例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 查询条件 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 字段<span class="number">1</span>,字段<span class="number">2</span>,....;</span><br></pre></td></tr></table></figure>
+
+<p>先按照字段1排序,对于字段1相同的数据,再按照字段2排序,依次类推</p>
+<h4 id="排序的方向"><a href="#排序的方向" class="headerlink" title="排序的方向"></a>排序的方向</h4><p>就是升序和降序,默认为升序,降序在语句最后接上DESC即可.</p>
+<h3 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h3><p>基础语法为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">GROUP</span> <span class="keyword">BY</span> 字段] [<span class="keyword">HAVING</span> <span class="operator">&lt;</span>条件表达式<span class="operator">&gt;</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>GROUP BY 通常和聚合函数一起使用,例如MAX(),MIN(),COUNT(),SUM(),AVG().</strong></p>
+<p>例如:查询fruits表中每个编号的水果数量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `s_id`,<span class="built_in">COUNT</span>(<span class="operator">*</span>)</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> `s_id`;</span><br></pre></td></tr></table></figure>
+
+<h4 id="对分组进行过滤"><a href="#对分组进行过滤" class="headerlink" title="对分组进行过滤"></a>对分组进行过滤</h4><p>HAVING 用来和为分组过滤,例如上个例子中,过滤掉<code>s_id</code>为101的数据.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `s_id`,<span class="built_in">COUNT</span>(<span class="operator">*</span>)</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> `s_id`</span><br><span class="line"><span class="keyword">HAVING</span> <span class="string">&#x27;s_id&#x27;</span> <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="number">101</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="多字段分组"><a href="#多字段分组" class="headerlink" title="多字段分组"></a>多字段分组</h4><p>类似于排序先对字段1分组,然后再在分组的基础上对字段2进行分组.例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> fruits <span class="keyword">GROUP</span> <span class="keyword">BY</span> `s_id`,`f_name`;</span><br></pre></td></tr></table></figure>
+
+<h4 id="GROUP-BY-与-ORDER-BY-一起使用"><a href="#GROUP-BY-与-ORDER-BY-一起使用" class="headerlink" title="GROUP BY 与 ORDER BY 一起使用"></a>GROUP BY 与 ORDER BY 一起使用</h4><p>需要新数据:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line">(</span><br><span class="line">  o_num      <span class="type">int</span>          <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  o_item     <span class="type">int</span>          <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  f_id       <span class="type">char</span>(<span class="number">10</span>)     <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  quantity   <span class="type">int</span>          <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  item_price <span class="type">decimal</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (o_num,o_item)</span><br><span class="line">) ;</span><br><span class="line"><span class="comment">-- 然后插入演示数据。SQL语句如下：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orderitems(o_num, o_item, f_id, quantity, item_price)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">30001</span>, <span class="number">1</span>, <span class="string">&#x27;a1&#x27;</span>, <span class="number">10</span>, <span class="number">5.2</span>),</span><br><span class="line">(<span class="number">30001</span>, <span class="number">2</span>, <span class="string">&#x27;b2&#x27;</span>, <span class="number">3</span>, <span class="number">7.6</span>),</span><br><span class="line">(<span class="number">30001</span>, <span class="number">3</span>, <span class="string">&#x27;bs1&#x27;</span>, <span class="number">5</span>, <span class="number">11.2</span>),</span><br><span class="line">(<span class="number">30001</span>, <span class="number">4</span>, <span class="string">&#x27;bs2&#x27;</span>, <span class="number">15</span>, <span class="number">9.2</span>),</span><br><span class="line">(<span class="number">30002</span>, <span class="number">1</span>, <span class="string">&#x27;b3&#x27;</span>, <span class="number">2</span>, <span class="number">20.0</span>),</span><br><span class="line">(<span class="number">30003</span>, <span class="number">1</span>, <span class="string">&#x27;c0&#x27;</span>, <span class="number">100</span>, <span class="number">10</span>),</span><br><span class="line">(<span class="number">30004</span>, <span class="number">1</span>, <span class="string">&#x27;o2&#x27;</span>, <span class="number">50</span>, <span class="number">2.50</span>),</span><br><span class="line">(<span class="number">30005</span>, <span class="number">1</span>, <span class="string">&#x27;c0&#x27;</span>, <span class="number">5</span>, <span class="number">10</span>),</span><br><span class="line">(<span class="number">30005</span>, <span class="number">2</span>, <span class="string">&#x27;b1&#x27;</span>, <span class="number">10</span>, <span class="number">8.99</span>),</span><br><span class="line">(<span class="number">30005</span>, <span class="number">3</span>, <span class="string">&#x27;a2&#x27;</span>, <span class="number">10</span>, <span class="number">2.2</span>),</span><br><span class="line">(<span class="number">30005</span>, <span class="number">4</span>, <span class="string">&#x27;m1&#x27;</span>, <span class="number">5</span>, <span class="number">14.99</span>);</span><br></pre></td></tr></table></figure>
+
+<p>查询订单大于100的订单号和订单总价格</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `o_num` <span class="built_in">SUM</span>(quantity <span class="operator">*</span> item_price) <span class="keyword">AS</span> orderTotal</span><br><span class="line"><span class="keyword">FROM</span> orderitems</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> o_num</span><br><span class="line"><span class="keyword">HAVING</span> <span class="built_in">SUM</span>(quantity <span class="operator">*</span> item_price) <span class="operator">&gt;=</span> <span class="number">100</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> orderTotal;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用LIMIT限制查询结果的数量"><a href="#使用LIMIT限制查询结果的数量" class="headerlink" title="使用LIMIT限制查询结果的数量"></a>使用LIMIT限制查询结果的数量</h3><p>LIMIT [偏移量,] 行数</p>
+<p>数据库表数据从0开始计算,偏移量为0时代表第一条数据.</p>
+<p>偏移量可以省略,<strong>LIMIT 0,n 代表LIMIT n</strong>.</p>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><p>具体不写了,自己想.</p>
+<h3 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT()"></a>COUNT()</h3><h3 id="SUM"><a href="#SUM" class="headerlink" title="SUM()"></a>SUM()</h3><h3 id="AVG"><a href="#AVG" class="headerlink" title="AVG()"></a>AVG()</h3><h3 id="MAX"><a href="#MAX" class="headerlink" title="MAX()"></a>MAX()</h3><h3 id="MIN"><a href="#MIN" class="headerlink" title="MIN()"></a>MIN()</h3><h2 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h2><p>连接是关系型数据库的主要特点,连接查询是关系数据库中最重要的查询.包括内连接,外连接等.</p>
+<h3 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h3><p>内连接(INNER JOIN)使用比较运算符进行表间某些列数据的比较操作,并列出这些表中与连接条件匹配的数据行,组合成新记录,也就是说,在内连接查询中只有满足条件的记录才能出现在关系中.</p>
+<p>新使用的SQL如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> suppliers</span><br><span class="line">(</span><br><span class="line">  s_id      <span class="type">int</span>      <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  s_name    <span class="type">char</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  s_city    <span class="type">char</span>(<span class="number">50</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  s_zip     <span class="type">char</span>(<span class="number">10</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  s_call    <span class="type">CHAR</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (s_id)</span><br><span class="line">) ;</span><br><span class="line"><span class="comment">-- 插入需要演示的数据，SQL语句如下：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> suppliers(s_id, s_name,s_city,  s_zip, s_call)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">101</span>,<span class="string">&#x27;FastFruit Inc.&#x27;</span>,<span class="string">&#x27;Tianjin&#x27;</span>,<span class="string">&#x27;300000&#x27;</span>,<span class="string">&#x27;48075&#x27;</span>),</span><br><span class="line">(<span class="number">102</span>,<span class="string">&#x27;LT Supplies&#x27;</span>,<span class="string">&#x27;Chongqing&#x27;</span>,<span class="string">&#x27;400000&#x27;</span>,<span class="string">&#x27;44333&#x27;</span>),</span><br><span class="line">(<span class="number">103</span>,<span class="string">&#x27;ACME&#x27;</span>,<span class="string">&#x27;Shanghai&#x27;</span>,<span class="string">&#x27;200000&#x27;</span>,<span class="string">&#x27;90046&#x27;</span>),</span><br><span class="line">(<span class="number">104</span>,<span class="string">&#x27;FNK Inc.&#x27;</span>,<span class="string">&#x27;Zhongshan&#x27;</span>,<span class="string">&#x27;528437&#x27;</span>,<span class="string">&#x27;11111&#x27;</span>),</span><br><span class="line">(<span class="number">105</span>,<span class="string">&#x27;Good Set&#x27;</span>,<span class="string">&#x27;Taiyuang&#x27;</span>,<span class="string">&#x27;030000&#x27;</span>, <span class="string">&#x27;22222&#x27;</span>),</span><br><span class="line">(<span class="number">106</span>,<span class="string">&#x27;Just Eat Ours&#x27;</span>,<span class="string">&#x27;Beijing&#x27;</span>,<span class="string">&#x27;010&#x27;</span>, <span class="string">&#x27;45678&#x27;</span>),</span><br><span class="line">(<span class="number">107</span>,<span class="string">&#x27;DK Inc.&#x27;</span>,<span class="string">&#x27;Zhengzhou&#x27;</span>,<span class="string">&#x27;450000&#x27;</span>, <span class="string">&#x27;33332&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在fruits和suppliers表之间使用内连接查询</p>
+<p>先通过DESC查看两个表的结构,发现水果表和供应商表中,可以根据两个表中公共属性供应商ID来实现连接,语句如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `suppliers.s_id`, `s_name`, `f_name`, `f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits,suppliers</span><br><span class="line"><span class="keyword">WHERE</span> `fruits.s_id` <span class="operator">=</span> `suppliers.s_id`;</span><br></pre></td></tr></table></figure>
+
+<p>两个表通过连接组成了一个新表.</p>
+<p>还可以通过INNER JOIN关键字来进行,并且<strong>强烈推荐使用INNER JOIN</strong>,它更加规范一些,而且能够确保不会忘记写连接条件,WHERE子句在某些时候会影响查询性能.</p>
+<p>使用INNER JOIN的SQL语句,作用于使用WHERE相同:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `suppliers.s_id`, `s_name`, `f_name`, `f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits <span class="keyword">INNER</span> <span class="keyword">JOIN</span> suppliers</span><br><span class="line"><span class="keyword">ON</span> `fruits.s_id` <span class="operator">=</span> `suppliers.s_id`;</span><br></pre></td></tr></table></figure>
+
+<h4 id="骚操作之自连接"><a href="#骚操作之自连接" class="headerlink" title="骚操作之自连接"></a>骚操作之自连接</h4><p>连接是两个表之间的,然而还可以把表本身当成另外一个表来进行连接,物理上是一个表,逻辑上是两个表.</p>
+<p>例如,查询供应f_id&#x3D;’a1’的水果供应商提供的水果种类.sql语句如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `f1.f_id`, `f1.f_name`</span><br><span class="line"><span class="keyword">FROM</span> fruits <span class="keyword">AS</span> f1, fruits <span class="keyword">AS</span> f2</span><br><span class="line"><span class="keyword">WHERE</span> `f1.s_id` <span class="operator">=</span> `f2.s_id` <span class="keyword">AND</span> `f2.f_id` <span class="operator">=</span> <span class="string">&#x27;a1&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h3><p>内连接只能查询到两个表中符合条件的行,有时候需要包含没有关联的行中数据,使用到外连接,外连接包括:</p>
+<ol>
+<li>左连接(LEFT JION)   返回包括左表中所有的数据和右表中连接字段相等的记录.</li>
+<li>右连接(RIGHT JION)  返回包括右表中所有的数据和左表中连接字段相等的记录.</li>
+</ol>
+<h4 id="LEFT-JOIN-左连接"><a href="#LEFT-JOIN-左连接" class="headerlink" title="LEFT JOIN (左连接)"></a>LEFT JOIN (左连接)</h4><p>需要新数据:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders</span><br><span class="line">(</span><br><span class="line">  o_num  <span class="type">int</span>      <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  o_date datetime <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  c_id   <span class="type">int</span>      <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (o_num)</span><br><span class="line">) ;</span><br><span class="line"><span class="comment">-- 插入需要演示的数据，SQL语句如下：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(o_num, o_date, c_id)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="number">30001</span>, <span class="string">&#x27;2008-09-01&#x27;</span>, <span class="number">10001</span>),</span><br><span class="line">(<span class="number">30002</span>, <span class="string">&#x27;2008-09-12&#x27;</span>, <span class="number">10003</span>),</span><br><span class="line">(<span class="number">30003</span>, <span class="string">&#x27;2008-09-30&#x27;</span>, <span class="number">10004</span>),</span><br><span class="line">(<span class="number">30004</span>, <span class="string">&#x27;2008-10-03&#x27;</span>, <span class="number">10005</span>),</span><br><span class="line">(<span class="number">30005</span>, <span class="string">&#x27;2008-10-08&#x27;</span>, <span class="number">10001</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>题目: 查询customers表和orders表中,查询所有客户,包括没有订单的客户</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    customers.c_id,</span><br><span class="line">    orders.o_num</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    customers</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> customers.c_id <span class="operator">=</span> orders.c_id;</span><br></pre></td></tr></table></figure>
+
+<h4 id="RIGHT-JOIN-右连接"><a href="#RIGHT-JOIN-右连接" class="headerlink" title="RIGHT JOIN (右连接)"></a>RIGHT JOIN (右连接)</h4><blockquote>
+<p>同样上题,查询所有订单,包括没有客户的订单</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    customers.c_id,</span><br><span class="line">    orders.o_num</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    customers</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> customers.c_id <span class="operator">=</span> orders.c_id;</span><br></pre></td></tr></table></figure>
+
+<p>记住格式:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    $列名</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    $左表</span><br><span class="line">(<span class="keyword">RIGHT</span><span class="operator">|</span><span class="keyword">LEFT</span>) <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> $右表 <span class="keyword">ON</span> $条件;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复合条件连接查询"><a href="#复合条件连接查询" class="headerlink" title="复合条件连接查询"></a>复合条件连接查询</h3><p>复合条件连接查询是在连接查询的过程中,通过添加过滤条件,限制查询结果,使查询的结果更加准确.</p>
+<blockquote>
+<p>题目: 在customers表和orders表中,使用INNER JOIN语法查询customers表中ID为10001的客户的订单信息</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `customers.c_id`, `orders.o_num`</span><br><span class="line"><span class="keyword">FROM</span> customers <span class="keyword">INNER</span> <span class="keyword">JOIN</span> orders</span><br><span class="line"><span class="keyword">ON</span> `customers.c_id` <span class="operator">=</span> `orders.c_id` <span class="keyword">AND</span> `customers.c_id` <span class="operator">=</span> <span class="number">10001</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>题目: 在fruits表和suppliers表之间,使用INNER JOIN语法进行查询,并排序</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> `suppliers.s_id`, `s_name`, `f_name`, `f_price`</span><br><span class="line"><span class="keyword">FROM</span> fruits <span class="keyword">INNER</span> <span class="keyword">JOIN</span> suppliers</span><br><span class="line"><span class="keyword">ON</span>  `fruits.s_id` <span class="operator">=</span> `suppliers.s_id`</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> `fruits.s_id`</span><br></pre></td></tr></table></figure>
+
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>子查询指一个查询语句嵌套在另外一个语句内部,子查询结果作为另外一个查询的过滤条件,查询可以基于一个或者多个表.<br>常用的操作符有ANY,ALL,IN,EXISTS.子查询可以运用到SELECT,UPDATE,DELETE中,还可以使用比较运算符.</p>
+<h3 id="带ANY-SOME关键字的子查询"><a href="#带ANY-SOME关键字的子查询" class="headerlink" title="带ANY,SOME关键字的子查询"></a>带ANY,SOME关键字的子查询</h3><p>ANY和SOME关键字是同义词,表示满足其中任一条件.例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">table</span> tb1(num1 <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">table</span> tb2(num2 <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 插入数据</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb1 <span class="keyword">values</span>(<span class="number">1</span>),(<span class="number">5</span>),(<span class="number">13</span>),(<span class="number">27</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb2 <span class="keyword">values</span>(<span class="number">6</span>),(<span class="number">14</span>),(<span class="number">11</span>),(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询</span></span><br><span class="line"><span class="keyword">SELECT</span> num1 <span class="keyword">FROM</span> tb1 <span class="keyword">WHERE</span> num1 <span class="operator">&gt;</span> <span class="keyword">ANY</span> (<span class="keyword">SELECT</span> num2 <span class="keyword">FROM</span> tb2);</span><br></pre></td></tr></table></figure>
+
+<p>查询出来的值问tb1中大于tb2中任意的一个值即可.结果为13和27.</p>
+<h3 id="带ALL关键字的子查询"><a href="#带ALL关键字的子查询" class="headerlink" title="带ALL关键字的子查询"></a>带ALL关键字的子查询</h3><p>ALL与ANY不一样,需要满足全部条件才可以被查询出来,例如上面代码中如果ANY改为ALL,结果为27.</p>
+<h3 id="带EXISTS关键字的子查询"><a href="#带EXISTS关键字的子查询" class="headerlink" title="带EXISTS关键字的子查询"></a>带EXISTS关键字的子查询</h3><p>EXISTS关键字后面的参数是一个任意子查询,系统对其判断是否有返回值,没有返回值EXISTS为false,此时外层的语句将要不会查询.</p>
+<p>例如:查询suppliers表中是否存在s_id&#x3D;107的供应商,如果存在则查询fruits表中的数据:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span></span><br><span class="line">(<span class="keyword">SELECT</span> `s_name` <span class="keyword">FROM</span> suppliers <span class="keyword">WHERE</span> `s_id` <span class="operator">=</span> <span class="number">107</span>);</span><br></pre></td></tr></table></figure>
+
+<p>EXISTS关键字可以接NOT修饰,表示如果不存在就会执行外层语句.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">(<span class="keyword">SELECT</span> `s_name` <span class="keyword">FROM</span> suppliers <span class="keyword">WHERE</span> `s_id` <span class="operator">=</span> <span class="number">107</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="带IN关键字的子查询"><a href="#带IN关键字的子查询" class="headerlink" title="带IN关键字的子查询"></a>带IN关键字的子查询</h3><p>IN 关键字进行子查询时,内层查询语句仅仅返回一个<strong>数据列</strong>,这个数据列的值将提供给外层查询语句进行比较操作.与上文讲的IN是一个东西,也可以用NOT IN.</p>
+<h2 id="合并查询结果"><a href="#合并查询结果" class="headerlink" title="合并查询结果"></a>合并查询结果</h2><p>UNION关键字,用来合并两个<strong>结果格式相同</strong>的SELECT语句查询出来的结果.</p>
+<p>例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s_id,f_name,f_price</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> f_price <span class="operator">&lt;</span> <span class="number">9.0</span></span><br><span class="line"><span class="keyword">UNION</span> (<span class="keyword">ALL</span>)</span><br><span class="line"><span class="keyword">SELECT</span> s_id,f_name,f_price</span><br><span class="line"><span class="keyword">FROM</span> fruits</span><br><span class="line"><span class="keyword">WHERE</span> s_id <span class="keyword">IN</span> (<span class="number">101</span>,<span class="number">103</span>);</span><br></pre></td></tr></table></figure>
+
+<p>加ALL可以不删重复行,如果确定不会存在重复行,就用NUION ALL来减少查询所占资源.</p>
+<h2 id="别名的使用"><a href="#别名的使用" class="headerlink" title="别名的使用"></a>别名的使用</h2><p>格式为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表名|列名 [AS] 别名</span><br></pre></td></tr></table></figure>
+
+<p>不说,都懂.</p>
+<h2 id="使用正则表达式进行查询"><a href="#使用正则表达式进行查询" class="headerlink" title="使用正则表达式进行查询"></a>使用正则表达式进行查询</h2><p>与LIKE用法类似,区别是LIKE后接带’_’或者’%’的字符串,REGEXP后面接的是代表正则的字符串.</p>
+<p>正则表达式参考其他的文档.</p>
+<h2 id="数据库查询综合案例"><a href="#数据库查询综合案例" class="headerlink" title="数据库查询综合案例"></a>数据库查询综合案例</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2017073116466/" data-id="clsbfdtol004bewolc0dg0uds" data-title="数据库-查询数据" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/base/" rel="tag">基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017073164799/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          数据库-插入、更新、删除数据
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017062025290/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JVM之垃圾收集器与内存分配策略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

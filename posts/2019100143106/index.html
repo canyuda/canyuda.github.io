@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>时序图 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="基于PlantUML 时序图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时序图">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019100143106/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="基于PlantUML 时序图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-4.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-5.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-6.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-7.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page1.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page2.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page3.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-9.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-10.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-11.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-12.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-13.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-14.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-15.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-16.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-17.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-18.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-19.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-20.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-21.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-22.png">
+<meta property="article:published_time" content="2019-10-01T14:05:32.000Z">
+<meta property="article:modified_time" content="2024-02-07T06:22:10.962Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="图表">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2019-10-时序图" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2019100143106/" class="article-date">
+  <time class="dt-published" datetime="2019-10-01T14:05:32.000Z" itemprop="datePublished">2019-10-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      时序图
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>基于PlantUML</li>
+<li>时序图</li>
+</ul>
+<span id="more"></span>
+
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+
+<h2 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><code>-&gt;</code> 表示实现</li>
+<li><code>--&gt;</code> 表示虚线</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-1.png" alt="sequence-1.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-1</span><br><span class="line">服务A -&gt; 服务B: 调用</span><br><span class="line">服务B --&gt; 服务A: 返回</span><br><span class="line"></span><br><span class="line">服务A -&gt; 服务B: 调用2</span><br><span class="line">服务B --&gt; 服务A: 返回2</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实体样式"><a href="#实体样式" class="headerlink" title="实体样式"></a>实体样式</h3><ul>
+<li><code>actor</code> 小人</li>
+<li><code>boundary</code> 边界</li>
+<li><code>control</code> 控制</li>
+<li><code>entity</code> 实体</li>
+<li><code>database</code> 数据库</li>
+<li><code>collections</code> 集合</li>
+<li><code>participant</code> <strong>方框(默认使用这个)</strong></li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-2.png" alt="sequence-2.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-2</span><br><span class="line">actor 小人 as Foo1</span><br><span class="line">boundary 边界 as Foo2</span><br><span class="line">control 控制 as Foo3</span><br><span class="line">entity 实体 as Foo4</span><br><span class="line">database 数据库 as Foo5</span><br><span class="line">collections 集合 as Foo6</span><br><span class="line">participant 方框 as Foo7</span><br><span class="line"></span><br><span class="line">Foo1 -&gt; Foo2 : To boundary</span><br><span class="line">Foo1 -&gt; Foo3 : To control</span><br><span class="line">Foo1 -&gt; Foo4 : To entity</span><br><span class="line">Foo1 -&gt; Foo5 : To database</span><br><span class="line">Foo1 -&gt; Foo6 : To collections</span><br><span class="line">Foo1 -&gt; Foo7 : To participant</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="颜色与别名"><a href="#颜色与别名" class="headerlink" title="颜色与别名"></a>颜色与别名</h3><ul>
+<li>样式定义后面接 <code>#&#123;颜色&#125;/&#123;渐变色&#125;</code>,<code>#&#123;颜色&#125;\&#123;渐变色&#125;</code>, <code>#&#123;颜色&#125;|&#123;渐变色&#125;</code>.</li>
+<li>使用 <code>as</code> 可以使用别名.</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-3.png" alt="sequence-3.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-3</span><br><span class="line">actor 小人2 as Bob2 #red/green</span><br><span class="line">actor 小人1 as Bob1 #FFF/000</span><br><span class="line">participant Alice</span><br><span class="line">participant &quot;I have a really\nlong name&quot; as L #99FF99</span><br><span class="line"></span><br><span class="line">Alice-&gt;Bob1: 发送</span><br><span class="line">Bob1-&gt;Alice: 响应</span><br><span class="line">Alice-&gt;Alice: 自发自收</span><br><span class="line">Bob1-&gt;L: biubiu</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实体顺序"><a href="#实体顺序" class="headerlink" title="实体顺序"></a>实体顺序</h3><ul>
+<li><code>order</code> 可以自定义显示顺序</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-4.png" alt="sequence-4.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-4</span><br><span class="line">participant Last order 30</span><br><span class="line">participant Middle order 20</span><br><span class="line">participant First order 10</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="箭头样式"><a href="#箭头样式" class="headerlink" title="箭头样式"></a>箭头样式</h3><ul>
+<li><code>-&gt;</code> 普通箭头</li>
+<li><code>-&gt;x</code> 不可通</li>
+<li><code>-&gt;&gt;</code> 细箭头</li>
+<li><code>-\</code> 单边箭头</li>
+<li><code>-\\</code> 单边细箭头</li>
+<li><code>--\\</code> 虚线单边细箭头</li>
+<li><code>-&gt;o</code> 普通箭头加圆点</li>
+<li><code>o\\--</code> 虚线单边下箭头加圆点</li>
+<li><code>&lt;-&gt;</code> 双向箭头</li>
+<li><code>&lt;-&gt;o</code> 双向箭头加圆点</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-5.png" alt="sequence-5.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-5</span><br><span class="line">Bob -&gt; Alice</span><br><span class="line">Bob -&gt;x Alice</span><br><span class="line">Bob -&gt;&gt; Alice</span><br><span class="line">Bob -\ Alice</span><br><span class="line">Bob -\\ Alice</span><br><span class="line">Bob --\\ Alice</span><br><span class="line">Bob -&gt;o Alice</span><br><span class="line">Bob o\\-- Alice</span><br><span class="line">Bob &lt;-&gt; Alice</span><br><span class="line">Bob &lt;-&gt;o Alice</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="箭头颜色"><a href="#箭头颜色" class="headerlink" title="箭头颜色"></a>箭头颜色</h3><ul>
+<li>箭头<code>-</code>之间加入<code>[&#123;颜色值&#125;]</code>, 颜色可以为名字和hex值</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-6.png" alt="sequence-6.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-6</span><br><span class="line">Bob -[#red]&gt; Alice : hello</span><br><span class="line">Alice -[#0000FF]-&gt;Bob : ok</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="序号"><a href="#序号" class="headerlink" title="序号"></a>序号</h3><ul>
+<li><code>autonumber</code> 可以开启序号, 序号自增.</li>
+<li><code>autonumber num step</code> 可以显式设置当前序号和自增步数.</li>
+<li><code>autonumber stop</code> 可以不纳入记步.</li>
+<li><code>autonumber resume 1 &quot;&lt;b&gt;[0]&quot;</code> 可以刷新步数设置为1, 并且可以配置序号样式, <code>0</code>或者<code>#</code>能代表数字.</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-7.png" alt="sequence-7.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-7</span><br><span class="line">autonumber</span><br><span class="line">Bob -&gt; Alice : 请求</span><br><span class="line">Bob &lt;- Alice : 响应</span><br><span class="line"></span><br><span class="line">autonumber 15</span><br><span class="line">Bob -&gt; Alice : 请求</span><br><span class="line">Bob &lt;- Alice : 响应</span><br><span class="line"></span><br><span class="line">autonumber stop</span><br><span class="line">Bob -&gt; Alice : dummy</span><br><span class="line"></span><br><span class="line">autonumber 40 10 &quot;&lt;font color=red&gt;&lt;b&gt;Message 0  &quot;</span><br><span class="line">Bob -&gt; Alice : 请求</span><br><span class="line">Bob &lt;- Alice : 响应</span><br><span class="line"></span><br><span class="line">autonumber resume 1 &quot;&lt;b&gt;[0]&quot;</span><br><span class="line">Bob -&gt; Alice : 请求</span><br><span class="line">Bob &lt;- Alice : 响应</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="生成多图"><a href="#生成多图" class="headerlink" title="生成多图"></a>生成多图</h3><ul>
+<li><code>header</code> 通用图头</li>
+<li><code>footer</code> 通用图尾  <code>%page%</code> 和 <code>%lastpage%</code> 可以代表总数和当前图索引</li>
+<li><code>title</code> 某页图头</li>
+<li><code>newpage</code> 开启新页</li>
+<li><code>newpage xxxx</code> 开启新页, 并且设置图头</li>
+</ul>
+<figure class="third">
+    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page1.png">
+    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page2.png">
+    <img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-8-page3.png">
+</figure>
+
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-8</span><br><span class="line">header 图头</span><br><span class="line">footer 图尾 %page% of %lastpage%</span><br><span class="line">title 图标题</span><br><span class="line"></span><br><span class="line">服务A -&gt; 服务B : 消息1</span><br><span class="line">服务B -&gt; 服务A : 消息2</span><br><span class="line"></span><br><span class="line">newpage</span><br><span class="line"></span><br><span class="line">服务A -&gt; 服务B : 消息3</span><br><span class="line">服务B -&gt; 服务A : 消息4</span><br><span class="line"></span><br><span class="line">newpage A title for the\nlast page</span><br><span class="line"></span><br><span class="line">服务A -&gt; 服务B : 消息5</span><br><span class="line">服务B -&gt; 服务A : 消息6</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="分组框"><a href="#分组框" class="headerlink" title="分组框"></a>分组框</h3><ul>
+<li><code>alt</code> <code>else</code>类似于 <code>if-else</code>, 后面接注释</li>
+<li><code>group</code>分组, 后接组名</li>
+<li><code>loop</code> 表示循环体内容, 后接注释</li>
+<li>都需要在结束的地方加 <code>end</code></li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-9.png" alt="sequence-9.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-9</span><br><span class="line">Alice -&gt; Bob: 请求</span><br><span class="line"></span><br><span class="line">alt 成功情况</span><br><span class="line"></span><br><span class="line">	Bob -&gt; Alice: 成功的处理流程</span><br><span class="line">	</span><br><span class="line">else 失败情况</span><br><span class="line"></span><br><span class="line">	Bob -&gt; Alice: 失败的处理流程</span><br><span class="line">	group 这是一个分组</span><br><span class="line">		Alice -&gt; Log : 循环开始</span><br><span class="line">	    loop 循环 1000 times</span><br><span class="line">	        Alice -&gt; Bob: 循环内容</span><br><span class="line">	    end</span><br><span class="line">		Alice -&gt; Log : 循环结束</span><br><span class="line">	end</span><br><span class="line">	</span><br><span class="line">else 其他情况</span><br><span class="line"></span><br><span class="line">   Bob -&gt; Alice: 非成功失败的处理流程</span><br><span class="line">   </span><br><span class="line">end</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><ul>
+<li><code>note left: 日志内容</code></li>
+<li><code>note right</code> <code>end note</code> 日志块</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-10.png" alt="sequence-10.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-10</span><br><span class="line">Alice-&gt;Bob : hello</span><br><span class="line">note left: 左边的日志</span><br><span class="line"></span><br><span class="line">Bob-&gt;Alice : ok</span><br><span class="line">note right: 右边的日志</span><br><span class="line"></span><br><span class="line">Bob-&gt;Bob : 块状日志</span><br><span class="line">note right</span><br><span class="line">	块内内容</span><br><span class="line">	直接就能换行</span><br><span class="line">end note</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="注释样式"><a href="#注释样式" class="headerlink" title="注释样式"></a>注释样式</h3><ul>
+<li><code>note left of XXX #&#123;颜色&#125;</code> 指定在哪个实体旁边, 可以指定颜色</li>
+<li><code>note over XXX</code> 在XXX上面的注释</li>
+<li><code>note over XXX, YYY</code> 在XXX和YYY上面的注释</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-11.png" alt="sequence-11.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-11</span><br><span class="line">participant Alice</span><br><span class="line">participant Bob</span><br><span class="line">note left of Alice #aqua</span><br><span class="line">	花里胡哨的注释</span><br><span class="line">	指定这个注释在Alice左边</span><br><span class="line">end note</span><br><span class="line"> </span><br><span class="line">note right of Alice: 指定这个注释在Alice右边</span><br><span class="line"></span><br><span class="line">note over Alice: 指定这个注释在Alice中间</span><br><span class="line"></span><br><span class="line">note over Alice, Bob #FFAAAA: 指定这个注释在Alice和Bob中间</span><br><span class="line"></span><br><span class="line">note over Bob, Alice</span><br><span class="line">	指定这个注释在Alice和Bob中间</span><br><span class="line">	支持块注释</span><br><span class="line">end note</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="注释形状"><a href="#注释形状" class="headerlink" title="注释形状"></a>注释形状</h3><ul>
+<li><code>hnote</code> 菱形注释块</li>
+<li><code>rnote</code> 四四方方</li>
+<li><code>note</code> 便签纸形状</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-12.png" alt="sequence-12.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-12</span><br><span class="line">caller -&gt; server : 过程1</span><br><span class="line">hnote over caller : 菱形注释块</span><br><span class="line">caller &lt;- server : 过程2</span><br><span class="line">rnote over server</span><br><span class="line">	四四方方的注释块</span><br><span class="line">endrnote</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="各种牛逼的样式"><a href="#各种牛逼的样式" class="headerlink" title="各种牛逼的样式"></a>各种牛逼的样式</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-13.png" alt="sequence-13.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-13</span><br><span class="line">Alice -&gt; Bob : hello --there--</span><br><span class="line">... 省略 ~~内容~~ 用来表示延迟 ...</span><br><span class="line">Bob -&gt; Alice : ok</span><br><span class="line">note left</span><br><span class="line">  This is **bold**</span><br><span class="line">  This is //italics//</span><br><span class="line">  This is &quot;&quot;monospaced&quot;&quot;</span><br><span class="line">  This is --stroked--</span><br><span class="line">  This is __underlined__</span><br><span class="line">  This is ~~waved~~</span><br><span class="line">end note</span><br><span class="line">== 各种牛逼的样式 ==</span><br><span class="line">note right of Bob </span><br><span class="line"> This is &lt;back:cadetblue&gt;&lt;size:18&gt;displayed&lt;/size&gt;&lt;/back&gt; </span><br><span class="line"> __left of__ Alice. </span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line"> &lt;u:red&gt;This&lt;/u&gt; is &lt;color #118888&gt;displayed&lt;/color&gt; </span><br><span class="line"> **&lt;color purple&gt;left of&lt;/color&gt; &lt;s:red&gt;Alice&lt;/strike&gt; Bob**. </span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line"> &lt;w:#FF33FF&gt;This is hosted&lt;/w&gt; by &lt;img img/logo_v2.png&gt;</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line">  Example of simple table</span><br><span class="line">  |= |= table |= header |</span><br><span class="line">  | a | tabletabletabletable | row |</span><br><span class="line">  | b | table | row |</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line">:Here is the result</span><br><span class="line">|= |= table |= header |</span><br><span class="line">| a | table | row |</span><br><span class="line">|&lt;#FF8080&gt; red |&lt;#80FF80&gt; green |&lt;#8080FF&gt; blue |</span><br><span class="line">&lt;#yellow&gt;| b | table | row |;</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line">  Example of Tree</span><br><span class="line">	  |_ First line</span><br><span class="line">	  |_ **Bom(Model)**</span><br><span class="line">		|_ prop1</span><br><span class="line">		|_ prop2</span><br><span class="line">		|_ prop3</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line">  * Bullet list</span><br><span class="line">  * Second item</span><br><span class="line">  ** Sub item</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">note right of Bob </span><br><span class="line">&lt;&amp;phone&gt; &lt;&amp;wifi&gt; &lt;&amp;map&gt; 等...</span><br><span class="line">end note </span><br><span class="line"></span><br><span class="line">== 引用类型(类似于注释) ==</span><br><span class="line"></span><br><span class="line">|||</span><br><span class="line"></span><br><span class="line">ref over Alice, Bob : ref不支持 left/right</span><br><span class="line"></span><br><span class="line">||100||</span><br><span class="line"></span><br><span class="line">ref over Bob</span><br><span class="line">ref仅支持 **over**</span><br><span class="line">&lt;&amp;phone&gt; &lt;&amp;wifi&gt; &lt;&amp;map&gt; 等...</span><br><span class="line">end ref</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="icon"><a href="#icon" class="headerlink" title="icon"></a>icon</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-14.png" alt="sequence-14.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-14</span><br><span class="line">listopeniconic</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="生命线"><a href="#生命线" class="headerlink" title="生命线"></a>生命线</h3><ul>
+<li><code>activate XXX #&#123;颜色值&#125;</code> 开启生命线, 可以设置颜色</li>
+<li><code>deactivate</code> 停止生命线</li>
+<li><code>destroy</code> 关闭生命线</li>
+<li>生命线可叠加, 但是要注意颜色区分</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-15.png" alt="sequence-15.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-15</span><br><span class="line">participant User</span><br><span class="line"></span><br><span class="line">User -&gt; A: 下面启动A的生命线</span><br><span class="line">activate A</span><br><span class="line"></span><br><span class="line">A -&gt; B: 下面启动B的生命线</span><br><span class="line">activate B #BBBBBB</span><br><span class="line"></span><br><span class="line">B -&gt; C: 下面启动C的生命线</span><br><span class="line">activate C #DarkSalmon</span><br><span class="line">C --&gt; B: 下面**销毁**C的生命线</span><br><span class="line">destroy C</span><br><span class="line">activate B #BBBBFF</span><br><span class="line"></span><br><span class="line">B --&gt; C: 启动B的二段生命线</span><br><span class="line">activate C #DarkSalmon</span><br><span class="line">C --&gt; B: 启动B的二段生命线</span><br><span class="line">destroy C</span><br><span class="line">destroy B</span><br><span class="line"></span><br><span class="line">B --&gt; A: 下面关闭B的生命线</span><br><span class="line">deactivate B </span><br><span class="line"></span><br><span class="line">A -&gt; User: 下面**销毁**A的生命线</span><br><span class="line">destroy A</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="临时创建实体"><a href="#临时创建实体" class="headerlink" title="临时创建实体"></a>临时创建实体</h3><ul>
+<li>不用<code>participant</code> 事先生命实体, 需要时用 <code>create</code> 即可创建</li>
+<li><code>create &#123;样式&#125; 名字</code> 可以指定样式</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-16.png" alt="sequence-16.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-16</span><br><span class="line">Bob -&gt; Alice : hello</span><br><span class="line"></span><br><span class="line">create Other</span><br><span class="line">Alice -&gt; Other : new</span><br><span class="line">Other --&gt; Alice : return</span><br><span class="line"></span><br><span class="line">create control String</span><br><span class="line">Alice -&gt; String</span><br><span class="line">String -&gt; Alice</span><br><span class="line"></span><br><span class="line">Alice --&gt; Bob : ok</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="未知来源箭头"><a href="#未知来源箭头" class="headerlink" title="未知来源箭头"></a>未知来源箭头</h3><ul>
+<li><code>[-&gt;</code> <code>-&gt;]</code> <code>[&lt;-</code> <code>&lt;-]</code> 来源未知的箭头</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-17.png" alt="sequence-17.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-17</span><br><span class="line">[-&gt; Bob : 未知来源的输入</span><br><span class="line">Bob -&gt; Alice : 1</span><br><span class="line">Alice -&gt;] : 未知去向的输出</span><br><span class="line">Alice &lt;-]  : 未知来源的返回</span><br><span class="line">Bob &lt;- Alice : 2</span><br><span class="line">[&lt;- Bob  : 未知来源的返回</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="标题样式"><a href="#标题样式" class="headerlink" title="标题样式"></a>标题样式</h3><ul>
+<li><code>title</code> 设置标题 可以使用下划线,黑体,删除线等</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-18.png" alt="sequence-18.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-18</span><br><span class="line">title __下划线__ **黑体** --删除线--</span><br><span class="line"></span><br><span class="line">Alice -&gt; Bob: Authentication Request</span><br><span class="line">Bob -&gt; Alice: Authentication Response</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="标题样式高级"><a href="#标题样式高级" class="headerlink" title="标题样式高级"></a>标题样式高级</h3><ul>
+<li><code>title</code> <code>end title</code> 中间可以定各种样式的文本图案</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-19.png" alt="sequence-19.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-19</span><br><span class="line"></span><br><span class="line">title </span><br><span class="line">Here is the result</span><br><span class="line">|= |= table |= header |</span><br><span class="line">| a | table | row |</span><br><span class="line">|&lt;#FF8080&gt; red |&lt;#80FF80&gt; green |&lt;#8080FF&gt; blue |</span><br><span class="line">|&lt;#yellow&gt; | b | table | row |</span><br><span class="line">end title</span><br><span class="line"></span><br><span class="line">Alice -&gt; Bob: Authentication Request</span><br><span class="line">Bob -&gt; Alice: Authentication Response</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="颜色块"><a href="#颜色块" class="headerlink" title="颜色块"></a>颜色块</h3><ul>
+<li><code>box 标题名 #&#123;颜色值&#125;</code> 抱起来声明的实体可以被框住, 并可以定义颜色</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-20.png" alt="sequence-20.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-20</span><br><span class="line">box &quot;标题&quot; #LightBlue</span><br><span class="line">participant Bob</span><br><span class="line">participant Alice</span><br><span class="line">end box</span><br><span class="line">participant Other</span><br><span class="line"></span><br><span class="line">Bob -&gt; Alice : hello</span><br><span class="line">Alice -&gt; Other : hello</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="移除脚实体"><a href="#移除脚实体" class="headerlink" title="移除脚实体"></a>移除脚实体</h3><ul>
+<li><code>hide</code> 可以移除脚实体</li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-21.png" alt="sequence-21.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-21</span><br><span class="line">hide footbox</span><br><span class="line">title 脚移除</span><br><span class="line"></span><br><span class="line">Alice -&gt; Bob: Authentication Request</span><br><span class="line">Bob --&gt; Alice: Authentication Response</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="样式自定义"><a href="#样式自定义" class="headerlink" title="样式自定义"></a>样式自定义</h3><ul>
+<li><a href="http://plantuml.com/zh/skinparam">skinparam</a></li>
+</ul>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/sequence/sequence-22.png" alt="sequence-22.png"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">@startuml sequence-22</span><br><span class="line"></span><br><span class="line">skinparam backgroundColor #A9DCDF</span><br><span class="line">skinparam handwritten true</span><br><span class="line">skinparam ParticipantPadding 20</span><br><span class="line">skinparam BoxPadding 10</span><br><span class="line"></span><br><span class="line">skinparam sequence &#123;</span><br><span class="line">	ArrowColor DeepSkyBlue</span><br><span class="line">	ActorBorderColor DeepSkyBlue</span><br><span class="line">	LifeLineBorderColor blue</span><br><span class="line">	LifeLineBackgroundColor #A9DCDF</span><br><span class="line">	</span><br><span class="line">	ParticipantBorderColor DeepSkyBlue</span><br><span class="line">	ParticipantBackgroundColor DodgerBlue</span><br><span class="line">	ParticipantFontName Impact</span><br><span class="line">	ParticipantFontSize 17</span><br><span class="line">	ParticipantFontColor #A9DCDF</span><br><span class="line">	</span><br><span class="line">	ActorBackgroundColor aqua</span><br><span class="line">	ActorFontColor DeepSkyBlue</span><br><span class="line">	ActorFontSize 17</span><br><span class="line">	ActorFontName Aapex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">box &quot;标题&quot;</span><br><span class="line">participant Bob</span><br><span class="line">participant Alice</span><br><span class="line">end box</span><br><span class="line">participant Other</span><br><span class="line"></span><br><span class="line">Bob -&gt; Alice : hello</span><br><span class="line">Alice -&gt; Other : hello</span><br><span class="line"></span><br><span class="line">note right of Other </span><br><span class="line">自定义样式请看:__http://plantuml.com/zh/skinparam__</span><br><span class="line">end note </span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2019100143106/" data-id="clsbfdtq20083ewolhowq6o61" data-title="时序图" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/chart/" rel="tag">图表</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/201910013360/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          用例图
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2019093010321/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">活动图</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

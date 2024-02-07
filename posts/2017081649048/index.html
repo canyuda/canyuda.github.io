@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JQuery基础 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JQuery基础">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017081649048/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-16T10:07:12.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.779Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-JQuery基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2017081649048/" class="article-date">
+  <time class="dt-published" datetime="2017-08-16T10:07:12.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/front-end/">前端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JQuery基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>略</p>
+<span id="more"></span>
+<h2 id="JQuery"><a href="#JQuery" class="headerlink" title="JQuery"></a>JQuery</h2><p>jQuery是一个快速、简洁的JavaScript框架，是继Prototype之后又一个优秀的JavaScript代码库（或JavaScript框架）。jQuery设计的宗旨是“write Less，Do More”，即倡导写更少的代码，做更多的事情。它封装JavaScript常用的功能代码，提供一种简便的JavaScript设计模式，优化HTML文档操作、事件处理、动画设计和Ajax交互。</p>
+<p>我们使用jquery可以更好完成以下操作:</p>
+<ol>
+<li>html文档操作，对于dom相关操作优化</li>
+<li>jquery提供更加方便与丰富事件处理</li>
+<li>jquery提供简单动画特效</li>
+<li>jquery提供ajax交互</li>
+</ol>
+<p>我们知道，要使用任何一个js框架，都是需要导入相关的js文件。</p>
+<p>关于其它常用js框架:</p>
+<ol>
+<li>dojo 面向对象的js框架</li>
+<li>extjs 学习成本比较高 它提供大量的丰富组件，它效果展示非常好</li>
+<li>prototype 早期比较流行js框架</li>
+<li>angularJS 它是一个mvc js框架，它提供双向数据绑定.</li>
+</ol>
+<p>jquery它的插件机制特别丰富,在开发中可以选择非常多的相关插件，例如，表单校验插件，树型结构。</p>
+<h3 id="JQuery核心函数"><a href="#JQuery核心函数" class="headerlink" title="JQuery核心函数"></a>JQuery核心函数</h3><ol>
+<li><p>JQuery(callback)</p>
+<p>页面加载完成后加载JQuery代码.</p>
+</li>
+<li><p>JQuery(html[,ownerDocument]</p>
+<p>参数一(必选):用于把html代码转换为JQuery对象.</p>
+<p>参数二(可选):设置dom的相关属性</p>
+</li>
+<li><p>JQuery([slector[,context]])</p>
+<p>参数一(可选):选择器</p>
+<p>参数二(可选):指定要查找的dom集</p>
+</li>
+<li><p>JQuery对象和dom对象的转换</p>
+</li>
+</ol>
+<h3 id="JQuery选择器"><a href="#JQuery选择器" class="headerlink" title="JQuery选择器"></a>JQuery选择器</h3><h4 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>)            <span class="comment">//ID选择器</span></span><br><span class="line">$(<span class="string">&quot;div&quot;</span>)            <span class="comment">//元素选择器</span></span><br><span class="line">$(<span class="string">&quot;.classname&quot;</span>)     <span class="comment">//类选择器</span></span><br><span class="line">$(<span class="string">&quot;.classname,.classname1,#id1&quot;</span>)     <span class="comment">//组合选择器</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="层次选择器"><a href="#层次选择器" class="headerlink" title="层次选择器"></a>层次选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&gt;.classname &quot;</span>)    <span class="comment">//子元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id .classname &quot;</span>)    <span class="comment">//后代元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id + .classname &quot;</span>)    <span class="comment">//紧邻下一个元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id ~ .classname &quot;</span>)    <span class="comment">//兄弟元素选择器</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="过滤选择器-重点"><a href="#过滤选择器-重点" class="headerlink" title="过滤选择器(重点)"></a>过滤选择器(重点)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;li:first&quot;</span>)    <span class="comment">//第一个li</span></span><br><span class="line">$(<span class="string">&quot;li:last&quot;</span>)     <span class="comment">//最后一个li</span></span><br><span class="line">$(<span class="string">&quot;li:even&quot;</span>)     <span class="comment">//挑选下标为偶数的li</span></span><br><span class="line">$(<span class="string">&quot;li:odd&quot;</span>)      <span class="comment">//挑选下标为奇数的li</span></span><br><span class="line">$(<span class="string">&quot;li:eq(4)&quot;</span>)    <span class="comment">//下标等于4的li</span></span><br><span class="line">$(<span class="string">&quot;li:gt(2)&quot;</span>)    <span class="comment">//下标大于2的li</span></span><br><span class="line">$(<span class="string">&quot;li:lt(2)&quot;</span>)    <span class="comment">//下标小于2的li</span></span><br><span class="line">$(<span class="string">&quot;li:not(#runoob)&quot;</span>) <span class="comment">//挑选除 id=&quot;runoob&quot; 以外的所有li</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="内容过滤选择器"><a href="#内容过滤选择器" class="headerlink" title="内容过滤选择器"></a>内容过滤选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;div:contains(&#x27;Runob&#x27;)&quot;</span>)    <span class="comment">// 包含 Runob文本的元素</span></span><br><span class="line">$(<span class="string">&quot;td:empty&quot;</span>)                 <span class="comment">//不包含子元素或者文本的空元素</span></span><br><span class="line">$(<span class="string">&quot;div:has(selector)&quot;</span>)        <span class="comment">//含有选择器所匹配的元素</span></span><br><span class="line">$(<span class="string">&quot;td:parent&quot;</span>)                <span class="comment">//含有子元素或者文本的元素</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="可见性过滤选择器"><a href="#可见性过滤选择器" class="headerlink" title="可见性过滤选择器"></a>可见性过滤选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;li:hidden&quot;</span>)       <span class="comment">//匹配所有不可见元素，或type为hidden的元素</span></span><br><span class="line">$(<span class="string">&quot;li:visible&quot;</span>)      <span class="comment">//匹配所有可见元素</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="属性过滤选择器"><a href="#属性过滤选择器" class="headerlink" title="属性过滤选择器"></a>属性过滤选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;div[id]&quot;</span>)        <span class="comment">//所有含有 id 属性的 div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id=&#x27;123&#x27;]&quot;</span>)        <span class="comment">// id属性值为123的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id!=&#x27;123&#x27;]&quot;</span>)        <span class="comment">// id属性值不等于123的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id^=&#x27;qq&#x27;]&quot;</span>)        <span class="comment">// id属性值以qq开头的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id$=&#x27;zz&#x27;]&quot;</span>)        <span class="comment">// id属性值以zz结尾的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id*=&#x27;bb&#x27;]&quot;</span>)        <span class="comment">// id属性值包含bb的div 元素</span></span><br><span class="line">$(<span class="string">&quot;input[id][name$=&#x27;man&#x27;]&quot;</span>) <span class="comment">//多属性选过滤，同时满足两个属性的条件的元素</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="状态过滤选择器"><a href="#状态过滤选择器" class="headerlink" title="状态过滤选择器"></a>状态过滤选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;input:enabled&quot;</span>)    <span class="comment">// 匹配可用的 input</span></span><br><span class="line">$(<span class="string">&quot;input:disabled&quot;</span>)   <span class="comment">// 匹配不可用的 input</span></span><br><span class="line">$(<span class="string">&quot;input:checked&quot;</span>)    <span class="comment">// 匹配选中的 input</span></span><br><span class="line">$(<span class="string">&quot;option:selected&quot;</span>)  <span class="comment">// 匹配选中的 option</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="表单过滤选择器"><a href="#表单过滤选择器" class="headerlink" title="表单过滤选择器"></a>表单过滤选择器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;:input&quot;</span>)      <span class="comment">//匹配所有 input, textarea, select 和 button 元素</span></span><br><span class="line">$(<span class="string">&quot;:text&quot;</span>)       <span class="comment">//所有的单行文本框，$(&quot;:text&quot;) 等价于$(&quot;[type=text]&quot;)，推荐使用$(&quot;input:text&quot;)效率更高，下同</span></span><br><span class="line">$(<span class="string">&quot;:password&quot;</span>)   <span class="comment">//所有密码框</span></span><br><span class="line">$(<span class="string">&quot;:radio&quot;</span>)      <span class="comment">//所有单选按钮</span></span><br><span class="line">$(<span class="string">&quot;:checkbox&quot;</span>)   <span class="comment">//所有复选框</span></span><br><span class="line">$(<span class="string">&quot;:submit&quot;</span>)     <span class="comment">//所有提交按钮</span></span><br><span class="line">$(<span class="string">&quot;:reset&quot;</span>)      <span class="comment">//所有重置按钮</span></span><br><span class="line">$(<span class="string">&quot;:button&quot;</span>)     <span class="comment">//所有button按钮</span></span><br><span class="line">$(<span class="string">&quot;:file&quot;</span>)       <span class="comment">//所有文件域</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2017081649048/" data-id="clsbfdtmu0002ewoldoj7egdo" data-title="JQuery基础" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/base/" rel="tag">基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017082510203/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Java-注解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017081344034/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Java Web之Listener&amp;Filter</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

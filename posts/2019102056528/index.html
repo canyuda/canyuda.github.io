@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>SpringCloud-Hystrix | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备服务降级,服务熔断,线程和信号隔离,请求缓冲,请求合并以及服务监控等强大功能.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud-Hystrix">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2019102056528/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备服务降级,服务熔断,线程和信号隔离,请求缓冲,请求合并以及服务监控等强大功能.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191020/hystrix-command-flow-chart.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-return-flow.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/circuit-breaker.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-source-1.png">
+<meta property="article:published_time" content="2019-10-20T07:17:33.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.759Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="Spring-Cloud">
+<meta property="article:tag" content="Hystrix">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2019-10-SpringCloud-Hystrix" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2019102056528/" class="article-date">
+  <time class="dt-published" datetime="2019-10-20T07:17:33.000Z" itemprop="datePublished">2019-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      SpringCloud-Hystrix
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Spring Cloud Hystrix 实现了断路器,线程隔离等一系列服务保护功能. 它也是基于Netfix的开源框架Hystrix实现的, 该框架的目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力. Hystrix具备<code>服务降级</code>,<code>服务熔断</code>,<code>线程</code>和<code>信号隔离</code>,<code>请求缓冲</code>,<code>请求合并</code>以及<code>服务监控</code>等强大功能.</p>
+<span id="more"></span>
+
+<h2 id="容错手段"><a href="#容错手段" class="headerlink" title="容错手段"></a>容错手段</h2><h2 id="出现的问题"><a href="#出现的问题" class="headerlink" title="出现的问题"></a>出现的问题</h2><p>服务提供者如果响应非常缓慢, 导致了用户的请求被强制等待, 直到提供者能响应或者超时. 在高负载的情况下, 如果没有任何处理, 会导致服务提供者的资源耗尽甚至整个系统崩溃. 例如电商网站如果没有处理这种情况, 在双11期间有过多的并发请求, 导致用户支付的请求延迟很久没有响应, 等待很长时间就会超时失败, 支付失败又会导致用户频繁的刷新支付页面并尝试重新支付, 此时服务已经没有多余的资源了, 这样更加重了服务器的负载, 最终系统被压挂了.</p>
+<p>微服务架构下的系统会有多个服务共同支持, 每个服务负责不同的功能, 服务之间需要进行网络通信, 因此会出现嵌套调用, 网络通信有些情况是脆弱的, 请求超时无法避免. 此时如果某个基础服务A出现问题, 那么他的调用方B会调不通, 导致流量阻塞在B服务, 最终B服务也会出现问题, 然后导致B的调用方C出现问题, 这种问题逐渐放大的过程叫做<code>雪崩效应</code>.</p>
+<h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><ol>
+<li>为网络请求设置超时时间<br>调用网络请求会对应一个线程去处理这个请求, 就会占用某些资源, 资源一直不释放最终被耗尽, 导致服务不可用. 设置超时时间就是设置了最大可占用的时间, 超过这个时间就强制释放.</li>
+<li>使用断路器模式<br>断路器模拟了家中使用的电力保险, 电流过大会导致保险熔断, 保护电器不会被大电流烧毁. 服务中对断路器的应用也一样, 当调用量过大时, 可以强制让某些调用不进行, 当自动诊断出服务已经恢复了, 断路器再运行调用. 服务中的断路器需要比现实的电力断路器更加智能, 它需要在某些情况下自动断开, 需要在某些情况下恢复, 断开情况下需要走失败的处理逻辑, 它的<code>断开</code>不是真正意义上的<code>断开</code>, 而是允许少量的请求可以通过. 这些某个框架可以做到——<code>Spring Cloud Hystrix</code>;</li>
+</ol>
+<h2 id="Spring-Cloud-Hystrix"><a href="#Spring-Cloud-Hystrix" class="headerlink" title="Spring Cloud Hystrix"></a>Spring Cloud Hystrix</h2><p>Hystrix 是<code>豪猪</code>的意思. 豪猪是一种哺乳动物,全身是刺用以更好的保护自己. 下面是hystrix项目介绍图.</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-pic.png" alt="hystrix"></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Hystrix是由Netfilx开源的一个延迟和容错库, 用于隔离访问远程服务, 防止出现级联失败, 从而提高系统的可用性和容错性. 主要有一下几点:</p>
+<ul>
+<li>包裹请求: 使用HystrixCommand或者HystrixObservableCommand包裹对依赖服务的调用, 每个命令启动一个线程去执行, 使用到了<code>命令模式</code>.</li>
+<li>跳闸模式: 某个服务的错误率超过阈值时, 会自动or手动跳闸, 停止请求该服务一段时间.</li>
+<li>资源隔离: 为每个依赖服务都提供了小的线程池(信号量), 线程池(信号量)被耗尽, 请求将会直接被拒绝, 加快响应.</li>
+<li>监控: 提供了监控api, 可以实时的看到服务依赖调用的状态.</li>
+<li>回退机制: 当被拒绝访问依赖服务的时候, 开发者可以指定一个默认的返回, 例如请求某个列表失败了, 默认会返回一个空的列表, 而不是报错.</li>
+<li>自我恢复: 断路一段时间后, 它会进入半开模式, 来判断是否已经恢复.</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191020/hystrix-command-flow-chart.png" alt="hystrix-command-flow-chart.png"></p>
+<p><strong>第一步:实例化一个命令对象</strong></p>
+<p>首先会构造一个<code>HystrixCommand</code>or<code>HystrixObservableCommand</code>对象, 是对服务调用操作的封装. 从名字上看是使用了<code>命令模式</code>的设计模式. 这两个对象分别对应两个场景.</p>
+<ul>
+<li><code>HystrixCommand</code>: 用在依赖的服务返回单个操作结果的时候</li>
+<li><code>HystrixObservableCommand</code>: 用在依赖的服务返回多个操作结果的时候</li>
+</ul>
+<blockquote>
+<a href="/posts/2019102041455/" title="设计模式-命令模式">设计模式-命令模式</a>
+</blockquote>
+<p><strong>第二步:请求执行命令</strong></p>
+<p>图中可以看到4种命令的执行方式, 其中<code>HystrixCommand</code>有下面两种执行方式.</p>
+<ul>
+<li><code>execute()</code>: 同步执行</li>
+<li><code>queue()</code>: 异步执行, 返回一个Future对象.</li>
+</ul>
+<p>其中<code>HystrixObservableCommand</code>, 能返回多个操作结果, 有下面两种执行方式.</p>
+<ul>
+<li><code>observe()</code>: 返回Observable对象, 代表操作的多个结果, 是一个Hot Observable.</li>
+<li><code>toObservable()</code>: 同样返回Observable对象, 代表操作的多个结果, 但是是一个Cold Observable.</li>
+</ul>
+<p>Hystrix 底层大量使用了 <strong>RxJava</strong>, RxJava的核心内容就包含了<code>Observable</code>, 可以理解其为”事件源”, 和它对应的叫<code>Subscriber</code>, 理解为”订阅者”, 两者通过<code>subscribe</code>发生订阅.</p>
+<blockquote>
+<p>RxJava是一个响应性扩展的Java VM实现:一个通过使用可观察到的序列组合异步和基于事件的程序的库。<br>它扩展了observer模式，以支持数据&#x2F;事件序列，并添加了操作符，允许您以声明的方式组合序列，同时抽象出底层线程、同步、线程安全和并发数据结构等方面的问题。<br>使用例子如下:</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yuda.demo.rxjavademo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rx.Observable;</span><br><span class="line"><span class="keyword">import</span> rx.Subscriber;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * CreateUser: canyuda</span></span><br><span class="line"><span class="comment"> * CreateTime: 2019/11/3 13:51</span></span><br><span class="line"><span class="comment"> * Description:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Observable.create(<span class="keyword">new</span> <span class="title class_">Observable</span>.OnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">call</span><span class="params">(Subscriber&lt;? <span class="built_in">super</span> String&gt; subscriber)</span> &#123;</span><br><span class="line">                subscriber.onNext(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">                subscriber.onNext(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">                subscriber.onCompleted();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).subscribe(<span class="keyword">new</span> <span class="title class_">Subscriber</span>&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCompleted</span><span class="params">()</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Main.onCompleted&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Main.onError&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(String s)</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Main.onNext: s:&quot;</span> + s);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Hot Observable</code>: 发布事件不需要订阅者, 事件执行过程中如果有了订阅者, 订阅者仅可以看到整个局部的过程.</li>
+<li><code>Cold Observable</code>: 发布事件需要订阅者, 没有时进行等待, 有订阅者时事件才会发布, 订阅者能看到整个事件过程.</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong> <code>HystrixCommand</code>其实底层也用到了RxJava, 区别是<code>HystrixCommand</code>保证了返回结果的单一.</p>
+</blockquote>
+<p>源码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> R <span class="title function_">execute</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> queue().get();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> Exceptions.sneakyThrow(decomposeException(e));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Future&lt;R&gt; <span class="title function_">queue</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> Future&lt;R&gt; delegate = toObservable().toBlocking().toFuture();</span><br><span class="line">    <span class="keyword">final</span> Future&lt;R&gt; f = <span class="keyword">new</span> <span class="title class_">Future</span>&lt;R&gt;() &#123;</span><br><span class="line">        <span class="comment">/// 省略实现 </span></span><br><span class="line">        <span class="comment">// 注:仅对cancel()方法进行了修饰</span></span><br><span class="line">        <span class="comment">// 修饰的内容是根据配置判断如果中断:executionIsolationThreadInterruptOnFutureCancel</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span> (f.isDone()) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            f.get();</span><br><span class="line">            <span class="keyword">return</span> f;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="type">Throwable</span> <span class="variable">t</span> <span class="operator">=</span> decomposeException(e);</span><br><span class="line">            <span class="keyword">if</span> (t <span class="keyword">instanceof</span> HystrixBadRequestException) &#123;</span><br><span class="line">                <span class="keyword">return</span> f;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (t <span class="keyword">instanceof</span> HystrixRuntimeException) &#123;</span><br><span class="line">                <span class="type">HystrixRuntimeException</span> <span class="variable">hre</span> <span class="operator">=</span> (HystrixRuntimeException) t;</span><br><span class="line">                <span class="keyword">switch</span> (hre.getFailureType()) &#123;</span><br><span class="line">	<span class="keyword">case</span> COMMAND_EXCEPTION:</span><br><span class="line">	<span class="keyword">case</span> TIMEOUT:</span><br><span class="line">		<span class="keyword">return</span> f;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">throw</span> hre;</span><br><span class="line">	&#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> Exceptions.sneakyThrow(t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>execute()</code>是通过<code>queue()</code>返回的<code>Future</code>的<code>get()</code>实现的同步.</li>
+<li><code>queue()</code> 是通过把<code>Observable</code>转换为<code>BlockingObservable</code>,然后在转换为<code>Future</code>, 然后用另外一个<code>Future</code>包装了一层, 最终返回出<code>Future</code>对象</li>
+</ul>
+<p><strong>第三步:判断响应是否已经缓存</strong></p>
+<p>如果缓存功能开启了, 并且命中了缓存, 那么就会立即以<code>Observable</code>对象的形式返回.</p>
+<p><strong>第四步:线路是否打开</strong></p>
+<p>如果缓存没有命中, 会在执行命令前检测断路器是否开启了.</p>
+<ul>
+<li>开启: 调用过程直接中断, 跳转到fallback处理逻辑</li>
+<li>关闭: 跳转到第五步, 去检测是否有足够的资源来执行命令.</li>
+</ul>
+<p><strong>第五步:线程池&#x2F;队列&#x2F;信号量是否满了</strong></p>
+<p>每一个命令的执行需要占用一定的资源, 可以是线程池, 请求队列, 或者是信号量. 如果这些资源被占满, Hystrix就认为并发太高了, 于是直接跳转到fallback处理逻辑.</p>
+<blockquote>
+<p>线程池: Hystrix为每个依赖的服务提供了专有线程池, 各个依赖服务之间采用舱璧模式(Bulkhead Pattern)隔离</p>
+</blockquote>
+<p><strong>第六步:命令执行者开始执行</strong></p>
+<p>执行 <code>HystrixObservableCommand.construct()</code> 或者 <code>HystrixCommand.run()</code>.</p>
+<p>如果命令设置了时间阈值, 并超过了这个时间, 则会抛一个<code>TimeoutException</code>, 然后跳转到fallback处理逻辑. </p>
+<p>如果正常执行, <code>HystrixObservableCommand</code>返回一个Observable对象; 而<code>HystrixCommand</code>返回一个Observable并发送一个结果,产生<code>onCompleted()</code>的结束通知,</p>
+<p><strong>第七步:计算线路健康度</strong></p>
+<p>执行出结果后, Hystrix会把刚刚执行命令时的<strong>执行状态信息(成功&#x2F;失败&#x2F;拒绝&#x2F;超时)</strong> 反馈给断路器, 断路器会维护一组数组统计这些信息, 并且根据这些信息来判断是否需要打开断路器, 以及如何打开断路器.</p>
+<p><strong>第八步:后备处理</strong></p>
+<p>当命令由于某些原因无法执行时, 执行的降级逻辑, 无法执行的原因有很多, 比如:断路器打开了, 资源被占满了 或者执行时抛异常了.</p>
+<p><code>HystrixObservableCommand</code> 和 <code>HystrixCommand</code> 降级的执行有些区别:</p>
+<ul>
+<li><code>HystrixObservableCommand</code>: <code>resumeWithFallback()</code>返回一个Observable对象, 可以发射多个降级结果</li>
+<li><code>HystrixCommand</code>: <code>getFallback()</code> 返回一个结果.</li>
+</ul>
+<p>具体业务中降级逻辑尽量是能稳定执行的. 如果不能做到, 还可以针对降级逻辑使用Hystrix进行降级, 从而形成级联的降级策略. 但是最终的处理需要是稳定可靠的. 如果降级逻辑出现了异常, 则底层依然会返回一个Observable对象, 但是它是没有任何结果的, 而是通过<code>onError()</code>通知命令立即中断, 最后把异常发送给调用者. 下面是降级逻辑异常的现象:</p>
+<ul>
+<li><code>execute()</code>: 直接抛异常</li>
+<li><code>queue()</code>: 正常返回一个<code>Futrue</code>对象, 但是<code>get()</code>时会抛异常</li>
+<li><code>observe()</code>和<code>toObservable()</code>: 正常返回<code>Observable</code>对象, 当订阅时, 立即会通过调用者的<code>onError()</code>通知中止请求.</li>
+</ul>
+<p><strong>第九步:返回成功结果</strong></p>
+<p>下面可以看到4种处理方式的不同.</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-return-flow.png" alt="hystrix-return-flow"></p>
+<ul>
+<li><code>toObservable()</code> 返回原始的Observable对象, 订阅时才会触发执行.</li>
+<li><code>observe()</code> 先执行<code>toObservable()</code>, 然后立即订阅它, 马上就能开始执行. 并返回一个Observable对象.</li>
+<li><code>queue()</code> 同样是先执行<code>toObservable()</code>, 然后通过<code>toBlocking()</code>转换为一个<code>BlockingObservable</code>对象, 再通过<code>toFuture()</code>转换为一个<code>Future</code>对象, 最后返回这个对象.</li>
+<li><code>execute()</code> 通过<code>queue()</code>返回的<code>Future</code>对象对象, 执行<code>get()</code>方法返回.</li>
+</ul>
+<h3 id="断路器如何工作"><a href="#断路器如何工作" class="headerlink" title="断路器如何工作"></a>断路器如何工作</h3><p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/circuit-breaker.png" alt="circuit-breaker"></p>
+<blockquote>
+<p>图中未画出<code>attemptExecution()</code></p>
+</blockquote>
+<p>断流器核心是<code>HystrixCircuitBreaker</code>接口, 下面我们来看看这个接口能干嘛.</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191103/hystrix-source-1.png" alt="HystrixCircuitBreaker"></p>
+<h4 id="1-5-12版本源码"><a href="#1-5-12版本源码" class="headerlink" title="1.5.12版本源码"></a>1.5.12版本源码</h4><ul>
+<li><p><code>allowRequest()</code>: 每个命令通过它判断是否继续执行, 这是幂等的, 不改变内部状态.</p>
+</li>
+<li><p><code>isOpen()</code>: 当前断路器的开关状态</p>
+</li>
+<li><p><code>markSuccess()</code>: 在”半开路”状态使用, 如果命令执行成功, 调用这个方法关闭断路器.</p>
+</li>
+<li><p><code>markNonSuccess()</code>: 在”半开路”状态使用, 如果命令执行成功, 调用这个方法打开断路器.</p>
+</li>
+<li><p><code>attemptExection()</code>: 在命令执行开始时调用以尝试执行, 这是非幂等的, 它可以修改内部状态.</p>
+</li>
+<li><p><code>Factory</code>类: 维护了一个<code>ConcurrentHashMap&lt;String, HystrixCircuitBreaker&gt;</code> 通过 <code>HystrixCommandKey</code> 找到对应的<code>HystrixCircuitBreaker</code>实例.</p>
+</li>
+<li><p><code>NoOpCircuitBreaker</code>类: 实现了<code>HystrixCircuitBreaker</code>, 啥都不做的断路器, 断路器永远关闭状态.</p>
+</li>
+<li><p><code>HystrixCircuitBreakerImpl</code>类: 实现了<code>HystrixCircuitBreaker</code>, 有5个成员:</p>
+<ul>
+<li><code>HystrixCommandProperties properties</code>: 属性对象</li>
+<li><code>HystrixCommandMetrics metrics</code>: 记录各类度量指标</li>
+<li><code>AtomicReference&lt;Status&gt; status</code>: 断路器状态(关&#x2F;开&#x2F;半开)</li>
+<li><code>AtomicLong circuitOpened</code>: 断路器打开或者上一次测试的时间戳, 断路器关时为-1</li>
+<li><code>AtomicReference&lt;Subscription&gt; activeSubscription</code>: 活动订阅者, 监控metrics中的<code>HealthCounts</code>以修改status, Subscription内容如下:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Subscription <span class="title function_">subscribeToStream</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * This stream will recalculate the OPEN/CLOSED status on every onNext from the health stream</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">return</span> metrics.getHealthCountsStream()</span><br><span class="line">            .observe()</span><br><span class="line">            .subscribe(<span class="keyword">new</span> <span class="title class_">Subscriber</span>&lt;HealthCounts&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCompleted</span><span class="params">()</span> &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(HealthCounts hc)</span> &#123;</span><br><span class="line">                    <span class="comment">// check if we are past the statisticalWindowVolumeThreshold</span></span><br><span class="line">                    <span class="keyword">if</span> (hc.getTotalRequests() &lt; properties.circuitBreakerRequestVolumeThreshold().get()) &#123;</span><br><span class="line">                        <span class="comment">// we are not past the minimum volume threshold for the stat window,</span></span><br><span class="line">                        <span class="comment">// so no change to circuit status.</span></span><br><span class="line">                        <span class="comment">// if it was CLOSED, it stays CLOSED</span></span><br><span class="line">                        <span class="comment">// if it was half-open, we need to wait for a successful command execution</span></span><br><span class="line">                        <span class="comment">// if it was open, we need to wait for sleep window to elapse</span></span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (hc.getErrorPercentage() &lt; properties.circuitBreakerErrorThresholdPercentage().get()) &#123;</span><br><span class="line">                            <span class="comment">//we are not past the minimum error threshold for the stat window,</span></span><br><span class="line">                            <span class="comment">// so no change to circuit status.</span></span><br><span class="line">                            <span class="comment">// if it was CLOSED, it stays CLOSED</span></span><br><span class="line">                            <span class="comment">// if it was half-open, we need to wait for a successful command execution</span></span><br><span class="line">                            <span class="comment">// if it was open, we need to wait for sleep window to elapse</span></span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="comment">// our failure rate is too high, we need to set the state to OPEN</span></span><br><span class="line">                            <span class="keyword">if</span> (status.compareAndSet(Status.CLOSED, Status.OPEN)) &#123;</span><br><span class="line">                                circuitOpened.set(System.currentTimeMillis());</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>下面看看<code>HystrixCircuitBreakerImpl</code>的具体实现吧.</p>
+</blockquote>
+<h5 id="isOpen"><a href="#isOpen" class="headerlink" title="isOpen()"></a>isOpen()</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isOpen</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceOpen().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceClosed().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> circuitOpened.get() &gt;= <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>强制开关未设置的情况下, 判断circuitOpened是否大于0, 大于0表示断路开启.</p>
+<h5 id="allowRequest"><a href="#allowRequest" class="headerlink" title="allowRequest()"></a>allowRequest()</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">allowRequest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceOpen().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceClosed().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (circuitOpened.get() == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (status.get().equals(Status.HALF_OPEN)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> isAfterSleepWindow();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isAfterSleepWindow</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">long</span> <span class="variable">circuitOpenTime</span> <span class="operator">=</span> circuitOpened.get();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">long</span> <span class="variable">currentTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">long</span> <span class="variable">sleepWindowTime</span> <span class="operator">=</span> properties.circuitBreakerSleepWindowInMilliseconds().get();</span><br><span class="line">    <span class="keyword">return</span> currentTime &gt; circuitOpenTime + sleepWindowTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>强制开关未设置的情况下,  判断circuitOpened是否等于-1, 如果不等于, 再判断是否处于半开模式, 如果不是半开模式, 再判断是否处于睡眠窗口之后, 超过睡眠窗口的命令让他执行.</p>
+<h5 id="markSuccess-和markNonSuccess"><a href="#markSuccess-和markNonSuccess" class="headerlink" title="markSuccess()和markNonSuccess()"></a>markSuccess()和markNonSuccess()</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">markSuccess</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (status.compareAndSet(Status.HALF_OPEN, Status.CLOSED)) &#123;</span><br><span class="line">        <span class="comment">//This thread wins the race to close the circuit - it resets the stream to start it over from 0</span></span><br><span class="line">        metrics.resetStream();</span><br><span class="line">        <span class="type">Subscription</span> <span class="variable">previousSubscription</span> <span class="operator">=</span> activeSubscription.get();</span><br><span class="line">        <span class="keyword">if</span> (previousSubscription != <span class="literal">null</span>) &#123;</span><br><span class="line">            previousSubscription.unsubscribe();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">Subscription</span> <span class="variable">newSubscription</span> <span class="operator">=</span> subscribeToStream();</span><br><span class="line">        activeSubscription.set(newSubscription);</span><br><span class="line">        circuitOpened.set(-<span class="number">1L</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">markNonSuccess</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (status.compareAndSet(Status.HALF_OPEN, Status.OPEN)) &#123;</span><br><span class="line">        <span class="comment">//This thread wins the race to re-open the circuit - it resets the start time for the sleep window</span></span><br><span class="line">        circuitOpened.set(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分别负责半开-&gt;关,半开-&gt;开的状态转换, 维护了<code>circuitOpened</code>, 并且<code>markSuccess()</code>还处理了<code>activeSubscription</code>的更新.</p>
+<h5 id="attemptExecution"><a href="#attemptExecution" class="headerlink" title="attemptExecution()"></a>attemptExecution()</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">attemptExecution</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceOpen().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceClosed().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (circuitOpened.get() == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isAfterSleepWindow()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (status.compareAndSet(Status.OPEN, Status.HALF_OPEN)) &#123;</span><br><span class="line">                <span class="comment">//only the first request after sleep window should execute</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>命令请求执行, 断路器开启状态下, 如果超过睡眠窗口时间, 则切换未半开状态, 尝试执行命令.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2019102056528/" data-id="clsbfdtpz007sewol6hzy980f" data-title="SpringCloud-Hystrix" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2019102041455/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          设计模式-命令模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2019101641018/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">设计模式-原型模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

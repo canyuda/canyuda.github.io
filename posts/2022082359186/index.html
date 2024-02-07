@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>零拷贝技术 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="零拷贝是指计算机执行操作时，不需要cpu将数据重一个内存区域拷贝到另外一个内存区域，从而减少上下文切换个cpu的拷贝时间。它的作用是减少网络设备到用户程序空间数据传递过程中的数据拷贝次数、系统调用，实现cpu的零参与，彻底消除cpu在IO过程中的负载。实现零拷贝的技术主要有DMA数据传输技术和内存映射技术。  零拷贝可以减上内核缓冲区和用户进程缓冲区的反复拷贝 零拷贝可以减少用户进程地址空间和内核">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零拷贝技术">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2022082359186/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="零拷贝是指计算机执行操作时，不需要cpu将数据重一个内存区域拷贝到另外一个内存区域，从而减少上下文切换个cpu的拷贝时间。它的作用是减少网络设备到用户程序空间数据传递过程中的数据拷贝次数、系统调用，实现cpu的零参与，彻底消除cpu在IO过程中的负载。实现零拷贝的技术主要有DMA数据传输技术和内存映射技术。  零拷贝可以减上内核缓冲区和用户进程缓冲区的反复拷贝 零拷贝可以减少用户进程地址空间和内核">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220823/IO%E4%B8%AD%E6%96%AD.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220823/DMA%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/%E7%94%A8%E6%88%B7%E6%80%81%E7%9B%B4%E6%8E%A5I_O.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/mmap%2Bwrite.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/sendfile.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/sendfile%2BDMAgathercopy.png">
+<meta property="og:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/splice.png">
+<meta property="article:published_time" content="2022-08-23T12:42:50.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.776Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220823/IO%E4%B8%AD%E6%96%AD.png">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2022-08-零拷贝技术" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2022082359186/" class="article-date">
+  <time class="dt-published" datetime="2022-08-23T12:42:50.000Z" itemprop="datePublished">2022-08-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      零拷贝技术
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>零拷贝是指计算机执行操作时，不需要cpu将数据重一个内存区域拷贝到另外一个内存区域，从而减少上下文切换个cpu的拷贝时间。它的作用是减少网络设备到用户程序空间数据传递过程中的数据拷贝次数、系统调用，实现cpu的零参与，彻底消除cpu在IO过程中的负载。实现零拷贝的技术主要有DMA数据传输技术和内存映射技术。</p>
+<ul>
+<li>零拷贝可以减上内核缓冲区和用户进程缓冲区的反复拷贝</li>
+<li>零拷贝可以减少用户进程地址空间和内核进程地址空间因上下文切换带来的cpu 的额外开销</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="用户空间和内核空间"><a href="#用户空间和内核空间" class="headerlink" title="用户空间和内核空间"></a>用户空间和内核空间</h2><p>操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的权限。为了避免用户进程直接操作内核，保证内核安全，操作系统将虚拟内存划分为两部分，一部分是内核空间（Kernel-space），一部分是用户空间（User-space）。 在 Linux 系统中，内核模块运行在内核空间，对应的进程处于内核态；而用户程序运行在用户空间，对应的进程处于用户态。</p>
+<h3 id="内核空间"><a href="#内核空间" class="headerlink" title="内核空间"></a>内核空间</h3><p>内核空间总是在内存中，它是为操作系统内核准备的。应用程序不允许直接在内核空间进行读写和其他直接调用函数的方式进行操作</p>
+<h3 id="用户空间"><a href="#用户空间" class="headerlink" title="用户空间"></a>用户空间</h3><p>每个用户都有自己的用户空间，处于用户态的进程不允许直接操作内核空间中的数据，所以系统调用的时候需要切换到内核态才可以，用户空间包括：</p>
+<ul>
+<li>运行时栈</li>
+<li>运行时堆</li>
+<li>代码段</li>
+<li>未初始化的数据段</li>
+<li>已初始化的数据段</li>
+<li>内存映射区域</li>
+</ul>
+<h2 id="Linux-I-O读写"><a href="#Linux-I-O读写" class="headerlink" title="Linux I&#x2F;O读写"></a>Linux I&#x2F;O读写</h2><p>linux提供了轮询、I&#x2F;O中断、和DMA传输三种方式进行数据传输。</p>
+<ul>
+<li>其中轮询是基于对I&#x2F;O端口进行不断的检测；</li>
+<li>I&#x2F;O中断是当数据到达磁盘缓冲区时，对cpu发起中断，让cpu完成接下来的传输；</li>
+<li>DMA传输在I&#x2F;O中断的基础上插入DMA磁盘控制器，由DMA负责传输数据，降低cpu的负载。</li>
+</ul>
+<h3 id="I-O中断"><a href="#I-O中断" class="headerlink" title="I&#x2F;O中断"></a>I&#x2F;O中断</h3><p>在DMA出现之前，每次用户读取磁盘数据时，都需要I&#x2F;O中断，每次I&#x2F;O中断都会引起cpu上下稳的切换</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220823/IO%E4%B8%AD%E6%96%AD.png" alt="image"></p>
+<h3 id="DMA传输原理"><a href="#DMA传输原理" class="headerlink" title="DMA传输原理"></a>DMA传输原理</h3><p>DMA 的全称叫直接内存存取（Direct Memory Access），是一种允许外围设备（硬件子系统）直接访问系统主内存的机制。在整个数据传输过程中cpu只在开始和结束的时候做一点工作，而在传输过程中可以去做额外的事情，在大部分时间里，cpu和I&#x2F;O处于并行的状态，大大提升计算机系统的性能。</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220823/DMA%E4%BC%A0%E8%BE%93%E6%A8%A1%E5%BC%8F.png" alt="image"></p>
+<h2 id="传统的I-O模式"><a href="#传统的I-O模式" class="headerlink" title="传统的I&#x2F;O模式"></a>传统的I&#x2F;O模式</h2><p>传统的I&#x2F;O模式，是用户进程通过read()函数先将数据拷贝至用户缓冲区，然后通过write()函数将缓冲区的传输至网络端口。</p>
+<blockquote>
+<p>整个数据读写流程涉及，<br>2次cpu拷贝（1次读过程的内核缓冲区至用户缓冲区，1次写过程的用户缓冲区至socket缓冲区），<br>2次DMA拷贝（1次读过程的数据磁盘缓冲区至内核缓冲区，1次socket缓冲区至网卡），<br>4次上下文切换（read和write函数各两次的用户态和内核态的来回切换）</p>
+</blockquote>
+<h2 id="零拷贝方式"><a href="#零拷贝方式" class="headerlink" title="零拷贝方式"></a>零拷贝方式</h2><ul>
+<li><strong>用户态直接 I&#x2F;O</strong>:应用进程直接访问硬件存储，操作系统只是辅助操作数据传输。这种方式依然会存在用户空间和内核空间的上下文切换，但是数据直接拷贝至用户空间，直接I&#x2F;O减少了一次内核空间拷贝至用户空间操作</li>
+<li><strong>减少数据拷贝次数</strong>:在数据传输过程中，避免用户缓冲区和内核缓冲区之间的数据拷贝，以及数据在系统内核空间的数据拷贝；这也是当下主流的零拷贝实现方式</li>
+<li><strong>写时复制</strong>:写时复制是数据在多进程共享一份数据时，将数据拷贝至自己的用户空间，防止其他进程对数据修改的一种手段</li>
+</ul>
+<h3 id="用户态直接-I-O"><a href="#用户态直接-I-O" class="headerlink" title="用户态直接 I&#x2F;O"></a>用户态直接 I&#x2F;O</h3><p>这种方式直接跨过内核空间，允许用户进程从硬件设备直接获取数据，绕过socket缓冲区，大大的提升了性能</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/%E7%94%A8%E6%88%B7%E6%80%81%E7%9B%B4%E6%8E%A5I_O.png" alt="image"></p>
+<p>用户态I&#x2F;O只适合不需要内核缓冲区的应用程序，这些程序通常有自己的进程地址空间有自己的缓存机制，如数据库管理系统就是这样的。</p>
+<h3 id="减少数据拷贝次数"><a href="#减少数据拷贝次数" class="headerlink" title="减少数据拷贝次数"></a>减少数据拷贝次数</h3><h4 id="mmap-write"><a href="#mmap-write" class="headerlink" title="mmap + write"></a>mmap + write</h4><p>这种方式是用mmap+write代替原来的read+write模式，减少一次cpu拷贝，mmap是linux系统的文件映射方法；使用mmp的目的是减少内核缓冲区至用户缓冲区的过程。</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/mmap%2Bwrite.png" alt="image"></p>
+<ol>
+<li>用户进程向内核通过mmap（）函数发起调用，上下文从用户态转为内核态</li>
+<li>将用户缓冲区和内核读缓冲区进行映射</li>
+<li>cpu利用DMA控制器将数据从磁盘拷贝至内核读缓冲区</li>
+<li>上下文切换为用户态，mmap()函数执行返回</li>
+<li>用户进程发起write（）请求，由用户态转为内核态</li>
+<li>cpu将数据从内核缓冲区拷贝至网络缓冲区</li>
+<li>cpu利用DMA控制器将数据拷贝至网卡</li>
+<li>上下文切换回用户态，write（）函数执行返回</li>
+</ol>
+<p>mmap+write模式整个过程包括4次上下文切换，1次cpu拷贝，2次DMA拷贝</p>
+<p>从上面流程看到mmap+write模式能减少一次拷贝，提升了I&#x2F;O性能；但是这种方式只适合大文件，对于小文件，反而会产生大量的内存碎片，因为内存映射总是要对齐页边界，最小单位是 4 KB，一个 5 KB 的文件将会映射占用 8 KB 内存，也就会浪费 3 KB 内存。</p>
+<h4 id="sendfile"><a href="#sendfile" class="headerlink" title="sendfile"></a>sendfile</h4><p>sendfile在 <strong>linux2.1</strong> 时被引入，目的是减少数据传输过程，通过 sendfile 可以直接在内核空间直接进行I&#x2F;O传输，从而省去内核空间和用户空间的上下文切换，sendfile的I&#x2F;O过程对用户完全不可见，更符合我们对文件传输的理解</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/sendfile.png" alt="image"></p>
+<ol>
+<li>用户进程通过sendfile（）发起文件传输请求，由用户态转为内核态</li>
+<li>cpu利用DMA磁盘控制器将数据从磁盘拷贝至内核缓冲区</li>
+<li>cpu将数据从内核缓冲区拷贝至socket缓冲区</li>
+<li>cpu利用DMA控制器将数据从socket缓冲区拷贝至网卡</li>
+<li>内核态转为用户态，执行sendfile（）函数返回</li>
+</ol>
+<p>基于sendfile的零拷贝，整个过程发生2次上下文切换，一次cpu拷贝，2次DMA拷贝</p>
+<p>相较于mmap方式，sendfile减少了两次的上下文切换，但是引入另外一个问题，就是用户进程无法对数据进行修改，只能单纯完成一次数据传输。</p>
+<h4 id="sendfile-DMA-gather-copy"><a href="#sendfile-DMA-gather-copy" class="headerlink" title="sendfile + DMA gather copy"></a>sendfile + DMA gather copy</h4><p>在 <strong>linux 2.4</strong> 对sendfile进行了修改，引入了 DMA gather copy，将内核缓冲区中的文件描述符记录到了网络缓冲区（内存地址、地址偏移），DMA根据内存地址和地址偏移量将数据拷贝至网卡，减上一次cpu拷贝，这本质上和mmap的原理想类似</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/sendfile%2BDMAgathercopy.png" alt="image"></p>
+<ol>
+<li>用户进程通过sendfile（）函数发起系统调用，由用户态转为内核态</li>
+<li>cpu利用DMA控制器将数据从磁盘拷贝至内核缓冲区</li>
+<li>cpu向socket缓冲区发送文件描述符和文件长度等信息</li>
+<li>cpu利用DMA控制器基于发送的文件描述符等信息，直接从内核缓冲区拷贝至网卡</li>
+<li>内核态转为用户态，sendfile执行返回</li>
+</ol>
+<p>在sendfile + DMA gather copy 模式中，共发生两次上下文切换，两次DMA拷贝，0次cpu拷贝</p>
+<p>sendfile + DMA gather copy 模式同样存在用户进程无法修改数据的问题，而且本身也需要硬件的支持，它只适用于将数据从文件拷贝到 socket 套接字上的传输过程</p>
+<h4 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h4><p>由于sendfile需要硬件设备的支持，在 <strong>linux2.6.17</strong> 版本引入了splice系统调用，不仅不需要硬件的支持，还实现了文件描述符中的零拷贝。splice在内核缓冲区与socket缓冲区之间建立管道（pipeline），避免两者之间的cpu拷贝。</p>
+<p><img src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220824/splice.png" alt="image"></p>
+<ol>
+<li>用户进程通过splice（）发起系统调用，有用户态转为内核态</li>
+<li>cpu利用DMA控制器将数据从磁盘拷贝至内核缓冲区</li>
+<li>cpu在内核缓冲区和socket缓冲区之间建立通道</li>
+<li>cpu利用DMA控制器将数据从网络缓冲区拷贝至网卡</li>
+<li>由内核态转为用户态，splice（）函数返回</li>
+</ol>
+<p>基于splice零拷贝模式，整个过程会发生2次上下文切换，0次cpu拷贝和2次DMA拷贝</p>
+<p>splice 拷贝方式也同样存在用户程序不能对数据进行修改的问题。除此之外，它使用了 Linux 的管道缓冲机制，可以用于任意两个文件描述符中传输数据，但是它的两个文件描述符参数中有一个必须是管道设备。</p>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
+<thead>
+<tr>
+<th>拷贝方式</th>
+<th>CPU拷贝</th>
+<th>DMA拷贝</th>
+<th>上下文切换</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传统方式</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>mmap+write</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>sendfile</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>sendfile+DMA gather copy</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>splice</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2022082359186/" data-id="clsbfdtqs00a5ewolc6qz560l" data-title="零拷贝技术" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/base/" rel="tag">基础</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2022082648519/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          MVCC
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2021102638891/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">通讯协议之ModBus</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

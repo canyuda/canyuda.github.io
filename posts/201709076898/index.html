@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Oracle-基础 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle-基础">
+<meta property="og:url" content="http://blog.canyuda.top/posts/201709076898/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-09-07T10:36:01.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.784Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="Oracle">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Oracle-基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/201709076898/" class="article-date">
+  <time class="dt-published" datetime="2017-09-07T10:36:01.000Z" itemprop="datePublished">2017-09-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/database/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Oracle-基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>略</p>
+<span id="more"></span>
+<blockquote>
+<p>Oracle与MySQL基本类似,下面说的是Oracle独有的一些知识.</p>
+</blockquote>
+<h2 id="表与数据的创建-修改-删除"><a href="#表与数据的创建-修改-删除" class="headerlink" title="表与数据的创建,修改,删除"></a>表与数据的创建,修改,删除</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ol>
+<li>CHAR (固定长度字符类型,2000字节)</li>
+<li>VARCHAR2 (可变长度字符类型,4000字节)</li>
+<li>LONG (大文本类型,2G)</li>
+<li>NUMBER (数值类型)</li>
+</ol>
+<h3 id="数据的增删改"><a href="#数据的增删改" class="headerlink" title="数据的增删改"></a>数据的增删改</h3><p>Orcale的控制台中,对数据的操作需要COMMIT;后才能提交.</p>
+<h2 id="Oracle与JDBC"><a href="#Oracle与JDBC" class="headerlink" title="Oracle与JDBC"></a>Oracle与JDBC</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加载驱动</span></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">         Class.forName(<span class="string">&quot;oracle.jdbc.driver.OracleDriver&quot;</span>);</span><br><span class="line">     &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获得连接</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title function_">getConection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">	<span class="keyword">return</span> DriverManager.getConnection(<span class="string">&quot;jdbc:oracle:thin:@IP地址:1521:orcl&quot;</span>, <span class="string">&quot;账户&quot;</span>, <span class="string">&quot;密码&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//关闭连接</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">closeAll</span><span class="params">(java.sql.ResultSet rs,</span></span><br><span class="line"><span class="params">                                java.sql.Statement stmt, java.sql.Connection conn)</span> &#123;</span><br><span class="line">        <span class="comment">//关闭结果集</span></span><br><span class="line">        <span class="keyword">if</span> (rs != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rs.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//关闭执行对象</span></span><br><span class="line">        <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                stmt.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//关闭执行对象</span></span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="整库的导入与导出"><a href="#整库的导入与导出" class="headerlink" title="整库的导入与导出"></a>整库的导入与导出</h2><p>full&#x3D;y是整库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exp system/密码 full=y</span><br></pre></td></tr></table></figure>
+
+<p>file&#x3D;文件名是指定文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exp system/密码 file=文件名 full=y</span><br></pre></td></tr></table></figure>
+
+<p>导入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">imp system/密码 full=y file=water.dmp</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h4><ol>
+<li>owner&#x3D;wateruser(按用户导入导出)</li>
+<li>tables&#x3D;t_account,t_are(按表导入导出)</li>
+</ol>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="伪列的使用"><a href="#伪列的使用" class="headerlink" title="伪列的使用"></a>伪列的使用</h3><ol>
+<li><p>ROWID</p>
+<p>表中的每一行在数据文件中都有一个物理地址，ROWID 伪列返回的就是该行的物理地址。使用 ROWID 可以快速的定位表中的某一行。ROWID 值可以唯一的标识表中的一行。由于 ROWID 返回的是该行的物理地址，因此使用ROWID 可以显示行是如何存储的。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> rowID,t.<span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> T_area t;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ROWNUM</p>
+<p>查询的结果集的序号.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> rownum,t.<span class="operator">*</span> <span class="keyword">from</span> T_ownertype t;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>外连接使用FROM-WHERE方式时使用<code>(+)</code>来表示显示空值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ow.id,ow.name,ac.year ,ac.month,ac.money <span class="keyword">FROM</span></span><br><span class="line">T_OWNERS ow,T_ACCOUNT ac</span><br><span class="line"><span class="keyword">WHERE</span> ow.id<span class="operator">=</span>ac.owneruuid(<span class="operator">+</span>);<span class="comment">--左外</span></span><br><span class="line"><span class="comment">-- 或者</span></span><br><span class="line"><span class="keyword">WHERE</span> ow.id(<span class="operator">+</span>)<span class="operator">=</span>ac.owneruuid;<span class="comment">--右外</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><blockquote>
+<p>Oracle没有limit语句,所以分页需要特殊处理</p>
+</blockquote>
+<p>三层嵌套来实现分页</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span></span><br><span class="line">	(<span class="keyword">select</span> rownum r,t.<span class="operator">*</span> <span class="keyword">from</span></span><br><span class="line">    	(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> T_account <span class="keyword">order</span> <span class="keyword">by</span> usenum <span class="keyword">desc</span>) t</span><br><span class="line">    <span class="keyword">where</span> rownum <span class="operator">&lt;=</span> <span class="number">20</span>) <span class="comment">-- 有伪列存在where条件不可使用大于</span></span><br><span class="line"><span class="keyword">where</span> r <span class="operator">&gt;</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>最内层:用于得到所有数据,并且排序好.</li>
+<li>中间层:用于使用rownum伪列查询出小于多少的数据.</li>
+<li>最外层:用于控制大于多少的数据.</li>
+</ul>
+<h3 id="常见函数的使用"><a href="#常见函数的使用" class="headerlink" title="常见函数的使用"></a>常见函数的使用</h3><p>查表</p>
+<h3 id="行列转换"><a href="#行列转换" class="headerlink" title="行列转换"></a>行列转换</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> (<span class="keyword">select</span> name <span class="keyword">from</span> T_AREA <span class="keyword">where</span> id<span class="operator">=</span> areaid ) 区域,</span><br><span class="line"><span class="built_in">sum</span>( <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">month</span><span class="operator">&gt;=</span><span class="string">&#x27;01&#x27;</span> <span class="keyword">and</span> <span class="keyword">month</span><span class="operator">&lt;=</span><span class="string">&#x27;03&#x27;</span> <span class="keyword">then</span> money <span class="keyword">else</span></span><br><span class="line"><span class="number">0</span> <span class="keyword">end</span>) 第一季度,</span><br><span class="line"><span class="built_in">sum</span>( <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">month</span><span class="operator">&gt;=</span><span class="string">&#x27;04&#x27;</span> <span class="keyword">and</span> <span class="keyword">month</span><span class="operator">&lt;=</span><span class="string">&#x27;06&#x27;</span> <span class="keyword">then</span> money <span class="keyword">else</span></span><br><span class="line"><span class="number">0</span> <span class="keyword">end</span>) 第二季度,</span><br><span class="line"><span class="built_in">sum</span>( <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">month</span><span class="operator">&gt;=</span><span class="string">&#x27;07&#x27;</span> <span class="keyword">and</span> <span class="keyword">month</span><span class="operator">&lt;=</span><span class="string">&#x27;09&#x27;</span> <span class="keyword">then</span> money <span class="keyword">else</span></span><br><span class="line"><span class="number">0</span> <span class="keyword">end</span>) 第三季度,</span><br><span class="line"><span class="built_in">sum</span>( <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">month</span><span class="operator">&gt;=</span><span class="string">&#x27;10&#x27;</span> <span class="keyword">and</span> <span class="keyword">month</span><span class="operator">&lt;=</span><span class="string">&#x27;12&#x27;</span> <span class="keyword">then</span> money <span class="keyword">else</span></span><br><span class="line"><span class="number">0</span> <span class="keyword">end</span>) 第四季度</span><br><span class="line"><span class="keyword">from</span> T_ACCOUNT <span class="keyword">where</span> <span class="keyword">year</span><span class="operator">=</span><span class="string">&#x27;2012&#x27;</span> <span class="keyword">group</span> <span class="keyword">by</span> areaid</span><br></pre></td></tr></table></figure>
+
+<p>每一列使用内联函数或者子查询来得到数据.</p>
+<h3 id="分析函数"><a href="#分析函数" class="headerlink" title="分析函数"></a>分析函数</h3><p>用于排名显示</p>
+<ol>
+<li><p>rank()</p>
+<p>相同的值排名相同,排名跳跃</p>
+</li>
+<li><p>dense_rank()</p>
+<p>相同的值排名相同,排名连续</p>
+</li>
+<li><p>row_number()</p>
+<p>排名连续.</p>
+</li>
+</ol>
+<p>例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> usenum <span class="keyword">desc</span> ),usenum </span><br><span class="line"><span class="keyword">from</span> T_ACCOUNT;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> usenum <span class="keyword">desc</span> ),usenum</span><br><span class="line"><span class="keyword">from</span> T_ACCOUNT;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> usenum <span class="keyword">desc</span> ),usenum</span><br><span class="line"><span class="keyword">from</span> T_ACCOUNT;</span><br></pre></td></tr></table></figure>
+
+<h3 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h3><ol>
+<li><p>UNION [ALL]</p>
+<p>并集[包括重复数据]</p>
+</li>
+<li><p>INTERSECT</p>
+<p>交集</p>
+</li>
+<li><p>MINUS</p>
+<p>差集</p>
+</li>
+</ol>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="普通视图"><a href="#普通视图" class="headerlink" title="普通视图"></a>普通视图</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">OR</span> REPLACE] [FORCE] <span class="keyword">VIEW</span> view_name <span class="comment">--force 无表也会创建</span></span><br><span class="line"><span class="keyword">AS</span> subquery</span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">CHECK</span> OPTION ] <span class="comment">-- 遵守表内约束</span></span><br><span class="line">[<span class="keyword">WITH</span> READ <span class="keyword">ONLY</span>]	<span class="comment">-- 只读</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="物化视图"><a href="#物化视图" class="headerlink" title="物化视图"></a>物化视图</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> METERIALIZED <span class="keyword">VIEW</span> view_name</span><br><span class="line">[BUILD IMMEDIATE <span class="operator">|</span> BUILD DEFERRED ]	<span class="comment">-- 构建视图模式 数据创建自动导入模式和非自动导入模式</span></span><br><span class="line">REFRESH [FAST<span class="operator">|</span>COMPLETE<span class="operator">|</span>FORCE]	<span class="comment">-- 刷新模式 增量|全部|系统自选</span></span><br><span class="line">[</span><br><span class="line"><span class="keyword">ON</span> [<span class="keyword">COMMIT</span> <span class="operator">|</span>DEMAND ] <span class="operator">|</span> <span class="keyword">START</span> <span class="keyword">WITH</span> (start_time) NEXT <span class="comment">-- 数据更新后:手动导入,自动导入模式</span></span><br><span class="line">(next_time)</span><br><span class="line">]</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">subquery</span><br></pre></td></tr></table></figure>
+
+<p>手动刷新代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">begin</span><br><span class="line">DBMS_MVIEW.refresh(&#x27;物化视图名&#x27;,&#x27;C&#x27;);</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<h4 id="增量刷新物化视图"><a href="#增量刷新物化视图" class="headerlink" title="增量刷新物化视图"></a>增量刷新物化视图</h4><ol>
+<li>需要先创建视图日志</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> materialized <span class="keyword">view</span> log <span class="keyword">on</span> t_address <span class="keyword">with</span> rowid；</span><br><span class="line"><span class="keyword">create</span> materialized <span class="keyword">view</span> log <span class="keyword">on</span> t_area <span class="keyword">with</span> rowid</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建物化视图</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> materialized <span class="keyword">view</span> mv_address4</span><br><span class="line">refresh fast</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> ad.rowid adrowid ,ar.rowid arrowid, ad.id,ad.name</span><br><span class="line">adname,ar.name ar_name</span><br><span class="line"><span class="keyword">from</span> t_address ad,t_area ar</span><br><span class="line"><span class="keyword">where</span> ad.areaid<span class="operator">=</span>ar.id;</span><br></pre></td></tr></table></figure>
+
+<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><p>Oracle没有auto_increatment属性使用序列实现.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> sequence myseq</span><br><span class="line">increment <span class="keyword">by</span> <span class="number">1</span><span class="operator">|</span><span class="number">-1</span>	<span class="comment">--正为增加,负为减少</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">with</span> <span class="number">1</span>	<span class="comment">-- 开始于</span></span><br><span class="line">maxvalue <span class="number">100</span>	<span class="comment">-- 最大</span></span><br><span class="line">minvalue <span class="number">1</span>		<span class="comment">-- 最小</span></span><br><span class="line"><span class="keyword">cycle</span><span class="operator">|</span>nocycle  <span class="comment">-- 是否循环</span></span><br><span class="line">cache <span class="number">20</span><span class="operator">|</span>nocache	<span class="comment">-- 是否缓存,默认20</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="同义词"><a href="#同义词" class="headerlink" title="同义词"></a>同义词</h2><p>想到与别名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> [public] synonym mysyn <span class="keyword">for</span> 表名</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>其他略</p>
+<p>反向链索引: 对于连续的字段,使用其来打乱顺序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> index ind_name <span class="keyword">on</span> 表名(列名) reverse;</span><br></pre></td></tr></table></figure>
+
+<p>位图索引: 用于对枚举类型的列加索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> bitmap index 索引名 <span class="keyword">on</span> 表名(列名);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="PL-SQL"><a href="#PL-SQL" class="headerlink" title="PL&#x2F;SQL"></a>PL&#x2F;SQL</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">declare</span></span><br><span class="line"><span class="comment">--声明变量</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="comment">--代码逻辑</span></span><br><span class="line">[exception</span><br><span class="line"><span class="comment">--异常处理</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>声明格式 : 变量名 类型(长度)</p>
+<p>赋值语法: 变量名:&#x3D;变量值</p>
+<h3 id="属性类型"><a href="#属性类型" class="headerlink" title="属性类型"></a>属性类型</h3><p>使用表的类型,而不用明确指定</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">v_usenum T_ACCOUNT.USENUM<span class="operator">%</span>TYPE;<span class="comment">--水费字数</span></span><br><span class="line">v_num0 T_ACCOUNT.NUM0<span class="operator">%</span>TYPE;<span class="comment">--上月字数</span></span><br><span class="line"><span class="comment">-- 或者</span></span><br><span class="line">v_account T_ACCOUNT<span class="operator">%</span>ROWTYPE;<span class="comment">--记录型</span></span><br></pre></td></tr></table></figure>
+
+<p><code>%ROWTYPE</code>推荐使用</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>系统自带的21个;重要的有NO-DATA-FOUND和TOO-MANY-ROWS</p>
+<p>捕获方式:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exception</span><br><span class="line"><span class="keyword">when</span> 异常类型 <span class="keyword">then</span></span><br><span class="line">异常处理逻辑</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件判断-循环"><a href="#条件判断-循环" class="headerlink" title="条件判断,循环"></a>条件判断,循环</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span></span><br><span class="line">v_num number:<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">loop</span><br><span class="line">dbms_output.put_line(v_num);</span><br><span class="line">v_num:<span class="operator">=</span>v_num<span class="operator">+</span><span class="number">1</span>;</span><br><span class="line">exit <span class="keyword">when</span> v_num<span class="operator">&gt;</span><span class="number">100</span>;</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">v_num number:<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">while v_num<span class="operator">&lt;=</span><span class="number">100</span></span><br><span class="line">loop</span><br><span class="line">dbms_output.put_line(v_num);</span><br><span class="line">v_num:<span class="operator">=</span>v_num<span class="operator">+</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">for</span> v_num <span class="keyword">in</span> <span class="number">1.</span><span class="number">.100</span></span><br><span class="line">loop</span><br><span class="line">dbms_output.put_line(v_num);</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [ <span class="keyword">OR</span> REPLACE ] <span class="keyword">FUNCTION</span> 函数名称</span><br><span class="line">（参数名称 参数类型, 参数名称 参数类型, ...）</span><br><span class="line"><span class="keyword">RETURN</span> 结果变量数据类型</span><br><span class="line"><span class="keyword">IS</span></span><br><span class="line">变量声明部分;</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">逻辑部分;</span><br><span class="line"><span class="keyword">RETURN</span> 结果变量;</span><br><span class="line">[EXCEPTION</span><br><span class="line">异常处理部分]</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p>参数列表中可以使用 out 来输出数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [ <span class="keyword">OR</span> REPLACE ] <span class="keyword">PROCEDURE</span> 存储过程名称</span><br><span class="line">（参数名 类型, 参数名 类型, 参数名 类型）</span><br><span class="line"><span class="keyword">IS</span><span class="operator">|</span><span class="keyword">AS</span></span><br><span class="line">变量声明部分;</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">逻辑部分</span><br><span class="line">[EXCEPTION</span><br><span class="line">异常处理部分]</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">procedure</span> pro_owners_add</span><br><span class="line">(</span><br><span class="line">v_name varchar2,</span><br><span class="line">v_addressid number,</span><br><span class="line">v_housenumber varchar2,</span><br><span class="line">v_watermeter varchar2,</span><br><span class="line">v_type number,</span><br><span class="line">v_id <span class="keyword">out</span> number</span><br><span class="line">)</span><br><span class="line"><span class="keyword">is</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">select</span> seq_owners.nextval <span class="keyword">into</span> v_id <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T_OWNERS</span><br><span class="line"><span class="keyword">values</span>( v_id,v_name,v_addressid,v_housenumber,v_watermete</span><br><span class="line">r,sysdate,v_type );</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span></span><br><span class="line">v_id number;<span class="comment">--定义传出参数的变量</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">pro_owners_add(<span class="string">&#x27;王旺旺&#x27;</span>,<span class="number">1</span>,<span class="string">&#x27;922-3&#x27;</span>,<span class="string">&#x27;133-7&#x27;</span>,<span class="number">1</span>,v_id); <span class="comment">--v_id会被存储过程所赋值</span></span><br><span class="line">DBMS_OUTPUT.put_line(<span class="string">&#x27;增加成功,ID:&#x27;</span><span class="operator">||</span>v_id);</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">or</span> REPLACE] <span class="keyword">TRIGGER</span> 触发器名</span><br><span class="line">BEFORE <span class="operator">|</span> AFTER</span><br><span class="line">[<span class="keyword">DELETE</span> ][[<span class="keyword">or</span>] <span class="keyword">INSERT</span>] [[<span class="keyword">or</span>]<span class="keyword">UPDATE</span> [<span class="keyword">OF</span> 列名]]</span><br><span class="line"><span class="keyword">ON</span> 表名</span><br><span class="line">[<span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="type">ROW</span> ][<span class="keyword">WHEN</span>(条件) ] <span class="comment">-- 行级,或者非行级(一般都写行级,加上FOR EACH ROW)</span></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line"><span class="comment">-- ....</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">PLSQL 块</span><br><span class="line"><span class="keyword">End</span> ；</span><br></pre></td></tr></table></figure>
+
+<p>用于表中,可以绑定到字段,当字段发生改变,或表发生改变,就会触发开关,根据before或者after来决定之前或者之后来执行触发器的内容.</p>
+<h4 id="对于PLSQL块"><a href="#对于PLSQL块" class="headerlink" title="对于PLSQL块"></a>对于PLSQL块</h4><p>可以使用<code>:OLD</code>,<code>:NEW</code> 来代表语句执行前,后的数据.例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">trigger</span> tri_account_updatenum1</span><br><span class="line">before</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">of</span> num1 <span class="comment">-- 每当num1列发生改变</span></span><br><span class="line"><span class="keyword">on</span> t_account</span><br><span class="line"><span class="keyword">for</span> <span class="keyword">each</span> <span class="type">row</span></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">:new.usenum:<span class="operator">=</span>:new.num1<span class="operator">-</span>:new.num0; <span class="comment">-- usenum就会根据num1-num0来得到</span></span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>insert 没有old,有new</li>
+<li>update 都有</li>
+<li>delete 有old,没有new</li>
+</ul>
+<p>对于before可以改变new的数据,对于after只能获取到值,而不可以改变</p>
+<p>after的例子:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--创建业主名称修改日志表:用于记录业主更改前后的名称</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_owners_log</span><br><span class="line">(</span><br><span class="line">updatetime <span class="type">date</span>,</span><br><span class="line">ownerid number,</span><br><span class="line">oldname varchar2(<span class="number">30</span>),</span><br><span class="line">newname varchar2(<span class="number">30</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">--创建后置触发器，自动记录业主更改前后日志</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">trigger</span> tri_owners_log</span><br><span class="line">after</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">of</span> name</span><br><span class="line"><span class="keyword">on</span> t_owners北京市昌平区建材城西路金燕龙办公楼一层 电话：<span class="number">400</span><span class="number">-618</span><span class="number">-9090</span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">each</span> <span class="type">row</span></span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_owners_log</span><br><span class="line"><span class="keyword">values</span>(sysdate,:old.id,:old.name,:new.name);</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/201709076898/" data-id="clsbfdtnh0015ewold7j70z29" data-title="Oracle-基础" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017090710202/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          各种配置文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017082510203/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Java-注解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

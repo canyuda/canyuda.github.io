@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JVM之内存区域与内存溢出异常 | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。 运行时数据区域Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM之内存区域与内存溢出异常">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017061562334/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="概述与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。 运行时数据区域Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-06-15T06:23:17.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.779Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-JVM之内存区域与内存溢出异常" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2017061562334/" class="article-date">
+  <time class="dt-published" datetime="2017-06-15T06:23:17.000Z" itemprop="datePublished">2017-06-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JVM之内存区域与内存溢出异常
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <span id="more"></span>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>与C++程序员不同，Java程序员把内存的控制权交给了Java虚拟机，一旦出现内存泄露和溢出等方面的问题，了解Java虚拟机就显得特别重要，排查错误需要对Java虚拟机的内存管理机制有所了解。</p>
+<h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。这些区域都有各自用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。</p>
+<p>运行时数据区分为：所有线程共享的数据区和线程隔离的数据区。</p>
+<p>线程隔离的数据区有：程序计数器、Java虚拟机栈、本地方法栈。</p>
+<p>所有线程共享的数据区有：方法区和堆。</p>
+<p>下面进行一一介绍：</p>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>程序计数器是一块较小的内存空间，通俗的讲它就是当前线程所执行的字节码的行号指示器，概念模型中，字节码解释器就是通过改变这个计数器的值来选取下一条需要执行的字节码指令。特点：各条线程都有一个特有的程序计数器，独立存储。</p>
+<p>如果该线程正在执行一个Java方法，这个计数器记录的是正在执行的虚拟机字节码指定地址：如果执行的是Native方法，这个计数器值为空（Undefined）。</p>
+<p>虚拟机规范中唯一没有规定任何OutOfMemoryError情况的区域。</p>
+<h3 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h3><p>线程私有的，生命周期同线程一样。描述的是Java方法执行的内存模型：</p>
+<blockquote>
+<p>每个方法在执行的时候会创建一个栈帧（Stack Frame）用于存储<br>局部变量表<br>操作数栈<br>动态链接<br>方法出口等信息。</p>
+</blockquote>
+<p>每个方法从调用直到完成的过程，对应这一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<p><strong>我的声音:</strong> 虚拟机栈中存放了一个挺重要的东西，叫局部变量表。局部变量表中包含了：</p>
+<ul>
+<li>编译器可知的各种基本数据类型（boolean、btye、char、short、int、float、long、double）</li>
+<li>对象引用（reference类型）(不是对象本身,可能是一个指向对象起始地址的引用指针,也可能是与此对象相关的位置)</li>
+<li>returnAddress类型(指向一条字节码指令的地址)</li>
+</ul>
+<p><strong>注:</strong> 其中64位长度的long和double类型的数据会占2个局部变量空间,其余的占1个.并且局部变量表所需的内存空间在编译期间完成分配.进入一个方法时,这个方法需要在帧中分配的空间是完全确定的.方法运行过程中不会改变局部变量表的大小.</p>
+<p>该区域存在两个异常状况:</p>
+<ol>
+<li>如果线程请求的栈深度大于虚拟机允许的深度,会抛出StackOverflowError异常.</li>
+<li>如果虚拟机栈可以动态拓展,并且拓展时无法得到足够的内存,就会抛出OutOfMemoryError异常.</li>
+</ol>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>本地方法栈(Native Method Stack) 与虚拟机栈所发挥的作用非常类似,它们的区别在于:虚拟机栈为虚拟机执行Java方法(字节码)服务;而本地方法栈则为虚拟机用到的Native方法服务.(虚拟机规范对其没有强制规定,例如Sun HotSpot虚拟机把虚拟机栈与本地方法栈合二为一).</p>
+<p>本地方法栈与虚拟机栈一样会抛出StackOverflowError和OutOfMemoryError异常.</p>
+<h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><p>Java Heap特别重要,是虚拟机所管理的内存中最大的区域,并且被所有线程所共有,用于存放对象实例,几乎所有的对象实例都在这里分配内存.</p>
+<p>Java堆是GC管理的主要区域.虚拟机规范规定,Java堆可以是物理上不连续的内存空间.</p>
+<p>如果堆中没有内存用来完成实例的分配,并且无法再拓展,就会抛出OutOfMemoryError异常.</p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><p>Method Area与Java堆一样,是线程共享的内存,用于存储已经被虚拟机加载的:</p>
+<ul>
+<li>类信息</li>
+<li>常量</li>
+<li>静态变量</li>
+<li>即时编译器编译后的代码</li>
+<li>等等数据</li>
+</ul>
+<blockquote>
+<p><strong>我的声音:</strong> 方法区中的数据很难被GC回收,回收主要是常量池的回收和对类型的卸载,代码中直接写的<code>&quot;字符串&quot;</code>,<code>1</code>,<code>true</code>等等就会在方法区中保存.</p>
+</blockquote>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>Runtime Constant Pool是方法区的一部分.详情看书&lt;&lt;深入理解Java虚拟机&gt;&gt;.</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>Direct Memory 详情看书&lt;&lt;深入理解Java虚拟机&gt;&gt;.</p>
+<h2 id="HotSpot虚拟机对象探秘"><a href="#HotSpot虚拟机对象探秘" class="headerlink" title="HotSpot虚拟机对象探秘"></a>HotSpot虚拟机对象探秘</h2><p>移HotSpot虚拟机为例,探讨其在Java堆中对象分配,布局和访问全过程.</p>
+<h3 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h3><p>下面说的对象是普通对象,并不包括:数组和Class对象等.</p>
+<p>当虚拟机遇到了一个new指令时,首先去检查这个指令的参数是否能在常量池中定位到一个类的符号引用,并且检查该符号引用代表的类是否已经被加载,解析和初始化过.如果没有就会先执行相应类的类加载过程.</p>
+<p>类加载并且检查通过后,虚拟机将会给新生的对象分配内存.内存大小在类加载完成后就完全确定,(分配内存就是从Java堆中划出一个已定大小的区域给此对象实例),分配主要有两种方式:</p>
+<h4 id="1-指针碰撞"><a href="#1-指针碰撞" class="headerlink" title="1.指针碰撞"></a>1.指针碰撞</h4><p>如果Java堆中内存是规整的,就像一个整齐的仓库,已用的空间整齐的摆放着实例对象,中间放一个指针用于分界点的指示器,已用和未用的空间泾渭分明.有新的对象需要加入时,就把指示器移动一定大小德空间,然后再把对象放入进去.</p>
+<h4 id="2-空闲列表"><a href="#2-空闲列表" class="headerlink" title="2.空闲列表"></a>2.空闲列表</h4><p>如果Java堆中内存是不规整的,就像一个”杂乱的仓库”,可用空间和不可以空间交错,此时虚拟机就要维护一个列表,记录了哪些区域是可用的.分配空间的时候,从列表中找到一块足够大的区域划分出去,再更新列表的记录即可.</p>
+<p>这两种方式主要由Java堆是否规整来决定,如果规整就用指针碰撞,否则用空闲列表;而是否规整又由采用的垃圾收集器是否带有压缩整理功能决定.</p>
+<p>划分空间也是门学问,虚拟机中频繁有对象产生和销毁,A和B同时需要分配内存时,虚拟机需要解决个冲突的问题.解决这个问题有两个方案.</p>
+<ol>
+<li>对分配内存空间的动作进行同步处理.</li>
+<li>每个线程有一小块内存区域,称为本地线程分配缓存,不同线程的操作区域不同,当一小块满了后才需要同步锁定.</li>
+</ol>
+<p>内存分配完成后,虚拟机需要将分配完成的空间初始化为零值,接下来虚拟机对对象进行设置.完成了后对于虚拟机来说,一个对象产生了.但是对于java程序还没结束,init方法执行后,初始化完成后才能算是对象被new出来了.</p>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>略</p>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>Java虚拟机栈中的本地变量表中,有reference类型的对象引用,根据它的指向来确定是代表那个实例对象,目前有两种主流的访问方式,分别为:</p>
+<h4 id="使用句柄"><a href="#使用句柄" class="headerlink" title="使用句柄"></a>使用句柄</h4><p>本地变量表中的reference类型先指向Java堆中的句柄池,句柄中包含了对象实例数据与类型数据各自的具体地址,这些地址指向了Java堆中的对象或者方法区中类型数据.</p>
+<h4 id="使用直接指针"><a href="#使用直接指针" class="headerlink" title="使用直接指针"></a>使用直接指针</h4><p>本地变量表中的reference类型直接指向Java堆中的实例对象,如果实例对象包含了类型数据,则由对象实例中的类型数据指针指向方法区中的对象类型数据.</p>
+<p>这两种方法各有优势,使用句柄访问好处是:reference中存储的是稳定的句柄地址,在对象被移动的时候(垃圾回收时需要整理内存,所以要移动),只要改版句柄中的实例数据指针,而reference本身不需要改变.</p>
+<p>使用直接指针的好处在于,速度快,虚拟机中的定位需要耗时,它节省了指针定位的时间开销.<strong>注意:目前主要用的是直接指针,HotSpot也是,使用句柄比较罕见.</strong></p>
+<h2 id="实战-OutOfMemoryError异常"><a href="#实战-OutOfMemoryError异常" class="headerlink" title="实战:OutOfMemoryError异常"></a>实战:OutOfMemoryError异常</h2><p>略</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2017061562334/" data-id="clsbfdtn5000gewolcy9q19wr" data-title="JVM之内存区域与内存溢出异常" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/2017062025290/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          JVM之垃圾收集器与内存分配策略
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/2017061455468/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">设计模式-六大设计原则（三）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

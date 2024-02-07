@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>基于SSM实现高并发秒杀API(高并发) | 灿若繁星</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SSM实现高并发秒杀API(高并发)">
+<meta property="og:url" content="http://blog.canyuda.top/posts/2017110924161/index.html">
+<meta property="og:site_name" content="灿若繁星">
+<meta property="og:description" content="略">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-09T09:26:14.000Z">
+<meta property="article:modified_time" content="2022-11-19T10:40:57.790Z">
+<meta property="article:author" content="灿若繁星先生">
+<meta property="article:tag" content="个人项目">
+<meta property="article:tag" content="高并发">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灿若繁星</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">个人空间</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.canyuda.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-基于SSM实现高并发秒杀API-高并发" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/posts/2017110924161/" class="article-date">
+  <time class="dt-published" datetime="2017-11-09T09:26:14.000Z" itemprop="datePublished">2017-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      基于SSM实现高并发秒杀API(高并发)
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>略</p>
+<span id="more"></span>
+<h2 id="秒杀系统高并发优化"><a href="#秒杀系统高并发优化" class="headerlink" title="秒杀系统高并发优化"></a>秒杀系统高并发优化</h2><h3 id="高并发发生在哪"><a href="#高并发发生在哪" class="headerlink" title="高并发发生在哪?"></a>高并发发生在哪?</h3><h4 id="详情页"><a href="#详情页" class="headerlink" title="详情页"></a>详情页</h4><h5 id="为什么要单独获取系统时间"><a href="#为什么要单独获取系统时间" class="headerlink" title="为什么要单独获取系统时间?"></a>为什么要单独获取系统时间?</h5><p>等待秒杀时,用户会大量刷新页面**(解决::使用CDN,detail页面静态化,静态资源css,js)**,此时的时间就需要通过请求来获取了.</p>
+<h5 id="CDN是个啥"><a href="#CDN是个啥" class="headerlink" title="CDN是个啥?"></a>CDN是个啥?</h5><ol>
+<li>(内容分发网络)加速用户获取数据的系统;</li>
+<li>部署在离用户最近的网络节点;</li>
+<li><strong>命中CDN后不用访问后端服务器;</strong></li>
+<li>互联网公司自己搭建或租用CDN;</li>
+</ol>
+<h5 id="获取系统时间不用优化"><a href="#获取系统时间不用优化" class="headerlink" title="获取系统时间不用优化"></a>获取系统时间不用优化</h5><p>java访问一次内存(Cacheline)大约10ns,特别小,一秒一亿次,获取系统时间没有任何后端访问,仅仅是<code>new Date()</code>,然后输出;</p>
+<h5 id="秒杀地址接口"><a href="#秒杀地址接口" class="headerlink" title="秒杀地址接口"></a>秒杀地址接口</h5><ol>
+<li>无法使用CDN缓存,随着时间接口是变化的(接口从不可访问,到可以访问,再到不可访问的变化,即等秒杀,秒杀,过期);</li>
+<li>适合服务器端缓存:如redis等,可以抗一秒10万次的qps,还可以做集群,可以抗百万次的qps;</li>
+<li>一致性维护成本低,通过业务代码很容易同步数据库和缓存里的数据;</li>
+</ol>
+<p><strong>优化</strong>: 先查询redis,如果有数据就从redis中取得,如果没有就从mysql中取,然后保存到redis中,下一次访问就从redis中取,redis中还有限制时间的配置,例如:配置半小时后redis中的数据过期,过期后直接穿透redis来访问mysql,或者mysql更新时主动更新redis;</p>
+<h4 id="秒杀操作"><a href="#秒杀操作" class="headerlink" title="秒杀操作"></a>秒杀操作</h4><h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><ol>
+<li>无法使用CDN,因为它存在写操作</li>
+<li>后端缓存困难:库存问题</li>
+<li>一行数据竞争:热点商品</li>
+</ol>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><ol>
+<li>执行秒杀</li>
+<li>原子计数器 实现减库存 使用redis等Nosql</li>
+<li>记录行为消息 实现消息转移 使用分布式MQ</li>
+<li>消费消息并落地 实现数据保存 使用mysql</li>
+<li>结束</li>
+</ol>
+<p>优点:可以抗很高并发,redis和mq都可以支持很高的qps<br>缺点:运维成本和稳定性:NoSQL和MQ等;开发成本:数据一致性和回滚方案等;幂等性保证:重复秒杀问题;不适合新手:比较复杂<br>运用:抢红包</p>
+<blockquote>
+<p>为什么不用mysql解决?mysql低效?真的低效吗?测试后发现一条update可以有约4万QPS的压力(一个商品一秒可以支持4万次)</p>
+</blockquote>
+<h5 id="Java控制事务的分析"><a href="#Java控制事务的分析" class="headerlink" title="Java控制事务的分析"></a>Java控制事务的分析</h5><p>对于同一个商品的减库存,当A用户update并且insert时,它会锁住该行(该商品),其他用户B,C,D等处于等待,等ACommit或者RollBack后,其他用户才能获得锁,然后B开始Update,Insert并加锁,然后C,D,E等处于等待状态.很明显,这样串行化的操作会让后面的用户等待相当长的一段时间,因为他要等前面所有的用户都释放掉锁才会执行.</p>
+<p><strong>瓶颈分析</strong>:</p>
+<p>update到insert到commit&#x2F;rollback , 这里面每个过程中都存在网络延迟和java的GC操作 ,都会耗费想当多的时间.<strong>所以啊!!这个锅,咱mysql不背</strong>.</p>
+<blockquote>
+<p>行级锁在Commit&#x2F;RollBack后释放,所以重点在如何减少行级锁持有时间</p>
+</blockquote>
+<p><strong>延迟问题</strong>很关键,经测试,同城机房网络:(0.5ms-2ms) max(1000qps),update后JVM的GC(50ms) max(20qps).如果出现一次GC,况且还很频繁出现,那就等的久了,累计下来,最后个用户要等到不耐烦的.跟何况还可能是异地访问(20ms).</p>
+<p>判断Update更新库存成功</p>
+<ol>
+<li>不出错</li>
+<li>客户端确认Update影响记录数</li>
+</ol>
+<p>*<em>优化思路: 把客户端逻辑放到MySQL服务器上,避免网络延迟和GC影响</em><br><strong>优化方案: 1.定制SQL方案,修改MySQL源码(技术要6,大公司搞的)例如update后面加auto_commit(当记录数为1的时候不会滚,为其他就回滚);2.存储过程,服务器端控制事务</strong></p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
+<li>前端控制-暴露接口,按钮防重复</li>
+<li>动静态数据缓存-CDN缓存,后端缓存</li>
+<li>事务竞争优化-减少事务锁时间</li>
+</ul>
+<h3 id="开始优化"><a href="#开始优化" class="headerlink" title="开始优化"></a>开始优化</h3><h4 id="spring-dao-xml添加"><a href="#spring-dao-xml添加" class="headerlink" title="spring-dao.xml添加"></a>spring-dao.xml添加</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- redis --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisPoolConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;redis.clients.jedis.JedisPoolConfig&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;300&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxWaitMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;3000&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnBorrow&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisConnectionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hostName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;localhost&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;port&quot;</span> <span class="attr">value</span>=<span class="string">&quot;6379&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;database&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;root&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;poolConfig&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;redisPoolConfig&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisTemplate&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.core.RedisTemplate&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;connectionFactory&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;redisConnectionFactory&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--序列化--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;keySerializer&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;valueSerializer&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.serializer.JdkSerializationRedisSerializer&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="RedisDao-java编写"><a href="#RedisDao-java编写" class="headerlink" title="RedisDao.java编写"></a>RedisDao.java编写</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisDao</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;String, Seckill&gt; redisTemplate;</span><br><span class="line">    <span class="keyword">public</span> Seckill <span class="title function_">getSeckill</span><span class="params">(<span class="type">long</span> seckillId)</span> &#123;</span><br><span class="line">        <span class="type">Seckill</span> <span class="variable">seckill</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;seckill:&quot;</span> + seckillId;</span><br><span class="line">        seckill = redisTemplate.boundValueOps(key).get();</span><br><span class="line">        <span class="keyword">return</span> seckill;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSeckill</span><span class="params">(Seckill seckill)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;seckill:&quot;</span> + seckill.getSeckillId();</span><br><span class="line">        redisTemplate.boundValueOps(key).set(seckill, <span class="number">1</span>, TimeUnit.HOURS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="exportSeckillUrl-修改"><a href="#exportSeckillUrl-修改" class="headerlink" title="exportSeckillUrl()修改"></a>exportSeckillUrl()修改</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Exposer <span class="title function_">exportSeckillUrl</span><span class="params">(<span class="type">long</span> seckillId)</span> &#123;</span><br><span class="line">    <span class="comment">//通过Redis进行缓存 使用超时来维护redis</span></span><br><span class="line">    <span class="comment">//1. 访问redis</span></span><br><span class="line">    <span class="type">Seckill</span> <span class="variable">seckill</span> <span class="operator">=</span> redisDao.getSeckill(seckillId);</span><br><span class="line">    <span class="comment">//如果不为空,就跳过数据库查找走Redis</span></span><br><span class="line">    <span class="keyword">if</span> (seckill == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">//访问数据库</span></span><br><span class="line">        seckill = seckillDao.queryById(seckillId);</span><br><span class="line">        <span class="keyword">if</span> (seckill == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//数据库查不到</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Exposer</span>(<span class="literal">false</span>, seckillId);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//查询到了放入redis</span></span><br><span class="line">            redisDao.setSeckill(seckill);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Date</span> <span class="variable">startTime</span> <span class="operator">=</span> seckill.getStartTime();</span><br><span class="line">    <span class="type">Date</span> <span class="variable">endTime</span> <span class="operator">=</span> seckill.getEndTime();</span><br><span class="line">    <span class="type">Date</span> <span class="variable">nowTime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">    <span class="keyword">if</span> (nowTime.getTime() &lt; startTime.getTime() || nowTime.getTime() &gt; endTime.getTime()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Exposer</span>(<span class="literal">false</span>, seckillId, nowTime.getTime(), endTime.getTime());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Md5转换为字符串,不可逆</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">md5</span> <span class="operator">=</span> getMD5(seckillId);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Exposer</span>(<span class="literal">true</span>, md5, seckillId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="并发优化"><a href="#并发优化" class="headerlink" title="并发优化"></a>并发优化</h3><h4 id="缩短行级锁时间"><a href="#缩短行级锁时间" class="headerlink" title="缩短行级锁时间"></a>缩短行级锁时间</h4><p>insert操作可以提前进行,然后再update,逻辑部分修改为:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//记录购买记录</span></span><br><span class="line"><span class="type">int</span> <span class="variable">insertCount</span> <span class="operator">=</span> successKilledDao.insertSucceccKilled(seckillId, userPhone);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (insertCount &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//重复秒杀</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RepeatKillException</span>(<span class="string">&quot;seckill repeated&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//减库存</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">updateCount</span> <span class="operator">=</span> seckillDao.reduceNumber(seckillId, nowTime);</span><br><span class="line">    <span class="keyword">if</span> (updateCount &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//rollback</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">SeckillCloseException</span>(<span class="string">&quot;seckill is closed&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//Commit</span></span><br><span class="line">        <span class="comment">//秒杀成功</span></span><br><span class="line">        <span class="type">SuccessKilled</span> <span class="variable">successKilled</span> <span class="operator">=</span> successKilledDao.queryByIdWithSeckill(seckillId, userPhone);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SeckillExecution</span>(seckillId, SeckillStatEnum.SUCCESS, successKilled);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="深度优化"><a href="#深度优化" class="headerlink" title="深度优化"></a>深度优化</h4><p>使用存储过程:</p>
+<ol>
+<li>减少事务行级锁持有时间减少</li>
+<li>不要过度使用存储过程</li>
+<li>简单的逻辑可以使用存储过程</li>
+<li>QPS:一秒杀单6000&#x2F;qps</li>
+</ol>
+<blockquote>
+<p>不会写</p>
+</blockquote>
+<h3 id="大型系统部署架构"><a href="#大型系统部署架构" class="headerlink" title="大型系统部署架构"></a>大型系统部署架构</h3><ol>
+<li>CDN(内容分发网络)</li>
+<li>WebServer: Nginx + Jetty</li>
+<li>Redis</li>
+<li>MySQL</li>
+</ol>
+<h4 id="细说"><a href="#细说" class="headerlink" title="细说"></a>细说</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[流量]--&gt;|用到| B[CDN缓存]</span><br><span class="line">A--&gt;C[智能DNS解析Nginx]</span><br><span class="line">C--&gt;D[逻辑集群Jetty]</span><br><span class="line">D--&gt;|用到| E[缓存集群redis]</span><br><span class="line">D--&gt;F[分库分表DB1,DB2..]</span><br><span class="line">F--&gt;G[统计分析]</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.canyuda.top/posts/2017110924161/" data-id="clsbfdtoa003dewolf1l9dz51" data-title="基于SSM实现高并发秒杀API(高并发)" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/201711098940/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          MyBatis(一)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/201711082776/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">基于SSM实现高并发秒杀API(Web层)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/front-end/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/industrial-control/">工业控制</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/database/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structures-algorithms/">数据结构与算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Web/" rel="tag">Java Web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">MyBatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-cloud/" rel="tag">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/myporject/" rel="tag">个人项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/offer-book/" rel="tag">剑指offer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chart/" rel="tag">图表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/base/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">小知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sort-and-find/" rel="tag">排序与查找</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">搜索</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/authority/" rel="tag">权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/catalogue/" rel="tag">目录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/" rel="tag">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plan/" rel="tag">计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design-mode/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/communication-protocol/" rel="tag">通讯协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent/" rel="tag">高并发</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hystrix/" style="font-size: 10.91px;">Hystrix</a> <a href="/tags/jvm/" style="font-size: 16.36px;">JVM</a> <a href="/tags/Java-Web/" style="font-size: 13.64px;">Java Web</a> <a href="/tags/mybatis/" style="font-size: 10.91px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10.91px;">MySQL</a> <a href="/tags/oracle/" style="font-size: 10px;">Oracle</a> <a href="/tags/spring/" style="font-size: 17.27px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/spring-cloud/" style="font-size: 10.91px;">Spring-Cloud</a> <a href="/tags/myporject/" style="font-size: 14.55px;">个人项目</a> <a href="/tags/offer-book/" style="font-size: 18.18px;">剑指offer</a> <a href="/tags/chart/" style="font-size: 15.45px;">图表</a> <a href="/tags/base/" style="font-size: 20px;">基础</a> <a href="/tags/tips/" style="font-size: 13.64px;">小知识</a> <a href="/tags/sort-and-find/" style="font-size: 12.73px;">排序与查找</a> <a href="/tags/search/" style="font-size: 10px;">搜索</a> <a href="/tags/authority/" style="font-size: 10px;">权限</a> <a href="/tags/catalogue/" style="font-size: 11.82px;">目录</a> <a href="/tags/cache/" style="font-size: 10.91px;">缓存</a> <a href="/tags/plan/" style="font-size: 11.82px;">计划</a> <a href="/tags/design-mode/" style="font-size: 19.09px;">设计模式</a> <a href="/tags/communication-protocol/" style="font-size: 10px;">通讯协议</a> <a href="/tags/concurrent/" style="font-size: 12.73px;">高并发</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/2022113049586/">索引下推</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022112963116/">Explain详解</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091136394/">分布式系统（十一）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022091023774/">分布式系统（十）</a>
+          </li>
+        
+          <li>
+            <a href="/posts/2022090955657/">分布式系统（九）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 灿若繁星先生<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
