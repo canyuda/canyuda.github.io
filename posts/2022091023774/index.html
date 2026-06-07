@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（十） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（十）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-10 09:26:56</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>14 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p><strong>服务熔断的具体表现形式是熔断器</strong>。那么，熔断器的基本结构是怎么样的？它又是如何实现的呢？</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<p><strong>熔断（Circuit Breaker）是很实用的一种容错机制。<strong>一方面在于</strong>熔断机制非常重要</strong>，另一方面也可以<strong>通过这个问题很好地区分候选人的知识广度和深度</strong>。</p>
+<p>从面试角度讲，关于熔断机制有很多种具体的问法，面试官往往会采用这样的方式来考查候选人：</p>
+<ul>
+<li>熔断器的状态有哪些？相互之间是如何转换的？</li>
+<li>在系统运行时，如何有效地收集和统计运行时数据？</li>
+<li>你使用过的熔断器有哪些？它的基本原理是怎么样的？</li>
+<li>如果让你来设计并实现一个简单的熔断机制，你会怎么做？</li>
+</ul>
+<p>上述问题虽然各有侧重点，但对于熔断机制而言，考查的重点还是候选人在工程实践的基础上所掌握的技术原理。</p>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p><code>服务熔断-阈值</code></p>
+<p>通过上述分析，我们可以梳理出如下技术上的要点。</p>
+<ul>
+<li><strong>状态性</strong>：通过合理的状态切换来控制是否对请求进行熔断。</li>
+<li><strong>运行时数据</strong>：收集服务运行时数据并进行统计分析，为阈值判断提供依据。</li>
+<li><strong>阈值控制</strong>：各个状态切换的控制开关。</li>
+</ul>
+<p>通过对上述要点的分析，这道题的回答思路就有了，而回答好这道题的关键就是要对上述要点背后的技术原理进行系统的阐述。接下来，让我们来对具体的技术体系展开讨论。</p>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<p>基于熔断器的设计理念，我们对熔断过程进行进行抽象和提炼，可以得到如下图所示的熔断器基本结构。</p>
+<p>可以看到，该状态机包含三个状态，即 Closed（关闭）、Open（打开）和 Half-Open（半开）。</p>
+<ul>
+<li><strong>Closed</strong>。这是熔断器的默认状态。
+<ul>
+<li>在该状态下，相当于熔断器没有发挥任何效果，所有的请求可以得到正常的响应。</li>
+<li>但是，在熔断器内部还是会对所有的调用过程进行监控，如果有异常发生则会进行不断累加。</li>
+</ul>
+</li>
+<li><strong>Open</strong>。这是熔断器的打开状态。
+<ul>
+<li>在该状态下，相当于熔断器对所有的请求进行了隔断，来自服务消费者的请求不会触达到服务的提供者。</li>
+<li>同时，在熔断器内部也会启动一个计时器，当处于该状态达到一定时间时，熔断器会进入到半开状态。</li>
+</ul>
+</li>
+<li><strong>Half-Open</strong>。这是熔断器的半开状态。
+<ul>
+<li>所谓半开，指的是熔断器会允许一部分请求通过，然后再对这些请求的响应结果进行统计。</li>
+<li>如果这些请求的成功比例达到一定的阈值，则会把熔断器设回到关闭状态，反之则进入打开状态。</li>
+</ul>
+</li>
+</ul>
+<p>我们讨论如何自己实现一个包含这三个状态的熔断器。</p>
+<p>首先，我们需要定义一个枚举类 State，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">State</span> &#123;</span><br><span class="line">  CLOSED,</span><br><span class="line">  OPEN,</span><br><span class="line">  HALF_OPEN</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，我们定义代表熔断器的 CircuitBreaker 接口，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CircuitBreaker</span> &#123;</span><br><span class="line">  <span class="comment">// 成功的响应，会对熔断器状态进行重置</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">recordSuccess</span><span class="params">()</span>;</span><br><span class="line">  <span class="comment">// 失败的响应，根据需要对状态进行设置</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">recordFailure</span><span class="params">(String response)</span>;</span><br><span class="line">  <span class="comment">// 获取熔断器的当前状态</span></span><br><span class="line">  String <span class="title function_">getState</span><span class="params">()</span>;</span><br><span class="line">  <span class="comment">// 设置熔断器状态</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">setState</span><span class="params">(State state)</span>;</span><br><span class="line">  <span class="comment">// 对远程服务发起请求</span></span><br><span class="line">  String <span class="title function_">attemptRequest</span><span class="params">()</span> <span class="keyword">throws</span> RemoteServiceException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>CircuitBreaker</code> 接口的实现过程是我们讨论的重点。为了实现对熔断器状态的合理控制，我们首先需要定义一系列的中间变量，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//远程调用的超时时间	</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> timeout;</span><br><span class="line"><span class="comment">//重试时间间隔</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> retryTimePeriod;</span><br><span class="line"><span class="comment">//最近一次的调用失败时间</span></span><br><span class="line"><span class="type">long</span> lastFailureTime;</span><br><span class="line"><span class="comment">//最近一次的失败响应结果</span></span><br><span class="line"><span class="keyword">private</span> String lastFailureResponse;</span><br><span class="line"><span class="comment">//累计失败次数</span></span><br><span class="line"><span class="type">int</span> failureCount;</span><br><span class="line"><span class="comment">//失败率阈值</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> failureThreshold;</span><br><span class="line"><span class="comment">//熔断器状态</span></span><br><span class="line"><span class="keyword">private</span> State state;</span><br><span class="line"><span class="comment">//类似无限大的一个未来时间</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">futureTime</span> <span class="operator">=</span> <span class="number">1000000000000</span>;</span><br></pre></td></tr></table></figure>
+<p>当我们发起一个远程调用时，我们需要基于调用结果合理设置熔断器的状态，代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">attemptRequest</span><span class="params">()</span> <span class="keyword">throws</span> RemoteServiceException &#123;</span><br><span class="line">    evaluateState();</span><br><span class="line">    <span class="keyword">if</span> (state == State.OPEN) &#123;</span><br><span class="line">      <span class="comment">//如果熔断式处于打开状态，就直接返回失败结果</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.lastFailureResponse;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//执行远程调用</span></span><br><span class="line">        <span class="type">var</span> <span class="variable">response</span> <span class="operator">=</span> service.call();</span><br><span class="line">        <span class="comment">//远程调用成功</span></span><br><span class="line">        recordSuccess();</span><br><span class="line">        <span class="keyword">return</span> response;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (RemoteServiceException ex) &#123;</span><br><span class="line">        <span class="comment">//远程调用失败</span></span><br><span class="line">        recordFailure(ex.getMessage());</span><br><span class="line">        <span class="keyword">throw</span> ex;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们继续来实现当调用成功和失败时，对应的 recordSuccess 和 recordFailure 方法的执行逻辑，代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用成功，失败次数清零，最近失败时间设置成无限大，并把熔断器状态设置成关闭</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">recordSuccess</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.failureCount = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">this</span>.lastFailureTime = System.nanoTime() + futureTime;</span><br><span class="line">    <span class="built_in">this</span>.state = State.CLOSED;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用失败，失败次数加1，最近失败时间设置成当前时间，并把失败结果设置成最近一次调用失败的响应</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">recordFailure</span><span class="params">(String response)</span> &#123;</span><br><span class="line">    failureCount = failureCount + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">this</span>.lastFailureTime = System.nanoTime();</span><br><span class="line">    <span class="built_in">this</span>.lastFailureResponse = response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当系统运行一段时间之后，我们如何来获取熔断器的当前状态呢？可以实现如下所示的 getState 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">getState</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">//如果失败次数大于阈值</span></span><br><span class="line">    <span class="keyword">if</span> (failureCount &gt;= failureThreshold) &#123; </span><br><span class="line">      <span class="keyword">if</span> ((System.nanoTime() - lastFailureTime) &gt; retryTimePeriod) &#123;</span><br><span class="line">        <span class="comment">//如果失败的累计时间已经超过了所允许的重试时间间隔，状态即为半熔断</span></span><br><span class="line">        state = State.HALF_OPEN;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//反之，熔断器应该为开启状态</span></span><br><span class="line">        state = State.OPEN;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">//熔断器为打开状态</span></span><br><span class="line">      state = State.CLOSED;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> state.name();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的，如果我们想要直接对熔断器状态进行设置，可以使用如下所示的 setState 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setState</span><span class="params">(State state)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.state = state;</span><br><span class="line">    <span class="keyword">switch</span> (state) &#123;</span><br><span class="line">      <span class="keyword">case</span> OPEN:<span class="comment">//设置开启状态</span></span><br><span class="line">        <span class="built_in">this</span>.failureCount = failureThreshold;</span><br><span class="line">        <span class="built_in">this</span>.lastFailureTime = System.nanoTime();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> HALF_OPEN:<span class="comment">//设置半开状态</span></span><br><span class="line">        <span class="built_in">this</span>.failureCount = failureThreshold;</span><br><span class="line">        <span class="built_in">this</span>.lastFailureTime = System.nanoTime() - retryTimePeriod;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:<span class="comment">//默认为关闭状态</span></span><br><span class="line">        <span class="built_in">this</span>.failureCount = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里我们也只是通过对熔断器的几个核心变量设置合适的值来更新熔断器的最新状态。</p>
+<p>以上代码示例可以帮助你更好地理解一个熔断器的内部实现原理，也可以帮助你回答类似“如果让你来实现一个简单的熔断机制，你会怎么做？”这种开放式问题。</p>
+<p>但是，这个毕竟只是一个示例。要想完整理解熔断器的实现过程，还是需要我们来对主流分布式服务框架中的原理展开解析。</p>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<p>在 Spring Cloud 中，专门为开发人员提供了具备服务熔断功能的Spring Cloud Circuit Breaker 组件。</p>
+<p>从命名上看，Spring Cloud Circuit Breaker 是对熔断器的一种抽象，支持不同的熔断器实现方案。在 Spring Cloud Circuit Breaker 中，内置了四种熔断器，如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220903/springcloudcircuitbreaker.png"  alt=" " ></p>
+<p>上图中的</p>
+<ul>
+<li>Netflix Hystrix 显然来自于 Netflix OSS</li>
+<li>Resilience4j 是受 Hystrix 项目启发所诞生的一款新型的容错库</li>
+<li>Sentinel 从定位上讲是一款包含了熔断降级功能的高可用流量防护组件</li>
+<li>Spring Retry 是 Spring 自研的重试和熔断框架</li>
+</ul>
+<p>针对以上四种熔断器，Spring Cloud Circuit Breaker 提供了统一的 API。</p>
+<h3 id="spring-cloud-circuit-breaker-组成结构"><a class="markdownIt-Anchor" href="#spring-cloud-circuit-breaker-组成结构"></a> Spring Cloud Circuit Breaker 组成结构</h3>
+<p>为了在应用程序中创建一个熔断器，我们可以使用 Spring Cloud Circuit Breaker 中的工厂类 <code>CircuitBreakerFactory</code>，该工厂类的定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">CircuitBreakerFactory</span>&lt;CONF, CONFB <span class="keyword">extends</span> <span class="title class_">ConfigBuilder</span>&lt;CONF&gt;&gt; <span class="keyword">extends</span> <span class="title class_">AbstractCircuitBreakerFactory</span>&lt;CONF, CONFB&gt; &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">abstract</span> CircuitBreaker <span class="title function_">create</span><span class="params">(String id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这是一个抽象类，只有一个 <code>create</code> 方法用来创建 <code>CircuitBreaker</code>。<code>CircuitBreaker</code> 是一个接口，约定了熔断器应该具有的功能，该接口定义如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CircuitBreaker</span> &#123;</span><br><span class="line">	<span class="keyword">default</span> &lt;T&gt; T <span class="title function_">run</span><span class="params">(Supplier&lt;T&gt; toRun)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> run(toRun, throwable -&gt; &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NoFallbackAvailableException</span>(<span class="string">&quot;No fallback available.&quot;</span>, throwable);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	&lt;T&gt; T <span class="title function_">run</span><span class="params">(Supplier&lt;T&gt; toRun, Function&lt;Throwable, T&gt; fallback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里用到了函数式编程的一些语法，但我们从方法定义上还是可以明显看出包含了 <code>run</code> 和 <code>fallback</code> 这两个方法。其中的 <code>Supplier</code> 包含了你希望运行在熔断器中的业务代码，而 <code>Function</code> 则代表着回退（Fallback）方法。如果你熟悉 <code>Netflix Hystrix</code> 中的 <code>HystrixCommand</code>，你会发现两者之间存在明显的对应关系。</p>
+<p>在 Spring Cloud Circuit Breaker 中，分别针对 Hystrix、Resilience4j、Sentinel 和 Spring Retry 这四款框架提供了 <code>CircuitBreakerFactory</code> 抽象类的子类。</p>
+<p>一旦在代码工程的类路径中添加了相关的 <code>starter</code>，系统就会自动创建 <code>CircuitBreaker</code>。也就是说 <code>CircuitBreakerFactory.create</code> 方法会实例化对应框架的一个 <code>CircuitBreaker</code> 实例。</p>
+<p>在引入具体的开发框架之后，下一步工作就是对它们进行配置。在 <code>CircuitBreakerFactory</code> 的父类 <code>AbstractCircuitBreakerFactory</code> 中，我们发现了如下所示的两个抽象方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//针对某一个id创建配置构造器</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">abstract</span> CONFB <span class="title function_">configBuilder</span><span class="params">(String id)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//为熔断器配置默认属性</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">configureDefault</span><span class="params">(Function&lt;String, CONF&gt; defaultConfiguration)</span>;</span><br></pre></td></tr></table></figure>
+<p>这里用到了大量的泛型定义，我们可以猜想，在这两个抽象方法的背后，Spring Cloud Circuit Breaker 会针对不同的第三方框架提供不同的配置实现过程。我们在接下来的内容中会基于具体的框架对这一过程做展开讨论。</p>
+<p>让我们来到 Hystrix 框架，来看看在 Spring Cloud Circuit Breaker 中是如何使用统一编程模式完成对该框架的集成。我们首先关注实现了 <code>CircuitBreaker</code> 接口的 <code>HystrixCircuitBreaker</code> 类，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HystrixCircuitBreaker</span> <span class="keyword">implements</span> <span class="title class_">CircuitBreaker</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> HystrixCommand.Setter setter;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="title function_">HystrixCircuitBreaker</span><span class="params">(HystrixCommand.Setter setter)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.setter = setter;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; T <span class="title function_">run</span><span class="params">(Supplier&lt;T&gt; toRun, Function&lt;Throwable, T&gt; fallback)</span> &#123;</span><br><span class="line">		HystrixCommand&lt;T&gt; command = <span class="keyword">new</span> <span class="title class_">HystrixCommand</span>&lt;T&gt;(setter) &#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="keyword">protected</span> T <span class="title function_">run</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">				<span class="keyword">return</span> toRun.get();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="keyword">protected</span> T <span class="title function_">getFallback</span><span class="params">()</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> fallback.apply(getExecutionException());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		<span class="keyword">return</span> command.execute();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难想象，这里应该构建了一个 <code>HystrixCommand</code> 对象，并在该对象原有的 <code>run</code> 和 <code>getFallback</code> 方法中封装了 <code>CircuitBreaker</code> 中的统一方法调用，而最终实现熔断操作的还是 Hystrix 原生的 <code>HystrixCommand</code>。</p>
+<p>然后，我们接着来看 <code>HystrixCircuitBreakerFactory</code>，这个类的实现过程也简洁明了，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HystrixCircuitBreakerFactory</span> <span class="keyword">extends</span> <span class="title class_">CircuitBreakerFactory</span>&lt;HystrixCommand.Setter, HystrixCircuitBreakerFactory.HystrixConfigBuilder&gt; &#123;</span><br><span class="line">	<span class="comment">//实现默认配置</span></span><br><span class="line">	<span class="keyword">private</span> Function&lt;String, HystrixCommand.Setter&gt; defaultConfiguration = id -&gt; HystrixCommand.Setter.withGroupKey(</span><br><span class="line">					HystrixCommandGroupKey.Factory.asKey(getClass().getSimpleName())).andCommandKey(HystrixCommandKey.Factory.asKey(id));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configureDefault</span><span class="params">(Function&lt;String, HystrixCommand.Setter&gt; defaultConfiguration)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.defaultConfiguration = defaultConfiguration;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> HystrixConfigBuilder <span class="title function_">configBuilder</span><span class="params">(String id)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HystrixConfigBuilder</span>(id);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建熔断器</span></span><br><span class="line">	<span class="keyword">public</span> HystrixCircuitBreaker <span class="title function_">create</span><span class="params">(String id)</span> &#123;</span><br><span class="line">		Assert.hasText(id, <span class="string">&quot;A CircuitBreaker must have an id.&quot;</span>);</span><br><span class="line">		HystrixCommand.<span class="type">Setter</span> <span class="variable">setter</span> <span class="operator">=</span> getConfigurations().computeIfAbsent(id, defaultConfiguration);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HystrixCircuitBreaker</span>(setter);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建配置构造器</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">HystrixConfigBuilder</span> <span class="keyword">extends</span> <span class="title class_">AbstractHystrixConfigBuilder</span>&lt;HystrixCommand.Setter&gt; &#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="title function_">HystrixConfigBuilder</span><span class="params">(String id)</span> &#123;</span><br><span class="line">			<span class="built_in">super</span>(id);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="keyword">public</span> HystrixCommand.Setter <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> HystrixCommand.Setter.withGroupKey(getGroupKey()).andCommandKey(getCommandKey()).andCommandPropertiesDefaults(getCommandPropertiesSetter());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码基本就是对原有 <code>HystrixCommand</code> 中关于服务分组等属性的简单封装，你可以结合接下来要介绍的 <code>Hystrix</code> 框架熔断机制内容做进一步理解。</p>
+<h3 id="hystrix-熔断机制"><a class="markdownIt-Anchor" href="#hystrix-熔断机制"></a> Hystrix 熔断机制</h3>
+<p>在 Hystrix 中，最核心的就是 <code>HystrixCircuitBreaker</code> 接口，该接口代表了对熔断器的抽象过程，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">HystrixCircuitBreaker</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">allowRequest</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isOpen</span><span class="params">()</span>;</span><br><span class="line">	<span class="keyword">void</span> <span class="title function_">markSuccess</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到 <code>HystrixCircuitBreaker</code> 接口只有三个方法。在 Hystrix 中，该接口的实现类是 <code>HystrixCircuitBreakerImpl</code>。</p>
+<p>我们首先来看最重要的 <code>allowRequest</code> 方法，<strong>该方法用来判断每个请求是否可被执行</strong>。<code>allowRequest</code> 实际上是对 <code>isOpen</code> 方法做了一层封装，在通过调用 <code>isOpen</code> 来触发熔断器的计算逻辑之前，先根据 <code>HystrixCommandProperties</code> 中的配置信息来判断是否强制开启熔断器，具体实现如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">allowRequest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceOpen().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (properties.circuitBreakerForceClosed().get()) &#123;</span><br><span class="line">        isOpen();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> !isOpen() || allowSingleTest();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来的 <code>isOpen()</code> 方法用来获取熔断器的当前状态。请注意，熔断器中关于阈值判断的一系列处理逻辑都位于该方法中，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isOpen</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (circuitOpen.get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">HealthCounts</span> <span class="variable">health</span> <span class="operator">=</span> metrics.getHealthCounts();</span><br><span class="line">    <span class="comment">// 检查是否达到最小请求数,如果未达到的话即使请求全部失败也不会熔断</span></span><br><span class="line">    <span class="keyword">if</span> (health.getTotalRequests() &lt; properties.circuitBreakerRequestVolumeThreshold().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查错误百分比是否达到设定的阀值,如果未达到的话也不会熔断</span></span><br><span class="line">    <span class="keyword">if</span> (health.getErrorPercentage() &lt; properties.circuitBreakerErrorThresholdPercentage().get()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果错误率过高, 进行熔断，并记录下熔断时间</span></span><br><span class="line">        <span class="keyword">if</span> (circuitOpen.compareAndSet(<span class="literal">false</span>, <span class="literal">true</span>)) &#123;circuitOpenedOrLastTestedTime.set(System.currentTimeMillis());</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，我们来到用来<strong>关闭熔断器</strong>的 <code>markSuccess</code> 方法。显然，<strong>该方法在熔断器处于半开状态下进行使用</strong>，我们可以通过该方法将熔断器设置为关闭状态。</p>
+<p>这时候，熔断器要做的一件事情就是重置对请求的统计指标，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">markSuccess</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (circuitOpen.get()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (circuitOpen.compareAndSet(<span class="literal">true</span>, <span class="literal">false</span>)) &#123;                   </span><br><span class="line">            metrics.resetStream();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HystrixCircuitBreaker</code> 接口的这三个方法的执行逻辑实际上都不复杂，<code>HystrixCircuitBreaker</code> 通过一个 <code>circuitOpen</code> 状态位控制着整个熔断判断流程，而这个状态位本身的状态值则取决于系统目前的运行时数据。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>从解题思路上讲，目前业界主流的熔断器实现模型基本都是类似的。就知识体系而言，要注意的是在<strong>熔断器内部实现过程中，并不是只有熔断和非熔断这两个简单状态，而是会引入一个半熔断的状态，通过对当前服务所处理请求的情况进行统计分析</strong>，熔断器会基于一定的阈值动态完成这些状态之间的自动切换。</p>
+<p>另一方面，面试官在考查候选人能力的一大关注点还是<strong>实践能力</strong>，所以可以结合具体工具的使用过程来阐述熔断器的核心概念。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（十）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022091023774/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-10 09:26</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022091136394/"
+                                   title="分布式系统（十一）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（十一）</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022090955657/"
+                                   title="分布式系统（九）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（九）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-circuit-breaker-%E7%BB%84%E6%88%90%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text"> Spring Cloud Circuit Breaker 组成结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hystrix-%E7%86%94%E6%96%AD%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text"> Hystrix 熔断机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-circuit-breaker-%E7%BB%84%E6%88%90%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text"> Spring Cloud Circuit Breaker 组成结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hystrix-%E7%86%94%E6%96%AD%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text"> Hystrix 熔断机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

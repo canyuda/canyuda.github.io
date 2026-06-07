@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            ClaudeCodeRGB：用ESP32给Claude Code做个物理状态灯 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        ClaudeCodeRGB：用ESP32给Claude Code做个物理状态灯
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-06-07 13:51:21</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Sun Jun 07 2026 14:01:11 GMT+0800">2026-06-07 14:01:11</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/hardware/">硬件</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/myporject/">个人项目</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>作为一个 Claude Code 重度用户，我经常遇到一个问题：<strong>Claude Code 在后台跑着，我切去做别的事，回来一看不知道它跑完了没有。</strong> 于是我做了一个小玩意——用 ESP32 开发板 + RGB 灯，做一个物理状态指示灯。绿灯亮着说明空闲，蓝灯闪烁说明正在思考，黄灯闪烁说明在等你确认……一眼就知道该不该切回终端了。</p>
+<p>项目已开源：<a class="link"   href="https://github.com/canyuda/ClaudeCodeRGB" >GitHub - canyuda/ClaudeCodeRGB<i class="fas fa-external-link-alt"></i></a></p>
+<span id="more"></span>
+<h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h2>
+<p>Claude Code 是 Anthropic 推出的 CLI 编程助手，通过终端交互。在日常使用中有几个痛点：</p>
+<ol>
+<li><strong>状态不直观</strong> — 需要切回终端才能看到 Claude 是在思考、等权限、还是已经完成</li>
+<li><strong>多任务场景</strong> — 同时开着多个 Claude Code 会话时，无法快速定位哪个需要关注</li>
+<li><strong>等待焦虑</strong> — 不知道任务跑到哪了，频繁切窗口打断工作流</li>
+</ol>
+<p>解决方案很朴素：<strong>做一个物理灯，不同颜色代表不同状态，放在桌面上随时可见。</strong></p>
+<h2 id="整体架构"><a class="markdownIt-Anchor" href="#整体架构"></a> 整体架构</h2>
+<p>系统的数据流非常简单：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Claude Code Hooks → Python 脚本 (串口通信) → ESP32-C3 → RGB LED</span><br></pre></td></tr></table></figure>
+<p>分三层：</p>
+<ol>
+<li><strong>Arduino 固件</strong>（<code>claude_rgb.ino</code>）— 运行在 ESP32-C3 上，监听串口的 <code>STATE:xxx</code> 命令，控制 RGB 灯的颜色和闪烁模式</li>
+<li><strong>Python Hook 脚本</strong>（<code>claude_rgb_hook.py</code>）— 注册为 Claude Code 的 Hook，接收状态事件，映射为灯效指令，写入串口</li>
+<li><strong>一键部署脚本</strong> — 自动完成 Hook 注册、串口配置、Claude Code settings 合并</li>
+</ol>
+<h2 id="led-状态映射"><a class="markdownIt-Anchor" href="#led-状态映射"></a> LED 状态映射</h2>
+<p>这是整个项目的核心设计——Claude Code 的每个状态对应一种灯效：</p>
+<table>
+<thead>
+<tr>
+<th>Hook 事件</th>
+<th>状态</th>
+<th>灯效</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SessionStart / SessionEnd</td>
+<td>idle（空闲）</td>
+<td>🟢 绿灯常亮</td>
+</tr>
+<tr>
+<td>UserPromptSubmit</td>
+<td>running（思考中）</td>
+<td>🔵 蓝灯慢闪（500ms）</td>
+</tr>
+<tr>
+<td>PreToolUse</td>
+<td>tool（调用工具）</td>
+<td>🟣 紫灯快闪（150ms）</td>
+</tr>
+<tr>
+<td>PermissionRequest / Notification</td>
+<td>ask（等待确认）</td>
+<td>🟡 黄灯快闪（250ms）</td>
+</tr>
+<tr>
+<td>PostToolUseFailure</td>
+<td>error（执行出错）</td>
+<td>🔴 红灯快闪（100ms）</td>
+</tr>
+<tr>
+<td>Stop</td>
+<td>done（完成）</td>
+<td>🟢 绿灯常亮</td>
+</tr>
+</tbody>
+</table>
+<p>一个典型的 Claude Code 工作流中，灯光会这样变化：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">空闲 → 绿灯</span><br><span class="line">  ↓ 你提交 prompt</span><br><span class="line">思考中 → 蓝灯慢闪</span><br><span class="line">  ↓ Claude 调用工具（读文件、执行命令等）</span><br><span class="line">工具调用 → 紫灯快闪</span><br><span class="line">  ↓ 回到思考</span><br><span class="line">思考中 → 蓝灯慢闪</span><br><span class="line">  ↓ 需要你确认权限</span><br><span class="line">等待确认 → 黄灯快闪</span><br><span class="line">  ↓ 你批准后继续</span><br><span class="line">思考中 → 蓝灯慢闪</span><br><span class="line">  ↓ 任务完成</span><br><span class="line">完成 → 绿灯</span><br></pre></td></tr></table></figure>
+<h2 id="硬件准备"><a class="markdownIt-Anchor" href="#硬件准备"></a> 硬件准备</h2>
+<p>整个项目的硬件成本不到 25 块钱：</p>
+<table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>价格</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32-C3 SuperMini 模块</td>
+<td>~10 元</td>
+<td>核心开发板，Type-C 接口</td>
+</tr>
+<tr>
+<td>共阴极 RGB LED 模块（带 4P 杜邦线）</td>
+<td>~12 元</td>
+<td>电子积木，即插即用</td>
+</tr>
+<tr>
+<td>Type-C 数据线</td>
+<td>~2 元</td>
+<td>供电 + 串口通信</td>
+</tr>
+</tbody>
+</table>
+<p>接线方式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ESP32-C3       RGB 模块</span><br><span class="line">GPIO2    →     R（红色）</span><br><span class="line">GPIO3    →     G（绿色）</span><br><span class="line">GPIO4    →     B（蓝色）</span><br><span class="line">GND      →     GND（共阴极接地）</span><br></pre></td></tr></table></figure>
+<p>总共 4 根线，不需要焊锡，杜邦线直插即可。</p>
+<h2 id="固件开发"><a class="markdownIt-Anchor" href="#固件开发"></a> 固件开发</h2>
+<p>固件用 Arduino IDE 开发，核心逻辑很清晰。ESP32-C3 通过串口（波特率 115200）接收命令字符串，然后控制对应 GPIO 的电平来切换灯效。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 核心状态枚举</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">LedState</span> &#123;</span><br><span class="line">  STATE_IDLE,     <span class="comment">// 空闲 - 绿灯常亮</span></span><br><span class="line">  STATE_DONE,     <span class="comment">// 完成 - 绿灯常亮</span></span><br><span class="line">  STATE_RUNNING,  <span class="comment">// 思考中 - 蓝灯慢闪</span></span><br><span class="line">  STATE_TOOL,     <span class="comment">// 工具调用 - 紫灯快闪</span></span><br><span class="line">  STATE_ASK,      <span class="comment">// 等待确认 - 黄灯快闪</span></span><br><span class="line">  STATE_ERROR     <span class="comment">// 出错 - 红灯快闪</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 串口命令处理</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">handleCommand</span><span class="params">(String cmd)</span> </span>&#123;</span><br><span class="line">  cmd.<span class="built_in">trim</span>();</span><br><span class="line">  cmd.<span class="built_in">toLowerCase</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (cmd.<span class="built_in">startsWith</span>(<span class="string">&quot;state:&quot;</span>)) &#123;</span><br><span class="line">    cmd = cmd.<span class="built_in">substring</span>(<span class="number">6</span>);</span><br><span class="line">    <span class="comment">// ... 映射到对应状态</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 主循环</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">readSerialCommands</span>();  <span class="comment">// 读取串口命令</span></span><br><span class="line">  <span class="built_in">updateLedEffect</span>();     <span class="comment">// 更新灯效（闪烁逻辑）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>几个细节：</p>
+<ul>
+<li><strong>共阴极逻辑</strong>：HIGH = 灯亮，LOW = 灯灭</li>
+<li><strong>闪烁实现</strong>：用 <code>millis()</code> 做非阻塞定时，不同状态有不同闪烁频率</li>
+<li><strong>上电自检</strong>：启动时红、绿、蓝各闪一次，方便确认硬件正常</li>
+<li><strong>串口协议</strong>：支持 <code>STATE:xxx</code> 设置状态、<code>PING</code> 心跳检测、<code>HELP</code> 查看帮助</li>
+</ul>
+<h2 id="python-hook-脚本"><a class="markdownIt-Anchor" href="#python-hook-脚本"></a> Python Hook 脚本</h2>
+<p>Python 脚本是 Claude Code 和硬件之间的桥梁。它注册为 Claude Code 的 Hook，在特定事件触发时被调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 事件到灯效的映射</span></span><br><span class="line">VALID_STATES = &#123;</span><br><span class="line">    <span class="string">&quot;idle&quot;</span>,      <span class="comment"># SessionStart / SessionEnd</span></span><br><span class="line">    <span class="string">&quot;done&quot;</span>,      <span class="comment"># Stop</span></span><br><span class="line">    <span class="string">&quot;running&quot;</span>,   <span class="comment"># UserPromptSubmit</span></span><br><span class="line">    <span class="string">&quot;tool&quot;</span>,      <span class="comment"># PreToolUse</span></span><br><span class="line">    <span class="string">&quot;ask&quot;</span>,       <span class="comment"># PermissionRequest</span></span><br><span class="line">    <span class="string">&quot;error&quot;</span>,     <span class="comment"># PostToolUseFailure</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>零依赖设计</strong>是这个脚本的亮点——没有 <code>pip install</code> 任何东西：</p>
+<ul>
+<li><strong>macOS / Linux</strong>：用标准库 <code>termios</code> 做串口通信</li>
+<li><strong>Windows</strong>：用 <code>ctypes</code> 调用 <code>kernel32.dll</code> 做串口通信</li>
+</ul>
+<p>这意味着不管你在什么平台，只要系统里有 Python 3.8+ 就能直接跑，不用装任何第三方库。</p>
+<h2 id="一键部署"><a class="markdownIt-Anchor" href="#一键部署"></a> 一键部署</h2>
+<p>项目提供了一键部署脚本，支持 macOS / Linux / Windows 三平台：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># macOS / Linux — 部署到当前项目</span></span><br><span class="line">curl -fsSL https://raw.githubusercontent.com/canyuda/ClaudeCodeRGB/main/install.sh | bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署到用户级（所有项目生效）</span></span><br><span class="line">curl -fsSL https://raw.githubusercontent.com/canyuda/ClaudeCodeRGB/main/install.sh | bash -s -- --user</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows (PowerShell) — 部署到当前项目</span></span><br><span class="line"><span class="built_in">iwr</span> <span class="literal">-useb</span> https://raw.githubusercontent.com/canyuda/ClaudeCodeRGB/main/install.ps1 | <span class="built_in">iex</span></span><br></pre></td></tr></table></figure>
+<p>脚本执行流程：</p>
+<ol>
+<li><strong>系统检测</strong> — 检查操作系统和 Python 环境</li>
+<li><strong>下载 Hook 脚本</strong> — 从 GitHub 拉取 <code>claude_rgb_hook.py</code></li>
+<li><strong>配置串口</strong> — 自动扫描可用串口，交互式设置</li>
+<li><strong>合并配置</strong> — 将 Hooks 配置写入 settings 文件，不影响已有配置</li>
+</ol>
+<p>两种部署模式的区别：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>项目级</th>
+<th>用户级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置文件</td>
+<td><code>.claude/settings.local.json</code></td>
+<td><code>~/.claude/settings.json</code></td>
+</tr>
+<tr>
+<td>生效范围</td>
+<td>当前项目</td>
+<td>所有项目</td>
+</tr>
+<tr>
+<td>是否进 git</td>
+<td>不提交</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wifi-无线版本"><a class="markdownIt-Anchor" href="#wifi-无线版本"></a> WiFi 无线版本</h2>
+<p>除了有线版本，项目还提供了一个基于 WiFi 的无线方案。使用充电宝供电，RGB 灯不再需要 USB 连接电脑，可以放在桌面任何位置。</p>
+<p>无线版通过 HTTP API 替代串口通信，ESP32-C3 连接 WiFi 后监听 HTTP 请求来切换灯效。</p>
+<h2 id="效果展示"><a class="markdownIt-Anchor" href="#效果展示"></a> 效果展示</h2>
+<p>最终效果如下：</p>
+<ul>
+<li><strong>绿灯常亮</strong> — Claude Code 空闲或任务完成</li>
+<li><strong>蓝灯慢闪</strong> — Claude 正在思考，处理你的 prompt</li>
+<li><strong>紫灯快闪</strong> — Claude 正在调用工具（读文件、执行命令等）</li>
+<li><strong>黄灯快闪</strong> — Claude 在等你确认权限</li>
+<li><strong>红灯快闪</strong> — 出错了，需要你关注</li>
+</ul>
+<h2 id="未来展望"><a class="markdownIt-Anchor" href="#未来展望"></a> 未来展望</h2>
+<p>目前 ClaudeCodeRGB 以 ESP32-C3 SuperMini 为核心，提供了有线串口和 WiFi 无线两种方案。接下来计划适配更多开发板，覆盖不同的使用场景和预算。</p>
+<h3 id="蓝牙无线版-seeed-xiao-nrf52840"><a class="markdownIt-Anchor" href="#蓝牙无线版-seeed-xiao-nrf52840"></a> 蓝牙无线版 — Seeed XIAO nRF52840</h3>
+<p>nRF52840 方案已经完成了开发，核心思路是用 BLE（蓝牙低功耗）替代串口通信，实现真正的无线状态灯：</p>
+<ul>
+<li><strong>无需外接 RGB 模块</strong> — 开发板内置 3-in-1 RGB LED，硬件成本和接线复杂度进一步降低</li>
+<li><strong>BLE 守护进程架构</strong> — BLE 连接建立需要 1-3 秒，而 Claude Code hook 超时只有 2 秒，所以引入了一个后台守护进程维持 BLE 长连接，hook 脚本通过 HTTP 调用守护进程（~5ms），避免超时</li>
+<li><strong>macOS 开机自启</strong> — 通过 launchd 注册守护进程，开机即连接，无需手动操作</li>
+</ul>
+<p>架构示意：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Claude Code Hooks → Hook 脚本 (HTTP ~5ms) → BLE 守护进程 (长连接) → nRF52840 内置 RGB</span><br></pre></td></tr></table></figure>
+<p>这个方案非常适合不想拉线的用户——开发板用充电宝供电，放在桌面任意位置，通过蓝牙无线控制。</p>
+<h3 id="屏幕显示版-m5stickc-plus"><a class="markdownIt-Anchor" href="#屏幕显示版-m5stickc-plus"></a> 屏幕显示版 — M5StickC Plus</h3>
+<p>M5StickC Plus 是一个很有想象力的方向。它基于 ESP32-PICO，自带 1.14 英寸 IPS 彩屏、120mAh 电池、IMU 传感器、蜂鸣器，集成了 WiFi + BLE，相当于一个火柴盒大小的微型终端。</p>
+<p>规划中的功能：</p>
+<ul>
+<li><strong>屏幕显示状态信息</strong> — 不仅亮灯，还能在屏幕上展示当前状态文本、正在执行的工具名称、耗时等</li>
+<li><strong>内置电池</strong> — 120mAh 虽然不大，但作为状态灯足够支撑数小时，配合充电宝可实现全天候无线</li>
+<li><strong>蜂鸣器提醒</strong> — error 或 ask 状态时蜂鸣提醒，适合不看灯的场景</li>
+<li><strong>按键交互</strong> — 可以通过按键切换显示模式（纯灯效 / 灯效+文字 / 详细信息）</li>
+</ul>
+<h3 id="极简有线版-pro-micro-atmega32u4"><a class="markdownIt-Anchor" href="#极简有线版-pro-micro-atmega32u4"></a> 极简有线版 — Pro Micro ATmega32U4</h3>
+<p>Pro Micro 基于 ATmega32U4，没有 WiFi 和蓝牙，资源也非常有限（32KB Flash、2.5KB SRAM）。但正因为简单，它适合作为最廉价的有线方案：</p>
+<ul>
+<li><strong>成本极低</strong> — 开发板本身十几块钱，加上 RGB 模块总成本不到 20 元</li>
+<li><strong>纯串口通信</strong> — ATmega32U4 内置 USB 收发器，无需额外 USB 转串口芯片，直接 USB 连电脑</li>
+<li><strong>适用场景</strong> — 不需要无线、不需要屏幕，只要一个最简单的桌面状态灯</li>
+</ul>
+<h3 id="方案对比"><a class="markdownIt-Anchor" href="#方案对比"></a> 方案对比</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ESP32-C3 SuperMini</th>
+<th>nRF52840 (BLE)</th>
+<th>M5StickC Plus</th>
+<th>Pro Micro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接方式</td>
+<td>USB 串口 / WiFi</td>
+<td>蓝牙 BLE</td>
+<td>WiFi / BLE</td>
+<td>USB 串口</td>
+</tr>
+<tr>
+<td>无线</td>
+<td>✅ WiFi</td>
+<td>✅ BLE</td>
+<td>✅ WiFi + BLE</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>屏幕</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ 1.14&quot; IPS</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>内置电池</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅ 120mAh</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>开发进度</td>
+<td>✅ 已完成</td>
+<td>✅ 已完成</td>
+<td>🚧 规划中</td>
+<td>🚧 规划中</td>
+</tr>
+<tr>
+<td>硬件成本</td>
+<td>~25 元</td>
+<td>~60 元</td>
+<td>~70 元</td>
+<td>~20 元</td>
+</tr>
+</tbody>
+</table>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>ClaudeCodeRGB 是一个小而美的开源硬件项目，核心思路：</p>
+<ul>
+<li><strong>利用 Claude Code 的 Hooks 机制</strong>，将运行状态暴露为物理信号</li>
+<li><strong>ESP32-C3 + RGB 模块</strong>，低成本（&lt;25 元）、零焊接、即插即用</li>
+<li><strong>Python 标准库实现串口通信</strong>，跨平台且零依赖</li>
+<li><strong>一键部署脚本</strong>，从克隆到运行只需一条命令</li>
+</ul>
+<p>如果你也是 Claude Code 用户，不妨试试这个项目。欢迎在 <a class="link"   href="https://github.com/canyuda/ClaudeCodeRGB" >GitHub<i class="fas fa-external-link-alt"></i></a> 上提 Issue 和 PR！</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                ClaudeCodeRGB：用ESP32给Claude Code做个物理状态灯
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2026060743051/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-06-07 13:51</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/myporject/">个人项目</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/202606078698/"
+                                   title="Ciff：从零打造一个简化版 Dify — AI Agent 开发与运行平台"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Ciff：从零打造一个简化版 Dify — AI Agent 开发与运行平台</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022113049586/"
+                                   title="索引下推"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">索引下推</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text"> 整体架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#led-%E7%8A%B6%E6%80%81%E6%98%A0%E5%B0%84"><span class="nav-number">3.</span> <span class="nav-text"> LED 状态映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E5%87%86%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text"> 硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">5.</span> <span class="nav-text"> 固件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-hook-%E8%84%9A%E6%9C%AC"><span class="nav-number">6.</span> <span class="nav-text"> Python Hook 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2"><span class="nav-number">7.</span> <span class="nav-text"> 一键部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wifi-%E6%97%A0%E7%BA%BF%E7%89%88%E6%9C%AC"><span class="nav-number">8.</span> <span class="nav-text"> WiFi 无线版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">9.</span> <span class="nav-text"> 效果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E5%B1%95%E6%9C%9B"><span class="nav-number">10.</span> <span class="nav-text"> 未来展望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%93%9D%E7%89%99%E6%97%A0%E7%BA%BF%E7%89%88-seeed-xiao-nrf52840"><span class="nav-number">10.1.</span> <span class="nav-text"> 蓝牙无线版 — Seeed XIAO nRF52840</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E7%89%88-m5stickc-plus"><span class="nav-number">10.2.</span> <span class="nav-text"> 屏幕显示版 — M5StickC Plus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E7%AE%80%E6%9C%89%E7%BA%BF%E7%89%88-pro-micro-atmega32u4"><span class="nav-number">10.3.</span> <span class="nav-text"> 极简有线版 — Pro Micro ATmega32U4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="nav-number">10.4.</span> <span class="nav-text"> 方案对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">11.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text"> 整体架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#led-%E7%8A%B6%E6%80%81%E6%98%A0%E5%B0%84"><span class="nav-number">3.</span> <span class="nav-text"> LED 状态映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E5%87%86%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text"> 硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">5.</span> <span class="nav-text"> 固件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-hook-%E8%84%9A%E6%9C%AC"><span class="nav-number">6.</span> <span class="nav-text"> Python Hook 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2"><span class="nav-number">7.</span> <span class="nav-text"> 一键部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wifi-%E6%97%A0%E7%BA%BF%E7%89%88%E6%9C%AC"><span class="nav-number">8.</span> <span class="nav-text"> WiFi 无线版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">9.</span> <span class="nav-text"> 效果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E5%B1%95%E6%9C%9B"><span class="nav-number">10.</span> <span class="nav-text"> 未来展望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%93%9D%E7%89%99%E6%97%A0%E7%BA%BF%E7%89%88-seeed-xiao-nrf52840"><span class="nav-number">10.1.</span> <span class="nav-text"> 蓝牙无线版 — Seeed XIAO nRF52840</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E7%89%88-m5stickc-plus"><span class="nav-number">10.2.</span> <span class="nav-text"> 屏幕显示版 — M5StickC Plus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E7%AE%80%E6%9C%89%E7%BA%BF%E7%89%88-pro-micro-atmega32u4"><span class="nav-number">10.3.</span> <span class="nav-text"> 极简有线版 — Pro Micro ATmega32U4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="nav-number">10.4.</span> <span class="nav-text"> 方案对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">11.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

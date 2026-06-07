@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            缓存数据 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        缓存数据
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-11-02 16:44:24</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/spring/">Spring</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<p>缓存(Caching)可以存储经常用到的信息,这样每次需要的时候,这些信息都可以立即使用.尽管Spring自身没有实现缓存解决方案,但是它对缓存功能提供了声明式的支持,能够与多种流行的缓存进行集成.</p>
+<h2 id="启用对缓存的支持"><a class="markdownIt-Anchor" href="#启用对缓存的支持"></a> 启用对缓存的支持</h2>
+<p>Spring对缓存有两种支持方式:</p>
+<ol>
+<li>注解驱动的缓存</li>
+<li>XML声明的缓存</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:cache</span>=<span class="string">&quot;http://www.springframework.org/schema/cache&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/cache</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/cache/spring-cache.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 缓存管理器(有很多,可以配置其他的) --&gt;</span></span><br><span class="line">  	<span class="comment">&lt;!-- ConcurrentMapCacheManager是把缓存存在内存中的,不适合生产环境,适合自己搞着玩 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.cache.concurrent.ConcurrentMapCacheManager&quot;</span> <span class="attr">id</span>=<span class="string">&quot;cacheManager&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 启用注解 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- cache-manager默认值为cacheManager,如果名字不是cacheManager,则需要手动设置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">cache:annotation-driven</span> <span class="attr">cache-manager</span>=<span class="string">&quot;cacheManager&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="缓存管理器"><a class="markdownIt-Anchor" href="#缓存管理器"></a> 缓存管理器</h3>
+<p>Spring3.1中有5个:</p>
+<ul>
+<li>SimpleCacheManager</li>
+<li>NoOpCacheManger</li>
+<li>ConcurrentMapCacheManager</li>
+<li>CompositeCacheManager</li>
+<li>EhCacheCacheManager</li>
+</ul>
+<p>Spring3.2后加入了:</p>
+<ul>
+<li>RedisCacheManager</li>
+<li>GemfireCacheManager</li>
+</ul>
+<p>对与缓存管理器,有很多种方案可以选择,这里介绍EhCacheCacheManager.</p>
+<h4 id="使用ehcache缓存"><a class="markdownIt-Anchor" href="#使用ehcache缓存"></a> 使用Ehcache缓存</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:cache</span>=<span class="string">&quot;http://www.springframework.org/schema/cache&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/cache</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/cache/spring-cache.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 利用EhCacheManagerFactoryBean产生一个EhCacheManager --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;EhCacheCacheManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.cache.ehcache.EhCacheManagerFactoryBean&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- EhCache需要一个配置文件 --&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configLocation&quot;</span> <span class="attr">value</span>=<span class="string">&quot;classpath:ehcache.xml&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- spring 包装装Ehcache缓存管理器  --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;EhCacheManager&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">class</span>=<span class="string">&quot;org.springframework.cache.ehcache.EhCacheCacheManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;cacheManager&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;EhCacheCacheManager&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 激活spring 缓存注解(这个注解是可以让工程中其他类中，通过注解可以快速方便使用缓存技术 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">cache:annotation-driven</span> <span class="attr">cache-manager</span>=<span class="string">&quot;EhCacheManager&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意: 这里可能有这样的疑问,EhCacheManager的class是一个EhCacheManagerFactoryBean类型,为什么可以注入到EhCacheCacheManager中的cacheManager属性中去?</p>
+<p>解释为:Spring提供了EhCacheManagerFactoryBean来产生CacheManager,因为它是一个<em><strong>工厂Bean</strong></em> ,它的ehcache()方法(我看源码是getObject()方法,&lt;&lt;Spring实战&gt;&gt;写错了???)可以创建并返回一个CacheManger实例,所以注册在Spring应用上下文中的并不是EhCacheManagerFactoryBean对象,而是CacheManger对象,因此适合注入到EhCacheCacheManager中.</p>
+</blockquote>
+<p>ehcache.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ehcache</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;http://ehcache.org/ehcache.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">diskStore</span> <span class="attr">path</span>=<span class="string">&quot;java.io.tmpdir&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 默认的配置 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">defaultCache</span></span></span><br><span class="line"><span class="tag">                <span class="attr">maxElementsInMemory</span>=<span class="string">&quot;10000&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">eternal</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">timeToIdleSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">timeToLiveSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">maxElementsOnDisk</span>=<span class="string">&quot;10000000&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">diskExpiryThreadIntervalSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">memoryStoreEvictionPolicy</span>=<span class="string">&quot;LRU&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">persistence</span> <span class="attr">strategy</span>=<span class="string">&quot;localTempSwap&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">defaultCache</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 自定义的配置(指定name属性) --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cache</span> <span class="attr">name</span>=<span class="string">&quot;bos&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">maxElementsInMemory</span>=<span class="string">&quot;10000&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">eternal</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">timeToIdleSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">timeToLiveSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">maxElementsOnDisk</span>=<span class="string">&quot;10000000&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">diskExpiryThreadIntervalSeconds</span>=<span class="string">&quot;120&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">memoryStoreEvictionPolicy</span>=<span class="string">&quot;LRU&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">persistence</span> <span class="attr">strategy</span>=<span class="string">&quot;localTempSwap&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cache</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ehcache</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="使用redis缓存"><a class="markdownIt-Anchor" href="#使用redis缓存"></a> 使用Redis缓存</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Redis池配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisPoolConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;redis.clients.jedis.JedisPoolConfig&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;300&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxWaitMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;3000&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnBorrow&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Redis连接工厂 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisConnectionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hostName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;localhost&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;port&quot;</span> <span class="attr">value</span>=<span class="string">&quot;6379&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;database&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;root&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;poolConfig&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;redisPoolConfig&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Reids模板 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;redisTemplate&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.core.RedisTemplate&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;connectionFactory&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;redisConnectionFactory&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;keySerializer&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;valueSerializer&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Redis缓存管理器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.data.redis.cache.RedisCacheManager&quot;</span> <span class="attr">id</span>=<span class="string">&quot;reidsCacheManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;redisTemplate&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">cache:annotation-driven</span> <span class="attr">cache-manager</span>=<span class="string">&quot;reidsCacheManager&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="使用多个缓存管理器"><a class="markdownIt-Anchor" href="#使用多个缓存管理器"></a> 使用多个缓存管理器</h4>
+<p>Spring还支持配置多个缓存管理器,一起工作,通过迭代的方式,来查找之前所缓存的值,它会迭代JCacheCacheManager,EhCacheManager和RedisCacheManager.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;manyCacheManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.cache.support.CompositeCacheManager&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;cacheManagers&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;EhCacheManager&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;reidsCacheManager&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--等等,Spring会按照顺序来检查缓存--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">cache:annotation-driven</span> <span class="attr">cache-manager</span>=<span class="string">&quot;manyCacheManager&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="为方法添加注解来支持缓存"><a class="markdownIt-Anchor" href="#为方法添加注解来支持缓存"></a> 为方法添加注解来支持缓存</h2>
+<p>四个注解:</p>
+<ol>
+<li><code>@Cacheable</code> 表明Spring在调用方法前,首先应该在缓存中找该方法的返回值,如果这个值能够被找到,就会返回缓存的值,否则,会调用方法</li>
+<li><code>@CachePut</code>  表明Spring应该讲方法的返回值放到缓存中,在方法的调用前不会去检查缓存,方法始终会被调用.</li>
+<li><code>@CacheEvict</code>  表明Spring应该在缓存中清除一个或多个条目</li>
+<li><code>@Caching</code>  这是一个分组的注解,能够同时应用多个其他缓存注解(没用过,不知道)</li>
+</ol>
+<blockquote>
+<p>解释一下2 : 就是该方法永远会被调用,不会走缓存,但是它会把返回值放到缓存中,给其他的方法用(无私奉献者)</p>
+</blockquote>
+<h3 id="填充注解"><a class="markdownIt-Anchor" href="#填充注解"></a> 填充注解</h3>
+<p><code>@Cacheable</code>和<code>@CachePut</code>  两个相似,它们的参数有:</p>
+<ol>
+<li>value----缓存名,多个方法返回相同,业务允许的情况下,可以共用缓存名.</li>
+<li>condition----spEL表达式,如果是false,不会将缓存放到方法调用上</li>
+<li>key----spEL表达式,计算自定义的缓存key(就是查找缓存的索引)</li>
+<li>unless-----spEL表达式,如果是true,返回值不会放到缓存中</li>
+</ol>
+<blockquote>
+<p>2表示,如果为false,该注解相当与没写,</p>
+<p>4表示,如果为true,返回值不会赋给缓存</p>
+<p>另外: key默认为参数(不写的话),所以有时候使用默认并不合适,手动设置key是很有必要的.</p>
+<p><strong>对于有复杂参数的方法,必须自定义key属性</strong></p>
+</blockquote>
+<h4 id="自定义缓存key"><a class="markdownIt-Anchor" href="#自定义缓存key"></a> 自定义缓存key</h4>
+<p>Spring提供了多个用来定义缓存规则的SpEL拓展:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>#root.args</code></td>
+<td style="text-align:center">传递给缓存方法的参数,形式为数组</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#root.caches</code></td>
+<td style="text-align:center">该方法执行时对应的缓存,形式为数组</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#root.target</code></td>
+<td style="text-align:center">目标对象</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#root.targetClass</code></td>
+<td style="text-align:center">目标对象的类,等于#root.target.class</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#root.method</code></td>
+<td style="text-align:center">缓存方法</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#root.methodName</code></td>
+<td style="text-align:center">缓存方法的名字,等于#<a class="link"   href="http://root.method.name" >root.method.name<i class="fas fa-external-link-alt"></i></a></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#result</code></td>
+<td style="text-align:center">方法的返回值(不能用于@Cacheable)</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>#Argument</code></td>
+<td style="text-align:center">任意的方法参数名(#argName)或参数索引(#a0或者#p0)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="条件化缓存"><a class="markdownIt-Anchor" href="#条件化缓存"></a> 条件化缓存</h4>
+<p>unless属性:如果是true,返回值不会放到缓存中,但是还是会在缓存中查找,找到就会走缓存.例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable(value=&quot;name&quot;</span></span><br><span class="line"><span class="meta">          unless=&quot;#result.message.contains(&#x27;NoCache&#x27;)&quot;</span></span><br><span class="line"><span class="meta">          condition=&quot;#id &gt;= 10&quot;)</span></span><br><span class="line">Spittle <span class="title function_">findOne</span><span class="params">(<span class="type">long</span> id)</span>;</span><br></pre></td></tr></table></figure>
+<p>如果传入的id大于10,这个注解就相当于没写,如果返回结果中的message属性中包含<code>&quot;NoCache&quot;</code> 返回的结果就不会存到缓存中,如果不包含就会存到缓存中,当下次调用方式时,还是会走缓存,查询到缓存的值.</p>
+<h3 id="移出缓存条目"><a class="markdownIt-Anchor" href="#移出缓存条目"></a> 移出缓存条目</h3>
+<p>可用于移出指定的缓存,例如当执行remove()方法时就可以使用.</p>
+<p><code>@CacheEvict</code> 属性为:</p>
+<ol>
+<li>value----缓存名称</li>
+<li>key—删除哪一个缓存</li>
+<li>condition----不解释</li>
+<li>allEntries—boolean类型,如果为true,就删除所有目录</li>
+<li>beforeInvocation—boolean类型,如果为true,方法调用前删除条目,如果为false(默认),方法成功后再删除条目.</li>
+</ol>
+<h2 id="使用xml声明缓存"><a class="markdownIt-Anchor" href="#使用xml声明缓存"></a> 使用XML声明缓存</h2>
+<ol>
+<li>
+<p>如果在自己代码上使用注解让你很不爽,</p>
+</li>
+<li>
+<p>或者你需要在没有源码的bean上使用缓存功能.</p>
+<p>​</p>
+<p>这时就需要使用XML的方式.具体的XML写法,略(不想写,感觉用注解挺好的,结合aop自己猜怎么写XML).</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">元素</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>&lt;cache:annotation-driven&gt;</code></td>
+<td style="text-align:center">启用缓存</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cache:advice&gt; </code></td>
+<td style="text-align:center">定义缓存通知,结合<code>&lt;aop:advisor&gt;</code> ,将通知应用到切点上.</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cache:caching&gt;</code></td>
+<td style="text-align:center">在缓存通知中,定义一组特定的缓存规则</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cache:cacheable&gt;</code></td>
+<td style="text-align:center"><code>@Cacheable</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cache:cache-put&gt;</code></td>
+<td style="text-align:center"><code>@CachePut</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cache:cache-evict&gt;</code></td>
+<td style="text-align:center"><code>@CacheEvict</code></td>
+</tr>
+</tbody>
+</table>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                缓存数据
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017110243509/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-11-02 16:44</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/spring/">Spring</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017110264973/"
+                                   title="前端框架之easyUI"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">前端框架之easyUI</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017110244986/"
+                                   title="权限管理之Shiro"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">权限管理之Shiro</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%AF%B9%E7%BC%93%E5%AD%98%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-number">2.</span> <span class="nav-text"> 启用对缓存的支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text"> 缓存管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ehcache%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.1.</span> <span class="nav-text"> 使用Ehcache缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8redis%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.2.</span> <span class="nav-text"> 使用Redis缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text"> 使用多个缓存管理器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E6%96%B9%E6%B3%95%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3%E6%9D%A5%E6%94%AF%E6%8C%81%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text"> 为方法添加注解来支持缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A1%AB%E5%85%85%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.1.</span> <span class="nav-text"> 填充注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%93%E5%AD%98key"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 自定义缓存key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%8C%96%E7%BC%93%E5%AD%98"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 条件化缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%87%BA%E7%BC%93%E5%AD%98%E6%9D%A1%E7%9B%AE"><span class="nav-number">3.2.</span> <span class="nav-text"> 移出缓存条目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8xml%E5%A3%B0%E6%98%8E%E7%BC%93%E5%AD%98"><span class="nav-number">4.</span> <span class="nav-text"> 使用XML声明缓存</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%AF%B9%E7%BC%93%E5%AD%98%E7%9A%84%E6%94%AF%E6%8C%81"><span class="nav-number">2.</span> <span class="nav-text"> 启用对缓存的支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text"> 缓存管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ehcache%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.1.</span> <span class="nav-text"> 使用Ehcache缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8redis%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.2.</span> <span class="nav-text"> 使用Redis缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text"> 使用多个缓存管理器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E6%96%B9%E6%B3%95%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3%E6%9D%A5%E6%94%AF%E6%8C%81%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text"> 为方法添加注解来支持缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A1%AB%E5%85%85%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.1.</span> <span class="nav-text"> 填充注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%93%E5%AD%98key"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 自定义缓存key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%8C%96%E7%BC%93%E5%AD%98"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 条件化缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%87%BA%E7%BC%93%E5%AD%98%E6%9D%A1%E7%9B%AE"><span class="nav-number">3.2.</span> <span class="nav-text"> 移出缓存条目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8xml%E5%A3%B0%E6%98%8E%E7%BC%93%E5%AD%98"><span class="nav-number">4.</span> <span class="nav-text"> 使用XML声明缓存</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

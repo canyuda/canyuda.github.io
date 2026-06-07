@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            数据库-JDBC、数据库连接池与DBUtils |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        数据库-JDBC、数据库连接池与DBUtils
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-08-05 10:24:13</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/database/">数据库</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.5k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="jdbc"><a class="markdownIt-Anchor" href="#jdbc"></a> JDBC</h2>
+<p>数据库与Java程序连接的&quot;桥梁&quot;,用法:</p>
+<ol>
+<li>
+<p>首先给项目导入jar包<a class="link"   href="https://dev.mysql.com/downloads/connector/j/5.1.html" >connectorJ<i class="fas fa-external-link-alt"></i></a></p>
+</li>
+<li>
+<p>然后开始编写代码(数据库需要事先准备好,确保数据库服务打开)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//STEP 1. Import required packages</span></span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FirstExample</span> &#123;</span><br><span class="line">   <span class="comment">// JDBC driver name and database URL</span></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">JDBC_DRIVER</span> <span class="operator">=</span> <span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>;  </span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DB_URL</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/EMP&quot;</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//  Database credentials</span></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">USER</span> <span class="operator">=</span> <span class="string">&quot;username&quot;</span>;</span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PASS</span> <span class="operator">=</span> <span class="string">&quot;password&quot;</span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">   <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">   <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line">      <span class="comment">//STEP 2: Register JDBC driver</span></span><br><span class="line">      Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 3: Open a connection</span></span><br><span class="line">      System.out.println(<span class="string">&quot;Connecting to database...&quot;</span>);</span><br><span class="line">      conn = DriverManager.getConnection(DB_URL,USER,PASS);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 4: Execute a query</span></span><br><span class="line">      System.out.println(<span class="string">&quot;Creating statement...&quot;</span>);</span><br><span class="line">      stmt = conn.createStatement();</span><br><span class="line">      String sql;</span><br><span class="line">      sql = <span class="string">&quot;SELECT id, first, last, age FROM Employees&quot;</span>;</span><br><span class="line">      <span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> stmt.executeQuery(sql);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//STEP 5: Extract data from result set</span></span><br><span class="line">      <span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">         <span class="comment">//Retrieve by column name</span></span><br><span class="line">         <span class="type">int</span> <span class="variable">id</span>  <span class="operator">=</span> rs.getInt(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">         <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> rs.getInt(<span class="string">&quot;age&quot;</span>);</span><br><span class="line">         <span class="type">String</span> <span class="variable">first</span> <span class="operator">=</span> rs.getString(<span class="string">&quot;first&quot;</span>);</span><br><span class="line">         <span class="type">String</span> <span class="variable">last</span> <span class="operator">=</span> rs.getString(<span class="string">&quot;last&quot;</span>);</span><br><span class="line"></span><br><span class="line">         <span class="comment">//Display values</span></span><br><span class="line">         System.out.print(<span class="string">&quot;ID: &quot;</span> + id);</span><br><span class="line">         System.out.print(<span class="string">&quot;, Age: &quot;</span> + age);</span><br><span class="line">         System.out.print(<span class="string">&quot;, First: &quot;</span> + first);</span><br><span class="line">         System.out.println(<span class="string">&quot;, Last: &quot;</span> + last);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//STEP 6: Clean-up environment</span></span><br><span class="line">      rs.close();</span><br><span class="line">      stmt.close();</span><br><span class="line">      conn.close();</span><br><span class="line">   &#125;<span class="keyword">catch</span>(SQLException se)&#123;</span><br><span class="line">      <span class="comment">//Handle errors for JDBC</span></span><br><span class="line">      se.printStackTrace();</span><br><span class="line">   &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">      <span class="comment">//Handle errors for Class.forName</span></span><br><span class="line">      e.printStackTrace();</span><br><span class="line">   &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">      <span class="comment">//finally block used to close resources</span></span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(stmt!=<span class="literal">null</span>)</span><br><span class="line">            stmt.close();</span><br><span class="line">      &#125;<span class="keyword">catch</span>(SQLException se2)&#123;</span><br><span class="line">      &#125;<span class="comment">// nothing we can do</span></span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">         <span class="keyword">if</span>(conn!=<span class="literal">null</span>)</span><br><span class="line">            conn.close();</span><br><span class="line">      &#125;<span class="keyword">catch</span>(SQLException se)&#123;</span><br><span class="line">         se.printStackTrace();</span><br><span class="line">      &#125;<span class="comment">//end finally try</span></span><br><span class="line">   &#125;<span class="comment">//end try</span></span><br><span class="line">   System.out.println(<span class="string">&quot;Goodbye!&quot;</span>);</span><br><span class="line">&#125;<span class="comment">//end main</span></span><br><span class="line">&#125;<span class="comment">//end FirstExample</span></span><br></pre></td></tr></table></figure>
+<p>上述代码表示了,使用jdbc连接了一个,用户名为username,密码为password,数据库链接为:jdbc:mysql://localhost:3306/EMP的一个mysql数据库.然后查询EMP表中的id,age,first,last字段.</p>
+<p>​</p>
+</li>
+<li>
+<p>点击运行查看效果,<strong>注意:</strong> 确保数据库url正确,用户名密码正确,jar包引入正确,数据库中存在要查询的表和字段,查询完成后及时关闭资源.</p>
+</li>
+</ol>
+<h3 id="加入事务"><a class="markdownIt-Anchor" href="#加入事务"></a> 加入事务</h3>
+<p>对于如同转账类似的数据库操作,需要删除和添加两步操作,如果一步操作完成后,程序发生了错误,就会导致第二步操作无法进行,从而导致一些错误发生,所以引入了事务的使用,事务可以把许多步操作组合起来,要完成就一起完成,失败就都不会执行,从而保证了安全性,</p>
+<p>事务的使用主要分为:开启事务、执行操作、提交事务。如果执行操作发生错误则跳过提交并回滚事务,代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">   <span class="comment">//Assume a valid connection object conn</span></span><br><span class="line">   conn.setAutoCommit(<span class="literal">false</span>);</span><br><span class="line">   <span class="type">Statement</span> <span class="variable">stmt</span> <span class="operator">=</span> conn.createStatement();</span><br><span class="line"></span><br><span class="line">   <span class="type">String</span> <span class="variable">SQL</span> <span class="operator">=</span> <span class="string">&quot;INSERT INTO Employees  &quot;</span> +</span><br><span class="line">                <span class="string">&quot;VALUES (106, 20, &#x27;Rita&#x27;, &#x27;Tez&#x27;)&quot;</span>;</span><br><span class="line">   stmt.executeUpdate(SQL);  </span><br><span class="line">   <span class="comment">//Submit a malformed SQL statement that breaks</span></span><br><span class="line">   <span class="type">String</span> <span class="variable">SQL</span> <span class="operator">=</span> <span class="string">&quot;INSERTED IN Employees  &quot;</span> +</span><br><span class="line">                <span class="string">&quot;VALUES (107, 22, &#x27;Sita&#x27;, &#x27;Singh&#x27;)&quot;</span>;</span><br><span class="line">   stmt.executeUpdate(SQL);</span><br><span class="line">   <span class="comment">// If there is no error.</span></span><br><span class="line">   conn.commit();</span><br><span class="line">&#125;<span class="keyword">catch</span>(SQLException se)&#123;</span><br><span class="line">   <span class="comment">// If there is any error.</span></span><br><span class="line">   conn.rollback();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据库连接池"><a class="markdownIt-Anchor" href="#数据库连接池"></a> 数据库连接池</h2>
+<p>数据库连接池就是一个实例,可以通过该实例得到数据库连接,该实例内部负责每一个数据库连接的分派和配置,数据库连接池把数据库连接的创建操作提取到了一&quot;池子&quot;中,以免每次需要数据库连接时都要去创建,它对数据库连接有了个统一的管理,如果程序需要仅仅需要从连接池中get即可.</p>
+<h3 id="durid"><a class="markdownIt-Anchor" href="#durid"></a> durid</h3>
+<p>阿里旗下的durid提供了一个数据库连接池,用法如下:</p>
+<ol>
+<li>
+<p>导jar包</p>
+</li>
+<li>
+<p>写配置文件&quot;xxx.porperties&quot;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#连接设置</span><br><span class="line">driverClassName=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql://localhost:3306/web</span><br><span class="line">username=root</span><br><span class="line">password=123456</span><br><span class="line">#&lt;!-- 初始化连接 --&gt;</span><br><span class="line">initialSize=10</span><br><span class="line"></span><br><span class="line">#最大连接数量</span><br><span class="line">maxActive=50</span><br><span class="line"></span><br><span class="line">#&lt;!-- 最大空闲连接 --&gt;</span><br><span class="line">maxIdle=20</span><br><span class="line"></span><br><span class="line">#&lt;!-- 最小空闲连接 --&gt;</span><br><span class="line">minIdle=5</span><br><span class="line"></span><br><span class="line">#&lt;!-- 超时等待时间以毫秒为单位 6000毫秒/1000等于60秒 --&gt;</span><br><span class="line">maxWait=60000</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>编写代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo1</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">	<span class="type">PreparedStatement</span> <span class="variable">pstmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">	<span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="comment">// 使用连接池：</span></span><br><span class="line">		<span class="comment">// 从属性文件中获取：</span></span><br><span class="line">		<span class="type">Properties</span> <span class="variable">properties</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">		properties.load(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;day08_jdbc/src/druid.properties&quot;</span>));</span><br><span class="line">		<span class="type">DataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> DruidDataSourceFactory.createDataSource(properties);</span><br><span class="line">		<span class="comment">// 获得连接：</span></span><br><span class="line">		conn = dataSource.getConnection();<span class="comment">// DruidPooledConnection</span></span><br><span class="line">		<span class="comment">// 编写SQL:</span></span><br><span class="line">		<span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from account&quot;</span>;</span><br><span class="line">		<span class="comment">// 预编译SQL:</span></span><br><span class="line">		pstmt = conn.prepareStatement(sql);</span><br><span class="line">		<span class="comment">// 设置参数:</span></span><br><span class="line">		<span class="comment">// 执行SQL:</span></span><br><span class="line">		rs = pstmt.executeQuery();</span><br><span class="line">		<span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">			System.out.println(rs.getInt(<span class="string">&quot;id&quot;</span>) + <span class="string">&quot; &quot;</span> + rs.getString(<span class="string">&quot;name&quot;</span>) + <span class="string">&quot; &quot;</span> + rs.getDouble(<span class="string">&quot;money&quot;</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">		JDBCUtils.release(rs, pstmt, conn);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="c3p0"><a class="markdownIt-Anchor" href="#c3p0"></a> c3p0</h3>
+<p>另外一款数据库连接池,使用方便,以后项目中可以引入</p>
+<p>c3p0的配置文件有要求,必须以 <strong>“c3p0-config.xml”</strong>  来命名,内部格式为:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c3p0-config</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">default-config</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span>&gt;</span>jdbc:mysql://localhost:3306/web?useSSL=false<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span>root<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">default-config</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置文件内部属性很多,这仅仅列举了一小部分,请前往官网看 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 	&lt;named-config name=&quot;oracle&quot;&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql:///web_test4&lt;/property&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name=&quot;password&quot;&gt;abc&lt;/property&gt;</span></span><br><span class="line"><span class="comment">	&lt;/named-config&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">c3p0-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以进行默认设置,也可以进行命名设置.区别后面代码部分说.</p>
+<p>并且该配置文件的位置必须在src目录中(遇到过放在外面的坑).</p>
+<p>java代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo1</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="type">PreparedStatement</span> <span class="variable">pstmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 获得连接：从连接池中获取：</span></span><br><span class="line">			<span class="comment">// 创建连接池：//创建连接池默认去类路径下查找c3p0-config.xml</span></span><br><span class="line">			<span class="type">DataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">            <span class="comment">//DataSource dataSource = new ComboPooledDataSource(&quot;name&quot;);</span></span><br><span class="line">			<span class="comment">// 从连接池中获得连接:</span></span><br><span class="line">			conn = dataSource.getConnection();</span><br><span class="line">			<span class="comment">// 编写SQL：</span></span><br><span class="line">			<span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from account&quot;</span>;</span><br><span class="line">			<span class="comment">// 预编译SQL:</span></span><br><span class="line">			pstmt = conn.prepareStatement(sql);</span><br><span class="line">			<span class="comment">// 执行SQL：</span></span><br><span class="line">			rs = pstmt.executeQuery();</span><br><span class="line">			<span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">				System.out.println(rs.getInt(<span class="string">&quot;id&quot;</span>) + <span class="string">&quot; &quot;</span> + rs.getString(<span class="string">&quot;name&quot;</span>) + <span class="string">&quot; &quot;</span> + rs.getDouble(<span class="string">&quot;money&quot;</span>));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			JDBCUtils.release(rs, pstmt, conn);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中有:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">         <span class="comment">//DataSource dataSource = new ComboPooledDataSource(&quot;name&quot;);</span></span><br></pre></td></tr></table></figure>
+<p>如果无参数,则使用配置文件中的default-config标签下的配置,如果有个String类型的参数,则使用配置文件中name属性为该string的named-config标签下的配置,</p>
+<p>也就是说c3p0的配置文件可以同时配置多个数据库的连接信息,比Druid好用辣么一点点.</p>
+<h2 id="dbutils"><a class="markdownIt-Anchor" href="#dbutils"></a> DBUtils</h2>
+<p>一个对数据库连接java代码简单封装的类库,适合轻量级的一些项目,可以被Hibernate或者MyBatis代替,这里只是简单的介绍下吧,不做深入讲解.</p>
+<p>核心类就是个QueryRunner,用法如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils.getDataSource());</span><br><span class="line"><span class="comment">//JDBCUtils.getDataSource()是自定义的一个类,用于获得连接池对象</span></span><br><span class="line"><span class="comment">//例如c3p0的DataSource dataSource = new ComboPooledDataSource();</span></span><br></pre></td></tr></table></figure>
+<p>接着通过QueryRunner对象就可对数据库为所欲为(成语接龙开始…)了.</p>
+<h3 id="增删改"><a class="markdownIt-Anchor" href="#增删改"></a> 增删改</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//增</span></span><br><span class="line">Object[] objs = &#123;<span class="string">&quot;ddd&quot;</span>, <span class="number">10000</span>&#125;;</span><br><span class="line">queryRunner.update(<span class="string">&quot;insert into account values (null,?,?)&quot;</span>, objs);</span><br><span class="line"><span class="comment">//删</span></span><br><span class="line">queryRunner.update(<span class="string">&quot;delete from account where id = ?&quot;</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">//改</span></span><br><span class="line">queryRunner.update(<span class="string">&quot;update account set name=?,money=? where id =?&quot;</span>, <span class="string">&quot;eee&quot;</span>, <span class="number">20000</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="查询"><a class="markdownIt-Anchor" href="#查询"></a> 查询</h3>
+<p>查询复杂点,用到了query()方法,参数有2+个,第一个为sql语句,第二个为ResultSetHandler接口,c3p0给了它9个实现类,分别为:</p>
+<ol>
+<li>ArrayListHandler</li>
+<li>ArrayHandler</li>
+<li>BeanHandler</li>
+<li>BeanListHandler</li>
+<li>BeanMapHandler</li>
+<li>ColumnListHandler</li>
+<li>KeyedHandler</li>
+<li>MapListHandler</li>
+<li>ScalarHandler</li>
+</ol>
+<p>包含List的命名都返回一个List对象,用于查询出多条数据,下面给点例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * ArrayHandler:将一条记录封装到一个Object数组中</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo1</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		Object[] objs = queryRunner.query(<span class="string">&quot;select * from account where id = ?&quot;</span>, <span class="keyword">new</span> <span class="title class_">ArrayHandler</span>(), <span class="number">1</span>);</span><br><span class="line">		System.out.println(Arrays.toString(objs));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * ArrayListHandler:将多条记录封装到一个装有Object数组的List集合中 *</span></span><br><span class="line"><span class="comment">	 * 一条记录封装到Objecct[]数组中，多条记录就是多个Object[]，那么多个Object数组就将其装入List集合中即可。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo2</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		List&lt;Object[]&gt; list = queryRunner.query(<span class="string">&quot;select * from account&quot;</span>, <span class="keyword">new</span> <span class="title class_">ArrayListHandler</span>());</span><br><span class="line">		<span class="keyword">for</span> (Object[] objects : list) &#123;</span><br><span class="line">			System.out.println(Arrays.toString(objects));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * BeanHandler：将一条记录封装到一个JavaBean中</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo3</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		<span class="type">Account</span> <span class="variable">account</span> <span class="operator">=</span> queryRunner.query(<span class="string">&quot;select * from account where id = ?&quot;</span>,</span><br><span class="line">				<span class="keyword">new</span> <span class="title class_">BeanHandler</span>&lt;Account&gt;(Account.class), <span class="number">2</span>);</span><br><span class="line">		System.out.println(account);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * BeanListHandler:将多条记录封装到一个装有JavaBean的List集合中。</span></span><br><span class="line"><span class="comment">	 * *一条记录就是一个Java的对象（JavaBean），如果多条记录（多个Java的对象），将多个Java对象装到一个List集合中。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo4</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		List&lt;Account&gt; list = queryRunner.query(<span class="string">&quot;select * from account &quot;</span>, <span class="keyword">new</span> <span class="title class_">BeanListHandler</span>&lt;Account&gt;(Account.class));</span><br><span class="line">		<span class="keyword">for</span> (Account account : list) &#123;</span><br><span class="line">			System.out.println(account);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * MapHandler：将一条记录封装到一个Map集合中，Map的key是列名，Map的value就是表中列的记录值。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo5</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		Map&lt;String, Object&gt; map = queryRunner.query(<span class="string">&quot;select * from account where id = ?&quot;</span>, <span class="keyword">new</span> <span class="title class_">BeanMapHandler</span>(), <span class="number">4</span>);</span><br><span class="line">		System.out.println(map);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * MapListHandler：将多条记录封装到一个装有Map的List集合中。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo6</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		List&lt;Map&lt;String, Object&gt;&gt; list = queryRunner.query(<span class="string">&quot;select * from account&quot;</span>, <span class="keyword">new</span> <span class="title class_">MapListHandler</span>());</span><br><span class="line">		<span class="keyword">for</span> (Map&lt;String, Object&gt; map : list) &#123;</span><br><span class="line">			System.out.println(map);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * ColumnListHandler：将某列的值封装到List集合中</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo7</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		List&lt;Object&gt; list = queryRunner.query(<span class="string">&quot;select name,money from account&quot;</span>, <span class="keyword">new</span> <span class="title class_">ColumnListHandler</span>(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">		<span class="keyword">for</span> (Object object : list) &#123;</span><br><span class="line">			System.out.println(object);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * ScalarHandler:单值封装</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo8</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		<span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> queryRunner.query(<span class="string">&quot;select count(*) from account&quot;</span>, <span class="keyword">new</span> <span class="title class_">ScalarHandler</span>());</span><br><span class="line">		System.out.println(obj);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * KeyedHandler：将一条记录封装到一个Map集合中。将多条记录封装到一个装有Map集合的Map集合中。而且外面的Map的key是可以指定的。</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo9</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">QueryRunner</span> <span class="variable">queryRunner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryRunner</span>(JDBCUtils2.getDataSource());</span><br><span class="line">		Map&lt;Object, Map&lt;String, Object&gt;&gt; map = queryRunner.query(<span class="string">&quot;select * from account&quot;</span>, <span class="keyword">new</span> <span class="title class_">KeyedHandler</span>(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">		<span class="keyword">for</span> (Object key : map.keySet()) &#123;</span><br><span class="line">			System.out.println(key + <span class="string">&quot; &quot;</span> + map.get(key));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                数据库-JDBC、数据库连接池与DBUtils
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017080523716/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-08-05 10:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017080541550/"
+                                   title="数据库-索引"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">数据库-索引</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017073164799/"
+                                   title="数据库-插入、更新、删除数据"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">数据库-插入、更新、删除数据</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdbc"><span class="nav-number">1.</span> <span class="nav-text"> JDBC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text"> 加入事务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">2.</span> <span class="nav-text"> 数据库连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#durid"><span class="nav-number">2.1.</span> <span class="nav-text"> durid</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c3p0"><span class="nav-number">2.2.</span> <span class="nav-text"> c3p0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dbutils"><span class="nav-number">3.</span> <span class="nav-text"> DBUtils</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A2%9E%E5%88%A0%E6%94%B9"><span class="nav-number">3.1.</span> <span class="nav-text"> 增删改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text"> 查询</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdbc"><span class="nav-number">1.</span> <span class="nav-text"> JDBC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text"> 加入事务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">2.</span> <span class="nav-text"> 数据库连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#durid"><span class="nav-number">2.1.</span> <span class="nav-text"> durid</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c3p0"><span class="nav-number">2.2.</span> <span class="nav-text"> c3p0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dbutils"><span class="nav-number">3.</span> <span class="nav-text"> DBUtils</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A2%9E%E5%88%A0%E6%94%B9"><span class="nav-number">3.1.</span> <span class="nav-text"> 增删改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text"> 查询</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

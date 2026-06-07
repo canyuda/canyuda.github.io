@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            基于SSM实现高并发秒杀API(DAO层) |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        基于SSM实现高并发秒杀API(DAO层)
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-11-07 21:02:59</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/myporject/">个人项目</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/concurrent/">高并发</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>16 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="首先"><a class="markdownIt-Anchor" href="#首先"></a> 首先</h2>
+<ol>
+<li>SSM的整合</li>
+<li>秒杀类系统需求的理解和实现</li>
+<li>常用技术解决高并发问题</li>
+</ol>
+<h2 id="spring-mvc-spring-mybatis"><a class="markdownIt-Anchor" href="#spring-mvc-spring-mybatis"></a> Spring MVC + Spring + MyBatis</h2>
+<ul>
+<li>框架容易使用,轻量级</li>
+<li>侵入性比较低</li>
+<li>成熟的社区和用户群</li>
+</ul>
+<h2 id="为什么用秒杀类系统"><a class="markdownIt-Anchor" href="#为什么用秒杀类系统"></a> 为什么用秒杀类系统</h2>
+<ul>
+<li>秒杀有典型的<em><strong>事务</strong></em>特性</li>
+<li>秒杀/红包类需求很常见</li>
+<li>面试常问的问题(如何设计优化秒杀系统)</li>
+</ul>
+<h2 id="内容概括"><a class="markdownIt-Anchor" href="#内容概括"></a> 内容概括</h2>
+<ol>
+<li>秒杀列表</li>
+<li>详情页内秒杀按钮或者等待时间或者秒杀结束</li>
+<li>秒杀后库存会减少</li>
+<li>秒杀需要输入电话号码存到cookie中.</li>
+</ol>
+<h2 id="开始"><a class="markdownIt-Anchor" href="#开始"></a> 开始</h2>
+<h3 id="mysql"><a class="markdownIt-Anchor" href="#mysql"></a> MySQL</h3>
+<ul>
+<li>表设计</li>
+<li>SQL技巧</li>
+<li>事务和行级锁</li>
+</ul>
+<h3 id="mybatis合理使用"><a class="markdownIt-Anchor" href="#mybatis合理使用"></a> MyBatis合理使用</h3>
+<ul>
+<li>DAO层设计与开发</li>
+<li>MyBatis合理使用</li>
+<li>MyBatis与Spring整合</li>
+</ul>
+<h3 id="spring"><a class="markdownIt-Anchor" href="#spring"></a> Spring</h3>
+<ul>
+<li>Spring IOC整合Service</li>
+<li>声明式事务的运用</li>
+</ul>
+<h3 id="spring-mvc"><a class="markdownIt-Anchor" href="#spring-mvc"></a> Spring MVC</h3>
+<ul>
+<li>Restful接口的设计和使用</li>
+<li>框架运作流程</li>
+<li>Controller开发技巧</li>
+</ul>
+<h3 id="前端"><a class="markdownIt-Anchor" href="#前端"></a> 前端</h3>
+<ul>
+<li>交互设计</li>
+<li>BootStrap</li>
+<li>JQuery</li>
+</ul>
+<h3 id="高并发"><a class="markdownIt-Anchor" href="#高并发"></a> 高并发</h3>
+<ul>
+<li>高并发点和高并发分析</li>
+<li>优化思路并实现</li>
+</ul>
+<h3 id="基于maven创建项目"><a class="markdownIt-Anchor" href="#基于maven创建项目"></a> 基于Maven创建项目</h3>
+<blockquote>
+<p>建议从官网中获取文档</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate -DgroupId=com.yuda.test -DartifactId=seckill -DarchetypeArtifactId=maven-archetype-webapp</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.yuda.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>seckill<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>seckill Maven Webapp<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">            日志相关</span></span><br><span class="line"><span class="comment">            slf4j: 是规范/接口</span></span><br><span class="line"><span class="comment">            日志实现: log4j,logback,common-logging</span></span><br><span class="line"><span class="comment">            这里使用: slf4j + logback</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--  整合slf4j  --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--数据库相关依赖--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.35<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- DAO相关 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Servlet相关依赖 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>taglibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>standard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Spring依赖 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-beans<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-tx<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>seckill<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="秒杀系统业务流程"><a class="markdownIt-Anchor" href="#秒杀系统业务流程"></a> 秒杀系统业务流程</h3>
+<ol>
+<li>角色有: 商家, <strong>库存</strong>, 用户;</li>
+<li>库存是核心;</li>
+<li>用户针对库存的业务:
+<ol>
+<li>减库存+记录购买明细 = 完整事务</li>
+<li>完整事务需要准确的事务落地</li>
+</ol>
+</li>
+<li>购买行为: 记录用户谁购买成功,成功时间有效期,付款/发货信息</li>
+</ol>
+<h4 id="如果"><a class="markdownIt-Anchor" href="#如果"></a> 如果…</h4>
+<ol>
+<li>减库存没有记录购买明细;</li>
+<li>记了明细没有库存减少;</li>
+<li>出现了超卖/少卖;</li>
+</ol>
+<h4 id="数据落地两种"><a class="markdownIt-Anchor" href="#数据落地两种"></a> 数据落地(两种)</h4>
+<blockquote>
+<p>MySQL vs NoSQL</p>
+</blockquote>
+<p>MySQL 用事务实现准确且最可靠的落地方案<br />
+NoSQL 性能,高可用,分布式</p>
+<h4 id="难点分析"><a class="markdownIt-Anchor" href="#难点分析"></a> 难点分析</h4>
+<ol>
+<li>
+<p>竞争问题:大量用户<br />
+MySQL: 事务+行级锁</p>
+<blockquote>
+<p>Strat Transaction<br />
+<strong>Update 减库存</strong><br />
+Insert 记录购买明细<br />
+Commit</p>
+</blockquote>
+<p>当一个用户update时,其他用户处于等待状态</p>
+<p>难点是如何高效处理竞争???</p>
+</li>
+<li>
+<p>秒杀相关的功能有:</p>
+<ul>
+<li>秒杀接口暴露;</li>
+<li>执行秒杀;</li>
+<li>相关查询</li>
+</ul>
+</li>
+</ol>
+<h4 id="代码开发阶段"><a class="markdownIt-Anchor" href="#代码开发阶段"></a> 代码开发阶段</h4>
+<h5 id="编写数据库"><a class="markdownIt-Anchor" href="#编写数据库"></a> 编写数据库</h5>
+<pre><code><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE seckill;</span><br><span class="line"></span><br><span class="line">USE seckill;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 库存表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE TABLE</span> t_seckill (</span><br><span class="line">  `seckill_id`  <span class="type">BIGINT</span>       <span class="keyword">NOT NULL</span> AUTO_INCREMENT</span><br><span class="line">  COMMENT <span class="string">&#x27;商品库存ID&#x27;</span>,</span><br><span class="line">  `name`        <span class="type">VARCHAR</span>(<span class="number">120</span>) <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;商品名称&#x27;</span>,</span><br><span class="line">  `number`      <span class="type">INT</span>          <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;库存数量&#x27;</span>,</span><br><span class="line">  `start_time`  <span class="type">TIMESTAMP</span>    <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;秒杀开始时间&#x27;</span>,</span><br><span class="line">  `end_time`    <span class="type">TIMESTAMP</span>    <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;秒杀结束时间&#x27;</span>,</span><br><span class="line">  `create_time` <span class="type">TIMESTAMP</span>    <span class="keyword">NOT NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">current_timestamp</span></span><br><span class="line">  COMMENT <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY KEY</span> (seckill_id),</span><br><span class="line">  KEY idx_start_time(start_time),</span><br><span class="line">  KEY idx_end_time(end_time),</span><br><span class="line">  KEY idx_create_time(create_time)</span><br><span class="line">)</span><br><span class="line">  ENGINE <span class="operator">=</span> InnoDB</span><br><span class="line">  AUTO_INCREMENT <span class="operator">=</span> <span class="number">1000</span></span><br><span class="line">  <span class="keyword">DEFAULT</span> CHARSET <span class="operator">=</span> utf8</span><br><span class="line">  COMMENT <span class="operator">=</span><span class="string">&#x27;秒杀库存表&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 初始化数据省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 用户登录认证相关</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> success_killed (</span><br><span class="line">  `seckill_id`  <span class="type">BIGINT</span>    <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;秒杀商品ID&#x27;</span>,</span><br><span class="line">  `user_phone`  <span class="type">BIGINT</span>    <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;用户手机号&#x27;</span>,</span><br><span class="line">  `state`       TINYINT   <span class="keyword">NOT NULL</span> <span class="keyword">DEFAULT</span> <span class="number">-1</span></span><br><span class="line">  COMMENT <span class="string">&#x27;状态标示:-1无效,0成功,1已付款,2发货&#x27;</span>,</span><br><span class="line">  `create_time` <span class="type">TIMESTAMP</span> <span class="keyword">NOT NULL</span></span><br><span class="line">  COMMENT <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY KEY</span> (seckill_id, user_phone), <span class="comment">/*联合主键*/</span></span><br><span class="line">  KEY idx_create_time(create_time)</span><br><span class="line">)</span><br><span class="line">  ENGINE <span class="operator">=</span> InnoDB</span><br><span class="line">  <span class="keyword">DEFAULT</span> CHARSET <span class="operator">=</span> utf8</span><br><span class="line">  COMMENT <span class="operator">=</span><span class="string">&#x27;秒杀成功明细表&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改</span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> seckill.t_seckill</span><br><span class="line">  <span class="keyword">DROP</span> INDEX idx_create_time,</span><br><span class="line">  <span class="keyword">ADD</span> INDEX idx_c_s(start_time, create_time)</span><br></pre></td></tr></table></figure>
+
+&gt; **注意**:购买记录表中的主键使用了联合主键(商品和用户唯一表示),防止了用户购买多个同种商品,
+</code></pre>
+<h5 id="mybatis-configxml"><a class="markdownIt-Anchor" href="#mybatis-configxml"></a> mybatis-config.xml</h5>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--全局属性--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--使用jdbc的getGeneratedKeys 获取数据库的自增加主键--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useGeneratedKeys&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--使用列别名替换列名 默认:true--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useColumnLabel&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--开启驼峰命名转换--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;mapUnderscoreToCamelCase&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--下面的配置交给Spring(为Spring打Call)--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<h5 id="实体类mapperxml"><a class="markdownIt-Anchor" href="#实体类mapperxml"></a> 实体类mapper.xml</h5>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">mapper</span></span></span><br><span class="line"><span class="meta">    <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--映射接口--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.yuda.dao.SeckillDao&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--具体的sql语句--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;reduceNumber&quot;</span>&gt;</span></span><br><span class="line">        UPDATE seckill.t_seckill</span><br><span class="line">        SET number = number - 1</span><br><span class="line">        WHERE seckill_id = #&#123;seckillId&#125;</span><br><span class="line">              AND start_time &lt;![CDATA[ &lt;= ]]&gt; #&#123;killTime&#125;</span><br><span class="line">              AND end_time &gt;= #&#123;killTime&#125;</span><br><span class="line">              AND number &gt; 0;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryById&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;long&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.yuda.entity.Seckill&quot;</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            seckill_id,</span><br><span class="line">            name,</span><br><span class="line">            number,</span><br><span class="line">            start_time,</span><br><span class="line">            end_time,</span><br><span class="line">            create_time</span><br><span class="line">        FROM seckill.t_seckill</span><br><span class="line">        WHERE seckill_id = #&#123;seckillId&#125;;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryAll&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.yuda.entity.Seckill&quot;</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            seckill_id,</span><br><span class="line">            name,</span><br><span class="line">            number,</span><br><span class="line">            start_time,</span><br><span class="line">            end_time,</span><br><span class="line">            create_time</span><br><span class="line">        FROM seckill.t_seckill</span><br><span class="line">        ORDER BY create_time DESC</span><br><span class="line">        LIMIT #&#123;offset&#125;, #&#123;limit&#125;;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">mapper</span></span></span><br><span class="line"><span class="meta">    <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--映射接口--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.yuda.dao.SuccessKilledDao&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 如果出现重复插入问题(主键冲突),不报错,返回0 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertSucceccKilled&quot;</span>&gt;</span></span><br><span class="line">        INSERT IGNORE INTO seckill.success_killed (seckill_id, user_phone, state)</span><br><span class="line">        VALUES (#&#123;seckillId&#125;, #&#123;userPhone&#125;, 0);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--设置别名用于级联操作--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryByIdWithSeckill&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.yuda.entity.SuccessKilled&quot;</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            sk.seckill_id,</span><br><span class="line">            sk.user_phone,</span><br><span class="line">            sk.create_time,</span><br><span class="line">            sk.state,</span><br><span class="line">            s.seckill_id  &quot;seckill.seckill_id&quot;,</span><br><span class="line">            s.name        &quot;seckill.name&quot;,</span><br><span class="line">            s.number      &quot;seckill.number&quot;,</span><br><span class="line">            s.start_time  &quot;seckill.start_time&quot;,</span><br><span class="line">            s.end_time    &quot;seckill.end_time&quot;,</span><br><span class="line">            s.create_time &quot;seckill.create_time&quot;</span><br><span class="line">        FROM seckill.success_killed sk</span><br><span class="line">            INNER JOIN seckill.t_seckill s</span><br><span class="line">                ON sk.seckill_id = s.seckill_id</span><br><span class="line">        WHERE sk.seckill_id = #&#123;seckillId&#125; AND sk.user_phone = #&#123;userPhone&#125;;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<h5 id="spring-daoxml"><a class="markdownIt-Anchor" href="#spring-daoxml"></a> spring-dao.xml</h5>
+<pre><code>&gt; 整合Spring后:
+&gt; 1. 更少的编码 (只写接口)
+&gt; 2. 更少的配置 (包扫描)
+&gt; 3. 足够的灵活性 (SQL自己定义,还可以动态拼接)
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="string"><span class="tag">       http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.yuda&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath*:jdbc.properties&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--DataSource--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mysql.driver&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mysql.url&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mysql.username&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;mysql.password&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--配置连接池属性--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;30&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--关闭连接后不自动commit--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;autoCommitOnClose&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--获取连接超时时间--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;checkoutTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1000&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--重试次数--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;acquireRetryAttempts&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 用spring来创建sqlsessionfactory--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sessionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--管理MyBatis--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--主配文件--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configLocation&quot;</span> <span class="attr">value</span>=<span class="string">&quot;classpath:mybatis-config.xml&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 扫描entity,生成别名 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;typeAliasesPackage&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.yuda.entity&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--扫描实体类配置文件--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapperLocations&quot;</span> <span class="attr">value</span>=<span class="string">&quot;classpath:com/yuda/mapper/*.xml&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--扫描,配置DAO接口包,注入到容器--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 扫描Mapper --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;basePackage&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.yuda.dao&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--注入sessionFactory--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sqlSessionFactoryBeanName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;sessionFactory&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+<h5 id="entity"><a class="markdownIt-Anchor" href="#entity"></a> Entity</h5>
+<pre><code>Table -&gt; 对应 -&gt; Entity
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Seckill</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> seckillId;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> number;</span><br><span class="line">    <span class="keyword">private</span> Date startTime;</span><br><span class="line">    <span class="keyword">private</span> Date endTime;</span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SuccessKilled</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> seckillId;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> userPhone;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">short</span> state;</span><br><span class="line">    <span class="keyword">private</span> Date createTime;</span><br><span class="line">    <span class="comment">//多对一</span></span><br><span class="line">    <span class="keyword">private</span> Seckill seckill;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<h5 id="mapper"><a class="markdownIt-Anchor" href="#mapper"></a> Mapper</h5>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SuccessKilledDao</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">insertSucceccKilled</span><span class="params">(<span class="meta">@Param(&quot;seckillId&quot;)</span> <span class="type">long</span> seckillId, <span class="meta">@Param(&quot;userPhone&quot;)</span> <span class="type">long</span> userPhone)</span>;</span><br><span class="line"></span><br><span class="line">    SuccessKilled <span class="title function_">queryByIdWithSeckill</span><span class="params">(<span class="meta">@Param(&quot;seckillId&quot;)</span> <span class="type">long</span> seckillId, <span class="meta">@Param(&quot;userPhone&quot;)</span> <span class="type">long</span> userPhone)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SeckillDao</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="title function_">reduceNumber</span><span class="params">(<span class="meta">@Param(&quot;seckillId&quot;)</span> <span class="type">long</span> seckillId,<span class="meta">@Param(&quot;killTime&quot;)</span> Date killTime)</span>;</span><br><span class="line"></span><br><span class="line">    Seckill <span class="title function_">queryById</span><span class="params">(<span class="type">long</span> seckillId)</span>;</span><br><span class="line"></span><br><span class="line">    List&lt;Seckill&gt; <span class="title function_">queryAll</span><span class="params">(<span class="meta">@Param(&quot;offset&quot;)</span> <span class="type">int</span> offset, <span class="meta">@Param(&quot;limit&quot;)</span> <span class="type">int</span> limit)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<h3 id="测试功能"><a class="markdownIt-Anchor" href="#测试功能"></a> 测试功能</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(value = SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="meta">@ContextConfiguration(locations = &quot;classpath*:spring-dao.xml&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Autowired和Resource作用一样不过A是根据类型注入,R是根据名字注入</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SeckillDao seckillDao;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> SuccessKilledDao successKilledDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo1</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Seckill</span> <span class="variable">seckill</span> <span class="operator">=</span> seckillDao.queryById(<span class="number">1000</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;灿宇达&quot;</span> + seckill);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo2</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        List&lt;Seckill&gt; seckills = seckillDao.queryAll(<span class="number">0</span>, <span class="number">5</span>);</span><br><span class="line">        <span class="keyword">for</span> (Seckill seckill : seckills) &#123;</span><br><span class="line">            System.out.println(seckill);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">demo3</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">killTime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> seckillDao.reduceNumber(<span class="number">1000</span>, killTime);</span><br><span class="line">        System.out.println(<span class="string">&quot;状态码::&quot;</span> + i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertSucceccKilled</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> successKilledDao.insertSucceccKilled(<span class="number">1001L</span>, <span class="number">13972218121L</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;状态码::&quot;</span> + i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">queryByIdWithSeckill</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">SuccessKilled</span> <span class="variable">successKilled</span> <span class="operator">=</span> successKilledDao.queryByIdWithSeckill(<span class="number">1001L</span>, <span class="number">13972218121L</span>);</span><br><span class="line">        System.out.println(successKilled);</span><br><span class="line">        System.out.println(successKilled.getSeckill());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>I am a slow walker,but I never walk backwards.</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                基于SSM实现高并发秒杀API(DAO层)
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017110710576/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-11-07 21:02</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/myporject/">个人项目</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/concurrent/">高并发</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/201711083091/"
+                                   title="基于SSM实现高并发秒杀API(Service层)"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">基于SSM实现高并发秒杀API(Service层)</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017110655356/"
+                                   title="零散知识点"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">零散知识点</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E5%85%88"><span class="nav-number">1.</span> <span class="nav-text"> 首先</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-mvc-spring-mybatis"><span class="nav-number">2.</span> <span class="nav-text"> Spring MVC + Spring + MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E7%A7%92%E6%9D%80%E7%B1%BB%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text"> 为什么用秒杀类系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E6%A6%82%E6%8B%AC"><span class="nav-number">4.</span> <span class="nav-text"> 内容概括</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">5.</span> <span class="nav-text"> 开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">5.1.</span> <span class="nav-text"> MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis%E5%90%88%E7%90%86%E4%BD%BF%E7%94%A8"><span class="nav-number">5.2.</span> <span class="nav-text"> MyBatis合理使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring"><span class="nav-number">5.3.</span> <span class="nav-text"> Spring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-mvc"><span class="nav-number">5.4.</span> <span class="nav-text"> Spring MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">5.5.</span> <span class="nav-text"> 前端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-number">5.6.</span> <span class="nav-text"> 高并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Emaven%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">5.7.</span> <span class="nav-text"> 基于Maven创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">5.8.</span> <span class="nav-text"> 秒杀系统业务流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C"><span class="nav-number">5.8.1.</span> <span class="nav-text"> 如果…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%90%BD%E5%9C%B0%E4%B8%A4%E7%A7%8D"><span class="nav-number">5.8.2.</span> <span class="nav-text"> 数据落地(两种)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">5.8.3.</span> <span class="nav-text"> 难点分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5"><span class="nav-number">5.8.4.</span> <span class="nav-text"> 代码开发阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.8.4.1.</span> <span class="nav-text"> 编写数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mybatis-configxml"><span class="nav-number">5.8.4.2.</span> <span class="nav-text"> mybatis-config.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E7%B1%BBmapperxml"><span class="nav-number">5.8.4.3.</span> <span class="nav-text"> 实体类mapper.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#spring-daoxml"><span class="nav-number">5.8.4.4.</span> <span class="nav-text"> spring-dao.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#entity"><span class="nav-number">5.8.4.5.</span> <span class="nav-text"> Entity</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mapper"><span class="nav-number">5.8.4.6.</span> <span class="nav-text"> Mapper</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8A%9F%E8%83%BD"><span class="nav-number">5.9.</span> <span class="nav-text"> 测试功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E5%85%88"><span class="nav-number">1.</span> <span class="nav-text"> 首先</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-mvc-spring-mybatis"><span class="nav-number">2.</span> <span class="nav-text"> Spring MVC + Spring + MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E7%A7%92%E6%9D%80%E7%B1%BB%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text"> 为什么用秒杀类系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E6%A6%82%E6%8B%AC"><span class="nav-number">4.</span> <span class="nav-text"> 内容概括</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">5.</span> <span class="nav-text"> 开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">5.1.</span> <span class="nav-text"> MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis%E5%90%88%E7%90%86%E4%BD%BF%E7%94%A8"><span class="nav-number">5.2.</span> <span class="nav-text"> MyBatis合理使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring"><span class="nav-number">5.3.</span> <span class="nav-text"> Spring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-mvc"><span class="nav-number">5.4.</span> <span class="nav-text"> Spring MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">5.5.</span> <span class="nav-text"> 前端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-number">5.6.</span> <span class="nav-text"> 高并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Emaven%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">5.7.</span> <span class="nav-text"> 基于Maven创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">5.8.</span> <span class="nav-text"> 秒杀系统业务流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C"><span class="nav-number">5.8.1.</span> <span class="nav-text"> 如果…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%90%BD%E5%9C%B0%E4%B8%A4%E7%A7%8D"><span class="nav-number">5.8.2.</span> <span class="nav-text"> 数据落地(两种)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">5.8.3.</span> <span class="nav-text"> 难点分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5"><span class="nav-number">5.8.4.</span> <span class="nav-text"> 代码开发阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.8.4.1.</span> <span class="nav-text"> 编写数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mybatis-configxml"><span class="nav-number">5.8.4.2.</span> <span class="nav-text"> mybatis-config.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E7%B1%BBmapperxml"><span class="nav-number">5.8.4.3.</span> <span class="nav-text"> 实体类mapper.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#spring-daoxml"><span class="nav-number">5.8.4.4.</span> <span class="nav-text"> spring-dao.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#entity"><span class="nav-number">5.8.4.5.</span> <span class="nav-text"> Entity</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mapper"><span class="nav-number">5.8.4.6.</span> <span class="nav-text"> Mapper</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8A%9F%E8%83%BD"><span class="nav-number">5.9.</span> <span class="nav-text"> 测试功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

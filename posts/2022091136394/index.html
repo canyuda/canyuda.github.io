@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（十一） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（十一）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-11 10:53:12</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.4k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>而为了确保核心服务的可用性，有时候我们就会<strong>故意对那些不重要的服务执行下线操作，从而确保系统中有限的资源都应用到核心服务上</strong>。这就引出了在分布式系统构建过程中非常重要的一个技术组件，即服务降级。</p>
+<p>那么，什么是服务降级？又有那些常见的服务降级实现策略呢？</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<p>我们可以引出与服务降级相关的一系列问题，包括：</p>
+<ul>
+<li>系统中存在很多服务，你怎么判断哪些服务是可以降级的呢？</li>
+<li>快速失败的表现形式有哪些？</li>
+<li>想要实现服务降级，你有哪些设计思路？</li>
+<li>什么是服务回退？如何实现服务回退？</li>
+<li>Dubbo 框架是如何实现服务降级的？</li>
+<li>Spring Cloud 框架是如何实现服务降级的？</li>
+</ul>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p>所谓<strong>服务降级</strong>，是指在某些系统核心服务的访问压力剧增的情况下，根据当前业务情况及流量对一些服务进行有策略的快速失败处理，以此避免服务之间的调用依赖影响到其他<strong>核心服务</strong>。</p>
+<p>服务降级的<strong>实现策略</strong>。目前，在主流的开源框架中，关于如何实现服务降级有两大类策略，即：</p>
+<ul>
+<li>模拟（Mock）机制</li>
+<li>回退（Fallback）机制</li>
+</ul>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<p>从技术体系而言，关于服务降级我们要明确两个维度的内容。</p>
+<ul>
+<li>第一个维度是如何对服务进行分级管理</li>
+<li>另一个维度就是具体的降级实现策略</li>
+</ul>
+<p>我们来讨论第二个维度，即服务降级的<strong>实现策略</strong>。在问题分析部分，我们已经提到了两种主流的降级机制，即<strong>模拟</strong>和<strong>回退</strong>。</p>
+<h3 id="模拟"><a class="markdownIt-Anchor" href="#模拟"></a> 模拟</h3>
+<p><strong>Mock 机制的作用就是完成对系统中组件与组件之间的有效隔离</strong></p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220903/%E6%A8%A1%E6%8B%9F.png"  alt=" " ></p>
+<h3 id="回退"><a class="markdownIt-Anchor" href="#回退"></a> 回退</h3>
+<p>服务降级的另一种主流实现策略是服务回退。为了实现对服务的降级，服务端会准备一个本地的 <strong>Fallback 函数</strong>，该函数会在每次调用时返回一个缺省值，如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220903/%E5%9B%9E%E9%80%80.png"  alt=" " ></p>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<p>接下来，我们就将基于 Dubbo 和 Spring Cloud 这两款开源框架分别给出服务降级的实现方式。虽然这两种框架采用不同的实现方式，但其设计思想本质上是类似的。</p>
+<h3 id="dubbo-中的服务降级"><a class="markdownIt-Anchor" href="#dubbo-中的服务降级"></a> Dubbo 中的服务降级</h3>
+<h4 id="dubbo-中的-mock-机制"><a class="markdownIt-Anchor" href="#dubbo-中的-mock-机制"></a> Dubbo 中的 Mock 机制</h4>
+<p>Dubbo 通过 Mock 来实现服务降级的过程和测试领域的 Mock 有异曲同工之处。在 Dubbo 中，可以在配置服务引用时提供 Mock 机制，存在几种配置方法，这里参考 Dubbo 官网中的示例。</p>
+<p>首先，我们可以在配置文件中添加如下所示的配置项：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">interface</span>=<span class="string">&quot;com.foo.BarService&quot;</span> <span class="attr">mock</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果采用这种配置，那么该 Mock 类的命名必须是接口名 +Mock，在这个示例中，即 BarServiceMock。我们可以提供如下所示的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BarServiceMock</span> <span class="keyword">implements</span> <span class="title class_">BarService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String name)</span> &#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;降级数据&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，我们也可以提供如下所示的配置项，指定 Mock 的实现类。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">interface</span>=<span class="string">&quot;com.foo.BarService&quot;</span> <span class="attr">mock</span>=<span class="string">&quot;com.foo.BarServiceMock&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然，如果 Mock 方法的逻辑非常简单，我们也可以直接将实现写在配置项中。例如，如下所示的配置标明 Mock 方法直接返回 null。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">interface</span>=<span class="string">&quot;com.foo.BarService&quot;</span> <span class="attr">mock</span>=<span class="string">&quot;return null&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过上述配置方法，在服务调用过程中，返回的就是一个事先提供的 Mock 对象，而不会对服务提供者发起真实请求。</p>
+<p>Mock 还存在一些高级用法，如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220903/dubboMock.png"  alt=" " ></p>
+<ul>
+<li>在执行 Mock 的过程中，如果我们希望抛出一个异常而不是返回正常的 Mock 值，那么可以使用 throw 配置项。</li>
+<li>而上图中的 fail 配置项用于指定当远程调用过程中发生错误时才会返回 Mock 对象。</li>
+<li>对应的，force 配置项用于指定在任何情况下都将返回 Mock 对象。</li>
+</ul>
+<p>现在，让我们回到 Dubbo 中的 Cluster 接口。</p>
+<p>我们知道该接口存在一批实现类。在这些实现类中，存在一个命名上比较特殊的 MockClusterWrapper 类，该类恰恰就是用于实现 Mock 机制，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MockClusterWrapper</span> <span class="keyword">implements</span> <span class="title class_">Cluster</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Cluster cluster;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MockClusterWrapper</span><span class="params">(Cluster cluster)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.cluster = cluster;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; Invoker&lt;T&gt; <span class="title function_">join</span><span class="params">(Directory&lt;T&gt; directory)</span> <span class="keyword">throws</span> RpcException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MockClusterInvoker</span>&lt;T&gt;(directory,</span><br><span class="line">                <span class="built_in">this</span>.cluster.join(directory));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与其他 Cluster 接口的实现类不同，<code>MockClusterWrapper</code> 内部同时持有一个 <code>Cluster</code> 接口，相当于是对 <code>Cluster</code> 接口的一种包装（Wrapper），所以该类取名为 <code>MockClusterWrapper</code>。而该类的 <code>join</code> 方法中即根据传入的 <code>Directory</code> 构建一个 <code>MockClusterInvoker</code> 类。</p>
+<p>显然，Mock 的核心逻辑应该位于 <code>MockClusterInvoker</code> 类中，让我们来一起看一下。</p>
+<h4 id="mockinvoker-和-mockclusterinvoker"><a class="markdownIt-Anchor" href="#mockinvoker-和-mockclusterinvoker"></a> MockInvoker 和 MockClusterInvoker</h4>
+<p>同样，我们也知道在 Dubbo 中存在一批 <code>ClusterInvoker</code> 实现类。</p>
+<p>在这些实现类中，构造函数只传入一个 <code>Directory</code> 对象。而 <code>MockClusterInvoker</code> 的构造函数则包含两个参数，除了 <code>Directory</code> 对象还有一个 <code>Invoker</code> 对象。因此，<code>MockClusterInvoker</code> 天生就包含了<code>Invoker</code>对象。</p>
+<p>MockClusterInvoker 的 invoke 方法执行流程如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Result <span class="title function_">invoke</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> RpcException &#123;</span><br><span class="line">    <span class="type">Result</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//获取输入参数</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> directory.getUrl().getMethodParameter(invocation.getMethodName(), Constants.MOCK_KEY, Boolean.FALSE.toString()).trim();</span><br><span class="line">    <span class="keyword">if</span> (value.length() == <span class="number">0</span> || value.equalsIgnoreCase(<span class="string">&quot;false&quot;</span>)) &#123;</span><br><span class="line">        <span class="comment">//如果没有 Mock 键，则不执行 Mock</span></span><br><span class="line">        result = <span class="built_in">this</span>.invoker.invoke(invocation);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value.startsWith(<span class="string">&quot;force&quot;</span>)) &#123;</span><br><span class="line">        …</span><br><span class="line">        <span class="comment">//如果以 force 开头，直接 Mock，不发起远程调用请求</span></span><br><span class="line">        result = doMockInvoke(invocation, <span class="literal">null</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//如果以 fail 开头，进入失败 Mock，即正常发起远程调用请求，如果失败则抛出了非业务异常</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            result = <span class="built_in">this</span>.invoker.invoke(invocation);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RpcException e) &#123;</span><br><span class="line">            <span class="keyword">if</span> (e.isBiz()) &#123;</span><br><span class="line">                <span class="comment">//如果是业务异常，直接抛出</span></span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                …</span><br><span class="line">                <span class="comment">//如果捕获到非业务异常，则调用 doMockInvoke 方法返回结果</span></span><br><span class="line">                result = doMockInvoke(invocation, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码实际上就是三个分支流程，分别对应没有 Mock 配置、以“force”开头的配置和以“fail”开头的配置这三种场景。</p>
+<ul>
+<li>如果没有 Mock 配置，就不执行 Mock；</li>
+<li>如果是以“force”开头，那么就直接返回 Mock 对象而不发起远程调用请求；</li>
+<li>如果以“fail”开头，意味着进入失败 Mock 处理流程，即正常发起远程调用请求，如果失败则抛出了非业务异常。</li>
+</ul>
+<p>因为 <code>MockClusterInvoker</code> 中自身包含有一个 <code>Invoker</code> 对象，因此直接就可以通过该 <code>Invoker</code> 对象执行远程调用。如果这个异常是业务异常，就直接抛出交由上游代码进行处理。而如果捕获到非业务异常，则会调用 <code>doMockInvoke</code> 方法返回结果。</p>
+<p>接下来就需要看一下这个 <code>doMockInvoke</code> 方法的执行逻辑。该方法核心逻辑之一是获取 <code>MockInvoker</code> 并执行它的 <code>invoke</code> 方法，这部分实现如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Invoker&lt;T&gt;&gt; mockInvokers = selectMockInvoker(invocation);</span><br><span class="line"><span class="keyword">if</span> (mockInvokers == <span class="literal">null</span> || mockInvokers.size() == <span class="number">0</span>) &#123;</span><br><span class="line">        minvoker = (Invoker&lt;T&gt;) <span class="keyword">new</span> <span class="title class_">MockInvoker</span>(directory.getUrl());</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        minvoker = mockInvokers.get(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line">result = minvoker.invoke(invocation);</span><br></pre></td></tr></table></figure>
+<p>我们看到，这里会通过 <code>selectMockInvoker</code> 方法获取 Mock 类型的 <code>Invoker</code>。而如果没有找到想要的 <code>Invoker</code>，则会自己创建一个 <code>MockInvoker</code>。</p>
+<p><code>MockInvoker</code> 中最重要的就是 <code>invoke</code> 方法，该方法包含了一系列判断，核心逻辑如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Result <span class="title function_">invoke2</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> RpcException &#123;</span><br><span class="line">    <span class="comment">// 如果是空的&quot;return&quot;配置</span></span><br><span class="line">    <span class="keyword">if</span> (Constants.RETURN_PREFIX.trim().equalsIgnoreCase(mock.trim())) &#123;</span><br><span class="line">        <span class="comment">//直接返回空的 RpcResult</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mock.startsWith(Constants.RETURN_PREFIX)) &#123;<span class="comment">//如果是包含返回值的&quot;return&quot;配置        	</span></span><br><span class="line">        <span class="comment">//解析 Mock 对象，构建 RpcResult 并返回</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mock.startsWith(Constants.THROW_PREFIX)) &#123;<span class="comment">//如果是&quot;throw&quot;配置</span></span><br><span class="line">        <span class="comment">//抛出Mock异常</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">            <span class="comment">//抛出业务异常</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">//如果是自定义Mock类</span></span><br><span class="line">        <span class="comment">//调用Mock类的invoke方法并返回</span></span><br><span class="line">        Invoker&lt;T&gt; invoker = getInvoker(mock);</span><br><span class="line">        <span class="keyword">return</span> invoker.invoke(invocation); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段方法针对“return”配置和“throw”配置的处理都比较简单，而如果是业务异常我们也是采用直接抛向上游代码。这里的关键是如何获取自定义 Mock 类的实例，这里用到了 getInvoker 方法，该方法的核心就是如下所示的这两行代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">T</span> <span class="variable">mockObject</span> <span class="operator">=</span> (T) mockClass.newInstance();</span><br><span class="line">invoker = proxyFactory.getInvoker(mockObject, (Class&lt;T&gt;) serviceType, url);</span><br></pre></td></tr></table></figure>
+<p>这里看到了熟悉的 <code>ProxyFactory</code> 接口，这是 Dubbo 中实现动态代理的核心接口。现在，我们明确了，上述代码<strong>基于反射机制获取自定义 Mock 类实例，然后通过动态代理创建 Invoker</strong>。</p>
+<h3 id="spring-cloud-中的服务降级"><a class="markdownIt-Anchor" href="#spring-cloud-中的服务降级"></a> Spring Cloud 中的服务降级</h3>
+<p>和 Dubbo 相比，Spring Cloud 采用了另一种完全不同的机制来实现服务降级，这就是<strong>回退机制</strong>。在接下里的内容中，我们将对回退机制的使用方式和设计理念做一定分析。</p>
+<h4 id="spring-cloud-中的回退机制"><a class="markdownIt-Anchor" href="#spring-cloud-中的回退机制"></a> Spring Cloud 中的回退机制</h4>
+<p>在 Spring Cloud 中，我们可以基于 Spring Cloud Circuit Breaker 提供的回退机制来实现服务降级。在开发过程上，我们只需要提供一个回退方法实现并进行配置即可。这里同样也给出对应的实现方式。</p>
+<p>我们举个例子，假设系统中存在一个代表用户业务的用户服务，那么当访问这个服务时，我们就可以实现回退方法。在回退方法的实现过程中，唯一需要注意的就是该回退方法的参数和返回值必须与真实的方法完全一致。</p>
+<p>如下所示的就是回退方法的一个示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> UserMapper <span class="title function_">getUserFallback</span><span class="params">(String userName)</span> &#123;</span><br><span class="line">	<span class="type">UserMapper</span> <span class="variable">fallbackUser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserMapper</span>(<span class="number">0L</span>,<span class="string">&quot;no_user&quot;</span>,<span class="string">&quot;not_existed_user&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> fallbackUser;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以基于 Spring Cloud Circuit Breaker 实现服务回退，开发流程也比较固化。首先，我们需要创建一个 <code>CircuitBreaker</code> 实例，然后实现具体的业务逻辑并提供一个回退方法，最后执行 <code>CircuitBreaker</code> 的 <code>run</code> 方法，示例代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建CircuitBreaker</span></span><br><span class="line"><span class="type">CircuitBreaker</span> <span class="variable">circuitBreaker</span> <span class="operator">=</span> circuitBreakerFactory.create(<span class="string">&quot;user&quot;</span>);</span><br><span class="line">		</span><br><span class="line"><span class="comment">//封装业务逻辑</span></span><br><span class="line">Supplier&lt;UserMapper&gt; supplier = () -&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> userClient.getUserByUserName(userName);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化回退函数</span></span><br><span class="line">Function&lt;Throwable, UserMapper&gt; fallback = t -&gt; &#123;			</span><br><span class="line">	<span class="type">UserMapper</span> <span class="variable">fallbackUser</span>	<span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserMapper</span>(<span class="number">0L</span>,<span class="string">&quot;no_user&quot;</span>,<span class="string">&quot;not_existed_user&quot;</span>);	</span><br><span class="line">	<span class="keyword">return</span> fallbackUser;</span><br><span class="line">&#125;;</span><br><span class="line">				</span><br><span class="line"><span class="comment">//执行业务逻辑</span></span><br><span class="line">circuitBreaker.run(supplier, fallback);</span><br></pre></td></tr></table></figure>
+<p>上述示例代码可以根据具体需求进行调整并嵌入到各种业务场景中。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>针对服务降级，在面试过程中，相比 Mock 机制，我认为回退机制被问题的频率会更高，是我们重点需要掌握的知识点。事实上，服务回退在分布式系统构建过程中并不能算是一个非常独立的知识点，而是属于服务降级体系下的一个具体实现策略。所以，需要面试者具有比较广的知识面，并能从概念到实现过程上对服务回退有一定的了解。</p>
+<p>事实上，服务回退的概念并不难理解。在传统开发模式下，我们在系统发生异常时通常都会返回一个默认的提示信息。服务回退与这种处理方式是类似的，本质上就是一个回调处理机制，能够针对某个方法提供缺省的返回值。在实施过程中，常见的做法是对业务方法提供一个对应的回退方法，回退方法的参数和返回值必须与真实的方法完全一致，这样确保系统获取到缺省的返回值之后还能够正常运行。</p>
+<p>关于服务降级的相关问题，还有一种开放式的提问方式，比方说“如果让你来实现一个服务回退机制，你会怎么做？”。有时候，面试官很难从那些概念类的标准答案中看出不同面试者的水平差异，这时候就可以通过类似本题的方式进行考查。</p>
+<p>从考查难度而言，这种开放式的面试题对面试者而言有利有弊。一方面，这种面试题没有标准答案，面试者可以自由发挥，只要做到自圆其说就行。另一方面，这种面试题可以会让面试者感到无从下手，从而导致没有很好的回答思路。</p>
+<p>从设计思想上讲，我们可以基于拦截器来实现服务回退机制。在这套自定义的实现机制中，通过引入 AOP 对异常进行拦截。一旦拦截成功，那么就可以嵌入自定义的回退方法并执行该方法中的回退逻辑。事实上，在 Spring Cloud 等主流开源框架中，也正是基于类似的机制提供了服务回退功能。在回答这道面试题时，我们可以首先阐述自己的设计思想，然后结合开源框架给出具体的实现原理。</p>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<p>服务降级的常见实现模式包括模拟和回退两种。</p>
+<p>这两种实现模式体现的都是一种自动化的处理策略，当服务响应出现问题时能够返回一个处理结果，从而避免对目标服务执行真正的远程调用。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（十一）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022091136394/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-11 10:53</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022112963116/"
+                                   title="Explain详解"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Explain详解</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022091023774/"
+                                   title="分布式系统（十）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（十）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F"><span class="nav-number">3.1.</span> <span class="nav-text"> 模拟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E9%80%80"><span class="nav-number">3.2.</span> <span class="nav-text"> 回退</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 中的服务降级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84-mock-%E6%9C%BA%E5%88%B6"><span class="nav-number">4.1.1.</span> <span class="nav-text"> Dubbo 中的 Mock 机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mockinvoker-%E5%92%8C-mockclusterinvoker"><span class="nav-number">4.1.2.</span> <span class="nav-text"> MockInvoker 和 MockClusterInvoker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="nav-number">4.2.</span> <span class="nav-text"> Spring Cloud 中的服务降级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#spring-cloud-%E4%B8%AD%E7%9A%84%E5%9B%9E%E9%80%80%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.1.</span> <span class="nav-text"> Spring Cloud 中的回退机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F"><span class="nav-number">3.1.</span> <span class="nav-text"> 模拟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E9%80%80"><span class="nav-number">3.2.</span> <span class="nav-text"> 回退</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 中的服务降级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84-mock-%E6%9C%BA%E5%88%B6"><span class="nav-number">4.1.1.</span> <span class="nav-text"> Dubbo 中的 Mock 机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mockinvoker-%E5%92%8C-mockclusterinvoker"><span class="nav-number">4.1.2.</span> <span class="nav-text"> MockInvoker 和 MockClusterInvoker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="nav-number">4.2.</span> <span class="nav-text"> Spring Cloud 中的服务降级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#spring-cloud-%E4%B8%AD%E7%9A%84%E5%9B%9E%E9%80%80%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.1.</span> <span class="nav-text"> Spring Cloud 中的回退机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

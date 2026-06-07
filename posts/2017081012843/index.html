@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            Java Web之Servlet |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Java Web之Servlet
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-08-10 19:11:29</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Java-Web/">Java Web</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>997 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>4 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="前提"><a class="markdownIt-Anchor" href="#前提"></a> 前提</h2>
+<h3 id="web相关"><a class="markdownIt-Anchor" href="#web相关"></a> WEB相关</h3>
+<p>web(World Wide Web)即全球广域网,也叫万维网.基于超文本和HTTP的分布式图形信息系统.</p>
+<h3 id="软件架构"><a class="markdownIt-Anchor" href="#软件架构"></a> 软件架构</h3>
+<ol>
+<li>
+<p>C/S</p>
+<p>即客户端/服务器的结构,需要同时开发客户端和服务器,服务器负担小点,一些逻辑可以分配给客户端处理.</p>
+</li>
+<li>
+<p>B/S</p>
+<p>即浏览器/服务器的结构,不需要客户端,仅仅需要浏览器,使用方便,但是服务器处理所有逻辑,</p>
+</li>
+</ol>
+<h3 id="web服务器"><a class="markdownIt-Anchor" href="#web服务器"></a> Web服务器</h3>
+<ol>
+<li>Tomcat服务器:Apache公司,开源,免费</li>
+<li>WebSphere服务器:IBM公司,大型,收费</li>
+<li>WebLogic服务器:BEA公司,大型,收费</li>
+<li>IIS服务器:微软,用于.Net平台</li>
+<li>Apache服务器:Apache公司,用于PHP平台</li>
+</ol>
+<h3 id="资源"><a class="markdownIt-Anchor" href="#资源"></a> 资源</h3>
+<ol>
+<li>静态
+<ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JS</li>
+</ul>
+</li>
+<li>动态
+<ul>
+<li>Servlet</li>
+<li>JSP</li>
+<li>PHP</li>
+<li>ASP</li>
+</ul>
+</li>
+</ol>
+<h3 id="tomcat安装"><a class="markdownIt-Anchor" href="#tomcat安装"></a> Tomcat安装</h3>
+<p>网上查</p>
+<h3 id="http协议"><a class="markdownIt-Anchor" href="#http协议"></a> HTTP协议</h3>
+<ol>
+<li>基于请求和响应模型
+<ul>
+<li>必须要先有请求，后有响应。</li>
+<li>请求和响应必须成对出现。</li>
+</ul>
+</li>
+<li>简单快捷
+<ul>
+<li>因为发送请求的时候只需要发送请求方式和请求路径即可</li>
+</ul>
+</li>
+</ol>
+<h4 id="请求"><a class="markdownIt-Anchor" href="#请求"></a> 请求</h4>
+<p>三部分:</p>
+<ol>
+<li>
+<p>请求行</p>
+<p>请求方式,请求路径,使用协议版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>请求头</p>
+<p>修饰请求的参数,key:value格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Host: www.baidu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,en;q=0.6</span><br><span class="line">Cookie: PSTM=1499256449; </span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>请求体</p>
+<p>请求内容,key=value格式</p>
+<p><em><strong>只有post方式才有请求体</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BIDUPSID=466826E580D5EAA9916FE1722DFB567E; __cfduid=d35a63fec825c335b2020219e0e6d2f821499497945; BDUSS=TdoVWxnZTRPWHBWd0ZSQTdQMjY4UnpGV1ZtdEJPbE8zRldRcS00SXR4R0FVNXhaSVFBQUFBJCQAAAAAAAAAAAEAAADmWjVOstPf1di839UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDGdFmAxnRZS; BAIDUID=432F9D527217510DDA00119B0DC37E3B:SL=0:NR=20:FG=1; BD_UPN=12314753; BD_HOME=1; H_PS_PSSID=1449_13549_21126_18560_24093_22073; sug=3; sugstore=0; ORIGIN=0; bdime=0</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="响应"><a class="markdownIt-Anchor" href="#响应"></a> 响应</h4>
+<p>与请求类似,有响应行,响应头,响应体</p>
+<ol>
+<li>响应行
+<ul>
+<li>协议版本</li>
+<li>状态码
+<ul>
+<li>200-响应成功</li>
+<li>302-需要重定向</li>
+<li>304-需要查询本地缓存</li>
+<li>404-请求资源不存在</li>
+<li>500-服务器内部错误</li>
+</ul>
+</li>
+<li>状态码描述</li>
+</ul>
+</li>
+<li>响应头
+<ul>
+<li>key : value 格式</li>
+<li>重要响应头
+<ul>
+<li>Location重定向</li>
+<li>Refresh定时刷新</li>
+<li>Content-Disposition文件下载时候使用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>响应体
+<ul>
+<li>用户浏览的页面代码(html)</li>
+</ul>
+</li>
+</ol>
+<h2 id="servlet"><a class="markdownIt-Anchor" href="#servlet"></a> Servlet</h2>
+<p>Servlet其实就一个运行在web服务器上的小的Java程序，用于处理从web客户端发送的请求，并且对请求作出响应。</p>
+<h3 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h3>
+<p>底层是java类继承Servlet接口,</p>
+<p>开发使用的方式是:继承tomcat中的HttpServlet类,重写doPost()和doGet()方法来实现</p>
+<p>然后配置servlet(目的:使url映射到编写的servlet类上),有两种方式:</p>
+<ol>
+<li>web.xml中()</li>
+<li>Servlet类上使用@WebServlet(…)注解</li>
+</ol>
+<h3 id="servlet的生命周期"><a class="markdownIt-Anchor" href="#servlet的生命周期"></a> Servlet的生命周期</h3>
+<p>Servlet是在第一次被访问的时候会被实例化，只要Servlet一被实例化那么Servlet中的init方法就会执行（init只会执行一次）。任何一次从客户端发送来的请求，那么Servlet中的service方法就会执行（在service方法的内部根据请求的方式不同调用不同doXXX方法）。当Servlet从服务器中移除或者服务器关闭的时候Servlet对象被销毁，里面的destroy方法就会执行，然后垃圾回收就会将其回收掉。</p>
+<h3 id="启动时加载"><a class="markdownIt-Anchor" href="#启动时加载"></a> 启动时加载</h3>
+<p>修改Servlet的加载时间为服务器启动加载</p>
+<p>给Servlet添加load-on-startup属性,属性值为 <em><strong>2</strong></em> (tomcat服务中存在一个值为1默认的Servlet,该Servlet必须先于任何一个Servlet启动)</p>
+<h3 id="访问路径的处理"><a class="markdownIt-Anchor" href="#访问路径的处理"></a> 访问路径的处理</h3>
+<p>Servlet的urlPattern属性<code>/url</code> 斜杠代表根路径即web目录,并且<code>*</code> 可以作为通配符来使用.</p>
+<h3 id="servlet中得到web目录下的文件"><a class="markdownIt-Anchor" href="#servlet中得到web目录下的文件"></a> Servlet中得到web目录下的文件</h3>
+<p>通过IO流获得</p>
+<ol>
+<li>
+<pre class="highlight"><code class="">String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db.properties&quot;);
+InputStream is = new FileInputStream(path);
+//is就是该文件的io流
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);</span><br></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+</ol>
+<h2 id="乱码的解决"><a class="markdownIt-Anchor" href="#乱码的解决"></a> 乱码的解决</h2>
+<ol>
+<li>
+<p>对于response</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>对于request</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//post</span><br><span class="line">request.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">//get,tomcat8以上不用考虑编码问题</span><br><span class="line">String str = new String(&quot;中文&quot;.getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Java Web之Servlet
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017081012843/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-08-10 19:11</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Java-Web/">Java Web</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017081149224/"
+                                   title="Java Web之Cookie&amp;Session"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java Web之Cookie&amp;Session</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017080541550/"
+                                   title="数据库-索引"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">数据库-索引</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text"> 前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E7%9B%B8%E5%85%B3"><span class="nav-number">1.1.</span> <span class="nav-text"> WEB相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text"> 软件架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text"> Web服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90"><span class="nav-number">1.4.</span> <span class="nav-text"> 资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat%E5%AE%89%E8%A3%85"><span class="nav-number">1.5.</span> <span class="nav-text"> Tomcat安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.6.</span> <span class="nav-text"> HTTP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82"><span class="nav-number">1.6.1.</span> <span class="nav-text"> 请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94"><span class="nav-number">1.6.2.</span> <span class="nav-text"> 响应</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet"><span class="nav-number">2.</span> <span class="nav-text"> Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text"> 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.2.</span> <span class="nav-text"> Servlet的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.3.</span> <span class="nav-text"> 启动时加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text"> 访问路径的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet%E4%B8%AD%E5%BE%97%E5%88%B0web%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text"> Servlet中得到web目录下的文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">3.</span> <span class="nav-text"> 乱码的解决</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text"> 前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E7%9B%B8%E5%85%B3"><span class="nav-number">1.1.</span> <span class="nav-text"> WEB相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text"> 软件架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text"> Web服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90"><span class="nav-number">1.4.</span> <span class="nav-text"> 资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat%E5%AE%89%E8%A3%85"><span class="nav-number">1.5.</span> <span class="nav-text"> Tomcat安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.6.</span> <span class="nav-text"> HTTP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82"><span class="nav-number">1.6.1.</span> <span class="nav-text"> 请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94"><span class="nav-number">1.6.2.</span> <span class="nav-text"> 响应</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet"><span class="nav-number">2.</span> <span class="nav-text"> Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text"> 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.2.</span> <span class="nav-text"> Servlet的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.3.</span> <span class="nav-text"> 启动时加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text"> 访问路径的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#servlet%E4%B8%AD%E5%BE%97%E5%88%B0web%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text"> Servlet中得到web目录下的文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">3.</span> <span class="nav-text"> 乱码的解决</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

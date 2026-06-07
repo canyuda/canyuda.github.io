@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            数值的整数次方 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        数值的整数次方
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-01-25 19:51:47</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/data-structures-algorithms/">数据结构与算法</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/offer-book/">剑指offer</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.4k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>5 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<blockquote>
+<p>题目：给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。不得使用库函数，同时不需要考虑大数问题。</p>
+</blockquote>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<h3 id="自以为题目简单的解法"><a class="markdownIt-Anchor" href="#自以为题目简单的解法"></a> 自以为题目简单的解法</h3>
+<p>看到这题一般人心中窃喜，如此之简单，用一个循环来控制n次方，那就可以了。代码可以为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">Power</span><span class="params">(<span class="type">double</span> base, <span class="type">int</span> exponent)</span> &#123;</span><br><span class="line">      <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">1.0</span>;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i&lt;=exponet;++i)	result *= base;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是，这一题并不对，因为，代码并不具有完整性，如果exponent是小于1（即是0或者负数时），本程序就实现不了了。</p>
+<h3 id="全面但不够高效的算法"><a class="markdownIt-Anchor" href="#全面但不够高效的算法"></a> 全面但不够高效的算法</h3>
+<p>对于本题，要考虑一下当exponent参数为0时的情况。例如3的0次幂为1，但0的0次幂在数学上是无意义的，所以要报出异常。也要考虑exponent参数小于0的情况，例如3的-1次幂为三分之一，0的-1次幂也应该报出异常。总结为，如果exponent&lt;0且base不为0，先求exponent的绝对值，然后按照正数来计算，最后结果求倒数即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">Power</span><span class="params">(<span class="type">double</span> base, <span class="type">int</span> exponent)</span> &#123;</span><br><span class="line">      <span class="comment">//分母为0报出异常信息</span></span><br><span class="line">      <span class="keyword">if</span>(equal(base,<span class="number">0.0</span>) &amp;&amp; exponent &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;分母不能为0&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//absExponent是exponent的绝对值</span></span><br><span class="line">      <span class="type">int</span> <span class="variable">absExponent</span> <span class="operator">=</span> exponent;</span><br><span class="line">      <span class="keyword">if</span>(absExponent &lt; <span class="number">0</span>)<span class="comment">//是负数就取反</span></span><br><span class="line">        absExponent = -exponent;</span><br><span class="line">      <span class="comment">//计算结果result</span></span><br><span class="line">      <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">1.0</span>;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i&lt;=absExponent;++i)</span><br><span class="line">        result *= base;</span><br><span class="line">      <span class="comment">//如果是负数次幂就让结果取倒数</span></span><br><span class="line">      <span class="keyword">if</span>(exponent&lt;<span class="number">0</span>)</span><br><span class="line">        result = <span class="number">1.0</span>/result;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 对于double类型的数判断相等需要这样</span></span><br><span class="line"><span class="comment">   * 去判断两个double之间的误差，在一个范围内则认定为相等</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">equal</span><span class="params">(<span class="type">double</span> num1,<span class="type">double</span> num2)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>((num1-num2&gt;-<span class="number">0.0000001</span>) &amp;&amp; (num1-num2&lt;<span class="number">0.0000001</span>))</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全面且高效的算法"><a class="markdownIt-Anchor" href="#全面且高效的算法"></a> 全面且高效的算法</h3>
+<p>上个算法中，计算结果result值时，是使用了用循环去实现累乘来实现的，但是我们知道对于一个数的多少次幂，如果是偶数次幂，例如32次幂，那么它等于两个16次幂相乘，16次幂等于两个8次幂相乘，8次幂等于两个4次幂相乘，4次幂等于两个2次幂相乘，2次幂等于两个底数相乘。如果是奇数次幂，例如13次幂，它等于两个6次幂相乘再乘以底数，6次幂等于两个3次幂相乘，3次幂等于两个底数相乘然后再乘以底数。</p>
+<blockquote>
+<p>一个数的n次幂，如果n为偶数，它等于两个这个数的n/2次幂相乘；如果n为奇数，它等于两个这个数的（n-1）/2次幂相乘然后再乘以这个数。</p>
+</blockquote>
+<h2 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h2>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">Power</span><span class="params">(<span class="type">double</span> base, <span class="type">int</span> exponent)</span> &#123;</span><br><span class="line">      <span class="comment">//分母为0报出异常信息</span></span><br><span class="line">      <span class="keyword">if</span>(equal(base,<span class="number">0.0</span>) &amp;&amp; exponent &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;分母不能为0&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//absExponent是exponent的绝对值</span></span><br><span class="line">      <span class="type">int</span> <span class="variable">absExponent</span> <span class="operator">=</span> exponent;</span><br><span class="line">      <span class="keyword">if</span>(absExponent &lt; <span class="number">0</span>)<span class="comment">//是负数就取反</span></span><br><span class="line">        absExponent = -exponent;</span><br><span class="line">      <span class="comment">//计算结果result</span></span><br><span class="line">      <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> PowerWithAbsExponent(base,absExponent);</span><br><span class="line">      <span class="comment">//如果是负数次幂就让结果取倒数</span></span><br><span class="line">      <span class="keyword">if</span>(exponent&lt;<span class="number">0</span>)</span><br><span class="line">        result = <span class="number">1.0</span>/result;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 对于double类型的数判断相等需要这样</span></span><br><span class="line"><span class="comment">   * 去判断两个double之间的误差，在一个范围内则认定为相等</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">equal</span><span class="params">(<span class="type">double</span> num1,<span class="type">double</span> num2)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>((num1-num2&gt;-<span class="number">0.0000001</span>) &amp;&amp; (num1-num2&lt;<span class="number">0.0000001</span>))</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 计算result的方法</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="type">double</span> <span class="title function_">PowerWithAbsExponent</span><span class="params">(<span class="type">double</span> base,<span class="type">int</span> exponent)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(exponent == <span class="number">0</span>)	<span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//任何不为0的数的0次幂都为1</span></span><br><span class="line">    <span class="keyword">if</span>(exponent == <span class="number">1</span>)	<span class="keyword">return</span> base;<span class="comment">//任何数的1次幂都是他本身（这是递归结束的条件）</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> PowerWithAbsExponent(base,exponent&gt;&gt;<span class="number">1</span>); <span class="comment">//用到了递归</span></span><br><span class="line">    result *= result;</span><br><span class="line">    <span class="keyword">if</span>((exponent &amp; <span class="number">0x1</span>) == <span class="number">1</span>)<span class="comment">//如果为奇数，则结果再乘以base</span></span><br><span class="line">      result *= base;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<ol>
+<li>对于保证代码的完整性通常要做：功能测试、边界测试、负面测试，具体如下：
+<ul>
+<li>功能测试：就是将需要的功能实现（基本功能都没有的代码是无用的）。</li>
+<li>边界测试：就是要考虑各种边界条件是否正确，如果用递归，则递归的终止边界值是否正确；如果用循环，则结束循环的边界条件是否正确。</li>
+<li>负面测试：就是要考虑各种错误的输入，例如账户名需要输入全是数字，当输入字符时，应该判定账户名错误。</li>
+</ul>
+</li>
+<li>三种错误的处理方式：
+<ol>
+<li>函数返回值：例如错误返回码，如果发生错误就返回相应的返回码，可以根据返回码找到错误在哪，类似于网页的404。</li>
+<li>设置全局变量：例如设置布尔类型的全局变量A，当A为true则表示无错，当A为false则表示存在错误，调用者只需要判断这个变量就知道是否出错了。</li>
+<li>异常处理：java中现在常用的方式，我通常用<code>throw new RuntimeException(&quot;这是条错误信息&quot;);</code>来输出异常。</li>
+</ol>
+</li>
+<li>float和double类型的小数判断相等时，不能用<code>A == B</code>，这是因为<strong>计算机内表示小数时都是存在误差的</strong>。判断两个是否相等可以用上文的方法来指定精度。</li>
+<li>位运算的效率比乘除法及求余运算的效率高很多，所以要多用位运算。</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                数值的整数次方
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017012515437/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-01-25 19:51</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/offer-book/">剑指offer</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017012664502/"
+                                   title="打印1到最大的n位数"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">打印1到最大的n位数</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017012461258/"
+                                   title="二进制中1的个数"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">二进制中1的个数</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text"> 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E4%BB%A5%E4%B8%BA%E9%A2%98%E7%9B%AE%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text"> 自以为题目简单的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E9%9D%A2%E4%BD%86%E4%B8%8D%E5%A4%9F%E9%AB%98%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text"> 全面但不够高效的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E9%9D%A2%E4%B8%94%E9%AB%98%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text"> 全面且高效的算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text"> 代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text"> 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E4%BB%A5%E4%B8%BA%E9%A2%98%E7%9B%AE%E7%AE%80%E5%8D%95%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text"> 自以为题目简单的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E9%9D%A2%E4%BD%86%E4%B8%8D%E5%A4%9F%E9%AB%98%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text"> 全面但不够高效的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E9%9D%A2%E4%B8%94%E9%AB%98%E6%95%88%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text"> 全面且高效的算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text"> 代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

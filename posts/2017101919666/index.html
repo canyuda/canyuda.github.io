@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            WebService |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        WebService
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-10-19 16:39:34</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/spring/">Spring</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>9 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="服务端"><a class="markdownIt-Anchor" href="#服务端"></a> 服务端</h2>
+<h3 id="配置文件"><a class="markdownIt-Anchor" href="#配置文件"></a> 配置文件</h3>
+<p>web.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- spring配置文件位置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- spring核心监听器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- webservice初始化代码 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFService<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.apache.cxf.transport.servlet.CXFServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFService<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/services/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span>	</span><br></pre></td></tr></table></figure>
+<p>Spring配置:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 扫描 @Server @Controller @Repository --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.yuda&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 加载properties文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:config.properties&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 引入 数据库连接配置文件  --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;applicationContext-dataSource.xml&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;applicationContext-webService.xml&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>*-dataSource.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 连接池配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;crmdataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.driver&#125;&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.user&#125;&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;initialPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--连接池中保留的最小连接数。 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--连接池中保留的最大连接数。Default: 15 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;100&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxIdleTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;acquireIncrement&quot;</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--每60秒检查所有连接池中的空闲连接。Default: 0 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;idleConnectionTestPeriod&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- spring 整合 JPA配置 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;entityManagerFactory&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">&quot;org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 连接池 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;crmdataSource&quot;</span>/&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 加载jpa注解类 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;packagesToScan&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.yuda.crm.domain<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- JPA方言 如果配置了jpaVendorAdapter，这项可以不配置 &lt;property name=&quot;jpaDialect&quot;&gt; &lt;bean</span></span><br><span class="line"><span class="comment">          class=&quot;org.springframework.orm.jpa.vendor.HibernateJpaDialect&quot; /&gt; &lt;/property&gt; --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jpaVendorAdapter&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter&quot;</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!-- 数据库类型 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;database&quot;</span> <span class="attr">value</span>=<span class="string">&quot;ORACLE&quot;</span>/&gt;</span></span><br><span class="line">              <span class="comment">&lt;!-- hibernate方言 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;databasePlatform&quot;</span> <span class="attr">value</span>=<span class="string">&quot;org.hibernate.dialect.Oracle10gDialect&quot;</span>/&gt;</span></span><br><span class="line">              <span class="comment">&lt;!-- 自动建表 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;generateDdl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">              <span class="comment">&lt;!-- 控制台打印SQL语句 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;showSql&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- jpa使用hibernate实现 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;persistenceProvider&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.hibernate.ejb.HibernatePersistence&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">jpa:repositories</span> <span class="attr">base-package</span>=<span class="string">&quot;com.yuda.crm.dao&quot;</span> <span class="attr">transaction-manager-ref</span>=<span class="string">&quot;transactionManager&quot;</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">entity-manager-factory-ref</span>=<span class="string">&quot;entityManagerFactory&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 事务管理 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.orm.jpa.JpaTransactionManager&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;entityManagerFactory&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;entityManagerFactory&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 开启注解事务 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">proxy-target-class</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>*-webService.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:jaxrs</span>=<span class="string">&quot;http://cxf.apache.org/jaxrs&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="tag">        http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">        http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">		http://cxf.apache.org/jaxrs</span></span></span><br><span class="line"><span class="string"><span class="tag">		http://cxf.apache.org/schemas/jaxrs.xsd&quot;</span>&gt;</span>    </span><br><span class="line">  	<span class="comment">&lt;!--注册webservice--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxrs:server</span> <span class="attr">id</span>=<span class="string">&quot;customerService&quot;</span> <span class="attr">address</span>=<span class="string">&quot;/customerService&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jaxrs:serviceBeans</span>&gt;</span></span><br><span class="line">          	<span class="comment">&lt;!--这里是接口的具体实现--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.crm.service.impl.CustomerServiceImpl&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">jaxrs:serviceBeans</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jaxrs:inInterceptors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.apache.cxf.interceptor.LoggingInInterceptor&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">jaxrs:inInterceptors</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jaxrs:outInterceptors</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.apache.cxf.interceptor.LoggingOutInterceptor&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">jaxrs:outInterceptors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">jaxrs:server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过<code>&lt;context:component-scan base-package=&quot;com.yuda&quot;/&gt;</code> 扫描com.yuda下的注解,其中的Service注解设置为WebService</p>
+<h3 id="java代码"><a class="markdownIt-Anchor" href="#java代码"></a> Java代码</h3>
+<ul>
+<li>
+<p><code>@GET</code>     查询</p>
+</li>
+<li>
+<p><code>@PUT</code>     修改</p>
+</li>
+<li>
+<p><code>@POST</code>   增加</p>
+</li>
+<li>
+<p><code>@DELECT</code>   删除</p>
+</li>
+<li>
+<p><code>@Path</code>  区分哪个服务的路径</p>
+</li>
+<li>
+<p><code>@Produces</code>   生产(返回值)出的数据被转换为什么格式的数据</p>
+<p><code>&#123; &quot;application/xml&quot;, &quot;application/json&quot; &#125;</code> 表示可以转换为xml或者json.</p>
+</li>
+<li>
+<p><code>@Consumes</code>  消费(参数)由那种格式转换而来的.</p>
+<p><code>&#123; &quot;application/xml&quot;, &quot;application/json&quot; &#125;</code> 表示前台传来的数据可以是json或者xml</p>
+</li>
+<li>
+<p><code>@PathParam(&quot;xxx&quot;)</code> 设置在参数前面,与<code>@Path</code> 配合使用,<code>@Path</code> 中使用EL表达式,例如{xxx}.表示传来的数据是什么.例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;/test/&#123;year&#125;/&#123;month&#125;/&#123;day&#125;&quot;)</span></span><br><span class="line"><span class="meta">@GET</span></span><br><span class="line"><span class="meta">@Consumes(&#123;&quot;application/xml&quot;, &quot;application/json&quot;&#125;)</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">historyToday</span><span class="params">(</span></span><br><span class="line"><span class="params">  <span class="meta">@PathParam(&quot;year&quot;)</span> String year,</span></span><br><span class="line"><span class="params">  <span class="meta">@PathParam(&quot;month&quot;)</span> String month,</span></span><br><span class="line"><span class="params">  <span class="meta">@PathParam(&quot;day&quot;)</span> String day)</span>&#123;</span><br><span class="line">    sout(year+monty+day);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>@QueryParam(&quot;xxx&quot;)</code> 设置在参数前面,表示该URL传递的非get方式传递的数据,例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="title function_">post</span>(<span class="string">&quot;url&quot;</span>,&#123;json格式数据&#125;,<span class="title function_">funcation</span>(<span class="params"></span>)&#123;...&#125;)</span><br><span class="line"><span class="comment">//或者form表单传递到后台的数据,[key(input里的name)-value(input里的value)]</span></span><br></pre></td></tr></table></figure>
+<p>​</p>
+<p>发布为webService后,访问<code>http://XXX:8080/service/customerService/test/2017/1/1</code>即可在控制台打印年月日</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口需要有具体实现,并且实现类使用@Service声明为一个bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CustomerService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询所有未关联客户列表</span></span><br><span class="line">    <span class="meta">@Path(&quot;/noassociationcustomers&quot;)</span></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Produces(&#123; &quot;application/xml&quot;, &quot;application/json&quot; &#125;)</span></span><br><span class="line">    List&lt;Customer&gt; <span class="title function_">findNoAssociationCustomers</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 已经关联到指定定区的客户列表</span></span><br><span class="line">    <span class="meta">@Path(&quot;/associationfixedareacustomers/&#123;fixedareaid&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Produces(&#123; &quot;application/xml&quot;, &quot;application/json&quot; &#125;)</span></span><br><span class="line">    List&lt;Customer&gt; <span class="title function_">findHasAssociationFixedAreaCustomers</span><span class="params">(</span></span><br><span class="line"><span class="params">            <span class="meta">@PathParam(&quot;fixedareaid&quot;)</span> String fixedAreaId)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将客户关联到定区上 ， 将所有客户id 拼成字符串 1,2,3</span></span><br><span class="line">    <span class="meta">@Path(&quot;/associationcustomerstofixedarea&quot;)</span></span><br><span class="line">    <span class="meta">@PUT</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">associationCustomersToFixedArea</span><span class="params">(</span></span><br><span class="line"><span class="params">            <span class="meta">@QueryParam(&quot;customerIdStr&quot;)</span> String customerIdStr,</span></span><br><span class="line"><span class="params">            <span class="meta">@QueryParam(&quot;fixedAreaId&quot;)</span> String fixedAreaId)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Path(&quot;/customer&quot;)</span></span><br><span class="line">    <span class="meta">@POST</span></span><br><span class="line">    <span class="meta">@Consumes(&#123;&quot;application/xml&quot;, &quot;application/json&quot;&#125;)</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">regist</span><span class="params">(Customer customer)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Path(&quot;/customer/telephone/&#123;telephone&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Consumes(&#123;&quot;application/xml&quot;, &quot;application/json&quot;&#125;)</span></span><br><span class="line">    Customer <span class="title function_">findByTelePhone</span><span class="params">(<span class="meta">@PathParam(&quot;telephone&quot;)</span> String telephone)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Path(&quot;/customer/updatetype/&#123;telephone&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">updateType</span><span class="params">(<span class="meta">@PathParam(&quot;telephone&quot;)</span> String telephone)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="客户端要与服务端对应"><a class="markdownIt-Anchor" href="#客户端要与服务端对应"></a> 客户端(要与服务端对应)</h2>
+<ul>
+<li>create()方法,指定请求的url(WebService的网络地址)</li>
+<li>accept(…)方法,指定返回的数据格式,是xml还是json</li>
+<li>getCollection(…)方法,如果webService返回的是个List集合,就使用这个方法指定List集合内的数据的类型.</li>
+<li>type(…),指定上传数据时,使用了什么格式的数据</li>
+<li>post(…),使用的请求方式为post</li>
+<li>put(),使用put请求方式.</li>
+<li>get(),使用get请求方式</li>
+<li>delect(),使用delect请求方式</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong> 拼接的URL必须是服务端提供给的,否则找不到该服务(就是找资源要找对车牌),并且要注意服务需要什么参数和该服务有什么返回值或没有返回值,最后说一句,WebClient来自与cxf-rt-rs-client-X.X.X.jar</p>
+</blockquote>
+<h3 id="实例代码"><a class="markdownIt-Anchor" href="#实例代码"></a> 实例代码:</h3>
+<p>客户端使用WebService的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//Constant.CRM_HTTPURL==&quot;http://localhost:9002/crm_management/services/customerService/&quot;</span></span><br><span class="line">Collection&lt;? <span class="keyword">extends</span> <span class="title class_">Customer</span>&gt; collection = WebClient.create(Constant.CRM_HTTPURL + <span class="string">&quot;noassociationcustomers&quot;</span>)</span><br><span class="line">    .accept(MediaType.APPLICATION_JSON)</span><br><span class="line">    .getCollection(Customer.class);</span><br><span class="line"></span><br><span class="line">WebClient.create(<span class="string">&quot;http://localhost:9002/crm_management/services/customerService/customer&quot;</span>)</span><br><span class="line">  .type(MediaType.APPLICATION_JSON).post(customer);</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> Constant.CRM_HTTPURL + <span class="string">&quot;associationcustomerstofixedarea?customerIdStr=&quot;</span></span><br><span class="line">                + customers + <span class="string">&quot;&amp;fixedAreaId=&quot;</span> + fixedArea.getId();</span><br><span class="line">        System.out.println(<span class="string">&quot;URL==&quot;</span> + url);</span><br><span class="line">        WebClient.create(url)</span><br><span class="line">                .put(<span class="literal">null</span>)</span><br><span class="line"></span><br><span class="line">WebClient.create(<span class="string">&quot;http://localhost:9002/crm_management/services/customerService/customer/updatetype/&quot;</span> + customer.getTelephone()).get();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                WebService
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017101919666/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-10-19 16:39</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/spring/">Spring</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017102130298/"
+                                   title="消息中间件"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">消息中间件</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/201709231357/"
+                                   title="面向切面的Spring"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">面向切面的Spring</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text"> 服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text"> 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text"> Java代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%A6%81%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AF%B9%E5%BA%94"><span class="nav-number">2.</span> <span class="nav-text"> 客户端(要与服务端对应)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text"> 实例代码:</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text"> 服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text"> 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text"> Java代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%A6%81%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AF%B9%E5%BA%94"><span class="nav-number">2.</span> <span class="nav-text"> 客户端(要与服务端对应)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text"> 实例代码:</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

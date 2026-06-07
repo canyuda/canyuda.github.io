@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            Java8中的StreamAPI |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Java8中的StreamAPI
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2019-12-12 23:39:27</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.7k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>你还在为大批量数据操作而发愁吗? 你还在因看到层层for循环而感到膈应吗? 你还在为写并行代码频频出bug而懊恼吗? 快去使用Java8的Stream吧.</p>
+<span id="more"></span>
+<h2 id="为啥需要用stream"><a class="markdownIt-Anchor" href="#为啥需要用stream"></a> 为啥需要用Stream</h2>
+<ol>
+<li>方便, 高效的处理集合对象</li>
+<li>处理过程更加清晰, 提高可读性.</li>
+<li>配合Lambda表达式, 少写代码, 提高编程效率.</li>
+<li>方便编写高性能的并发程序.</li>
+</ol>
+<h3 id="应用场景"><a class="markdownIt-Anchor" href="#应用场景"></a> 应用场景</h3>
+<p>Java7写法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">List&lt;UserInfo&gt; userInfos = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">1</span>, <span class="string">&quot;1&quot;</span>, <span class="literal">true</span>, <span class="number">1d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">2</span>, <span class="string">&quot;2&quot;</span>, <span class="literal">false</span>, <span class="number">2d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">3</span>, <span class="string">&quot;3&quot;</span>, <span class="literal">true</span>, <span class="number">3d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">4</span>, <span class="string">&quot;4&quot;</span>, <span class="literal">false</span>, <span class="number">4d</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 过滤</span></span><br><span class="line">Iterator&lt;UserInfo&gt; iterator = userInfos.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    <span class="type">UserInfo</span> <span class="variable">userinfo</span> <span class="operator">=</span> iterator.next();</span><br><span class="line">    <span class="keyword">if</span> (userinfo.isSex()) &#123;</span><br><span class="line">        iterator.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 排序</span></span><br><span class="line">userInfos.sort(<span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;UserInfo&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(UserInfo o1, UserInfo o2)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (o1.getScore() &gt; o2.getScore()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o1.getScore() &lt; o2.getScore()) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 取id</span></span><br><span class="line">List&lt;Integer&gt; ids = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(userInfos.size());</span><br><span class="line"><span class="keyword">for</span> (UserInfo userInfo : userInfos) &#123;</span><br><span class="line">    ids.add(userInfo.getId());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// use ids do something</span></span><br></pre></td></tr></table></figure>
+<p>Java8写法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;UserInfo&gt; userInfos = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">1</span>, <span class="string">&quot;1&quot;</span>, <span class="literal">true</span>, <span class="number">1d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">2</span>, <span class="string">&quot;2&quot;</span>, <span class="literal">false</span>, <span class="number">2d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">3</span>, <span class="string">&quot;3&quot;</span>, <span class="literal">true</span>, <span class="number">3d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">4</span>, <span class="string">&quot;4&quot;</span>, <span class="literal">false</span>, <span class="number">4d</span>));</span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; ids = userInfos.stream()</span><br><span class="line">        .filter(s -&gt; !s.isSex())    <span class="comment">//过滤</span></span><br><span class="line">        .sorted(Comparator.comparingDouble(UserInfo::getScore)) <span class="comment">//排序</span></span><br><span class="line">        .map(UserInfo::getId)   <span class="comment">// 取id</span></span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line"><span class="comment">// use ids do something</span></span><br></pre></td></tr></table></figure>
+<p>简单的对比可以看出两者的不同, 当然是stream更胜一筹!!!</p>
+<h2 id="stream详细介绍"><a class="markdownIt-Anchor" href="#stream详细介绍"></a> Stream详细介绍</h2>
+<p>Stream有三部分组成, 分别是数据源, 中间操作, 结束操作.</p>
+<h3 id="数据源生成"><a class="markdownIt-Anchor" href="#数据源生成"></a> 数据源生成</h3>
+<p>数据源生成常用的有如下方式:</p>
+<ul>
+<li>从 Collection 数组
+<ul>
+<li>Collection.stream()</li>
+<li>Collection.parallelStream()</li>
+<li>Arrays.stream(T array) 或者 Stream.of()</li>
+</ul>
+</li>
+<li>从 BufferdReader
+<ul>
+<li>java.io.BufferedReader.lines()</li>
+</ul>
+</li>
+<li>静态工厂
+<ul>
+<li>java.util.stream.IntStream.range()</li>
+<li>java.nio.file.Files.walk()</li>
+</ul>
+</li>
+<li>其他
+<ul>
+<li>Random.ints()</li>
+<li>BitSet.stream()</li>
+<li>Pattern.splitAsStream(java.lang.CharSequence)</li>
+<li>JarFile.stream()</li>
+</ul>
+</li>
+<li>等等</li>
+</ul>
+<h3 id="中间操作"><a class="markdownIt-Anchor" href="#中间操作"></a> 中间操作</h3>
+<p>Stream的中间操作只是一个标记, 一种声明, 只有在结束操作的时候才会进行真正的计算, 中间操作有两种分类:</p>
+<ul>
+<li>无状态:元素的处理不受前面元素的影响
+<ul>
+<li>unordered()</li>
+<li>filter()</li>
+<li>map()</li>
+<li>mapToInt()</li>
+<li>mapToLong()</li>
+<li>mapToDouble()</li>
+<li>flatMap()</li>
+<li>flatMapToInt()</li>
+<li>flatMapToLong()</li>
+<li>flatMapToDouble()</li>
+<li>peek()</li>
+</ul>
+</li>
+<li>有状态:必须等到所有元素处理后才会知道最后结果
+<ul>
+<li>disinct()</li>
+<li>sorted()</li>
+<li>limit()</li>
+<li>skip()</li>
+</ul>
+</li>
+</ul>
+<h3 id="结束操作"><a class="markdownIt-Anchor" href="#结束操作"></a> 结束操作</h3>
+<p>结束操作也有两种分类</p>
+<ul>
+<li>非短路操作:需要处理完全部元素才能知晓结果
+<ul>
+<li>forEach()</li>
+<li>forEachOrdered()</li>
+<li>toArray()</li>
+<li>reduce()</li>
+<li>collect()</li>
+<li>max()</li>
+<li>min()</li>
+<li>count()</li>
+</ul>
+</li>
+<li>短路操作:不用处理全部元素就可能会返回结果
+<ul>
+<li>anyMatch()</li>
+<li>allMatch()</li>
+<li>noneMatch()</li>
+<li>findFirst()</li>
+<li>findAny()</li>
+</ul>
+</li>
+</ul>
+<h3 id="常用的api"><a class="markdownIt-Anchor" href="#常用的api"></a> 常用的api</h3>
+<h4 id="mapflatmap"><a class="markdownIt-Anchor" href="#mapflatmap"></a> map/flatMap</h4>
+<blockquote>
+<p>把输入流的元素, 映射成另外一种元素.</p>
+</blockquote>
+<p>对象转字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; collect = userInfos.stream().map(userInfo -&gt; &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> userInfo.getId();</span><br><span class="line">    <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> userInfo.getName();</span><br><span class="line">    <span class="keyword">return</span> name + <span class="string">&quot;-&quot;</span> + i;</span><br><span class="line">&#125;).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>平方数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; nums = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">List&lt;Integer&gt; squareNums = nums.stream().</span><br><span class="line">map(n -&gt; n * n).</span><br><span class="line">collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>flatMap用于把有层级的结构扁平化处理.</p>
+</blockquote>
+<p>多List扁平化输出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; collect1 = Stream.of(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), Arrays.asList(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>), Arrays.asList(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>))</span><br><span class="line">        .flatMap(Collection::stream)</span><br><span class="line">        .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<h4 id="filter"><a class="markdownIt-Anchor" href="#filter"></a> filter</h4>
+<blockquote>
+<p>对元素进行过滤, 通过的元素会留下来生成一个新的Stream.</p>
+</blockquote>
+<p>过滤奇数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer[] sixNums = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; collect2 = Stream.of(sixNums)</span><br><span class="line">        .filter(n -&gt; n % <span class="number">2</span> == <span class="number">1</span>)</span><br><span class="line">        .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<h4 id="foreachpeek"><a class="markdownIt-Anchor" href="#foreachpeek"></a> forEach/peek</h4>
+<blockquote>
+<p>遍历每个元素</p>
+</blockquote>
+<p>遍历打印</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer[] sixNums = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">Stream.of(sixNums)</span><br><span class="line">        .forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<p>forEach是结束操作, 无法重复执行, 而peek可以做到重复执行.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Integer[] sixNums = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">Stream.of(sixNums)</span><br><span class="line">        .peek(s -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;1-peek&quot;</span> + s);</span><br><span class="line">        &#125;)</span><br><span class="line">        .filter(n -&gt; n % <span class="number">2</span> == <span class="number">1</span>)</span><br><span class="line">        .peek(s -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;2-peek&quot;</span> + s);</span><br><span class="line">        &#125;).forEach(s -&gt; &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;forEach&quot;</span> + s);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>返回内容为:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1-peek1</span><br><span class="line">2-peek1</span><br><span class="line">forEach1</span><br><span class="line">1-peek2</span><br><span class="line">1-peek3</span><br><span class="line">2-peek3</span><br><span class="line">forEach3</span><br><span class="line">1-peek4</span><br><span class="line">1-peek5</span><br><span class="line">2-peek5</span><br><span class="line">forEach5</span><br><span class="line">1-peek6</span><br></pre></td></tr></table></figure>
+<h4 id="findfirst"><a class="markdownIt-Anchor" href="#findfirst"></a> findFirst</h4>
+<blockquote>
+<p>short-circuiting 操作, 总是返回第一个元素, 或者为空</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Integer&gt; first = Stream.of(sixNums).findFirst();</span><br><span class="line"><span class="type">Integer</span> <span class="variable">integer</span> <span class="operator">=</span> first.get();</span><br></pre></td></tr></table></figure>
+<p>它返回一个Optional对象, 使用 Optional 代码的可读性更好, 而且它提供的是编译时检查, 能极大的降低 NPE 这种 Runtime Exception 对程序的影响, 或者迫使程序员更早的在编码阶段处理空值问题, 而不是留到运行时再发现和调试.</p>
+<h4 id="reduce"><a class="markdownIt-Anchor" href="#reduce"></a> reduce</h4>
+<blockquote>
+<p>主要是用来吧元素组合起来. 需要一个起始位置和一个组合规则, sum/min/max/average都是一种reduce.</p>
+</blockquote>
+<p>求最大</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Integer[] sixNums = &#123;<span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">reduce</span> <span class="operator">=</span> Stream.of(sixNums).reduce(<span class="number">0</span>, (a, b) -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b) &#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="limitskip"><a class="markdownIt-Anchor" href="#limitskip"></a> limit/skip</h4>
+<blockquote>
+<p>limit 返回前n个元素; skip 扔掉前n个元素</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; collect = Stream.of(sixNums).limit(<span class="number">1</span>).collect(Collectors.toList());</span><br><span class="line">List&lt;Integer&gt; collect1 = Stream.of(sixNums).skip(<span class="number">1</span>).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>注意: 放到sorted后面会让short-circuiting失效, stream会遍历完所有的元素.</p>
+<h4 id="sorted"><a class="markdownIt-Anchor" href="#sorted"></a> sorted</h4>
+<blockquote>
+<p>对元素排序, 使用要注意顺序, 可以先进行limit/skip, 然后对较短的集合进行排序</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(sixNums).limit(<span class="number">3</span>).sorted(Integer::compareTo).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<h4 id="minmaxdistinct"><a class="markdownIt-Anchor" href="#minmaxdistinct"></a> min/max/distinct</h4>
+<blockquote>
+<p>找最小/最大/过滤重复</p>
+</blockquote>
+<p>某个英文小说的词汇</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;c:\\SUService.log&quot;</span>));</span><br><span class="line">List&lt;String&gt; words = br.lines().</span><br><span class="line">        flatMap(line -&gt; Stream.of(line.split(<span class="string">&quot; &quot;</span>))).</span><br><span class="line">        filter(word -&gt; word.length() &gt; <span class="number">0</span>).</span><br><span class="line">        map(String::toLowerCase).</span><br><span class="line">        distinct().</span><br><span class="line">        sorted().</span><br><span class="line">        collect(Collectors.toList());</span><br><span class="line">br.close();</span><br><span class="line">System.out.println(words);</span><br></pre></td></tr></table></figure>
+<h4 id="match"><a class="markdownIt-Anchor" href="#match"></a> Match</h4>
+<blockquote>
+<p>匹配某些元素, 有三种方式:</p>
+</blockquote>
+<ol>
+<li>allMatch 全部匹配返回true, 有一个不满足就会短路, 返回false.</li>
+<li>anyMatch 只要有一个则返回true, 有一个满足就会短路, 返回true.</li>
+<li>noneMatch 没有一个则返回true, 有一个满足就会短路, 返回false.</li>
+</ol>
+<p>通过名字找人</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;UserInfo&gt; userInfos = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">1</span>, <span class="string">&quot;1&quot;</span>, <span class="literal">true</span>, <span class="number">1d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">2</span>, <span class="string">&quot;2&quot;</span>, <span class="literal">false</span>, <span class="number">2d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">3</span>, <span class="string">&quot;3&quot;</span>, <span class="literal">true</span>, <span class="number">3d</span>));</span><br><span class="line">userInfos.add(<span class="keyword">new</span> <span class="title class_">UserInfo</span>(<span class="number">4</span>, <span class="string">&quot;4&quot;</span>, <span class="literal">false</span>, <span class="number">4d</span>));</span><br><span class="line"></span><br><span class="line"><span class="type">boolean</span> <span class="variable">b</span> <span class="operator">=</span> userInfos.stream().anyMatch(a -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;1&quot;</span>.equals(a.getName());</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="自己生成流"><a class="markdownIt-Anchor" href="#自己生成流"></a> 自己生成流</h3>
+<h4 id="streamgenerate"><a class="markdownIt-Anchor" href="#streamgenerate"></a> Stream.generate</h4>
+<p>随机数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Random</span> <span class="variable">seed</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">Supplier&lt;Integer&gt; random = seed::nextInt;</span><br><span class="line">Stream.generate(random).limit(<span class="number">10</span>).forEach(System.out::println);</span><br><span class="line"><span class="comment">//Another way</span></span><br><span class="line">IntStream.generate(() -&gt; (<span class="type">int</span>) (System.nanoTime() % <span class="number">100</span>)).</span><br><span class="line">limit(<span class="number">10</span>).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<h4 id="streamiterate"><a class="markdownIt-Anchor" href="#streamiterate"></a> Stream.iterate</h4>
+<p>等差数列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream.iterate(<span class="number">0</span>, n -&gt; n + <span class="number">3</span>).limit(<span class="number">10</span>)</span><br><span class="line">.forEach(x -&gt; System.out.print(x + <span class="string">&quot; &quot;</span>));.</span><br></pre></td></tr></table></figure>
+<h3 id="用-collectors-来进行-reduction-操作"><a class="markdownIt-Anchor" href="#用-collectors-来进行-reduction-操作"></a> 用 Collectors 来进行 reduction 操作</h3>
+<h4 id="grooupingbypartitioningbytomap"><a class="markdownIt-Anchor" href="#grooupingbypartitioningbytomap"></a> grooupingBy/partitioningBy/toMap</h4>
+<p>对数据分组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照名字分组</span></span><br><span class="line">Map&lt;String, List&lt;UserInfo&gt;&gt; collect = userInfos.stream().collect(Collectors.groupingBy(UserInfo::getName));</span><br><span class="line"><span class="comment">// 按照性别分组</span></span><br><span class="line">Map&lt;Boolean, List&lt;UserInfo&gt;&gt; collect1 = userInfos.stream().collect(Collectors.partitioningBy(UserInfo::isSex));</span><br><span class="line"><span class="comment">// 根据id分组</span></span><br><span class="line">Map&lt;Integer, UserInfo&gt; collect2 = userInfos.stream().collect(Collectors.toMap(UserInfo::getId, userInfo -&gt; userInfo));</span><br></pre></td></tr></table></figure>
+<h3 id="并行处理"><a class="markdownIt-Anchor" href="#并行处理"></a> 并行处理</h3>
+<ul>
+<li><code>stream()</code> 串行流</li>
+<li><code>parallelStream()</code> 并行流</li>
+</ul>
+<p>串行流和并行流差别就是单线程和多线程的执行. 任务量小或者机器是单核的选用串行流; 任务量大且机器是多核的, 考虑使用串行流.</p>
+<p>通过<code>parallel()</code>和<code>sequential()</code>能够实现并行流和串行流之间的切换.</p>
+<p>并行流的使用需要符合两个规则</p>
+<ol>
+<li>初始值必须为组合函数的恒定值</li>
+<li>组合操作必须符合结合律</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Java8中的StreamAPI
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/20191212830/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2019-12-12 23:39</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/202005261297/"
+                                   title="JVM字节码之初探"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">JVM字节码之初探</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2019112921409/"
+                                   title="设计模式-适配器模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-适配器模式</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E9%9C%80%E8%A6%81%E7%94%A8stream"><span class="nav-number">1.</span> <span class="nav-text"> 为啥需要用Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text"> 应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stream%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text"> Stream详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%BA%90%E7%94%9F%E6%88%90"><span class="nav-number">2.1.</span> <span class="nav-text"> 数据源生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E6%93%8D%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text"> 中间操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E6%93%8D%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text"> 结束操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84api"><span class="nav-number">2.4.</span> <span class="nav-text"> 常用的api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mapflatmap"><span class="nav-number">2.4.1.</span> <span class="nav-text"> map&#x2F;flatMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filter"><span class="nav-number">2.4.2.</span> <span class="nav-text"> filter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#foreachpeek"><span class="nav-number">2.4.3.</span> <span class="nav-text"> forEach&#x2F;peek</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#findfirst"><span class="nav-number">2.4.4.</span> <span class="nav-text"> findFirst</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reduce"><span class="nav-number">2.4.5.</span> <span class="nav-text"> reduce</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#limitskip"><span class="nav-number">2.4.6.</span> <span class="nav-text"> limit&#x2F;skip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sorted"><span class="nav-number">2.4.7.</span> <span class="nav-text"> sorted</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#minmaxdistinct"><span class="nav-number">2.4.8.</span> <span class="nav-text"> min&#x2F;max&#x2F;distinct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#match"><span class="nav-number">2.4.9.</span> <span class="nav-text"> Match</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%B7%B1%E7%94%9F%E6%88%90%E6%B5%81"><span class="nav-number">2.5.</span> <span class="nav-text"> 自己生成流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#streamgenerate"><span class="nav-number">2.5.1.</span> <span class="nav-text"> Stream.generate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#streamiterate"><span class="nav-number">2.5.2.</span> <span class="nav-text"> Stream.iterate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-collectors-%E6%9D%A5%E8%BF%9B%E8%A1%8C-reduction-%E6%93%8D%E4%BD%9C"><span class="nav-number">2.6.</span> <span class="nav-text"> 用 Collectors 来进行 reduction 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#grooupingbypartitioningbytomap"><span class="nav-number">2.6.1.</span> <span class="nav-text"> grooupingBy&#x2F;partitioningBy&#x2F;toMap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86"><span class="nav-number">2.7.</span> <span class="nav-text"> 并行处理</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E9%9C%80%E8%A6%81%E7%94%A8stream"><span class="nav-number">1.</span> <span class="nav-text"> 为啥需要用Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text"> 应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stream%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text"> Stream详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%BA%90%E7%94%9F%E6%88%90"><span class="nav-number">2.1.</span> <span class="nav-text"> 数据源生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E6%93%8D%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text"> 中间操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E6%93%8D%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text"> 结束操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84api"><span class="nav-number">2.4.</span> <span class="nav-text"> 常用的api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mapflatmap"><span class="nav-number">2.4.1.</span> <span class="nav-text"> map&#x2F;flatMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filter"><span class="nav-number">2.4.2.</span> <span class="nav-text"> filter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#foreachpeek"><span class="nav-number">2.4.3.</span> <span class="nav-text"> forEach&#x2F;peek</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#findfirst"><span class="nav-number">2.4.4.</span> <span class="nav-text"> findFirst</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reduce"><span class="nav-number">2.4.5.</span> <span class="nav-text"> reduce</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#limitskip"><span class="nav-number">2.4.6.</span> <span class="nav-text"> limit&#x2F;skip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sorted"><span class="nav-number">2.4.7.</span> <span class="nav-text"> sorted</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#minmaxdistinct"><span class="nav-number">2.4.8.</span> <span class="nav-text"> min&#x2F;max&#x2F;distinct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#match"><span class="nav-number">2.4.9.</span> <span class="nav-text"> Match</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%B7%B1%E7%94%9F%E6%88%90%E6%B5%81"><span class="nav-number">2.5.</span> <span class="nav-text"> 自己生成流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#streamgenerate"><span class="nav-number">2.5.1.</span> <span class="nav-text"> Stream.generate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#streamiterate"><span class="nav-number">2.5.2.</span> <span class="nav-text"> Stream.iterate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-collectors-%E6%9D%A5%E8%BF%9B%E8%A1%8C-reduction-%E6%93%8D%E4%BD%9C"><span class="nav-number">2.6.</span> <span class="nav-text"> 用 Collectors 来进行 reduction 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#grooupingbypartitioningbytomap"><span class="nav-number">2.6.1.</span> <span class="nav-text"> grooupingBy&#x2F;partitioningBy&#x2F;toMap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86"><span class="nav-number">2.7.</span> <span class="nav-text"> 并行处理</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

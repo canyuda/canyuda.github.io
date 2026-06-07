@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            UML类图 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        UML类图
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2019-09-04 09:46:34</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/chart/">图表</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <ul>
+<li>UML类图关系及介绍</li>
+<li>与Java代码的对应关系</li>
+<li>PlantUML制作类图</li>
+<li>设计模式类图举例</li>
+</ul>
+<span id="more"></span>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="uml类图"><a class="markdownIt-Anchor" href="#uml类图"></a> UML类图</h2>
+<blockquote>
+<p>UML类图 类图是一种静态的结构图，用于描述类与类之间的关联关系和类的属性。使用类图可以更好的理解代码的结构，简化对系统的理解。</p>
+</blockquote>
+<h3 id="组成"><a class="markdownIt-Anchor" href="#组成"></a> 组成</h3>
+<h4 id="类"><a class="markdownIt-Anchor" href="#类"></a> 类</h4>
+<p>类主要包含3部分：类名、属性和方法。某些情况下，类的性质和包含的内部类也可以包含在里面。其中类名不可省略，其他部分可以省略。<br />
+并且正体类名表示可以被实例化，斜体表示这个类是抽象的。</p>
+<p>属性的写法规范为：<code>修饰符[描述信息]属性, 方法名[参数][: 返回类型]</code>。 例如：<br />
+<code>+doSomething(String name, int age) : void</code>。</p>
+<p>其中修饰符，加号（+）表示public；减号（-）表示private；井号(#)表示protected；省略这些修饰符表示具有package（包）级别的可见性。</p>
+<p>如果属性或方法具有下划线，则说明它是静态的。描述信息使用 <code>&lt;&lt;</code> 开头，使用 <code>&gt;&gt;</code> 结尾。类的性质是由一个属性、一个赋值方法和一个取值方法组成。书写方式和方法类似。</p>
+<h4 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h4>
+<p>对应Java中的一个包。</p>
+<h4 id="接口"><a class="markdownIt-Anchor" href="#接口"></a> 接口</h4>
+<p>接口是一系列操作的集合， 对应Java中的一个接口类型，UML中有两种表述方式： 1. 类似于类的方式；2.棒棒糖方式（适合接口中仅有一个方法）</p>
+<h4 id="关系"><a class="markdownIt-Anchor" href="#关系"></a> 关系</h4>
+<p>常见的关系有： 继承（Inheritance），关联关系（Association），聚合关系（Aggregation），组合关系（Composition），依赖关系（Dependency）,实现关系(Realization/Implementation)。</p>
+<p>聚合和符合属于关联关系（Association），一般关系表现为继承或实现关系(is a)，关联关系表现为变量(has a )，依赖关系表现为函数中的参数（use a）。</p>
+<p>UML图如下：<br />
+<img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-1.png"  alt="20190904-uml-1.png" ></p>
+<h3 id="关系与代码"><a class="markdownIt-Anchor" href="#关系与代码"></a> 关系与代码</h3>
+<h4 id="继承inheritance"><a class="markdownIt-Anchor" href="#继承inheritance"></a> 继承（Inheritance）</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Employee</span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Programmer</span> <span class="keyword">extends</span> <span class="title class_">Employee</span>&#123;&#125;   </span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-inheritance.png"  alt="20190904-inheritance.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-inheritance</span><br><span class="line">!define Class(name,desc) class name as &quot;name\ndesc&quot;</span><br><span class="line">namespace default&#123;</span><br><span class="line">Class(Programmer, 程序员) &#123;</span><br><span class="line">&#125;</span><br><span class="line">abstract Class(Employee, 员工) &#123;</span><br><span class="line">&#125;</span><br><span class="line">Employee &lt;|-- Programmer : 泛化(继承)</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h4 id="实现realizationimplementation"><a class="markdownIt-Anchor" href="#实现realizationimplementation"></a> 实现(Realization/Implementation)</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">interface</span> <span class="title class_">Code</span>&#123; </span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">code</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Programmer</span> <span class="keyword">interface</span> <span class="title class_">Code</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">code</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;coding&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-implementation.png"  alt="20190904-implementation.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-implementation</span><br><span class="line">!define Class(name,desc) class name as &quot;name\ndesc&quot;</span><br><span class="line">!define Interface(name,desc) interface name as &quot;name\ndesc&quot;</span><br><span class="line">namespace default&#123;</span><br><span class="line">Class(Programmer, 程序员) &#123;</span><br><span class="line">&#125;</span><br><span class="line">Interface(Code, 编码技能) &#123;</span><br><span class="line">&#125;</span><br><span class="line">Code &lt;|.. Programmer : 实现</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h4 id="依赖dependency"><a class="markdownIt-Anchor" href="#依赖dependency"></a> 依赖（Dependency）</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Keyboard</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Programmer</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">code</span><span class="params">(Keyboard keyboard)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-dependency.png"  alt="20190904-dependency.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-dependency</span><br><span class="line">!define Class(name,desc) class name as &quot;name\ndesc&quot;</span><br><span class="line">!define Interface(name,desc) interface name as &quot;name\ndesc&quot;</span><br><span class="line">namespace default&#123;</span><br><span class="line">Class(Programmer, 程序员) &#123;</span><br><span class="line">    +code(Keyboard keyboard) : void</span><br><span class="line">&#125;</span><br><span class="line">Class(Keyboard, 键盘) &#123;</span><br><span class="line">&#125;</span><br><span class="line">Keyboard &lt;.. Programmer : 实现</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h4 id="关联association组合composition聚合aggregation"><a class="markdownIt-Anchor" href="#关联association组合composition聚合aggregation"></a> 关联（Association），组合（Composition），聚合（Aggregation）</h4>
+<blockquote>
+<p>关联，组合，聚合 三者Java上无区别， 仅仅是<strong>概念上的差别</strong>。</p>
+<ul>
+<li>关联：A类有B类有逻辑上的连接，例如：学生-课程， 学生选课， 课被学生选；</li>
+<li>组合：A类拥有一个B类， 例如：汽车-引擎， 引擎是汽车的组成部分；</li>
+<li>聚合：A类有一个B类，例如：公司-员工， 公司内包含员工；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Course&gt; courses;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Course</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Student&gt; students;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Car</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Engine engine;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Tyre&gt; tyres;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Engine</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tyre</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Company</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Employee&gt; employeies;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Employee</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-association-composition-aggregation.png"  alt="20190904-association-composition-aggregation.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-association-composition-aggregation</span><br><span class="line">!define Class(name,desc) class name as &quot;name\ndesc&quot;</span><br><span class="line">!define Interface(name,desc) interface name as &quot;name\ndesc&quot;</span><br><span class="line"></span><br><span class="line">namespace association&#123;</span><br><span class="line">    Class(Student, 学生) &#123;</span><br><span class="line">        -List&lt;Course&gt; courses</span><br><span class="line">    &#125;</span><br><span class="line">    Class(Course, 课程) &#123;</span><br><span class="line">        -List&lt;Student&gt; students(非必需包含本属性)</span><br><span class="line">    &#125;</span><br><span class="line">    Student &quot;n&quot; --&gt; &quot;n&quot; Course : 关联</span><br><span class="line">&#125;</span><br><span class="line">namespace composition&#123;</span><br><span class="line">    Class(Car, 汽车) &#123;</span><br><span class="line">        -Engine engine</span><br><span class="line">        -List&lt;Tyre&gt; tyres</span><br><span class="line">    &#125;</span><br><span class="line">    Class(Engine, 引擎) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    Class(Tyre, 轮胎) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    Car &quot;1&quot; *--&gt; &quot;1&quot; Engine : 一对一组合</span><br><span class="line">    Car &quot;1&quot; *--&gt; &quot;n&quot; Tyre : 一对多组合</span><br><span class="line">&#125;</span><br><span class="line">namespace aggregation&#123;</span><br><span class="line">    Class(Company, 公司) &#123;</span><br><span class="line">        -List&lt;Employee&gt; employee</span><br><span class="line">    &#125;</span><br><span class="line">    Class(Employee, 员工) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    Company &quot;1&quot; o--&gt; &quot;n&quot; Employee : 聚合</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h2 id="其他绘图"><a class="markdownIt-Anchor" href="#其他绘图"></a> 其他绘图</h2>
+<h3 id="关系标记"><a class="markdownIt-Anchor" href="#关系标记"></a> 关系标记</h3>
+<p>在标签的开始或结束位置添加&lt; 或 &gt;以表明是哪个对象作用到哪个对象上。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-1</span><br><span class="line">class Car</span><br><span class="line">class Wheel</span><br><span class="line">class Person</span><br><span class="line">class Driver</span><br><span class="line"></span><br><span class="line">Driver - Car : drives &gt;</span><br><span class="line">Car *- Wheel : have 4 &gt;</span><br><span class="line">Car -- Person : &lt; owns</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-1.png"  alt="20190904-mark-1.png" ></p>
+<h3 id="类标记"><a class="markdownIt-Anchor" href="#类标记"></a> 类标记</h3>
+<p>一旦你定义了域或者方法，你可以定义 相应条目的可访问性质。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-2</span><br><span class="line"></span><br><span class="line">class Dummy &#123;</span><br><span class="line"> -field1</span><br><span class="line"> #field2</span><br><span class="line"> ~method1()</span><br><span class="line"> +method2()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-2.png"  alt="20190904-mark-2.png" ></p>
+<p>通过修饰符<code>&#123;static&#125;</code>或者<code>&#123;abstract&#125;</code>，可以定义静态或者抽象的方法或者属性。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-3</span><br><span class="line">class Dummy &#123;</span><br><span class="line">  &#123;static&#125; String id</span><br><span class="line">  &#123;abstract&#125; void methods()</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-3.png"  alt="20190904-mark-3.png" ></p>
+<p>分割线</p>
+<p>plantuml 默认会使用实线分割类名，成员，方法。同时也支持自定义分割线</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-4</span><br><span class="line">class Foo1 &#123;</span><br><span class="line">  You can use</span><br><span class="line">  several lines</span><br><span class="line">  ..</span><br><span class="line">  as you want</span><br><span class="line">  and group</span><br><span class="line">  ==</span><br><span class="line">  things together.</span><br><span class="line">  __</span><br><span class="line">  You can have as many groups</span><br><span class="line">  as you want</span><br><span class="line">  --</span><br><span class="line">  End of class</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class User &#123;</span><br><span class="line">  .. Simple Getter ..</span><br><span class="line">  + getName()</span><br><span class="line">  + getAddress()</span><br><span class="line">  .. Some setter ..</span><br><span class="line">  + setName()</span><br><span class="line">  __ private data __</span><br><span class="line">  int age</span><br><span class="line">  -- encrypted --</span><br><span class="line">  String password</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-4.png"  alt="20190904-mark-4.png" ></p>
+<h3 id="注释标记"><a class="markdownIt-Anchor" href="#注释标记"></a> 注释标记</h3>
+<p>备注和模板</p>
+<p>模板通过类关键字(“&lt;&lt;“和”&gt;&gt;”)来定义</p>
+<p>你可以使用<code>note left of</code> , <code>note right of</code> , <code>note top of</code> , <code>note bottom of</code>这些关键字来添加备注。</p>
+<p>你还可以在类的声明末尾使用<code>note left</code>, <code>note right</code>,<code>note top</code>, <code>note bottom</code>来添加备注。</p>
+<p>此外，单独用note这个关键字也是可以的，使用<code>..</code>符号可以作出一条连接它与其它对象的虚线。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-6</span><br><span class="line">class Object &lt;&lt; general &gt;&gt;</span><br><span class="line">Object &lt;|--- ArrayList</span><br><span class="line"></span><br><span class="line">note top of Object : In java, every class\nextends this one.</span><br><span class="line"></span><br><span class="line">note &quot;This is a floating note&quot; as N1</span><br><span class="line">note &quot;This note is connected\nto several objects.&quot; as N2</span><br><span class="line">Object .. N2</span><br><span class="line">N2 .. ArrayList</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">note left: On last defined class</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-5.png"  alt="20190904-mark-5.png" ></p>
+<p>可以在注释中使用部分html标签:</p>
+<ul>
+<li><code>&lt;b&gt;</code> <strong>加粗</strong></li>
+<li><code>&lt;u&gt;</code> <u>下划线</u></li>
+<li><code>&lt;i&gt;</code> <em>斜体</em></li>
+<li><code>&lt;s&gt;</code> <s>删除线</s></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-mark-6</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">note left: On last defined class</span><br><span class="line"></span><br><span class="line">note top of Object</span><br><span class="line">  In java,&lt;u&gt;class&lt;/u&gt;</span><br><span class="line">  &lt;b&gt;extends&lt;/b&gt;</span><br><span class="line">  &lt;i&gt;this&lt;/i&gt; one.</span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">note as N1</span><br><span class="line">  This note is &lt;u&gt;also&lt;/u&gt;</span><br><span class="line">  &lt;s&gt;words&lt;/s&gt; lines</span><br><span class="line">  And this is hosted by</span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-mark-6.png"  alt="20190904-mark-6.png" ></p>
+<h2 id="设计模式的plantuml"><a class="markdownIt-Anchor" href="#设计模式的plantuml"></a> 设计模式的PLANTUML</h2>
+<h3 id="adapter模式"><a class="markdownIt-Anchor" href="#adapter模式"></a> Adapter模式</h3>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-2.png"  alt="20190904-uml-2.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-uml-2</span><br><span class="line"></span><br><span class="line">class Client &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Adapter &#123;</span><br><span class="line">    +operation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteAdapter &#123;</span><br><span class="line">    -adapteee</span><br><span class="line">    +operation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Adaptee &#123;</span><br><span class="line">    +adaptedOperation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">note &quot;对象适配器模式&quot; as N1</span><br><span class="line"></span><br><span class="line">Client -right-&gt; Adapter</span><br><span class="line">Adapter &lt;|-down- ConcreteAdapter</span><br><span class="line">Adaptee &lt;-right- ConcreteAdapter</span><br><span class="line">N1 -right- ConcreteAdapter</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-3.png"  alt="20190904-uml-3.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-uml-3</span><br><span class="line"></span><br><span class="line">class Client &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Adapter &#123;</span><br><span class="line">    +operation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteAdapter &#123;</span><br><span class="line">    +operation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Adaptee &#123;</span><br><span class="line">    +adaptedOperation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">note &quot;类适配器模式&quot; as N1</span><br><span class="line"></span><br><span class="line">Client -right-&gt; Adapter</span><br><span class="line">Adapter &lt;|-down- ConcreteAdapter</span><br><span class="line">Adaptee &lt;|-left- ConcreteAdapter</span><br><span class="line">N1 -right- ConcreteAdapter</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="builder模式"><a class="markdownIt-Anchor" href="#builder模式"></a> Builder模式</h3>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-4.png"  alt="20190904-uml-4.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-uml-4</span><br><span class="line">class Director &#123;</span><br><span class="line">    -pbuilder : Builder *</span><br><span class="line">    +constuct() : Product*</span><br><span class="line">    +setBuilder(Builder*) : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Builder &#123;</span><br><span class="line">    + builderPartA() : void</span><br><span class="line">    + builderPartB() : void</span><br><span class="line">    + builderPartC() : void</span><br><span class="line">    + getResult() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteBuilder &#123;</span><br><span class="line">    + builderPartA() : void</span><br><span class="line">    + builderPartB() : void</span><br><span class="line">    + builderPartC() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">note as N1</span><br><span class="line">pbuilder-&gt;builderPartA();</span><br><span class="line">pbuilder-&gt;builderPartB();</span><br><span class="line">pbuilder-&gt;builderPartC();</span><br><span class="line">pbuilder-&gt;getResult();</span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">Director o-right- Builder</span><br><span class="line">Director -- N1</span><br><span class="line">Builder &lt;|.down. ConcreteBuilder</span><br><span class="line">ConcreteBuilder .right.&gt; Product</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="strategy模式"><a class="markdownIt-Anchor" href="#strategy模式"></a> Strategy模式</h3>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190904/20190904-uml-5.png"  alt="20190904-uml-5.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@startuml 20190904-uml-5</span><br><span class="line">class Context &#123;</span><br><span class="line">    -Strategy strategy</span><br><span class="line">    +doSomething() : void</span><br><span class="line">    +setStrategy(Strategy*) : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Strategy &#123;</span><br><span class="line">    +execute() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StrategyA &#123;</span><br><span class="line">    +execute() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StrategyB &#123;</span><br><span class="line">    +execute() : void</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Context *-right- Strategy</span><br><span class="line">Strategy &lt;-up- StrategyA</span><br><span class="line">Strategy &lt;-up- StrategyB</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                UML类图
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2019090441022/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2019-09-04 09:46</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/chart/">图表</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2019090539633/"
+                                   title="设计模式-概述"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-概述</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2019082357928/"
+                                   title="MyBatis(二)"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">MyBatis(二)</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#uml%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> UML类图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text"> 组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.1.3.</span> <span class="nav-text"> 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.4.</span> <span class="nav-text"> 关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E4%B8%8E%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text"> 关系与代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%A7%E6%89%BFinheritance"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 继承（Inheritance）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0realizationimplementation"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 实现(Realization&#x2F;Implementation)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96dependency"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 依赖（Dependency）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E8%81%94association%E7%BB%84%E5%90%88composition%E8%81%9A%E5%90%88aggregation"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 关联（Association），组合（Composition），聚合（Aggregation）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BB%98%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text"> 其他绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E6%A0%87%E8%AE%B0"><span class="nav-number">2.1.</span> <span class="nav-text"> 关系标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E6%A0%87%E8%AE%B0"><span class="nav-number">2.2.</span> <span class="nav-text"> 类标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A%E6%A0%87%E8%AE%B0"><span class="nav-number">2.3.</span> <span class="nav-text"> 注释标记</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84plantuml"><span class="nav-number">3.</span> <span class="nav-text"> 设计模式的PLANTUML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#adapter%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text"> Adapter模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#builder%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text"> Builder模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strategy%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text"> Strategy模式</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#uml%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> UML类图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text"> 组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.1.3.</span> <span class="nav-text"> 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.4.</span> <span class="nav-text"> 关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E4%B8%8E%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text"> 关系与代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%A7%E6%89%BFinheritance"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 继承（Inheritance）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0realizationimplementation"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 实现(Realization&#x2F;Implementation)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96dependency"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 依赖（Dependency）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E8%81%94association%E7%BB%84%E5%90%88composition%E8%81%9A%E5%90%88aggregation"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 关联（Association），组合（Composition），聚合（Aggregation）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BB%98%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text"> 其他绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E6%A0%87%E8%AE%B0"><span class="nav-number">2.1.</span> <span class="nav-text"> 关系标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E6%A0%87%E8%AE%B0"><span class="nav-number">2.2.</span> <span class="nav-text"> 类标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A%E6%A0%87%E8%AE%B0"><span class="nav-number">2.3.</span> <span class="nav-text"> 注释标记</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84plantuml"><span class="nav-number">3.</span> <span class="nav-text"> 设计模式的PLANTUML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#adapter%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text"> Adapter模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#builder%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text"> Builder模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strategy%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text"> Strategy模式</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

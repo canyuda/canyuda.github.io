@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            用例图 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        用例图
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2019-10-01 22:08:49</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/chart/">图表</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>609 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>2 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <ul>
+<li>基于PlantUML</li>
+<li>用例图</li>
+</ul>
+<span id="more"></span>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="用例图"><a class="markdownIt-Anchor" href="#用例图"></a> 用例图</h2>
+<h3 id="角色与用例"><a class="markdownIt-Anchor" href="#角色与用例"></a> 角色与用例</h3>
+<ul>
+<li><code>:XXX:</code> 表示角色, 或者使用<code>actor</code>表示</li>
+<li><code>usecase</code> 表示用例, 或者使用 <code>(XXX)</code></li>
+<li><code>&lt;&lt; YYY &gt;&gt;</code> 后面接表示构造器</li>
+<li><code>as</code> 用来设置别名</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-1.png"  alt="usecase-1.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-1</span><br><span class="line">(用例A) &lt;&lt; 构造器 &gt;&gt;</span><br><span class="line">(用例B) as (CB)  &lt;&lt; 构造器 &gt;&gt;</span><br><span class="line">usecase 用例C</span><br><span class="line">usecase (用\n例\nD) as D</span><br><span class="line"></span><br><span class="line">:角色1: &lt;&lt; 构造器 &gt;&gt;</span><br><span class="line">:角\n色\n2: as 2</span><br><span class="line">actor 角色3</span><br><span class="line">actor :角色4: as 4 &lt;&lt; 构造器 &gt;&gt;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="用例样式"><a class="markdownIt-Anchor" href="#用例样式"></a> 用例样式</h3>
+<ul>
+<li><code>--</code> 横线</li>
+<li><code>==</code> 双横线</li>
+<li><code>..XXX..</code> 虚线并显示中央文字</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-2.png"  alt="usecase-2.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-2</span><br><span class="line">usecase 用例A as &quot;这是用例的描述</span><br><span class="line">--</span><br><span class="line">横线</span><br><span class="line">==</span><br><span class="line">双横线</span><br><span class="line">..虚线..</span><br><span class="line">描述文字&quot;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="关系"><a class="markdownIt-Anchor" href="#关系"></a> 关系</h3>
+<ul>
+<li><code>-&gt;</code> 一般表示有关</li>
+<li><code>&lt;|--</code> 表示继承关系</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-3.png"  alt="usecase-3.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-3</span><br><span class="line">普通用户 -&gt; (普通功能)</span><br><span class="line">普通用户 --&gt; (高级功能) : 操作</span><br><span class="line"></span><br><span class="line">:管理员: ---&gt; (高级功能) : 管理</span><br><span class="line"></span><br><span class="line">普通用户 &lt;|-- 管理员 : 继承</span><br><span class="line">普通功能 &lt;|-- 高级功能  : 继承</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="注释"><a class="markdownIt-Anchor" href="#注释"></a> 注释</h3>
+<ul>
+<li><code>note</code> 行注释, 块注释</li>
+<li>注释可连线</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-4.png"  alt="usecase-4.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-4</span><br><span class="line">普通用户 -&gt; (普通功能)</span><br><span class="line">普通用户 --&gt; (高级功能) : 操作</span><br><span class="line"></span><br><span class="line">:管理员: ---&gt; (高级功能) : 管理</span><br><span class="line"></span><br><span class="line">note left of 普通用户 : 普通注释</span><br><span class="line"></span><br><span class="line">note right of 管理员</span><br><span class="line">注释内容</span><br><span class="line">end note</span><br><span class="line"></span><br><span class="line">note &quot;注释内容\n换行&quot; as Note</span><br><span class="line"></span><br><span class="line">普通用户 .. Note</span><br><span class="line">Note .. 管理员</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="箭头方向与长度"><a class="markdownIt-Anchor" href="#箭头方向与长度"></a> 箭头方向与长度</h3>
+<ul>
+<li><code>-[left|right|up|down]-&gt;</code> 可以控制方向</li>
+<li>箭头线长度可以由<code>-</code>的个数来决定</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-5.png"  alt="usecase-5.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-5</span><br><span class="line">:user: -left-&gt; (左边) </span><br><span class="line">:user: -right-&gt; (右边) </span><br><span class="line">:user: -up-&gt; (上边)</span><br><span class="line">:user: -down-&gt; (下边)</span><br><span class="line"></span><br><span class="line">右边 -&gt; (1)</span><br><span class="line">右边 --&gt; (2)</span><br><span class="line">右边 ---&gt; (3)</span><br><span class="line">右边 ----&gt; (4)</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="排列方向"><a class="markdownIt-Anchor" href="#排列方向"></a> 排列方向</h3>
+<ul>
+<li><code>top to bottom direction</code> 上下结构</li>
+<li><code>left to right direction</code> 左右结构</li>
+</ul>
+<center class="half">
+    <img     src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-1.png"  >
+    <img     src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-6-2.png"  >
+</center>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-6-1</span><br><span class="line">top to bottom direction</span><br><span class="line">user1 --&gt; (Usecase 1)</span><br><span class="line">user2 --&gt; (Usecase 2)</span><br><span class="line">@enduml</span><br><span class="line"></span><br><span class="line">@startuml usecase-6-2</span><br><span class="line">left to right direction</span><br><span class="line">user1 --&gt; (Usecase 1)</span><br><span class="line">user2 --&gt; (Usecase 2)</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="自定义样式"><a class="markdownIt-Anchor" href="#自定义样式"></a> 自定义样式</h3>
+<ul>
+<li><code>skinparam</code> 可以自定义, 直接影响样式</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-7.png"  alt="usecase-7.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-7</span><br><span class="line">skinparam handwritten true</span><br><span class="line"></span><br><span class="line">skinparam usecase &#123;</span><br><span class="line">	BackgroundColor DarkSeaGreen</span><br><span class="line">	BorderColor DarkSlateGray</span><br><span class="line"></span><br><span class="line">	BackgroundColor&lt;&lt; Main &gt;&gt; YellowGreen</span><br><span class="line">	BorderColor&lt;&lt; Main &gt;&gt; YellowGreen</span><br><span class="line">	</span><br><span class="line">	ArrowColor Olive</span><br><span class="line">	ActorBorderColor black</span><br><span class="line">	ActorFontName Courier</span><br><span class="line"></span><br><span class="line">	ActorBackgroundColor&lt;&lt; Human &gt;&gt; Gold</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">User &lt;&lt; Human &gt;&gt;</span><br><span class="line">:Main Database: as MySql &lt;&lt; Application &gt;&gt;</span><br><span class="line">(Start) &lt;&lt; One Shot &gt;&gt;</span><br><span class="line">(Use the application) as (Use) &lt;&lt; Main &gt;&gt;</span><br><span class="line"></span><br><span class="line">User -&gt; (Start)</span><br><span class="line">User --&gt; (Use)</span><br><span class="line"></span><br><span class="line">MySql --&gt; (Use)</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="框框"><a class="markdownIt-Anchor" href="#框框"></a> 框框</h3>
+<ul>
+<li><code>rectangle XXX &#123;  &#125;</code> 可以框选里面的用例或者角色</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/191001/usecase/usecase-8.png"  alt="usecase-8.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml usecase-8</span><br><span class="line">left to right direction</span><br><span class="line">skinparam packageStyle rectangle</span><br><span class="line">actor customer</span><br><span class="line">actor clerk</span><br><span class="line">rectangle checkout &#123;</span><br><span class="line">  customer -- (checkout)</span><br><span class="line">  (checkout) .&gt; (payment) : include</span><br><span class="line">  (help) .&gt; (checkout) : extends</span><br><span class="line">  (checkout) -- clerk</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                用例图
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/201910013360/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2019-10-01 22:08</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/chart/">图表</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2019100129557/"
+                                   title="状态图"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">状态图</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2019100143106/"
+                                   title="时序图"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">时序图</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BE%8B%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> 用例图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E4%B8%8E%E7%94%A8%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 角色与用例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E4%BE%8B%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text"> 用例样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.3.</span> <span class="nav-text"> 关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.4.</span> <span class="nav-text"> 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E6%96%B9%E5%90%91%E4%B8%8E%E9%95%BF%E5%BA%A6"><span class="nav-number">1.5.</span> <span class="nav-text"> 箭头方向与长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E6%96%B9%E5%90%91"><span class="nav-number">1.6.</span> <span class="nav-text"> 排列方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.7.</span> <span class="nav-text"> 自定义样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%A1%86"><span class="nav-number">1.8.</span> <span class="nav-text"> 框框</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BE%8B%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> 用例图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E4%B8%8E%E7%94%A8%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 角色与用例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E4%BE%8B%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text"> 用例样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.3.</span> <span class="nav-text"> 关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.4.</span> <span class="nav-text"> 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E6%96%B9%E5%90%91%E4%B8%8E%E9%95%BF%E5%BA%A6"><span class="nav-number">1.5.</span> <span class="nav-text"> 箭头方向与长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E6%96%B9%E5%90%91"><span class="nav-number">1.6.</span> <span class="nav-text"> 排列方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.7.</span> <span class="nav-text"> 自定义样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%A1%86"><span class="nav-number">1.8.</span> <span class="nav-text"> 框框</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

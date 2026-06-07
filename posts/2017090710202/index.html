@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            各种配置文件 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        各种配置文件
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-09-07 21:08:19</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Java-Web/">Java Web</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>25 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="hibernate"><a class="markdownIt-Anchor" href="#hibernate"></a> Hibernate</h2>
+<h3 id="hibernatecfgxml"><a class="markdownIt-Anchor" href="#hibernatecfgxml"></a> hibernate.cfg.xml</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-configuration</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;-//Hibernate/Hibernate Configuration DTD//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">session-factory</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--用户名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.username&quot;</span>&gt;</span>root<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--密码--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--驱动类--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.driver_class&quot;</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--数据库url--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.url&quot;</span>&gt;</span>jdbc:mysql://localhost:3306/hb?useUnicode=true<span class="symbol">&amp;amp;</span>characterEncoding=UTF-8</span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--默认的数据库--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.default_schema&quot;</span>&gt;</span>hb<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--方言(用于Hibernate来识别各种数据库不同之处)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.dialect&quot;</span>&gt;</span>org.hibernate.dialect.MySQLDialect<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 用于设置事务提交方式 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.autocommit&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--获得session的方式(getCurrentSession()方法)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;current_session_context_class&quot;</span>&gt;</span>thread<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 设置连接提供者 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.provider_class&quot;</span>&gt;</span>org.hibernate.connection.C3P0ConnectionProvider<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- c3p0连接池的配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.max_size&quot;</span>&gt;</span>20<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- 最大连接池 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.min_size&quot;</span>&gt;</span>5<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- 最小连接数 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.timeout&quot;</span>&gt;</span>120<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- 超时 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.idle_test_period&quot;</span>&gt;</span>3000<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- 空闲连接 --&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--是否把sql语句输出到控制台,方便测试--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;show_sql&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--排版上面的sql语句--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;format_sql&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--测试的时候用,策略create表示每次都会重新创建表,原有数据会丢失--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hbm2ddl.auto&quot;</span>&gt;</span>create<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--映射--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">&quot;entity/XXX.hbm.xml&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">session-factory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="xxxhbmxml"><a class="markdownIt-Anchor" href="#xxxhbmxml"></a> XXX.hbm.xml</h3>
+<blockquote>
+<p>技巧: 级联的时候思考下,是否符合业务逻辑</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-mapping</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">schema</span>=<span class="string">&quot;数据库库名&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">catalog</span>=<span class="string">&quot;目录名称&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">default-cascade</span>=<span class="string">&quot;级联风格&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">default-access</span>=<span class="string">&quot;访问策略&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">default-lazy</span>=<span class="string">&quot;加载策略&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">package</span>=<span class="string">&quot;包名&quot;</span></span></span><br><span class="line"><span class="tag">                   <span class="attr">auto-import</span>=<span class="string">&quot;自动导入&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">&quot;Entry类名&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">table</span>=<span class="string">&quot;表名&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">schema</span>=<span class="string">&quot;数据库库名&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">batch-size</span>=<span class="string">&quot;抓取策略&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">where</span>=<span class="string">&quot;条件&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">entity-name</span>=<span class="string">&quot;同实体类映射多个表(一般很少用,一般是一个类对应一张表)&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">&quot;类字段名(主键)&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">type</span>=<span class="string">&quot;数据类型&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">column</span>=<span class="string">&quot;列名&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">length</span>=<span class="string">&quot;长度&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">&quot;主键生成策略&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;数据库列名&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;该列对应的类型&quot;</span>/&gt;</span><span class="comment">&lt;!--此写法也可--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;类字段名(普通列)&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;数据库列名&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;该列对应的类型&quot;</span> <span class="attr">length</span>=<span class="string">&quot;长度&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;类字段名(普通列)&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;数据库列名&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;该列对应的类型&quot;</span> <span class="attr">length</span>=<span class="string">&quot;长度&quot;</span> <span class="attr">not-null</span>=<span class="string">&quot;是否为空&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 用于连接表,对类中的set集合的设置(一对一,一对多等等) --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;students&quot;</span> <span class="attr">inverse</span>=<span class="string">&quot;true&quot;</span> <span class="attr">cascade</span>=<span class="string">&quot;delete&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">key</span> <span class="attr">column</span>=<span class="string">&quot;gid&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">one-to-many</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.entity.Student&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 用于连接表(和set配合使用) --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--cascade=&quot;save-update&quot; 属性让save学生时可以自动生成学生所在的班级--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">many-to-one</span> <span class="attr">name</span>=<span class="string">&quot;gradeByGid&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.entity.Grade&quot;</span> <span class="attr">cascade</span>=<span class="string">&quot;save-update&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;gid&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">many-to-one</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- one-to-one和many-to-many不做说明 --&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--对于实体类内的自定义Bean--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">component</span> <span class="attr">name</span>=<span class="string">&quot;实体类中的引用类型&quot;</span>&gt;</span></span><br><span class="line">          	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;类字段名(普通列)&quot;</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;数据库列名&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;该列对应的类型&quot;</span> <span class="attr">length</span>=<span class="string">&quot;长度&quot;</span>/&gt;</span></span><br><span class="line">        	  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--该引用类型的其他字段--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="例子"><a class="markdownIt-Anchor" href="#例子"></a> 例子</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 班级表 --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-mapping</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">&quot;com.yuda.entity.Grade&quot;</span> <span class="attr">table</span>=<span class="string">&quot;grade&quot;</span> <span class="attr">schema</span>=<span class="string">&quot;hb&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">&quot;gid&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;gid&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;int(11)&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">&quot;identity&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;gname&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;gname&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;varchar(20)&quot;</span> <span class="attr">length</span>=<span class="string">&quot;20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;gdesc&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;gdesc&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;varchar(50)&quot;</span> <span class="attr">length</span>=<span class="string">&quot;50&quot;</span> <span class="attr">not-null</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- cascade=&quot;delete&quot;当班级表有删除操作,它将会级联到学生表中删除本班级的所有学生 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;students&quot;</span> <span class="attr">inverse</span>=<span class="string">&quot;true&quot;</span> <span class="attr">cascade</span>=<span class="string">&quot;delete&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">key</span> <span class="attr">column</span>=<span class="string">&quot;gid&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">one-to-many</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.entity.Student&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 学生表 --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-mapping</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span> <span class="attr">package</span>=<span class="string">&quot;com.yuda.entity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">&quot;Student&quot;</span> <span class="attr">table</span>=<span class="string">&quot;student&quot;</span> <span class="attr">schema</span>=<span class="string">&quot;hb&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">&quot;sid&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;sid&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;int(11)&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">&quot;native&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sname&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;sname&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;varchar(20)&quot;</span> <span class="attr">length</span>=<span class="string">&quot;20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">sql-type</span>=<span class="string">&quot;char(2)&quot;</span> <span class="attr">length</span>=<span class="string">&quot;2&quot;</span> <span class="attr">not-null</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--cascade=&quot;save-update&quot; 属性让save学生时可以自动生成学生所在的班级--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">many-to-one</span> <span class="attr">name</span>=<span class="string">&quot;gradeByGid&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.entity.Grade&quot;</span> <span class="attr">cascade</span>=<span class="string">&quot;save-update&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- gid将作为外键存在于学生表 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;gid&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">many-to-one</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注解的使用(代替xml的存在,注意导包):</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//省</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table(name = &quot;province&quot;,schema = &quot;china&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Province</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> p_id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;p_name&quot;,length = 30,nullable = false)</span></span><br><span class="line">    <span class="keyword">private</span> String p_name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//mappedBy = &quot;city&quot;控制反转,把控制权交给City.class中的province字段</span></span><br><span class="line">    <span class="meta">@OneToMany(targetEntity = City.class,mappedBy = &quot;province&quot;)</span></span><br><span class="line">    <span class="meta">@Cascade(CascadeType.SAVE_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Set&lt;City&gt; cities = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...get,set方法自行脑补(注解可以作用在get方法上)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//市</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table(name = &quot;city&quot;,schema = &quot;china&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">City</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> c_id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;c_name&quot;,length = 30,nullable = false)</span></span><br><span class="line">    <span class="keyword">private</span> String c_name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JSONField(serialize = false)</span><span class="comment">//FastJson的忽略字段</span></span><br><span class="line">    <span class="meta">@ManyToOne(targetEntity = Province.class)</span></span><br><span class="line">    <span class="meta">@JoinColumn(name = &quot;p_id&quot;)</span></span><br><span class="line">    <span class="meta">@Cascade(CascadeType.SAVE_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Province province;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//mappedBy = &quot;city&quot;控制反转,把控制权交给Area.class中的city字段</span></span><br><span class="line">    <span class="meta">@OneToMany(targetEntity = Area.class,mappedBy = &quot;city&quot;)</span></span><br><span class="line">    <span class="meta">@Cascade(CascadeType.SAVE_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Set&lt;Area&gt; areas = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...get,set方法自行脑补(注解可以作用在get方法上)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//区(县)</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table(name = &quot;area&quot;,schema = &quot;china&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Area</span> &#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> a_id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column(name = &quot;a_name&quot;,length = 30,nullable = false)</span></span><br><span class="line">    <span class="keyword">private</span> String a_name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JSONField(serialize = false)</span><span class="comment">//FastJson的忽略字段</span></span><br><span class="line">    <span class="meta">@ManyToOne(targetEntity = City.class)</span></span><br><span class="line">    <span class="meta">@JoinColumn(name = &quot;c_id&quot;)</span></span><br><span class="line">    <span class="meta">@Cascade(CascadeType.SAVE_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> City city;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//主键生成为uuid的格式为:</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;b_id&quot;)</span></span><br><span class="line">    <span class="meta">@GenericGenerator(name = &quot;my_uuid&quot;, strategy = &quot;uuid&quot;)</span></span><br><span class="line">    <span class="meta">@GeneratedValue(generator = &quot;my_uuid&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getId</span><span class="params">()</span> &#123;<span class="comment">//注解作用于get方法</span></span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="struts2"><a class="markdownIt-Anchor" href="#struts2"></a> Struts2</h2>
+<h3 id="webxml"><a class="markdownIt-Anchor" href="#webxml"></a> web.xml</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 前端控制器(核心控制器)，只有配置了这个filter我们的strtus2框架才能使用。</span></span><br><span class="line"><span class="comment">Strtus2的默认拦截器(interceptor)它们是在struts-default.xml文件中配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span></span><br><span class="line">      org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</span><br><span class="line">  	<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>struts2<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="strutsxml"><a class="markdownIt-Anchor" href="#strutsxml"></a> struts.xml</h3>
+<blockquote>
+<p>技巧: 可以创建一个主struts.xml文件,内部使用<include>标签来导入其他的配置文件</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">struts</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Struts2设置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">&quot;struts.devMode&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">&quot;struts.i18n.encoding&quot;</span> <span class="attr">value</span>=<span class="string">&quot;utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 等等 --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--namespace与name联合使用确定一个action</span></span><br><span class="line"><span class="comment">    (例如本例:http://localhost/url組成部分)--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--extends继承自哪个包,一般为&#x27;struts-default&#x27;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- abstract=&quot;true&quot;代表该包是抽象的--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;名字&quot;</span> <span class="attr">namespace</span>=<span class="string">&quot;/&quot;</span> <span class="attr">extends</span>=<span class="string">&quot;struts-default&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 拦截器配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">interceptors</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- LoginInterceptor和MyInterceptor是自定义的拦截器 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 自定义拦截器单独使用会导致默认拦截器失效,所以需要把自定义的 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 和系统的添加为拦截器栈来使用 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">&quot;loginInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.utils.LoginInterceptor&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.utils.MyInterceptor&quot;</span>/&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 合并大法好 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">interceptor-stack</span> <span class="attr">name</span>=<span class="string">&quot;myStack&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">&quot;defaultStack&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">&quot;myInterceptor&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">&quot;loginInterceptor&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">interceptor-stack</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">interceptors</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--全局跳转方式--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">global-results</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">&quot;success&quot;</span> <span class="attr">type</span>=<span class="string">&quot;跳转方式(主要用的有4种)&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--result...--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">global-results</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--页面--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">&quot;url組成部分&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.Struts2Action&quot;</span> <span class="attr">method</span>=<span class="string">&quot;show&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--成功后跳转的页面--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">&quot;success&quot;</span> <span class="attr">type</span>=<span class="string">&quot;跳转方式&quot;</span>&gt;</span>/html/success.html<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">&quot;error&quot;</span>&gt;</span>/html/failer.html<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--result...--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--action...--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用注解代替xml的存在"><a class="markdownIt-Anchor" href="#使用注解代替xml的存在"></a> 使用注解(代替xml的存在):</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Namespace(父url)</span><span class="comment">//下面Action的value</span></span><br><span class="line"><span class="meta">@ParentPackage(包名)</span><span class="comment">//继承的包</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProductAction</span> <span class="keyword">extends</span> <span class="title class_">ActionSupport</span> &#123;</span><br><span class="line">    <span class="comment">//url和自定义拦截器,(拦截器需要有父struts.xml文件中package中定义拦截器)</span></span><br><span class="line">    <span class="meta">@Action(value = &quot;showProduct&quot;,interceptorRefs = &#123;@InterceptorRef(value = &quot;myStack&quot;)&#125;)</span></span><br><span class="line">    <span class="comment">//方法还可以返回String类型数据,对应一个页面</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showProduct</span><span class="params">()</span>&#123;</span><br><span class="line">        ServletActionContext.getResponse().setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 调用service查询所有商品</span></span><br><span class="line">        <span class="type">IProductService</span> <span class="variable">productService</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProductServiceImpl</span>();</span><br><span class="line">        List&lt;Product&gt; ps = productService.findAll();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将ps转换成json</span></span><br><span class="line">        Result&lt;Product&gt; result = <span class="keyword">new</span> <span class="title class_">Result</span>&lt;&gt;();</span><br><span class="line">        result.setContent(ps);</span><br><span class="line">        result.setType(<span class="number">1</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">json</span> <span class="operator">=</span> JSONArray.toJSONString(result);</span><br><span class="line">        <span class="comment">// 通过response将json写回到浏览器</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ServletActionContext.getResponse().getWriter().write(json);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//另外一个例子:</span></span><br><span class="line"><span class="meta">@Namespace(&quot;/&quot;)</span></span><br><span class="line"><span class="meta">@ParentPackage(&quot;struts-default&quot;)</span></span><br><span class="line"><span class="comment">//类命名并且类的包路径需要包含Action字符</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserAction</span> <span class="keyword">extends</span> <span class="title class_">ActionSupport</span> <span class="keyword">implements</span> <span class="title class_">ModelDriven</span>&lt;User&gt; &#123;</span><br><span class="line">    <span class="comment">//有返回的action</span></span><br><span class="line">    <span class="meta">@Action(value = &quot;user_login&quot;,results = &#123;</span></span><br><span class="line"><span class="meta">            @Result(name = &quot;success&quot;,location = &quot;/product.jsp&quot;),</span></span><br><span class="line"><span class="meta">            @Result(name = &quot;error&quot;,location = &quot;/login.jsp&quot;)</span></span><br><span class="line"><span class="meta">    &#125;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">login</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">IUserService</span> <span class="variable">service</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserService</span>();</span><br><span class="line"></span><br><span class="line">        <span class="type">User</span> <span class="variable">login</span> <span class="operator">=</span> service.login(user);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (login == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> ERROR;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ServletActionContext.getRequest().getSession().setAttribute(<span class="string">&quot;user&quot;</span>,login);</span><br><span class="line">            <span class="keyword">return</span> SUCCESS;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getModel</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="spring"><a class="markdownIt-Anchor" href="#spring"></a> Spring</h2>
+<h3 id="springxml"><a class="markdownIt-Anchor" href="#springxml"></a> Spring.xml</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:p</span>=<span class="string">&quot;http://www.springframework.org/schema/p&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:c</span>=<span class="string">&quot;http://www.springframework.org/schema/c&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:util</span>=<span class="string">&quot;http://www.springframework.org/schema/util&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">profile</span>=<span class="string">&quot;dev&quot;</span>&gt;</span></span><br><span class="line">  </span><br><span class="line"> 	<span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span><span class="comment">&lt;!-- 启动注解--&gt;</span></span><br><span class="line">  	<span class="comment">&lt;!-- 启动注解后这些注解可以检测到</span></span><br><span class="line"><span class="comment">		@Component	//无分类</span></span><br><span class="line"><span class="comment">		@Repository	//持久层</span></span><br><span class="line"><span class="comment">		@Controller //控制层</span></span><br><span class="line"><span class="comment">		@Service	//业务层</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">  </span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span> = <span class="string">&quot;类路径&quot;</span>/&gt;</span><span class="comment">&lt;!-- 导入JavaConfig--&gt;</span></span><br><span class="line">  </span><br><span class="line">  	<span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span> = <span class="string">&quot;XXX.xml&quot;</span>/&gt;</span><span class="comment">&lt;!-- 导入XML--&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!--数据库相关START--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath*:c3p0.properties&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">p:driverClassName</span>=<span class="string">&quot;$&#123;jdbc.driverClass&#125;&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">p:url</span>=<span class="string">&quot;$&#123;jdbc.jdbcUrl&#125;&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">p:username</span>=<span class="string">&quot;$&#123;jdbc.user&#125;&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">p:password</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--普通事务管理器(可选择)--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  	<span class="comment">&lt;!-- JPA事务管理器(可选择,需要entityManagerFactory)  --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.orm.jpa.JpaTransactionManager&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;entityManagerFactory&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;entityManagerFactory&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--使用注解--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--不使用注解,xml方式--&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--事务的通知--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;account&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--配置切面--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;txPointcut&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* com.yuda.IAccountService.account(..))&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;txPointcut&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--数据库相关END--&gt;</span></span><br><span class="line">  </span><br><span class="line">	<span class="comment">&lt;!--声明集合--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">util:list</span> <span class="attr">id</span>=<span class="string">&quot;my_list&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">util:list</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--init-method和destroy-method是bean生命周期中执行的方法--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;peppers&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.SgtPeppers&quot;</span>  </span></span><br><span class="line"><span class="tag">          <span class="attr">init-method</span>=<span class="string">&quot;toString&quot;</span> <span class="attr">destroy-method</span>=<span class="string">&quot;toString&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;peppers2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.SgtPeppers&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;cdplayer1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.CDPlayer&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;peppers&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;cdplayer2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.CDPlayer&quot;</span> <span class="attr">p:cd-ref</span>=<span class="string">&quot;peppers&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;cdplayer3&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.CDPlayer&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;cd&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;peppers&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;blank&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.yuda.component.BlankDisc&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">c:title</span>=<span class="string">&quot;aaa&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">c:artist</span>=<span class="string">&quot;bbb&quot;</span> <span class="attr">c:tracks-ref</span>=<span class="string">&quot;my_list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="spring使用c3p0"><a class="markdownIt-Anchor" href="#spring使用c3p0"></a> Spring使用c3p0</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">destroy-method</span>=<span class="string">&quot;close&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.driverClass&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.jdbcUrl&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.user&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--连接池中保留的最小连接数。--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--连接池中保留的最大连接数。Default: 15 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;30&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;initialPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxIdleTime&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;acquireIncrement&quot;</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements</span></span><br><span class="line"><span class="comment">           属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。</span></span><br><span class="line"><span class="comment">           如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxStatements&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--每60秒检查所有连接池中的空闲连接。Default: 0 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;idleConnectionTestPeriod&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;acquireRetryAttempts&quot;</span> <span class="attr">value</span>=<span class="string">&quot;30&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效</span></span><br><span class="line"><span class="comment">           保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试</span></span><br><span class="line"><span class="comment">           获取连接失败后该数据源将申明已断开并永久关闭。Default: false--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;breakAfterAcquireFailure&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的</span></span><br><span class="line"><span class="comment">           时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable</span></span><br><span class="line"><span class="comment">           等方法来提升连接测试的性能。Default: false --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testConnectionOnCheckout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="spring-aop相关"><a class="markdownIt-Anchor" href="#spring-aop相关"></a> Spring-aop相关</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line"><span class="comment">&lt;!-- 开启aop注解 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span> <span class="attr">proxy-target-class</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 如果不用注解,可以使用如下xml --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span> <span class="attr">expose-proxy</span>=<span class="string">&quot;true&quot;</span> <span class="attr">proxy-target-class</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;test_point_cut&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* com.yuda.component.MyTest.*(..))&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">&quot;my_advice&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">method</span>=<span class="string">&quot;before&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;test_point_cut&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after</span> <span class="attr">method</span>=<span class="string">&quot;after&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;test_point_cut&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">method</span>=<span class="string">&quot;around&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;test_point_cut&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after-returning</span> <span class="attr">method</span>=<span class="string">&quot;afterReturning&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;test_point_cut&quot;</span> <span class="attr">returning</span>=<span class="string">&quot;val&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="spring加入web"><a class="markdownIt-Anchor" href="#spring加入web"></a> Spring加入web</h3>
+<p>web.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;3.1&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath*:Spring-ioc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="log4j"><a class="markdownIt-Anchor" href="#log4j"></a> log4j</h2>
+<h3 id="log4jproperties"><a class="markdownIt-Anchor" href="#log4jproperties"></a> log4j.properties</h3>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">log4j.appender.stdout</span>=<span class="string">org.apache.log4j.ConsoleAppender</span></span><br><span class="line"><span class="attr">log4j.appender.stdout.Target</span>=<span class="string">System.out</span></span><br><span class="line"><span class="attr">log4j.appender.stdout.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="attr">log4j.appender.stdout.layout.ConversionPattern</span>=<span class="string">%d&#123;ABSOLUTE&#125; %5p %c&#123;1&#125;:%L - %m%n</span></span><br><span class="line"><span class="attr">log4j.rootLogger</span>=<span class="string">warn, stdout</span></span><br></pre></td></tr></table></figure>
+<h2 id="maven"><a class="markdownIt-Anchor" href="#maven"></a> maven</h2>
+<h3 id="settingsxml"><a class="markdownIt-Anchor" href="#settingsxml"></a> settings.xml</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:\apache-maven-3.1.1\repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pluginGroups</span>&gt;</span><span class="tag">&lt;/<span class="name">pluginGroups</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">proxies</span>&gt;</span><span class="tag">&lt;/<span class="name">proxies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servers</span>&gt;</span><span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 阿里爸爸的镜像库,用于国内访问核心库 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- maven默认工程编译为1.5,这里把它改为1.8--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activation</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activation</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="pomxml"><a class="markdownIt-Anchor" href="#pomxml"></a> pom.xml</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 省略一些配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">              <span class="comment">&lt;!-- 用于当前项目java编译版本的选择 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                各种配置文件
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017090710202/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-09-07 21:08</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Java-Web/">Java Web</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017091257163/"
+                                   title="Json"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Json</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/201709076898/"
+                                   title="Oracle-基础"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Oracle-基础</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">1.</span> <span class="nav-text"> Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernatecfgxml"><span class="nav-number">1.1.</span> <span class="nav-text"> hibernate.cfg.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxxhbmxml"><span class="nav-number">1.2.</span> <span class="nav-text"> XXX.hbm.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">1.3.</span> <span class="nav-text"> 例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#struts2"><span class="nav-number">2.</span> <span class="nav-text"> Struts2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webxml"><span class="nav-number">2.1.</span> <span class="nav-text"> web.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strutsxml"><span class="nav-number">2.2.</span> <span class="nav-text"> struts.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E4%BB%A3%E6%9B%BFxml%E7%9A%84%E5%AD%98%E5%9C%A8"><span class="nav-number">2.3.</span> <span class="nav-text"> 使用注解(代替xml的存在):</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring"><span class="nav-number">3.</span> <span class="nav-text"> Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#springxml"><span class="nav-number">3.1.</span> <span class="nav-text"> Spring.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring%E4%BD%BF%E7%94%A8c3p0"><span class="nav-number">3.2.</span> <span class="nav-text"> Spring使用c3p0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-aop%E7%9B%B8%E5%85%B3"><span class="nav-number">3.3.</span> <span class="nav-text"> Spring-aop相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring%E5%8A%A0%E5%85%A5web"><span class="nav-number">3.4.</span> <span class="nav-text"> Spring加入web</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log4j"><span class="nav-number">4.</span> <span class="nav-text"> log4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#log4jproperties"><span class="nav-number">4.1.</span> <span class="nav-text"> log4j.properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven"><span class="nav-number">5.</span> <span class="nav-text"> maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#settingsxml"><span class="nav-number">5.1.</span> <span class="nav-text"> settings.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pomxml"><span class="nav-number">5.2.</span> <span class="nav-text"> pom.xml</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">1.</span> <span class="nav-text"> Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernatecfgxml"><span class="nav-number">1.1.</span> <span class="nav-text"> hibernate.cfg.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxxhbmxml"><span class="nav-number">1.2.</span> <span class="nav-text"> XXX.hbm.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">1.3.</span> <span class="nav-text"> 例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#struts2"><span class="nav-number">2.</span> <span class="nav-text"> Struts2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webxml"><span class="nav-number">2.1.</span> <span class="nav-text"> web.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strutsxml"><span class="nav-number">2.2.</span> <span class="nav-text"> struts.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E4%BB%A3%E6%9B%BFxml%E7%9A%84%E5%AD%98%E5%9C%A8"><span class="nav-number">2.3.</span> <span class="nav-text"> 使用注解(代替xml的存在):</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring"><span class="nav-number">3.</span> <span class="nav-text"> Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#springxml"><span class="nav-number">3.1.</span> <span class="nav-text"> Spring.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring%E4%BD%BF%E7%94%A8c3p0"><span class="nav-number">3.2.</span> <span class="nav-text"> Spring使用c3p0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-aop%E7%9B%B8%E5%85%B3"><span class="nav-number">3.3.</span> <span class="nav-text"> Spring-aop相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring%E5%8A%A0%E5%85%A5web"><span class="nav-number">3.4.</span> <span class="nav-text"> Spring加入web</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log4j"><span class="nav-number">4.</span> <span class="nav-text"> log4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#log4jproperties"><span class="nav-number">4.1.</span> <span class="nav-text"> log4j.properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven"><span class="nav-number">5.</span> <span class="nav-text"> maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#settingsxml"><span class="nav-number">5.1.</span> <span class="nav-text"> settings.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pomxml"><span class="nav-number">5.2.</span> <span class="nav-text"> pom.xml</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

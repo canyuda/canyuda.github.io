@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            活动图 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        活动图
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2019-09-30 09:49:24</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/chart/">图表</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>4 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <ul>
+<li>基于PlantUML</li>
+<li>活动图</li>
+</ul>
+<span id="more"></span>
+<a href="/posts/2019100112256/" title="PlantUML制图-概述">PlantUML制图-概述</a>
+<h2 id="活动图"><a class="markdownIt-Anchor" href="#活动图"></a> 活动图</h2>
+<h3 id="基础"><a class="markdownIt-Anchor" href="#基础"></a> 基础</h3>
+<ul>
+<li><code>**XXX**</code> 表示加粗</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-1.png"  alt="activity-1.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-1</span><br><span class="line">:第一行;</span><br><span class="line">:第一行</span><br><span class="line">第 **二行加粗** 了;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="开始结束终止"><a class="markdownIt-Anchor" href="#开始结束终止"></a> 开始,结束,终止</h3>
+<ul>
+<li><code>start</code> 开始</li>
+<li><code>stop</code> 结束</li>
+<li><code>end</code> 终止</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-2.png"  alt="activity-2.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-2</span><br><span class="line">start</span><br><span class="line">:第一行;</span><br><span class="line">:第一行</span><br><span class="line">第 **二行加粗** 了;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line">:第一行;</span><br><span class="line">:第一行</span><br><span class="line">第 **二行加粗** 了;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="条件判断"><a class="markdownIt-Anchor" href="#条件判断"></a> 条件判断</h3>
+<ul>
+<li><code>if</code> 条件框</li>
+<li><code>then</code> yes判断线上文字</li>
+<li><code>else</code> no判断线上文字</li>
+<li><code>endif</code> 条件判断结束符</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-3.png"  alt="activity-3.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-3</span><br><span class="line">start</span><br><span class="line">if (你好吗？) then (好)</span><br><span class="line">    :选择了好;</span><br><span class="line">else (不好)</span><br><span class="line">    :选择了__不好(带下划线)__;</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="多条件判断"><a class="markdownIt-Anchor" href="#多条件判断"></a> 多条件判断</h3>
+<ul>
+<li><code>elseif</code> 多条件框</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-4.png"  alt="activity-4.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-4</span><br><span class="line">start</span><br><span class="line">if (你好吗？) then (好)</span><br><span class="line">    :选择了好;</span><br><span class="line">elseif (确认好吗?) then (确定好)</span><br><span class="line">    :选择了确定好;</span><br><span class="line">elseif (再次确认好吗?) then (确定确定好)</span><br><span class="line">    :选择了确定确定好;</span><br><span class="line">else (不好)</span><br><span class="line">    :不好;</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="末判断循环"><a class="markdownIt-Anchor" href="#末判断循环"></a> 末判断循环</h3>
+<ul>
+<li><code>repeat</code> 循环体框选</li>
+<li><code>while</code> 循环判断</li>
+<li><code>is</code> 循环箭头文字</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-5.png"  alt="activity-5.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-5</span><br><span class="line">start</span><br><span class="line">repeat</span><br><span class="line">    :上班;</span><br><span class="line">    :回家;</span><br><span class="line">repeat while (挂了?) is (没有)</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="首判断循环"><a class="markdownIt-Anchor" href="#首判断循环"></a> 首判断循环</h3>
+<ul>
+<li><code>endwhile</code> 循环体结束标识</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-6.png"  alt="activity-6.png" ></p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-7.png"  alt="activity-7.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-6</span><br><span class="line">start</span><br><span class="line">while (能动?)</span><br><span class="line">    :上班;</span><br><span class="line">    :回家;</span><br><span class="line">endwhile</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br><span class="line"></span><br><span class="line">@startuml activity-7</span><br><span class="line">start</span><br><span class="line">while (能动?) is (能)</span><br><span class="line">    :上班;</span><br><span class="line">    :回家;</span><br><span class="line">endwhile (不能)</span><br><span class="line">    :挂了;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="并行"><a class="markdownIt-Anchor" href="#并行"></a> 并行</h3>
+<ul>
+<li><code>fork</code> 并行标识</li>
+<li><code>fork again</code> 并行标识</li>
+<li><code>end fork</code> 结束并行标识</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-8.png"  alt="activity-8.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-8</span><br><span class="line">start</span><br><span class="line">if (进入并行?) then (进入)</span><br><span class="line">  fork</span><br><span class="line">	:任务 1;</span><br><span class="line">  fork again</span><br><span class="line">	:任务 2;</span><br><span class="line">  end fork</span><br><span class="line">else (不进入)</span><br><span class="line">  :任务 1;</span><br><span class="line">  :任务 2;</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="注释"><a class="markdownIt-Anchor" href="#注释"></a> 注释</h3>
+<ul>
+<li><code>floating</code> 无箭头标识</li>
+<li><code>note</code> 注释声明</li>
+<li><code>[left|right]</code> 位置标识</li>
+<li><code>//XXX//</code> 斜体字</li>
+<li><code>====</code> 分割线</li>
+<li><code>*</code> 小圆点</li>
+<li><code>&quot;&quot;XXX&quot;&quot;</code> 代码块</li>
+<li><code>&lt;b&gt;XXX&lt;/b&gt;</code> html符</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-9.png"  alt="activity-9.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-9</span><br><span class="line">start</span><br><span class="line">:过程1;</span><br><span class="line">floating note left: 这是过程1的注释, 在左边, 没有箭头</span><br><span class="line">:过程2;</span><br><span class="line">note right</span><br><span class="line">  这是过程2的注释 在右边</span><br><span class="line">  //斜体字// 正常字</span><br><span class="line">  正常字 &lt;b&gt;HTML文字&lt;/b&gt;</span><br><span class="line">  ====</span><br><span class="line">  * 小圆点 &quot;&quot;代码块&quot;&quot; 加分割线</span><br><span class="line">end note</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="颜色"><a class="markdownIt-Anchor" href="#颜色"></a> 颜色</h3>
+<ul>
+<li><code>#&#123;颜色名&#125;:xxx;</code> 指定颜色名</li>
+<li><code>#&#123;颜色名A&#125;/&#123;颜色名B&#125;:xxx;</code> 指定渐变颜色, 左上/右下</li>
+<li><code>#&#123;颜色名A&#125;\&#123;颜色名B&#125;:xxx;</code> 指定渐变颜色, 左下\右上</li>
+<li><code>#&#123;颜色名A&#125;|&#123;颜色名B&#125;:xxx;</code> 指定渐变颜色, 左|右</li>
+<li><code>#&#123;HEX&#125;:xxx</code> 指定HEX值(长短HEX均可)</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-10.png"  alt="activity-10.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-10</span><br><span class="line">start</span><br><span class="line">:正常颜色;</span><br><span class="line">#HotPink:直接使用颜色名字[[https://www.w3schools.com/colors/colors_names.asp]];</span><br><span class="line">#HotPink|White:甚至是渐变色;</span><br><span class="line">#AAAAAA:使用 HEX 值;</span><br><span class="line">#555:使用 短 HEX 值;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h4 id="颜色取值"><a class="markdownIt-Anchor" href="#颜色取值"></a> 颜色取值</h4>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-11.png"  alt="activity-11.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-11</span><br><span class="line">colors</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-12.png"  alt="activity-12.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-12</span><br><span class="line">colors chocolate</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="箭头样式"><a class="markdownIt-Anchor" href="#箭头样式"></a> 箭头样式</h3>
+<ul>
+<li><code>-&gt;</code> 后接箭头文字</li>
+<li><code>-[#blue]-&gt;</code> 指定颜色</li>
+<li><code>-[#green,dashed]-&gt;</code> 指定颜色和样式, <code>dashed</code> 粗粒度虚线, <code>dotted</code> 细粒度虚线, <code>bold</code> 粗实线</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-13.png"  alt="activity-13.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-13</span><br><span class="line">start</span><br><span class="line">:foo1;</span><br><span class="line">-&gt; 指定箭头旁文字;</span><br><span class="line">if (test) then</span><br><span class="line">  -[#blue]-&gt; 蓝色箭头;</span><br><span class="line">  :foo2;</span><br><span class="line">  -[#green,dashed]-&gt; 绿色加粗虚线</span><br><span class="line">  文字可换行</span><br><span class="line">  **甚至可加粗**;</span><br><span class="line">  :foo3;</span><br><span class="line">else</span><br><span class="line">  -[#black,dotted]-&gt; 黑色加细虚线</span><br><span class="line">  :foo4;</span><br><span class="line">endif</span><br><span class="line">-[#gray,bold]-&gt;</span><br><span class="line">:foo5;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="分组"><a class="markdownIt-Anchor" href="#分组"></a> 分组</h3>
+<ul>
+<li><code>partition</code> 分组</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-14.png"  alt="activity-14.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-14</span><br><span class="line">start</span><br><span class="line">partition 分组1 &#123;</span><br><span class="line">	:上班;</span><br><span class="line">	:吃饭;</span><br><span class="line">&#125;</span><br><span class="line">:回家;</span><br><span class="line">partition 分组2 &#123;</span><br><span class="line">	:睡觉;</span><br><span class="line">	:玩;</span><br><span class="line">&#125;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="泳道"><a class="markdownIt-Anchor" href="#泳道"></a> 泳道</h3>
+<ul>
+<li><code>|泳道名|</code> 泳道名</li>
+<li><code>|#&#123;颜色&#125;|泳道名|</code> 指定颜色的泳道</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-15.png"  alt="activity-15.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-15</span><br><span class="line">|服务A|</span><br><span class="line">start</span><br><span class="line">:查库1;</span><br><span class="line">|#AntiqueWhite|服务B|</span><br><span class="line">:写表;</span><br><span class="line">:计算;</span><br><span class="line">|服务A|</span><br><span class="line">:查库2;</span><br><span class="line">|服务B|</span><br><span class="line">:上传;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="无下文"><a class="markdownIt-Anchor" href="#无下文"></a> 无下文</h3>
+<ul>
+<li><code>detach</code> 无下文</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-16.png"  alt="activity-16.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-16</span><br><span class="line">start</span><br><span class="line">if (你好吗？) then (好)</span><br><span class="line">    :选择了好;</span><br><span class="line">else (不好)</span><br><span class="line">    :这个分支没有下文;</span><br><span class="line">    detach</span><br><span class="line">endif</span><br><span class="line">:待结束;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="岔路"><a class="markdownIt-Anchor" href="#岔路"></a> 岔路</h3>
+<ul>
+<li><code>split</code> 岔路</li>
+<li><code>split again</code> 岔路</li>
+<li><code>end split</code> 岔路停止</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-17.png"  alt="activity-17.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-17</span><br><span class="line">start</span><br><span class="line">: 过程1;</span><br><span class="line">: 过程2;</span><br><span class="line">split</span><br><span class="line">: 岔路1;</span><br><span class="line">split again</span><br><span class="line">: 岔路2;</span><br><span class="line">split again</span><br><span class="line">: 岔路3;</span><br><span class="line">split again</span><br><span class="line">: 岔路4;</span><br><span class="line">detach</span><br><span class="line">split again</span><br><span class="line">: 岔路5;</span><br><span class="line">stop</span><br><span class="line">end split;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="块样式"><a class="markdownIt-Anchor" href="#块样式"></a> 块样式</h3>
+<ul>
+<li><code>;</code>, <code>|</code>, <code>&lt;</code>, <code>&gt;</code>, <code>]</code>, <code>/</code>, <code>&#125;</code> 各种样式</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-18.png"  alt="activity-18.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-18</span><br><span class="line">start</span><br><span class="line">:样式1;</span><br><span class="line">:样式2|</span><br><span class="line">:样式3&lt;</span><br><span class="line">:样式4&gt;</span><br><span class="line">:样式5]</span><br><span class="line">:样式6/</span><br><span class="line">:样式7&#125; </span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h3 id="综合示例"><a class="markdownIt-Anchor" href="#综合示例"></a> 综合示例</h3>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/190930/activity/activity-19.png"  alt="activity-19.png" ></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@startuml activity-19</span><br><span class="line">start</span><br><span class="line">:ClickServlet.handleRequest();</span><br><span class="line">:new page;</span><br><span class="line">if (Page.onSecurityCheck) then (true)</span><br><span class="line">  :Page.onInit();</span><br><span class="line">  if (isForward?) then (no)</span><br><span class="line">	:Process controls;</span><br><span class="line">	if (continue processing?) then (no)</span><br><span class="line">	  stop</span><br><span class="line">	endif</span><br><span class="line">	</span><br><span class="line">	if (isPost?) then (yes)</span><br><span class="line">	  :Page.onPost();</span><br><span class="line">	else (no)</span><br><span class="line">	  :Page.onGet();</span><br><span class="line">	endif</span><br><span class="line">	:Page.onRender();</span><br><span class="line">  endif</span><br><span class="line">else (false)</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">if (do redirect?) then (yes)</span><br><span class="line">  :redirect process;</span><br><span class="line">else</span><br><span class="line">  if (do forward?) then (yes)</span><br><span class="line">	:Forward request;</span><br><span class="line">  else (no)</span><br><span class="line">	:Render page template;</span><br><span class="line">  endif</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                活动图
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2019093010321/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2019-09-30 09:49</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/chart/">图表</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2019100143106/"
+                                   title="时序图"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">时序图</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2019092958121/"
+                                   title="设计模式-工厂方法模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-工厂方法模式</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> 活动图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">1.1.</span> <span class="nav-text"> 基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%BB%93%E6%9D%9F%E7%BB%88%E6%AD%A2"><span class="nav-number">1.2.</span> <span class="nav-text"> 开始,结束,终止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">1.3.</span> <span class="nav-text"> 条件判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">1.4.</span> <span class="nav-text"> 多条件判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AB%E5%88%A4%E6%96%AD%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.5.</span> <span class="nav-text"> 末判断循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%88%A4%E6%96%AD%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.6.</span> <span class="nav-text"> 首判断循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C"><span class="nav-number">1.7.</span> <span class="nav-text"> 并行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.8.</span> <span class="nav-text"> 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2"><span class="nav-number">1.9.</span> <span class="nav-text"> 颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E5%8F%96%E5%80%BC"><span class="nav-number">1.9.1.</span> <span class="nav-text"> 颜色取值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.10.</span> <span class="nav-text"> 箭头样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84"><span class="nav-number">1.11.</span> <span class="nav-text"> 分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%B3%E9%81%93"><span class="nav-number">1.12.</span> <span class="nav-text"> 泳道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E4%B8%8B%E6%96%87"><span class="nav-number">1.13.</span> <span class="nav-text"> 无下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B2%94%E8%B7%AF"><span class="nav-number">1.14.</span> <span class="nav-text"> 岔路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%97%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.15.</span> <span class="nav-text"> 块样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.16.</span> <span class="nav-text"> 综合示例</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text"> 活动图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">1.1.</span> <span class="nav-text"> 基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%BB%93%E6%9D%9F%E7%BB%88%E6%AD%A2"><span class="nav-number">1.2.</span> <span class="nav-text"> 开始,结束,终止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">1.3.</span> <span class="nav-text"> 条件判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">1.4.</span> <span class="nav-text"> 多条件判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AB%E5%88%A4%E6%96%AD%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.5.</span> <span class="nav-text"> 末判断循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%88%A4%E6%96%AD%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.6.</span> <span class="nav-text"> 首判断循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C"><span class="nav-number">1.7.</span> <span class="nav-text"> 并行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.8.</span> <span class="nav-text"> 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2"><span class="nav-number">1.9.</span> <span class="nav-text"> 颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E5%8F%96%E5%80%BC"><span class="nav-number">1.9.1.</span> <span class="nav-text"> 颜色取值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.10.</span> <span class="nav-text"> 箭头样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84"><span class="nav-number">1.11.</span> <span class="nav-text"> 分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%B3%E9%81%93"><span class="nav-number">1.12.</span> <span class="nav-text"> 泳道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E4%B8%8B%E6%96%87"><span class="nav-number">1.13.</span> <span class="nav-text"> 无下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B2%94%E8%B7%AF"><span class="nav-number">1.14.</span> <span class="nav-text"> 岔路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%97%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.15.</span> <span class="nav-text"> 块样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.16.</span> <span class="nav-text"> 综合示例</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

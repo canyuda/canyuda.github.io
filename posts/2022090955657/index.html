@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（九） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（九）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-09 16:40:08</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.9k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>13 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>集群的构建一方面能够为实现负载均衡提供基础，另一方面，<strong>它也能够有效应对服务访问出错的场景</strong>，这就是集群容错。</p>
+<p>在分布式系统运行过程中，远程调用发生失败的现象不可避免。为了应对服务访问失败，<strong>集群容错</strong>是一种简单高效的技术组件。</p>
+<p>那么，什么是集群容错？常见的又有哪些集群容错策略呢？</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<p>就技术体系而言，我们可以把应对远程调用失败场景的各种手段和方法统称为<strong>服务容错（Fault Tolerance）</strong>，而集群容错是服务容错的其中一种实现方式。</p>
+<p>我们知道，所谓集群，就是同时存在一个服务的多个实例。一旦我们访问其中一个实例出现问题，原则上可以访问其他实例来获取结果。</p>
+<p>围绕这个过程，技术上有很多值得面试官考查的点，包括：</p>
+<ul>
+<li>如何判断集群中当前有哪些服务实例是不可用的？</li>
+<li>如果某一个服务实例不可用，选择下一个服务实例的策略有哪些？</li>
+<li>如果访问所选择的下一个服务实例仍然失败，我们应该怎么做？</li>
+<li>为了快速判断集群中某个服务是否存在可用的实例，有什么办法？</li>
+</ul>
+<p>当然，和负载均衡一样，主流的分布式服务框架也都内置了集群容错机制。例如 Dubbo 框架就包含一组非常常用的集群容错实现策略。</p>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p>对于集群容错，我们首先还是有必要分析远程调用发生依赖失败的影响，或者说我们需要引入集群容错机制的原因，这里就引出一个非常适合作为面试话题来展开的概念，即“<strong>雪崩效应（Avalanche Effect）</strong>”。</p>
+<p><strong>雪崩效应是我们引入容错思想和模式的根本需求</strong>。</p>
+<p>我们还是需要理论联系实际。集群容错的几种代表性实现策略在 Dubbo 等主流的开源框架都有体现。</p>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<p>正如前面提到的，<strong>服务依赖失败</strong>是我们在设计分布式系统时所需要重点考虑的服务可用性问题，因为服务依赖失败会造成失败扩散，从而形成服务访问的雪崩效应。让我们先从这个过程开始讲起。</p>
+<h3 id="雪崩效应"><a class="markdownIt-Anchor" href="#雪崩效应"></a> 雪崩效应</h3>
+<p>显然，应对雪崩效应的切入点不在于服务提供者，而在于服务消费者。</p>
+<p>我们不能保证所有服务提供者都不会失败，但是我们要想办法确保服务消费者不受已失败的服务提供者的影响，或者说需要将服务消费者所受到的这种影响降到最低，这就是服务容错的本质需求。</p>
+<p>而集群容错可以很好地应对这一需求。</p>
+<h3 id="集群容错的策略"><a class="markdownIt-Anchor" href="#集群容错的策略"></a> 集群容错的策略</h3>
+<p>在上一讲中，我们已经介绍了集群和客户端负载均衡，从服务容错的角度讲，负载均衡不失为是一种可行的容错策略。而我们今天要介绍的集群容错则是在负载均衡的基础上添加了各种容错策略，包括常见的:</p>
+<ul>
+<li>Failover（失效转移）</li>
+<li>Failback（失败通知）</li>
+<li>Failsafe（失败安全）</li>
+<li>Failfast（快速失败）</li>
+<li>以及不大常见的 Forking（分支）和 Broadcast（广播） 等</li>
+</ul>
+<ol>
+<li><code>Failover</code> 是<strong>最常见、最实用的集群容错策略</strong>。Failover 即<strong>失效转移</strong>，当发生服务调用异常时，重新在集群中查找下一个可用的服务实例。</li>
+<li>相较 <code>Failover</code>，<code>Failback</code> 则采用了不同的实现方式，它会记录每一次失败的请求，然后再基于一定的策略执行重试操作。显然，这种容错策略适合于那种时效性不高的操作，常见的包括发送短信等消息通知类业务。</li>
+<li><code>Failsafe</code> 的意思是失败安全，该策略并不会对所发生的异常做直接的干预，而是将它们记录下来，确保后续可以根据日志记录找到引起异常的原因并解决。</li>
+<li>还有一种比较容易混淆的策略称为 <code>Failfast</code>，该策略在获取服务调用异常时立即报错。</li>
+</ol>
+<ul>
+<li>显然，Failfast 已经彻底放弃了重试机制，等同于没有容错，一般用于非幂等性的写入操作。</li>
+<li>另一方面，在特定场景中可以使用该策略确保非核心业务服务只调用一次，为重要的核心服务节约宝贵时间。</li>
+</ul>
+<p>除了这些常见的集群容错机制之外，在一些分布式服务框架中，还实现了一些特殊的策略，例如提供分支调用机制的 <code>Forking</code> 策略和提供广播机制的 <code>Broadcast</code> 策略。</p>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<h3 id="dubbo-中的集群"><a class="markdownIt-Anchor" href="#dubbo-中的集群"></a> Dubbo 中的集群</h3>
+<p>服务容错的实现方法和策略有很多，我们接下来重点讨论 Dubbo 中主要采用的集群容错实现策略和底层原理。</p>
+<p>Dubbo 中的整个集群结构如下图所示。</p>
+<p>这张图比较复杂，涉及到 Dubbo 中关于集群管理和服务调用的诸多概念。</p>
+<p>为了讨论集群容错，我们必须首先理解这种图中的相关概念，进而把握 Dubbo 对集群的抽象。</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220901/dubbo%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4.png"  alt=" " ></p>
+<p>上图展现了 Dubbo 中的几个重要技术组件，我们一一来展开。</p>
+<ul>
+<li><code>Invoker：</code> 在 Dubbo 中，Invoker 是一个核心概念，代表的就是一个具体的可执行对象。</li>
+<li><code>Directory：</code> 即目录，代表一个集合，内部包含了一组 Invoker 对象。</li>
+<li><code>Router：</code> 即路由器，根据路由规则在一组 Invoker 中选出符合规则的一部分 Invoker。</li>
+<li><code>LoadBalance：</code> 即负载均衡，对经过 Router 过滤之后的一部分 Invoker 执行各种负载均衡算法，从而确定一个具体的 Invoker。</li>
+<li><code>Cluster：</code> 即集群，从 Directory 中获取一组 Invoker，并对外伪装成一个 Invoker。这样，我们在使用 Cluster 时就像是在使用一个 Invoker 一样，而在这背后则隐藏了容错机制。</li>
+</ul>
+<p>基于上述分析，今天内容所要介绍的重点是 <code>Cluster</code> 。我们首先来看看 Dubbo 中 <code>Cluster</code> 接口的定义，该接口只包含一个 <code>join</code> 方法，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SPI(FailoverCluster.NAME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Cluster</span> &#123;</span><br><span class="line">    <span class="meta">@Adaptive</span></span><br><span class="line">    &lt;T&gt; Invoker&lt;T&gt; <span class="title function_">join</span><span class="params">(Directory&lt;T&gt; directory)</span> <span class="keyword">throws</span> RpcException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Cluster</code> 接口中包含另一个与集群相关的重要概念，即前面提到的 <code>Directory</code>。<code>Directory</code> 本质上代表多个 <code>Invoker</code>，我们需要知道可以通过它获取一个有效 <code>Invoker</code> 的列表。</p>
+<p>换一个角度，Dubbo 中的 <code>Cluster</code> 也相当于是一种代理对象，它在 <code>Directory</code> 的基础上向开发人员暴露一个具体的 <code>Invoker</code>，而在暴露这个 <code>Invoker</code> 的过程中，万一发生了异常情况，<code>Cluster</code> 就会自动嵌入集群容错机制。</p>
+<p>在 Dubbo 中，实际上提供了一组不同类型的 <code>Cluster</code> 对象，而每一个 <code>Cluster</code> 对象就代表着一种具体的集群容错机制。</p>
+<p>上述方案中，Dubbo 默认使用的是 <code>FailoverCluster</code>。我们来看一下这个默认实现，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FailoverCluster</span> <span class="keyword">implements</span> <span class="title class_">Cluster</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">NAME</span> <span class="operator">=</span> <span class="string">&quot;failover&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; Invoker&lt;T&gt; <span class="title function_">join</span><span class="params">(Directory&lt;T&gt; directory)</span> <span class="keyword">throws</span> RpcException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">FailoverClusterInvoker</span>&lt;T&gt;(directory);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到该类非常简单，<code>join</code> 方法只是根据传入的 <code>Directory</code> 构建一个新的 <code>FailoverClusterInvoker</code> 实例。</p>
+<p>而查看其他的 <code>Cluster</code> 接口实现，可以发现它们的处理方式与 <code>FailoverCluster</code> 类似，都是返回一个新的 Invoker。</p>
+<h3 id="dubbo-中的集群容错机制"><a class="markdownIt-Anchor" href="#dubbo-中的集群容错机制"></a> Dubbo 中的集群容错机制</h3>
+<p>显然，想要理解 Dubbo 中的集群容错机制，重点是要分析上图中所示的各种 <code>ClusterInvoker</code> 对象。</p>
+<p>这里，我们同样选择默认的 <code>FailoverClusterInvoker</code> 作为分析入口。在深入 <code>FailoverClusterInvoker</code> 之前，我们发现该类存在一个基类，即 <code>AbstractClusterInvoker</code>，而 <code>AbstractClusterInvoker</code> 又实现了 <code>Invoker</code> 接口，它们之间的关系如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220901/Invoke%E4%BE%9D%E8%B5%96%E5%9B%BE.png"  alt=" " ></p>
+<p>从设计模式角度讲，<code>AbstractClusterInvoker</code> 采用的是很典型的<strong>模板方法</strong>设计模式。</p>
+<p>模板方法设计模式的一般实现过程就是为整个操作流程提供一种框架代码，然后再提取抽象方法供子类进行实现。上图中就展示了模板方法的设计思想。</p>
+<p><code>AbstractClusterInvoker</code> 的实现逻辑也是类似，它的</p>
+<p>主要步骤包括</p>
+<ol>
+<li>从 <code>Directory</code> 获得 <code>Invoker</code> 列表、</li>
+<li>基于 <code>LoadBalance</code> 实现负载均衡，</li>
+<li>并基于 <code>doInvoke</code> 方法完成在远程调用中嵌入容错机制。</li>
+</ol>
+<p>这里的 <code>doInvoke</code> 就是模板方法，需要 <code>FailoverClusterInvoker</code> 等子类分别实现，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractClusterInvoker</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">ClusterInvoker</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> Result <span class="title function_">doInvoke</span><span class="params">(Invocation invocation, List&lt;Invoker&lt;T&gt;&gt; invokers,  LoadBalance loadbalance)</span> <span class="keyword">throws</span> RpcException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AbstractClusterInvoker 类的代码有点长，但理解起来并不是很复杂。</p>
+<p>通过观察该类中的代码实现，可以看到存在一批以 <code>select</code> 结尾的方法，包括 <code>select</code>、<code>doselect</code>、<code>reselect</code> 以及 <code>LoadBalance</code> 本身的 <code>select</code> 方法。</p>
+<p>我们基于这些 <code>select</code> 方法梳理整体的处理流程，并给出如下所示的伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select() &#123;</span><br><span class="line">	checkSticky();<span class="comment">//粘滞连接</span></span><br><span class="line">	doselect() &#123;</span><br><span class="line">		loadbalance.select();</span><br><span class="line">		reselect() &#123;</span><br><span class="line">			loadbalance.select();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述伪代码清晰展示了这些 <code>select</code> 方法的嵌套过程，从而能够更好地帮助你梳理代码执行流程。</p>
+<p>首先，<code>select</code> 方法的第一部分内容提供了“粘滞连接”机制。所谓<strong>粘滞连接（Sticky Connection）</strong>，就是为<em>每一次请求维护一个状态</em>，<em>确保始终由同一个服务提供者对来自同一客户端的请求进行响应</em>。</p>
+<p>这点和我们在上一讲中提到的源 IP 哈希负载均衡算法比较类似，你可以做一些回顾。</p>
+<p>在 Dubbo 中，使用粘滞连接的目的是<strong>减少重复创建连接的成本，提高远程调用的效率</strong>。</p>
+<p>我们可以通过 URL 传入的“sticky”参数对该行为进行控制。</p>
+<p>处理完粘滞连接之后，<code>select</code> 方法就借助于 <code>doselect</code> 方法执行下一步操作。<code>doselect</code> 方法执行了一系列的判断来最终明确目标 <code>Invoker</code> 对象。</p>
+<p>首先，我们需要判断当前是否存在可用的 <code>Invoker</code> 对象，如果没有则直接返回。如果有，那么就分如下几种情况：</p>
+<ul>
+<li>如果只有一个 Invoker 对象，那么该 Invoker 对象就是目标 Invoker 对象；</li>
+<li>如果有两个 Invoker 对象，则使用轮询机制选择其中一个进行返回；</li>
+<li>如果有两个以上的 Invoker 对象，这时候就会借助于 LoadBalance 的 select 方法，通过负载均衡算法来最终确定一个目标 Invoker 对象。</li>
+</ul>
+<p>在获取了目标 Invoker 对象之后，Dubbo 并不会直接就使用这个对象，因为我们需要考虑该对象的可用性。</p>
+<p>如果该 Invoker 对象不可用或者已经使用过，那么就需要通过 reselect 方法重新进行选择。</p>
+<p>而如果在 Invoker 列表中已经没有可用的 Invoker 对象了，那么也就只能直接使用当前选中的这个 Invoker 对象。</p>
+<p>至于 reselect 方法，它的主要实现过程同样也是借助于 LoadBalance 的 select 方法完成对 Invoker 的重新选择。Dubbo 会使用一个标志位对传递给 LoadBalance 的 Invoker 对象的可用性进行过滤，然后将过滤之后且未被选择的 Invoker 对象列表交给 LoadBalance 执行负载均衡。</p>
+<p>以上几个方法中，只有 select 方法的修饰符是 protected 的，可以被 AbstractClusterInvoker 的各个子类根据需要进行直接调用。显然，因为 AbstractClusterInvoker 提供了模板方法，因此它的子类势必是在 doInvoke 方法中调用这些 select 方法。</p>
+<p>我们来看一下 FailoverClusterInvoker 的 doInvoke 方法，这个方法的执行逻辑同样不是很复杂。Failover 的意思很简单，就是失败重试，所以可以想象 doInvoke 方法中应该包括一个重试的循环操作。通过翻阅代码，我们确实发现了这样一个 for 循环，裁剪后的代码结构如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">      <span class="comment">// 由于Invoker对象列表可能已经发生变化，所以在执行重试操作前需要进行重新选择</span></span><br><span class="line">      <span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 验证当前Invoker对象是否可用</span></span><br><span class="line">            checkWhetherDestroyed();</span><br><span class="line">            <span class="comment">// 重新获取所有服务提供者</span></span><br><span class="line">            copyinvokers = list(invocation);</span><br><span class="line">            <span class="comment">// 重新检查这些Invoker对象</span></span><br><span class="line">            checkInvokers(copyinvokers, invocation);</span><br><span class="line">       &#125;</span><br><span class="line">            </span><br><span class="line">       <span class="comment">// 通过父类的select方法获取invoker</span></span><br><span class="line">       Invoker&lt;T&gt; invoker = select(loadbalance, invocation, copyinvokers, invoked);</span><br><span class="line">       …</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 发起远程调用</span></span><br><span class="line">            <span class="type">Result</span> <span class="variable">result</span> <span class="operator">=</span> invoker.invoke(invocation);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">       &#125; <span class="keyword">catch</span> (RpcException e) &#123;</span><br><span class="line">            	<span class="comment">// 如果是业务异常，直接抛出</span></span><br><span class="line">	&#125;</span><br><span class="line">	…</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 如果for循环执行完毕还是没有找到一个合适的invoker，则直接抛出异常</span></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RpcException</span>();</span><br></pre></td></tr></table></figure>
+<p>上述代码中的循环次数来自于 URL 传入的重试次数，默认重试次数是 2。在重试之前，由于 <code>Invoker</code> 对象列表可能已经发生变化，所以需要对当前 <code>Invoker</code> 对象是否可用进行验证，并根据需要进行重新选择。注意到在每一次循环中，我们首先调用父类 <code>AbstractClusterInvoker</code> 中的 <code>select</code> 方法，并将该方法返回的 <code>Invoker</code> 对象保存到一个 <code>invoked</code> 集合中，表示该 <code>Invoker</code> 对象已经被选择和使用。</p>
+<p>一旦确定了目标 <code>Invoker</code> 对象，我们就可以通过该对象所提供的 <code>invoke</code> 方法执行远程调用。调用过程可能成功、也可能失败，而失败的结果也分两种情况，如果是业务失败则直接抛出异常，反之我们就继续执行循环。如果整个循环都结束了还是没有成功地完成调用过程，那么最终也会抛出异常。</p>
+<p>至此，基于 <code>FailoverClusterInvoker</code> 的集群容错机制讲解完毕。Dubbo 中的其他集群容错实现方案交由你自行进行理解和分析。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>第一个阶段是先解释什么是服务容错。<br />
+1. 我们需要明确由于存在服务自身失败以及网络瞬态等因素，为了确保服务访问过程的可靠性，服务容错是必不可少的。<br />
+2. 然后重点是要提到服务的雪崩效应，即在分布式环境下，由于服务依赖失败导致整个服务访问链路不可用。<br />
+3. 那么雪崩效应究竟是怎么形成的呢？就是因为服务没有做到容错而导致的。</p>
+<p>第二阶段，我们需要进一步掌握服务容错实现层面的知识点。<br />
+1. 对于开发人员而言，相对于原理部分的内容，具体的实现过程反而更加容易把握，多少都能回答一些。<br />
+2. 针对集群容错的实现，包括 Failover（失效转移）、Failback（失败通知）、Failsafe（失败安全）和 Failfast（快速失败）。</p>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<p>本讲内容对集群容错的设计思想和实现策略进行了详细的展开。</p>
+<p>集群容错的实现策略有很多，我们基于 Dubbo 给出了该框架中内置的几种实现方案的底层原理。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（九）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022090955657/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-09 16:40</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022091023774/"
+                                   title="分布式系统（十）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（十）</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022090834103/"
+                                   title="分布式系统（八）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（八）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%AA%E5%B4%A9%E6%95%88%E5%BA%94"><span class="nav-number">3.1.</span> <span class="nav-text"> 雪崩效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99%E7%9A%84%E7%AD%96%E7%95%A5"><span class="nav-number">3.2.</span> <span class="nav-text"> 集群容错的策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 中的集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text"> Dubbo 中的集群容错机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%AA%E5%B4%A9%E6%95%88%E5%BA%94"><span class="nav-number">3.1.</span> <span class="nav-text"> 雪崩效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99%E7%9A%84%E7%AD%96%E7%95%A5"><span class="nav-number">3.2.</span> <span class="nav-text"> 集群容错的策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 中的集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text"> Dubbo 中的集群容错机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

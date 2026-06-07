@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            MVCC |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        MVCC
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-08-26 11:24:52</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.4k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<span id="more"></span>
+<h2 id="数据库并发访问可能遇到的问题"><a class="markdownIt-Anchor" href="#数据库并发访问可能遇到的问题"></a> 数据库并发访问，可能遇到的问题</h2>
+<ul>
+<li>并发<code>读-读</code>：不存在任何问题，也不需要并发控制</li>
+<li>并发<code>读-写</code>：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，不可重复读，幻读</li>
+<li>并发<code>写-写</code>：有线程安全问题，可能会造成事务隔离性问题，可能遇到更新丢失问题，也就是脏写</li>
+</ul>
+<h2 id="事务隔离性问题怎么解决的"><a class="markdownIt-Anchor" href="#事务隔离性问题怎么解决的"></a> 事务隔离性问题怎么解决的</h2>
+<p>事务隔离性问题有四种：脏读、不可重复读、幻读、脏写</p>
+<p>MySQL InnoDB 按照“SQL规范”，也支持四种事务隔离级别，这些事务隔离性问题在不同的事务隔离级别下得到了解决。</p>
+<p>在MySQL早期的版本主要是通过加锁的方式来解决这些问题，比如多个事务同时对同一行数据进行UPDATE，只有获取该行数据写锁的事务可以执行UPDATE，其它事务必须等待，这样就可以解决脏写问题。</p>
+<h3 id="mysql-innodb-的事务隔离级别"><a class="markdownIt-Anchor" href="#mysql-innodb-的事务隔离级别"></a> MySQL InnoDB 的事务隔离级别</h3>
+<table>
+<thead>
+<tr>
+<th><strong>隔离级别</strong></th>
+<th><strong>脏读</strong></th>
+<th><strong>不可重复读</strong></th>
+<th><strong>幻读</strong></th>
+<th><strong>脏写(更新丢失)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>READ UNCOMMITTED未提交读</strong></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td><strong>READ COMMITTED已提交读(推荐)</strong></td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td><strong>REPEATABLE READ可重复读（默认）</strong></td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td><strong>SERIALIZABLE可串行化</strong></td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody>
+</table>
+<p>隔离级别越高，锁的力度越高，对并发事务性能的影响也就越大，所以推荐使用 RC 这种事务隔离级别。</p>
+<p>MySQL 的 REPEATABLE READ 隔离级别和SQL规范中有些不同，<strong>在快照读模式下它自动禁止幻读问题发生，非快照读模式下，可以通过间隙锁的方式解决幻读问题。</strong></p>
+<h3 id="事务隔离性问题分析"><a class="markdownIt-Anchor" href="#事务隔离性问题分析"></a> 事务隔离性问题分析</h3>
+<ul>
+<li>脏读：事务可以读取到其它事务未提交的数据。
+<ul>
+<li>比如下表中的事务 A 读到了另一个未提交事务 B修改过的数据，那就是发生了脏读。</li>
+<li>READ UNCOMMITTED 隔离级别没有解决脏读问题，其它三种隔离级别解决了脏读问题。</li>
+</ul>
+</li>
+<li>不可重复读：执行多次相同的查询，得到了不一样的结果。
+<ul>
+<li>比如下表中的事务A读取一条数据后，期间事务B 对该数据进行了修改并提交，事务A使用相同的SQL再次读取该数据，发现读到的数据不一样了，这就是不可重复读。强调的是多次相同查询，读到的数据结果不一致。</li>
+<li>READ UNCOMMITTED 和 READ COMMITTED 隔离级别下都没有解决不可重复读问题，READ COMMITTED 它强调的是提交读，可以读到其它事务提交的数据。</li>
+</ul>
+</li>
+<li>幻读：执行多次相同的范围查询，不仅读到了之前相同的数据，还读到了额外的数据，像出现了幻觉一样。
+<ul>
+<li>比如下表中的事务A进行了一次范围查询，读到一条数据后，事务B插入一条新的数据，紧接着事务A再次进行了范围查询，读到了两条数据，出现了幻行，事务A很懵逼。</li>
+<li>REPEATABLE READ 和 SERIALIZABLE 解决了幻读问题。REPEATABLE READ 会自动解决快照读模式下的幻读问题，当前读的幻读问题可以使用间隙锁解决。</li>
+</ul>
+</li>
+<li>脏写：一个事务修改了另一个未提交事务修改过的数据。
+<ul>
+<li>比如事务B先修改了一条数据，接着事务A也对这个数据进行了修改，事务B回滚了这条数据，导致了事务A的更新丢失，这就是脏写。</li>
+<li>脏写带来的问题很严重，所以所有的隔离级别都解决了脏写问题。</li>
+</ul>
+</li>
+</ul>
+<h2 id="不加锁的方式-mvcc"><a class="markdownIt-Anchor" href="#不加锁的方式-mvcc"></a> 不加锁的方式-MVCC</h2>
+<p>MySQL InnoDB早期的版本就是通过给数据加锁（表级锁、行级锁）去实现事务隔离级别，但是加锁的话就会严重影响并发性能，所以MySQL在5.5之后引入了MVCC，一种不加锁的方式。</p>
+<p>Mysql MVCC 只在RC和RR这两种事务隔离级别下工作，在这两个隔离级别下，每个事务可以根据 “<strong>数据可见性算法</strong>” 读到 “<strong>undo log 版本链</strong>” 中的 “<strong>数据快照版本</strong>”，不同快照版本互不影响，在进行写操作时，也只是锁住必要的行，这样子可以使不同事务的读-写、写-读操作并发执行，从而提升系统性能。</p>
+<h3 id="undo-log-和-版本链"><a class="markdownIt-Anchor" href="#undo-log-和-版本链"></a> undo log 和 版本链</h3>
+<p>简单的介绍下 <strong>undo log</strong>，也被称为回滚日志，和 <strong>redo log</strong>，<strong>bin log</strong> 组成 MySQL 日志三剑客。</p>
+<p>回滚日志，顾名思义，就是用于数据回滚，有点类似于象棋中的悔棋功能，比如小兵向前走了一步，<strong>redo log</strong> 和 <strong>bin log</strong> 就会记录小兵向前走了一步，<strong>undo log</strong> 则是做一件相反的事情，它记录小兵向后走了一步，同时在小兵身上做一个回滚指针标记，如果想要悔棋，只需要到通过这个回滚指针找到 <strong>undo log</strong> 里找到这条记录的快照版本，回滚数据。</p>
+<ul>
+<li>undo log 做的事情和bin log相反：</li>
+<li>insert 语句生成反向 delete 语句的 undo log, insert undo log 用于数据事务回滚；</li>
+<li>delete 语句将当前行标记为删除，实际上不会直接物理删除该行，而是将delete行的对象头做一个<strong>delete_mask</strong>，标记为删除，主要是用于MVCC，最终的删除操作是****完成的。</li>
+<li>update 分为两种情况：
+<ul>
+<li>如果update的列不是主键列，在undo log中直接反向记录是如何update的。</li>
+<li>如果update的列是主键列，update分两部执行：先删除该行，再插入一行目标行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据行上的隐藏列"><a class="markdownIt-Anchor" href="#数据行上的隐藏列"></a> 数据行上的隐藏列</h3>
+<ul>
+<li>隐藏列的功能主要是记录当前行是哪个事务修改的，以及记录的回滚指针。</li>
+<li>InnoDB存储引擎表中的每行记录其实都是有一些隐藏列字段的，</li>
+<li>这些隐藏列的值不用我们操心，InnoDB存储引擎会自己帮我们生成的。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>隐藏列</strong></th>
+<th>**是否必须 **</th>
+<th><strong>占用空间</strong></th>
+<th>** 描述**</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DB_ROW_ID</strong></td>
+<td>否</td>
+<td>6字节</td>
+<td>行ID，唯一标识一条记录，一张表如果没有自定义主键以及Unique键的情况下才会添加该列</td>
+</tr>
+<tr>
+<td><strong>DB_TRX_ID</strong></td>
+<td>是</td>
+<td>6字节</td>
+<td>事务ID，每次事务对当前行进行 insert、update、delete 时都会将当前事务id 赋值给这个值</td>
+</tr>
+<tr>
+<td><strong>DB_ROLL_PTR</strong></td>
+<td>是</td>
+<td>7字节</td>
+<td>回滚指针，指向 undo log 中最近的一个快照版本</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据可见性算法-readview"><a class="markdownIt-Anchor" href="#数据可见性算法-readview"></a> 数据可见性算法-ReadView</h3>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220828/ReadView.png"  alt="image" ></p>
+<p>刚刚提到，多个事务并发执行时，每个事务都可以通过可见性算法找到当前事务可以读到的数据快照版本，所以数据可见性算法需要做两件事：</p>
+<ol>
+<li>如果隔离级别是RC可提交读，数据可见性算法需要保证当前事务可以读到其它事务已经提交的内容。</li>
+<li>如果隔离级别是RR可重复读，数据可见性算法需要保证当前事务多次读取的内容是一致的。</li>
+</ol>
+<p>设计MVCC的大神使用了一种基于ReadView结构的数据可见性算法。ReadView 主要是用来做数据可见性判断，在执行普通的SELECT语句时，会生成ReadView，通过ReadView找到当前事务可见的数据快照版本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">/* MySQL 8.0 */</span><br><span class="line">class ReadView &#123;</span><br><span class="line">  /* ... */</span><br><span class="line">private:   </span><br><span class="line">  trx_id_t m_creator_trx_id; /* 不是行记录上的 DB_TRX_ID,如果当前事务没有修改行数据,该值为0</span><br><span class="line">  							  * 如果当前事务正在修改该行数据,值为当前事务id</span><br><span class="line">							  */</span><br><span class="line">  ids_t m_ids; 				/* 活跃事务列表,不包括当前事务id,生成ReadView时其它的未提交事务，</span><br><span class="line">  							并且是read-write事务*/ </span><br><span class="line">  trx_id_t m_low_limit_id;   /* 还未分配的事务id,该值减1就是活跃事务列表m_ids中最大的事务id */</span><br><span class="line">  trx_id_t m_up_limit_id;    /* 活跃事务列表m_ids中最小的事务id */</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">  trx_id_t m_low_limit_no;    /* 事务Number, 小于该Number的Undo Logs均可以被Purge */</span><br><span class="line">  m_closed;                   /* 标记 ReadView 是否 close */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 数据可见性算法-核心方法1 */</span><br><span class="line">bool lock_clust_rec_cons_read_sees(</span><br><span class="line">    const rec_t *rec,     /*!&lt; in: user record which should be read or</span><br><span class="line">                          passed over by a read cursor */</span><br><span class="line">    dict_index_t *index,  /*!&lt; in: clustered index */</span><br><span class="line">    const ulint *offsets, /*!&lt; in: rec_get_offsets(rec, index) */</span><br><span class="line">    ReadView *view)       /*!&lt; in: consistent read view */</span><br><span class="line">&#123;</span><br><span class="line">  /* ... */</span><br><span class="line">	</span><br><span class="line">  /* 获取该条 Record 的trx_id */</span><br><span class="line">  trx_id_t trx_id = row_get_rec_trx_id(rec, index, offsets);</span><br><span class="line"></span><br><span class="line">  /* 判断可见性 */</span><br><span class="line">  return (view-&gt;changes_visible(trx_id, index-&gt;table-&gt;name));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 数据可见性算法-核心方法2 */</span><br><span class="line">bool changes_visible(trx_id_t id, const table_name_t &amp;name) const</span><br><span class="line">      MY_ATTRIBUTE((warn_unused_result)) &#123;</span><br><span class="line">    ut_ad(id &gt; 0);</span><br><span class="line">		</span><br><span class="line">    /* 1、假如 trx_id 小于 Readview 限制的最小活跃事务ID m_up_limit_id </span><br><span class="line">     *   或者等于正在创建的事务id m_creator_trx_id</span><br><span class="line">     */</span><br><span class="line">    if (id &lt; m_up_limit_id || id == m_creator_trx_id) &#123;</span><br><span class="line">      return (true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* 检查 trx_id 是否有效. */</span><br><span class="line">    check_trx_id_sanity(id, name);</span><br><span class="line">	</span><br><span class="line">    /* 假如 trx_id 大于最大活跃的事务ID m_low_limit_id, 即不可见. */</span><br><span class="line">    if (id &gt;= m_low_limit_id) &#123;</span><br><span class="line">      return (false);</span><br><span class="line">    &#125; else if (m_ids.empty()) &#123;</span><br><span class="line">      return (true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const ids_t::value_type *p = m_ids.data();</span><br><span class="line"></span><br><span class="line">    /* 当trx_id在 m_up_limit_id 和 m_low_limit_id 之间</span><br><span class="line">     * 如果trx_id在m_ids数组中, 表明ReadView创建时候，事务还没提交，所以不可见，否则可见 */</span><br><span class="line">    return (!std::binary_search(p, p + m_ids.size(), id));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果 <strong>trx_id</strong> &lt; <strong>m_up_limit_id</strong> || <strong>trx_id</strong> == <strong>m_creator_trx_id</strong>，行记录上的事务id 小于活跃事务列表中的最小事务id，说明这行数据在当前创建ReadView时就已经提交了，所以当前行记录可见，如果当前事务修改了该行数据，会将当前事务id 赋值给 <strong>trx_id</strong>，相等则说明是当前事务在修改，所以当前行记录可见。</li>
+<li>如果 <strong>trx_id</strong> &gt;= <strong>m_low_limit_id</strong>, 行记录上的事务id 大于等于还未分配的事务id, 说明这个数据是在创建ReadView后被后来分配的事务修改的，所以当前行记录不可见。</li>
+<li>如果 <strong>m_up_limit_id</strong> &lt;= <strong>trx_id</strong> &lt; <strong>m_low_limit_id</strong>, 则有两种情况
+<ul>
+<li>如果当前行数据上的 <strong>trx_id</strong> 在当前活跃事务id列表中的话，则说明其它的活跃的事务正在修改该行数据，可能事务还没提交，所以当前记录不可见。</li>
+<li>如果不在当前活跃事务id列表中的话，则说明修改这行数据的事务已经提交过了，所以当前行可见。</li>
+</ul>
+</li>
+</ul>
+<p><strong>如果当前行记录不可见，那就根据当前行的回滚指针，找到版本链中最近的一个快照版本，继续判断该快照版本对当前事务是否可见，总能找到一个可见的快照版本，这就是MVCC快照读</strong></p>
+<h3 id="readview-生成的时机"><a class="markdownIt-Anchor" href="#readview-生成的时机"></a> ReadView 生成的时机</h3>
+<p>刚刚提到 MVCC 只在RC、RR两个隔离级别下工作，这是因为 READ UNCOMMITED（未提交读）总是会读到最新的数据行，而不是查询当前数据的快照版本，而SERIALIZABLE（序列化读）则会对所有读取的行都加锁，这两个隔离级别和MVCC快照读的思想不兼容，所以MVCC只在RC、RR两个隔离级别下工作。</p>
+<ul>
+<li>并不是所有的SELECT查询语句都会生成ReadView，
+<ul>
+<li>比如 SELECT … LOCK IN SHARE MODE，SELECT…FOR UPDATE，这两种查询每次都会获取当前记录的行级锁（共享锁和排他锁），每次都会读到最新的数据。</li>
+<li>需要获取行级锁的查询又叫做当前读，像INSERT、DELETE、UPDATE语句也属于当前读。</li>
+</ul>
+</li>
+<li>Repeatable Read级别, 只有事务在执行第一条select（读操作）时, 才会创建一个快照ReadView，之后一直使用这个快照找到数据的可见版本，之后不会重新创建，直到事务结束。</li>
+<li>Read Committed级别, 事务在执行每条select（读操作）语句时，快照都会被重置，即会重新创建一个ReadView。</li>
+</ul>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<p>MVCC 指的就是在提交读和可重复读这两种隔离级别下，每个事务可以根据数据可见性算法读到 <strong>undo log</strong> 版本链 中的 <strong>数据快照版本</strong>，不同快照版本互不影响，在进行写操作时，也只是锁住必要的行，这样子可以使不同事务的读-写、写-读操作并发执行，从而提升系统性能。</p>
+<h3 id="思考"><a class="markdownIt-Anchor" href="#思考"></a> 思考</h3>
+<ul>
+<li>Java中有没有类似MVCC的实现，它是如何解决读写冲突的。  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写入时复制，修改操作的同时，读操作不会被阻塞，而是继续读取旧的数据（最新的快照）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;E&gt; </span><br><span class="line">    <span class="keyword">implements</span> <span class="title class_">List</span>&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Object[] array;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 写数据时通过 ReentrantLock 加锁写入</span></span><br><span class="line">    <span class="comment">// 写得时候拷贝一个副本，先操作这个副本，再把现有的数据替换为这个副本</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">add</span><span class="params">(E e)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="built_in">this</span>.lock;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Object[] elements = getArray();</span><br><span class="line">            <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> elements.length;</span><br><span class="line">            Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</span><br><span class="line">            newElements[len] = e;</span><br><span class="line">            setArray(newElements); </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">setArray</span><span class="params">(Object[] a)</span> &#123;</span><br><span class="line">        array = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读数据始终读取的是当前最新的快照版本。</span></span><br><span class="line">    <span class="keyword">public</span> E <span class="title function_">get</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> get(getArray(), index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> Object[] getArray() &#123;</span><br><span class="line">        <span class="keyword">return</span> array;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>优点：支持可提交读，适合读多写少的场景，修改操作的同时，读操作不会被阻塞，而是继续读取旧的数据。在写入完成的时候，由于 volatile 特性，其它的线程可以马上读到最新的修改，是不是有点像可提交读。</li>
+<li>缺点：不支持重复读，在添加到拷贝数据而还没进行替换的时候，读到的仍然是旧数据。内存占用问题，如果对象比较大，频繁的Arrays.copyOf()，会导致Java 的GC问题。</li>
+</ol>
+</li>
+</ul>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                MVCC
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022082648519/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-08-26 11:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022082947405/"
+                                   title="AQS"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">AQS</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022082359186/"
+                                   title="零拷贝技术"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">零拷贝技术</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 数据库并发访问，可能遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text"> 事务隔离性问题怎么解决的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-innodb-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text"> MySQL InnoDB 的事务隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text"> 事务隔离性问题分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8A%A0%E9%94%81%E7%9A%84%E6%96%B9%E5%BC%8F-mvcc"><span class="nav-number">3.</span> <span class="nav-text"> 不加锁的方式-MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undo-log-%E5%92%8C-%E7%89%88%E6%9C%AC%E9%93%BE"><span class="nav-number">3.1.</span> <span class="nav-text"> undo log 和 版本链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%8C%E4%B8%8A%E7%9A%84%E9%9A%90%E8%97%8F%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text"> 数据行上的隐藏列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%81%E6%80%A7%E7%AE%97%E6%B3%95-readview"><span class="nav-number">3.3.</span> <span class="nav-text"> 数据可见性算法-ReadView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#readview-%E7%94%9F%E6%88%90%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="nav-number">3.4.</span> <span class="nav-text"> ReadView 生成的时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text"> 小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.1.</span> <span class="nav-text"> 思考</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 数据库并发访问，可能遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text"> 事务隔离性问题怎么解决的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-innodb-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text"> MySQL InnoDB 的事务隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E6%80%A7%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text"> 事务隔离性问题分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8A%A0%E9%94%81%E7%9A%84%E6%96%B9%E5%BC%8F-mvcc"><span class="nav-number">3.</span> <span class="nav-text"> 不加锁的方式-MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undo-log-%E5%92%8C-%E7%89%88%E6%9C%AC%E9%93%BE"><span class="nav-number">3.1.</span> <span class="nav-text"> undo log 和 版本链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%8C%E4%B8%8A%E7%9A%84%E9%9A%90%E8%97%8F%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text"> 数据行上的隐藏列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%81%E6%80%A7%E7%AE%97%E6%B3%95-readview"><span class="nav-number">3.3.</span> <span class="nav-text"> 数据可见性算法-ReadView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#readview-%E7%94%9F%E6%88%90%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="nav-number">3.4.</span> <span class="nav-text"> ReadView 生成的时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text"> 小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.1.</span> <span class="nav-text"> 思考</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

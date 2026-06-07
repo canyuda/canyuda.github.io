@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            JQuery基础 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        JQuery基础
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-08-16 18:07:12</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/front-end/">前端</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>986 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>4 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<h2 id="jquery"><a class="markdownIt-Anchor" href="#jquery"></a> JQuery</h2>
+<p>jQuery是一个快速、简洁的JavaScript框架，是继Prototype之后又一个优秀的JavaScript代码库（或JavaScript框架）。jQuery设计的宗旨是“write Less，Do More”，即倡导写更少的代码，做更多的事情。它封装JavaScript常用的功能代码，提供一种简便的JavaScript设计模式，优化HTML文档操作、事件处理、动画设计和Ajax交互。</p>
+<p>我们使用jquery可以更好完成以下操作:</p>
+<ol>
+<li>html文档操作，对于dom相关操作优化</li>
+<li>jquery提供更加方便与丰富事件处理</li>
+<li>jquery提供简单动画特效</li>
+<li>jquery提供ajax交互</li>
+</ol>
+<p>我们知道，要使用任何一个js框架，都是需要导入相关的js文件。</p>
+<p>关于其它常用js框架:</p>
+<ol>
+<li>dojo 面向对象的js框架</li>
+<li>extjs 学习成本比较高 它提供大量的丰富组件，它效果展示非常好</li>
+<li>prototype 早期比较流行js框架</li>
+<li>angularJS 它是一个mvc js框架，它提供双向数据绑定.</li>
+</ol>
+<p>jquery它的插件机制特别丰富,在开发中可以选择非常多的相关插件，例如，表单校验插件，树型结构。</p>
+<h3 id="jquery核心函数"><a class="markdownIt-Anchor" href="#jquery核心函数"></a> JQuery核心函数</h3>
+<ol>
+<li>
+<p>JQuery(callback)</p>
+<p>页面加载完成后加载JQuery代码.</p>
+</li>
+<li>
+<p>JQuery(html[,ownerDocument]</p>
+<p>参数一(必选):用于把html代码转换为JQuery对象.</p>
+<p>参数二(可选):设置dom的相关属性</p>
+</li>
+<li>
+<p>JQuery([slector[,context]])</p>
+<p>参数一(可选):选择器</p>
+<p>参数二(可选):指定要查找的dom集</p>
+</li>
+<li>
+<p>JQuery对象和dom对象的转换</p>
+</li>
+</ol>
+<h3 id="jquery选择器"><a class="markdownIt-Anchor" href="#jquery选择器"></a> JQuery选择器</h3>
+<h4 id="基本选择器"><a class="markdownIt-Anchor" href="#基本选择器"></a> 基本选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&quot;</span>)            <span class="comment">//ID选择器</span></span><br><span class="line">$(<span class="string">&quot;div&quot;</span>)            <span class="comment">//元素选择器</span></span><br><span class="line">$(<span class="string">&quot;.classname&quot;</span>)     <span class="comment">//类选择器</span></span><br><span class="line">$(<span class="string">&quot;.classname,.classname1,#id1&quot;</span>)     <span class="comment">//组合选择器</span></span><br></pre></td></tr></table></figure>
+<h4 id="层次选择器"><a class="markdownIt-Anchor" href="#层次选择器"></a> 层次选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#id&gt;.classname &quot;</span>)    <span class="comment">//子元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id .classname &quot;</span>)    <span class="comment">//后代元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id + .classname &quot;</span>)    <span class="comment">//紧邻下一个元素选择器</span></span><br><span class="line">$(<span class="string">&quot;#id ~ .classname &quot;</span>)    <span class="comment">//兄弟元素选择器</span></span><br></pre></td></tr></table></figure>
+<h4 id="过滤选择器重点"><a class="markdownIt-Anchor" href="#过滤选择器重点"></a> 过滤选择器(重点)</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;li:first&quot;</span>)    <span class="comment">//第一个li</span></span><br><span class="line">$(<span class="string">&quot;li:last&quot;</span>)     <span class="comment">//最后一个li</span></span><br><span class="line">$(<span class="string">&quot;li:even&quot;</span>)     <span class="comment">//挑选下标为偶数的li</span></span><br><span class="line">$(<span class="string">&quot;li:odd&quot;</span>)      <span class="comment">//挑选下标为奇数的li</span></span><br><span class="line">$(<span class="string">&quot;li:eq(4)&quot;</span>)    <span class="comment">//下标等于4的li</span></span><br><span class="line">$(<span class="string">&quot;li:gt(2)&quot;</span>)    <span class="comment">//下标大于2的li</span></span><br><span class="line">$(<span class="string">&quot;li:lt(2)&quot;</span>)    <span class="comment">//下标小于2的li</span></span><br><span class="line">$(<span class="string">&quot;li:not(#runoob)&quot;</span>) <span class="comment">//挑选除 id=&quot;runoob&quot; 以外的所有li</span></span><br></pre></td></tr></table></figure>
+<h4 id="内容过滤选择器"><a class="markdownIt-Anchor" href="#内容过滤选择器"></a> 内容过滤选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;div:contains(&#x27;Runob&#x27;)&quot;</span>)    <span class="comment">// 包含 Runob文本的元素</span></span><br><span class="line">$(<span class="string">&quot;td:empty&quot;</span>)                 <span class="comment">//不包含子元素或者文本的空元素</span></span><br><span class="line">$(<span class="string">&quot;div:has(selector)&quot;</span>)        <span class="comment">//含有选择器所匹配的元素</span></span><br><span class="line">$(<span class="string">&quot;td:parent&quot;</span>)                <span class="comment">//含有子元素或者文本的元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="可见性过滤选择器"><a class="markdownIt-Anchor" href="#可见性过滤选择器"></a> 可见性过滤选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;li:hidden&quot;</span>)       <span class="comment">//匹配所有不可见元素，或type为hidden的元素</span></span><br><span class="line">$(<span class="string">&quot;li:visible&quot;</span>)      <span class="comment">//匹配所有可见元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="属性过滤选择器"><a class="markdownIt-Anchor" href="#属性过滤选择器"></a> 属性过滤选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;div[id]&quot;</span>)        <span class="comment">//所有含有 id 属性的 div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id=&#x27;123&#x27;]&quot;</span>)        <span class="comment">// id属性值为123的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id!=&#x27;123&#x27;]&quot;</span>)        <span class="comment">// id属性值不等于123的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id^=&#x27;qq&#x27;]&quot;</span>)        <span class="comment">// id属性值以qq开头的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id$=&#x27;zz&#x27;]&quot;</span>)        <span class="comment">// id属性值以zz结尾的div 元素</span></span><br><span class="line">$(<span class="string">&quot;div[id*=&#x27;bb&#x27;]&quot;</span>)        <span class="comment">// id属性值包含bb的div 元素</span></span><br><span class="line">$(<span class="string">&quot;input[id][name$=&#x27;man&#x27;]&quot;</span>) <span class="comment">//多属性选过滤，同时满足两个属性的条件的元素</span></span><br></pre></td></tr></table></figure>
+<h4 id="状态过滤选择器"><a class="markdownIt-Anchor" href="#状态过滤选择器"></a> 状态过滤选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;input:enabled&quot;</span>)    <span class="comment">// 匹配可用的 input</span></span><br><span class="line">$(<span class="string">&quot;input:disabled&quot;</span>)   <span class="comment">// 匹配不可用的 input</span></span><br><span class="line">$(<span class="string">&quot;input:checked&quot;</span>)    <span class="comment">// 匹配选中的 input</span></span><br><span class="line">$(<span class="string">&quot;option:selected&quot;</span>)  <span class="comment">// 匹配选中的 option</span></span><br></pre></td></tr></table></figure>
+<h4 id="表单过滤选择器"><a class="markdownIt-Anchor" href="#表单过滤选择器"></a> 表单过滤选择器</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;:input&quot;</span>)      <span class="comment">//匹配所有 input, textarea, select 和 button 元素</span></span><br><span class="line">$(<span class="string">&quot;:text&quot;</span>)       <span class="comment">//所有的单行文本框，$(&quot;:text&quot;) 等价于$(&quot;[type=text]&quot;)，推荐使用$(&quot;input:text&quot;)效率更高，下同</span></span><br><span class="line">$(<span class="string">&quot;:password&quot;</span>)   <span class="comment">//所有密码框</span></span><br><span class="line">$(<span class="string">&quot;:radio&quot;</span>)      <span class="comment">//所有单选按钮</span></span><br><span class="line">$(<span class="string">&quot;:checkbox&quot;</span>)   <span class="comment">//所有复选框</span></span><br><span class="line">$(<span class="string">&quot;:submit&quot;</span>)     <span class="comment">//所有提交按钮</span></span><br><span class="line">$(<span class="string">&quot;:reset&quot;</span>)      <span class="comment">//所有重置按钮</span></span><br><span class="line">$(<span class="string">&quot;:button&quot;</span>)     <span class="comment">//所有button按钮</span></span><br><span class="line">$(<span class="string">&quot;:file&quot;</span>)       <span class="comment">//所有文件域</span></span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                JQuery基础
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017081649048/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-08-16 18:07</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017082510203/"
+                                   title="Java-注解"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java-注解</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017081344034/"
+                                   title="Java Web之Listener&amp;Filter"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java Web之Listener&amp;Filter</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jquery"><span class="nav-number">1.</span> <span class="nav-text"> JQuery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery%E6%A0%B8%E5%BF%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text"> JQuery核心函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> JQuery选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 基本选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 层次选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8%E9%87%8D%E7%82%B9"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 过滤选择器(重点)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 内容过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.5.</span> <span class="nav-text"> 可见性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.6.</span> <span class="nav-text"> 属性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.7.</span> <span class="nav-text"> 状态过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.8.</span> <span class="nav-text"> 表单过滤选择器</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jquery"><span class="nav-number">1.</span> <span class="nav-text"> JQuery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery%E6%A0%B8%E5%BF%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text"> JQuery核心函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text"> JQuery选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 基本选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 层次选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8%E9%87%8D%E7%82%B9"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 过滤选择器(重点)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 内容过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.5.</span> <span class="nav-text"> 可见性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.6.</span> <span class="nav-text"> 属性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.7.</span> <span class="nav-text"> 状态过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E5%8D%95%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.2.8.</span> <span class="nav-text"> 表单过滤选择器</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

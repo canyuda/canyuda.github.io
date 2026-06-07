@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            二进制中1的个数 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        二进制中1的个数
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2017-01-24 20:23:42</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/data-structures-algorithms/">数据结构与算法</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/offer-book/">剑指offer</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.7k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>6 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>略</p>
+<span id="more"></span>
+<blockquote>
+<p>题目：输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+</blockquote>
+<p>题目是要求用位运算来实现，位运算是计算机学科的基石，很多底层的技术都离不开位运算，位运算总共有5种运算：与、或、异或、左移和右移。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">与（&amp;）</th>
+<th style="text-align:center">或（|）</th>
+<th style="text-align:center">异或（^）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0&amp;0=0</td>
+<td style="text-align:center">0|0=0</td>
+<td style="text-align:center">0^0=0</td>
+</tr>
+<tr>
+<td style="text-align:center">1&amp;0=0</td>
+<td style="text-align:center">1|0=1</td>
+<td style="text-align:center">1^0=1</td>
+</tr>
+<tr>
+<td style="text-align:center">0&amp;1=0</td>
+<td style="text-align:center">0|1=1</td>
+<td style="text-align:center">0^1=1</td>
+</tr>
+<tr>
+<td style="text-align:center">1&amp;1=1</td>
+<td style="text-align:center">1|1=1</td>
+<td style="text-align:center">1^1=0</td>
+</tr>
+</tbody>
+</table>
+<p>关于位移，左位移<code>m&lt;&lt;n</code>就是把二进制m数向左移动n位，然后右边补个0；而右位移有所不同，对于有符号数，如果它是正数(m&gt;0)，<code>m&gt;&gt;n</code>就是把m向右移动n位，左边补个0，如果它是负数(m&lt;0)，那么他的最高位应该是1，右移动n位后，左边补个1。例如：</p>
+<blockquote>
+<p>左移：</p>
+<p>0000 1010 &lt;&lt; 2 = 0010 1000</p>
+<p>1000 1010 &lt;&lt; 3 = 01010000</p>
+<p>右移：</p>
+<p>0000 1010 &gt;&gt; 2 = 0000 0010</p>
+<p>1000 1010 &gt;&gt; 3 = 1111 0001</p>
+</blockquote>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<p>根据题目，只需要输出一个数的二进制数中1的个数，直观的反应就是：把这个数的每一位扫描一遍，用一个变量<code>count</code>记录1的个数，遇到1<code>count</code>就加一，扫描完毕就输出<code>count</code></p>
+<h3 id="可能有死循环的解法"><a class="markdownIt-Anchor" href="#可能有死循环的解法"></a> 可能有死循环的解法</h3>
+<p>但是，要判断每一位是否为一有点困难，例如验证第一位是否为1，需要和0000 0001与运算，如果结果为0000 0001则第一位为1，否则为0；然后第二位要和0000 0010与运算，如果结果为0000 0010则第二位为1，否则为0；然后第三位，第四位…需要一直用新的数来做与运算，这样太麻烦。</p>
+<p>所以我们可以用依次右移要测试的数，然后依次用0000 0001与其做与运算，如果结果为1，则最低位为1，即是要验证的那一位数。代码可以这样写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">NumberOf1_CanNotUse</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            * 用1和n进行位与运算，</span></span><br><span class="line"><span class="comment">            * 结果要是为1则n的二进制形式</span></span><br><span class="line"><span class="comment">            * 最右边那位肯定是1，否则为0</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) == <span class="number">1</span>) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//把n的2进制形式往右推一位</span></span><br><span class="line">            n = n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>但是，这种方法存在弊端，当输入一个负数例如-1，它的二进制数位1000 0001，由于它是个负数，当他右移一位时会变成1100 0000，随着右移，他就会变成1111 1111的死循环，所以需要一个更好的算法。</p>
+<h3 id="正常情况下的解法"><a class="markdownIt-Anchor" href="#正常情况下的解法"></a> 正常情况下的解法</h3>
+<p>上个解法可以形象的比喻成这样，数n是一个要测试01的数字串，而0000 0001是一个测量工具，上文的解法是让测量工具不动，然后要测的东西移动，测量工具验证是否为0000 0001，但是这种方法可能出现死循环，为了不出现死循环的尴尬局面，我们可以不去采取移动要测试的物体，而是移动测试工具，就是数字串不动，标尺测一下第一位，然后左移一下，测试一下第二位，然后标尺再左移再测试，一直到标尺变成0000 0000，停止测试，输出结果。代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">NumberOf1_low</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="number">1</span>;<span class="comment">//标尺</span></span><br><span class="line">        <span class="keyword">while</span> (flag != <span class="number">0</span>) &#123;<span class="comment">//标尺为0时结束</span></span><br><span class="line">            <span class="keyword">if</span> ((n &amp; flag) != <span class="number">0</span>) &#123;<span class="comment">//标尺测试结果匹配，数值加一。</span></span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">            flag = flag &lt;&lt; <span class="number">1</span>;<span class="comment">//移动标尺</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一个很好的解法"><a class="markdownIt-Anchor" href="#一个很好的解法"></a> 一个很好的解法</h3>
+<p>改方法的原理：有一个二进制数，如果它不等于0，则它必定有一位是个1。如果它的最右位为1，减去1，那么就最后一位发生了改变，由1变成0了；但如果它的最右位为0，减去1，那么从这个数最右一个1开始，它的右边所有的数都会取反，例如1100，减去1，变成1011，它的第三位是最右的1，减去1后，那个1再包括他右边所有的数就全部取反了。</p>
+<p>我们可以总结：一个二进制数减去1，就是从最右边看起，它的最右边第一个1，包括它和它右边所有的数就会全部取反。1010减一变1001，1100减一变1011等等。</p>
+<p>根据这个现象，我们可以对要测试的数减去1，例如1100，变成1011，然后1100和1011做与运算，得到了1000。对比一下原来的数1100和一系列变化过后的数1000，会发现它的最右一位1变成了0，他就少了个1，然后可以让计数器加一，一直到那个数变化成了0000为止，输出结果。</p>
+<p>再举个例子：1111，一次变化后变1110，计数器加一；二次变化后变1100，计数器再加一；三、四次同样操作，计数器最后加到了4，停止循环，输出计数器的结果。</p>
+<h2 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h2>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">NumberOf1</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//初始化计数器</span></span><br><span class="line">        <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;<span class="comment">//如果数中的1还存在就一直的循环，</span></span><br><span class="line">          			<span class="comment">//每去掉一个1，计数器就加1，直到一个1都没有</span></span><br><span class="line">            ++count;</span><br><span class="line">            n = (n-<span class="number">1</span>)&amp;n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<ol>
+<li>
+<p>把数除以2和把数右移一位<strong>数学上</strong>是等价的，但是计算机中<strong>位运算的效率要优于除法运算</strong>，所以对于除法运算，尽可能的使用位运算来代替。</p>
+</li>
+<li>
+<p>对于正数和负数，它们的右移是不同的，对于负数，右移时最高位保持为1。（<strong>注意</strong>：右移n位为相当与右移1位n次，所以1000 0000 &gt;&gt; 4 = 1111 1000）所以当编程中遇到右移运算，要多个心眼，注意最高位自动补1是否影响结果。</p>
+</li>
+<li>
+<p>使用与运算（&amp;）验证某位为1或0，可以让该位为1，其他位为0的数与它与运算（&amp;），如果结果为0，则该位为0，如果结果为非0，则该位为1。</p>
+<blockquote>
+<p>例如：验证00X0 1101的第3位是否为1，则它与0010 0000 与运算（&amp;），如果结果为0，则该位为0，如果结果为（0010 0000标尺本身）非0，则该位为1。</p>
+</blockquote>
+</li>
+<li>
+<p>同理可以用或运算（|）来验证某位为1或0，可以让该位为0，其他位为1的数与它或运算（|），</p>
+<blockquote>
+<p>例如：验证00X0 1101的第3位是否为0，则它与1101 1111或运算（|），如果结果为（1101 1111标尺本身），则该位为0，如果结果为全1（1111 1111），则该位为1。</p>
+</blockquote>
+</li>
+<li>
+<p>与运算（&amp;）类似于一票否决（一个为0，结果为0），或运算（|）类似于非诚勿扰，一盏灯亮就可以牵走。</p>
+</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                二进制中1的个数
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2017012461258/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2017-01-24 20:23</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/offer-book/">剑指offer</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2017012515437/"
+                                   title="数值的整数次方"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">数值的整数次方</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2017012351227/"
+                                   title="斐波那契数列"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">斐波那契数列</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text"> 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E6%9C%89%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text"> 可能有死循环的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text"> 正常情况下的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%BE%88%E5%A5%BD%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text"> 一个很好的解法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text"> 代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text"> 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E6%9C%89%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text"> 可能有死循环的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text"> 正常情况下的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%BE%88%E5%A5%BD%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text"> 一个很好的解法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text"> 代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text"> 总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

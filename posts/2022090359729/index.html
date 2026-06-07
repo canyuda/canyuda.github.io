@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（三） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（三）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-03 13:27:42</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>14 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>如何设计并实现高效的<strong>网络通信</strong>机制，这是分布式服务框架的核心功能之一，也是我们在面试过程中经常会碰到的一个面试题。</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<ol>
+<li>然而，因为像 Dubbo、Spring Cloud 等主流的分布式服务框架都已经帮我们封装了网络通信过程，使得远程过程调用就像是在使用本地方法调用一样，导致了开发人员对网络通信过程的底层设计思想和实现原理往往不甚了解。</li>
+<li>另一方面，对于分布式服务构建过程而言，网络通信是一个基础性、通用性的技术主题，涉及广泛的技术体系，既有深度又有广度，非常适合考查候选人的知识面。因此。网络通信在面试过程中出现的频率可以说非常高。</li>
+</ol>
+<h3 id="其他问题"><a class="markdownIt-Anchor" href="#其他问题"></a> 其他问题</h3>
+<ul>
+<li>网络的长连接和短连接分别指什么？它们分别有什么特点和优势？</li>
+<li>常见网络 IO 模型有哪些？各有什么功能特性？</li>
+<li>如果确保网络通信过程的可靠性？</li>
+<li>你认为网络通信包含的核心技术组件有哪些？</li>
+<li>如果让你来设计网络传输协议，你有什么样的一些思考？</li>
+<li>你能描述 Dubbo 框架中客户端和服务器端的网络通信实现过程吗？</li>
+<li>Dubbo 框架对网络通信过程采用了什么样的分层设计思想？</li>
+</ul>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p>网络通信的实现方式实际上有很多种，但因为网络通信过程复杂且不可控，因此<strong>如何使这个过程的代价降到用户可以接受的层次，是分布式系统设计的重要目标</strong>。</p>
+<ul>
+<li>网络连接：网络连接的创建和维护方式决定了通信过程的效率。</li>
+<li>IO 模型：我们知道任何网络请求的处理过程都涉及到 IO 操作，而不同类似的 IO 操作方式对性能的影响巨大。</li>
+<li>可靠性：网络状态是不稳定的，网络之间的通信过程必须在发生问题时能够快速感知并修复。</li>
+</ul>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220830/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1.png"  alt=" " ></p>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<h3 id="网络连接"><a class="markdownIt-Anchor" href="#网络连接"></a> 网络连接</h3>
+<ul>
+<li>短连接：所谓短连接，是指一旦请求响应过程结束，连接自动关闭。</li>
+<li>长连接：而长连接则不同，客户端可以利用这个连接持续地发送请求并获取响应结果。</li>
+</ul>
+<blockquote>
+<p>有时候，考虑到性能和服务治理等因素，我们也会把短连接和长连接组合起来使用。</p>
+</blockquote>
+<h3 id="io-模型"><a class="markdownIt-Anchor" href="#io-模型"></a> IO 模型</h3>
+<p>任何网络请求处理过程都涉及到 IO 操作。</p>
+<ul>
+<li>阻塞式 IO（Blocking IO，BIO）</li>
+<li>非阻塞 IO（Non-Blocking IO，NIO）</li>
+<li>IO 复用（IO Multiplexing）</li>
+<li>异步 IO（Asynchronous，AIO）</li>
+</ul>
+<h3 id="可靠性"><a class="markdownIt-Anchor" href="#可靠性"></a> 可靠性</h3>
+<ol>
+<li><strong>心跳检测</strong></li>
+<li><strong>断线重连</strong></li>
+</ol>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<p>在 Dubbo 框架中，存在一个独立的 <code>Remoting</code> 模块，封装了对整个网络通信的实现过程，该模块的组成结构如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220830/Remoting.png"  alt=" " ></p>
+<p>从组成结构上讲，Remoting 模块主要包含三个组件。</p>
+<ul>
+<li>Exchange 组件。信息交换层，用来封装请求-响应过程。</li>
+<li>Transport 组件。网络传输层，基于 Netty 等框架抽象统一的网络通信接口。</li>
+<li>Serialize 组件。序列化层，主要完成数据的序列化和反序列化过程。</li>
+</ul>
+<p>而从技术分层上讲，Remoting 模块处于整个 Dubbo 框架的底层，是我们后续要介绍的服务发布和服务消费的基础。显然，Remoting 模块的组件呈现的是一种对称结构，即 Dubbo 的生产者和消费者都依赖于底层的网络通信。所以，我们也将分别从服务器端和客户端两个角度出发分析 Dubbo 中具体的网络通信过程。</p>
+<p>然后，在 Dubbo 中，真正实现网络通信的过程委托给了第三方组件。Dubbo 通过 SPI 的方式提供了与 Netty、Mina 等多种通信框架的集成方式。这部分内容相当于是对上图中 Remoting 模块的补充，从层次上讲应该属于 Dubbo 框架的最底层。</p>
+<h3 id="dubbo-服务器端通信原理"><a class="markdownIt-Anchor" href="#dubbo-服务器端通信原理"></a> Dubbo 服务器端通信原理</h3>
+<p>我们首先介绍 Dubbo 服务器端的网络通信过程。请记住，<strong>Dubbo 中服务器端通信的目的就是集成并绑定 Netty 服务从而启动服务监听</strong>。我们关注 Exchange 信息交换层和 Transport 网络传输层这两个核心层之间的交互和协作过程，如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220830/%E6%9C%8D%E5%8A%A1%E7%AB%AF.png"  alt=" " ></p>
+<p>上图中涉及了 ExchangeServer、HeaderExchange、NettyTransport 和 NettyServer 等一系列核心对象。显然，通过这些对象从命名上就可以很明确地将它们划分到 Exchange 和 Transport 这两个层。</p>
+<p>在 Dubbo 中存在一个 Protocol 接口，该接口是 Dubbo 中最基本的远程过程调用实现接口，完成了服务的发布和调用功能。而在 Protocol 接口中存在 export 和 refer 这两个核心方法，其中前者用于对外暴露服务，后者则用来对远程服务进行引用。针对 Protocol 接口，Dubbo 提供了一组实现类，其中最重要的就是 DubboProtocol。</p>
+<p>我们从 DubboProtocol 中的 export 方法进行切入，该方法会根据传入的 URL 对象创建一个 Exchange 服务器，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">openServer</span><span class="params">(URL url)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> url.getAddress();</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isServer</span> <span class="operator">=</span> url.getParameter(Constants.IS_SERVER_KEY, <span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">if</span> (isServer) &#123;</span><br><span class="line">            <span class="type">ExchangeServer</span> <span class="variable">server</span> <span class="operator">=</span> serverMap.get(key);</span><br><span class="line">            <span class="keyword">if</span> (server == <span class="literal">null</span>) &#123;</span><br><span class="line">                serverMap.put(key, createServer(url));</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                server.reset(url);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来看 Exchange 服务器的创建过程，对应的 createServer 方法如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> ExchangeServer <span class="title function_">createServer</span><span class="params">(URL url)</span> &#123;</span><br><span class="line">        <span class="comment">// 省略其他代码</span></span><br><span class="line">        ExchangeServer server;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            server = Exchangers.bind(url, requestHandler);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">return</span> server;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这里的关键代码就是通过 Exchangers 的 bind 方法创建了 ExchangeServer，这个过程依赖于一个 Exchanger 接口。那么这个 Exchanger 接口是做什么用的呢？该接口定义如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SPI(HeaderExchanger.NAME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Exchanger</span> &#123;</span><br><span class="line">    <span class="meta">@Adaptive(&#123;Constants.EXCHANGER_KEY&#125;)</span></span><br><span class="line">    ExchangeServer <span class="title function_">bind</span><span class="params">(URL url, ExchangeHandler handler)</span> <span class="keyword">throws</span> RemotingException;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;Constants.EXCHANGER_KEY&#125;)</span></span><br><span class="line">    ExchangeClient <span class="title function_">connect</span><span class="params">(URL url, ExchangeHandler handler)</span> <span class="keyword">throws</span> RemotingException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Exchanger 接口只有两个方法，一个是面向服务器端的 bind 方法，一个是面向客户端的 connect 方法。在 Dubbo 中，Exchanger 的实现类只有一个，即 HeaderExchanger，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HeaderExchanger</span> <span class="keyword">implements</span> <span class="title class_">Exchanger</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">NAME</span> <span class="operator">=</span> <span class="string">&quot;header&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ExchangeClient <span class="title function_">connect</span><span class="params">(URL url, ExchangeHandler handler)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HeaderExchangeClient</span>(Transporters.connect(url, <span class="keyword">new</span> <span class="title class_">DecodeHandler</span>(<span class="keyword">new</span> <span class="title class_">HeaderExchangeHandler</span>(handler))), <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ExchangeServer <span class="title function_">bind</span><span class="params">(URL url, ExchangeHandler handler)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HeaderExchangeServer</span>(Transporters.bind(url, <span class="keyword">new</span> <span class="title class_">DecodeHandler</span>(<span class="keyword">new</span> <span class="title class_">HeaderExchangeHandler</span>(handler))));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，上述 HeaderExchanger 在创建 HeaderExchangeServer 的同时也加入心跳检测功能，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">startHeatbeatTimer</span><span class="params">()</span> &#123;</span><br><span class="line">        stopHeartbeatTimer();</span><br><span class="line">        <span class="keyword">if</span> (heartbeat &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            heatbeatTimer = scheduled.scheduleWithFixedDelay(</span><br><span class="line">                    <span class="keyword">new</span> <span class="title class_">HeartBeatTask</span>(<span class="keyword">new</span> <span class="title class_">HeartBeatTask</span>.ChannelProvider() &#123;</span><br><span class="line">                        <span class="keyword">public</span> Collection&lt;Channel&gt; <span class="title function_">getChannels</span><span class="params">()</span> &#123;</span><br><span class="line">                            <span class="keyword">return</span> Collections.unmodifiableCollection(</span><br><span class="line">                                    HeaderExchangeServer.<span class="built_in">this</span>.getChannels());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, heartbeat, heartbeatTimeout),</span><br><span class="line">                    heartbeat, heartbeat, TimeUnit.MILLISECONDS);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 HeartBeatTask 的 run 方法中，我们根据所配置的 heartbeat、heartbeatTimeout 等相关心跳属性，执行 channel.reconnect、channel.close 等方法。<strong>这也是心跳检测机制的一种常见实现方式</strong>。</p>
+<p>注意到，我们在 HeaderExchangeServer 中终于看到了属于 Transport 层的对象 Transporters，接下来我们来看服务器端 Transport 相关的组件。</p>
+<p>站在服务器的角度，网络通信过程的目的只有一个，就是装配服务并启动监听，从而接收来自服务消费者的访问。而对于服务消费者而言，通信过程的目的无非是对远程服务进行连接、发送请求并获取响应。因此，在 Dubbo 中存在一个 Transporter 接口，该接口提供了 bind 和 connect 方法分别对这两个基本操作进行封装，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SPI(&quot;netty&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Transporter</span> &#123;</span><br><span class="line">    <span class="meta">@Adaptive(&#123;Constants.SERVER_KEY, Constants.TRANSPORTER_KEY&#125;)</span></span><br><span class="line">    Server <span class="title function_">bind</span><span class="params">(URL url, ChannelHandler handler)</span> <span class="keyword">throws</span> RemotingException;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;Constants.CLIENT_KEY, Constants.TRANSPORTER_KEY&#125;)</span></span><br><span class="line">    Client <span class="title function_">connect</span><span class="params">(URL url, ChannelHandler handler)</span> <span class="keyword">throws</span> RemotingException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们发现 Transporter 接口的定义与 Exchanger 接口非常类似，两者同时提供了 bind 和 connect 这两个方法。区别在于 Exchanger 中用到的 ExchangeHandler，而 Transporter 中用到的是 ChannelHandler，显然 ChannelHandler 面向消息通信的通道，提供了比 ExchangeHandler 更底层的操作语义。</p>
+<p>与 HeaderExchanger 不同，Dubbo 中针对 Transporter 接口提供了一批实现类，包括 GrizzlyTransporter、MinaTransporter 以及两个 NettyTransporter。系统默认会加载 org.apache.dubbo.remoting.transport.netty 包下的 NettyTransporter，该类如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NettyTransporter</span> <span class="keyword">implements</span> <span class="title class_">Transporter</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">NAME</span> <span class="operator">=</span> <span class="string">&quot;netty4&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Server <span class="title function_">bind</span><span class="params">(URL url, ChannelHandler listener)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NettyServer</span>(url, listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Client <span class="title function_">connect</span><span class="params">(URL url, ChannelHandler listener)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NettyClient</span>(url, listener);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里看到了真正实现网络通信的 NettyServer 类，NettyServer 实现了 Server 接口并扩展了 AbstractServer 类。在 AbstractServer 中，Dubbo 提供了对网络服务端的通用抽象，即抽象出 open、close、send 等一组面向网络通信的通用方法。而 NettyServer 作为 AbstractServer 的子类，它的启动监听实现代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doOpen</span><span class="params">()</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        ...</span><br><span class="line">        bootstrap = <span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>(channelFactory);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">NettyHandler</span> <span class="variable">nettyHandler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NettyHandler</span>(getUrl(), <span class="built_in">this</span>);</span><br><span class="line">        channels = nettyHandler.getChannels();</span><br><span class="line">        bootstrap.setOption(<span class="string">&quot;child.tcpNoDelay&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        bootstrap.setPipelineFactory(<span class="keyword">new</span> <span class="title class_">ChannelPipelineFactory</span>() &#123;</span><br><span class="line">            <span class="keyword">public</span> ChannelPipeline <span class="title function_">getPipeline</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="type">NettyCodecAdapter</span> <span class="variable">adapter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NettyCodecAdapter</span>(getCodec(), getUrl(), NettyServer.<span class="built_in">this</span>);</span><br><span class="line">                <span class="type">ChannelPipeline</span> <span class="variable">pipeline</span> <span class="operator">=</span> Channels.pipeline();</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;decoder&quot;</span>, adapter.getDecoder());</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;encoder&quot;</span>, adapter.getEncoder());</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;handler&quot;</span>, nettyHandler);</span><br><span class="line">                <span class="keyword">return</span> pipeline;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        channel = bootstrap.bind(getBindAddress());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>熟悉 Netty 框架的开发人员对上述代码一定不会陌生，这里使用 Netty 的 ServerBootstrap 完成服务启动监听，同时构建了 NettyHandler 作为其网络事件的处理器。然后 NettyServer 的 doClose 方法基于 Netty 的 boostrap 和 channel 对象完成了网络资源释放。</p>
+<p>这样我们对 Dubbo 中与网络通信相关的服务监听启动和关闭，以及发送消息的过程就有了整体的了解。</p>
+<h3 id="dubbo-客户端通信原理"><a class="markdownIt-Anchor" href="#dubbo-客户端通信原理"></a> Dubbo 客户端通信原理</h3>
+<p>有了对前面服务器端各个技术组件的介绍，理解 Dubbo 客户端通信原理就会容易很多。我们在介绍服务器端时所引入的 Transporter 接口同时包含了对客户端方法的定义，而 Transporter 的实现类 NettyTransporter 也同时提供了 NettyClient 类，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NettyTransporter</span> <span class="keyword">implements</span> <span class="title class_">Transporter</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">NAME</span> <span class="operator">=</span> <span class="string">&quot;netty&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Server <span class="title function_">bind</span><span class="params">(URL url, ChannelHandler listener)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NettyServer</span>(url, listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Client <span class="title function_">connect</span><span class="params">(URL url, ChannelHandler listener)</span> <span class="keyword">throws</span> RemotingException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NettyClient</span>(url, listener);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与 NettyTransporter 相关的这些核心类之间的关系下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220830/NettyTransporter.png"  alt=" " ></p>
+<p>上图中的很多类我们都已经明确了，因此在介绍 Dubbo 的客户端通信原理时，不会像服务端那样做全面展开，而是更多关注于客户端本身的特性，所以我们的思路先从底层的 NettyClient 类进行切入。</p>
+<p>与 NettyServer 类类似，NettyClient 也存在一个抽象的父类 AbstractClient。作为网络客户端的通用抽象，AbstractClient 这个模板类一共提供了 doOpen、doConnect、doDisconnect、doClose、getChannel 这 5 个模板方法。与服务器端所提供的 3 个方法相比，客户端还需要实现与 Connect 这一操作相关的两个方法。</p>
+<p>NettyClient 中的 doOpen 方法如下所示，这里创建了 ClientBootstrap 并完成初始化参数设置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doOpen</span><span class="params">()</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        ...</span><br><span class="line">        bootstrap = <span class="keyword">new</span> <span class="title class_">ClientBootstrap</span>(channelFactory);    </span><br><span class="line">        <span class="keyword">final</span> <span class="type">NettyHandler</span> <span class="variable">nettyHandler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NettyHandler</span>(getUrl(), <span class="built_in">this</span>);</span><br><span class="line">        bootstrap.setPipelineFactory(<span class="keyword">new</span> <span class="title class_">ChannelPipelineFactory</span>() &#123;</span><br><span class="line">            <span class="keyword">public</span> ChannelPipeline <span class="title function_">getPipeline</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="type">NettyCodecAdapter</span> <span class="variable">adapter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NettyCodecAdapter</span>(getCodec(), getUrl(), NettyClient.<span class="built_in">this</span>);</span><br><span class="line">                <span class="type">ChannelPipeline</span> <span class="variable">pipeline</span> <span class="operator">=</span> Channels.pipeline();</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;decoder&quot;</span>, adapter.getDecoder());</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;encoder&quot;</span>, adapter.getEncoder());</span><br><span class="line">                pipeline.addLast(<span class="string">&quot;handler&quot;</span>, nettyHandler);</span><br><span class="line">                <span class="keyword">return</span> pipeline;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和 NettyServer 一样，NettyClient 同样完成了对 Netty 框架的封装。在 NettyClient 的 doConnect 方法中，同样使用 ClientBootstrap 完成与服务端的连接和事件监听。而 doDisconnect 方法则用于移除当前已经断开连接的 Channel。然后，和 HeaderExchangeServer 类类似，在 HeaderExchangeClient 类中也添加了定时心跳收发及心跳超时监测机制。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>对于远程过程调用而言，网络通信还是一个偏向于概念的技术考点。因此，在回答这类问题时，第一步需要针对网络通信这个话题本身给出一些说明和描述，这属于理论知识体系，是需要死记硬背的基础内容。基于对这一话题的了解，通常我们就可以引出一些自己比较熟悉的点，围绕这些点来进行展开和引导即可。例如，对于网络传输协议，如果你了解 ISO/OSI 模型，那就可以基于这个模型来对类似“消息头”这种自己比较熟悉的点进行发散。</p>
+<p>第二个解题要点是对网络通信实现过程进行<strong>抽象化、系统化的阐述</strong>。在目前主流的分布式服务框架中，对于网络通信模块都会有自己的一些抽象和提炼，其内部结构往往比较复杂。以本讲中介绍的 Dubbo 框架为例，就采用了<strong>明确的分层架构</strong>。每一层中都包含了一些核心的接口，这些接口之间的继承关系以及所处于的层次如下图所示：</p>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220830/dubbo%E5%88%86%E5%B1%82.png"  alt=" " ></p>
+<p>针对网络通信，我们要明确 Dubbo 框架集成了很多第三方工具，这部分工具只关注于底层的具体网络通信过程。Dubbo 把这一过程抽象成一个 Transport 层，即网络传输层。而 Dubbo 又提供了一个 Exchange 层，用于封装请求和响应，称为信息交换层。从功能职责上讲，Exchange 偏向于 Dubbo 对自身通信过程的抽象和封装，跟具体的网络通信关系不大，具体的网络传输工作都是由 Transport 层负责完成。<strong>理解 Dubbo 框架的这种设计思想和实现方式，一方面有助于提升面试内容的丰富程度，另一方面对于更好地理解框架实现原理也很有帮助</strong>。</p>
+<p>在面试过程中，我们需要确保整个针对网络通信的分析过程是理论结合实践的，如果你能够把本讲内容结合起来进行讲解，相信这道面试题会成为你区别于其他候选人的一个亮点。</p>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<p>本讲介绍了分布式系统远程过程调用部分的第一个技术组件，即网络通信。可以说网络通信是一切分布式系统的基础，我们从网络连接、IO 模型等角度讨论了与网络通信相关的一些基本概念。</p>
+<p>本讲的核心内容是对 Dubbo 中网络通信具体实现过程的深入分析，我们从源码级别对框架中的核心类进行了展开，并明确了 Dubbo 框架在实现网络通信模块时所采用的分层架构。</p>
+<p><strong>Dubbo 在这一维度上的分层架构为我们如何合理规划底层模块的职责和边界提供了很好的参考价值。</strong></p>
+<p>Dubbo 中关于服务器端和客户端通信的实现过程还是比较复杂的，涉及到更底层的 Channel 等相关的操作，大家可以自己通过阅读源码进行理解。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（三）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022090359729/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-03 13:27</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022090434704/"
+                                   title="分布式系统（四）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（四）</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022090258664/"
+                                   title="分布式系统（二）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（二）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text"> 其他问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.1.</span> <span class="nav-text"> 网络连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#io-%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text"> IO 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text"> 可靠性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 服务器端通信原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text"> Dubbo 客户端通信原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text"> 其他问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.1.</span> <span class="nav-text"> 网络连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#io-%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text"> IO 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text"> 可靠性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text"> Dubbo 服务器端通信原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text"> Dubbo 客户端通信原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

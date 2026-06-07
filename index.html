@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+        
+<div class="first-screen-container border-box flex-center fade-in-down-animation">
+    <div class="first-screen-content border-box">
+        <div class="top-placeholder border-box"></div>
+
+        <div class="middle-placeholder border-box">
+            
+                <div class="description border-box">
+                    
+                        
+                            
+                                <div class="desc-item border-box"><span class="desc">I am a slow walker, but I never walk backwards.</span><span class="cursor">｜</span></div>
+                            
+                        
+                    
+                </div>
+            
+
+            
+        </div>
+
+        <div class="bottom-placeholder border-box">
+            
+                <div class="sc-icon-list border-box">
+                    <!-- fontawesome icons -->
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="GitHub"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="https://github.com/canyuda">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+
+                    <!-- custom svg icons -->
+                    
+                    
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box is-home">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper transparent-1">
+
+    <div class="border-box header-content has-first-screen">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box active">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu active">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    <div class="home-content-container fade-in-down-animation">
+    
+    <ul class="home-post-list border-box">
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/202606078698/">
+                            Ciff：从零打造一个简化版 Dify — AI Agent 开发与运行平台
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p><strong>Ciff</strong>（Code It For Future）是我独立开发的一个 AI Agent 开发与运行平台，定位为简化版 Dify，面向 20-50 人小团队。支持 Agent 智能助手、知识库 RAG、工作流编排、多模型供应商适配，并提供 Web 界面和 REST API 两种交互方式。</p>
+<p>项目从 2026 年 4 月 13 日启动，到 4 月 25 日完成全部 6 个阶段，历时约两周。后端 Java、前端 Vue 3，借助 AI 编码工具（Claude、Kimi、GLM）完成开发。本文将全面介绍项目的设计思路、技术架构和开发历程。</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Sun Jun 07 2026 17:52:54 GMT+0800"
+                >2026-06-07 17:52:54</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/myporject/">个人项目</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/202606078698/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2026060743051/">
+                            ClaudeCodeRGB：用ESP32给Claude Code做个物理状态灯
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>作为一个 Claude Code 重度用户，我经常遇到一个问题：<strong>Claude Code 在后台跑着，我切去做别的事，回来一看不知道它跑完了没有。</strong> 于是我做了一个小玩意——用 ESP32 开发板 + RGB 灯，做一个物理状态指示灯。绿灯亮着说明空闲，蓝灯闪烁说明正在思考，黄灯闪烁说明在等你确认……一眼就知道该不该切回终端了。</p>
+<p>项目已开源：<a class="link"   href="https://github.com/canyuda/ClaudeCodeRGB" >GitHub - canyuda/ClaudeCodeRGB<i class="fas fa-external-link-alt"></i></a></p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Sun Jun 07 2026 14:01:11 GMT+0800"
+                >2026-06-07 14:01:11</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/hardware/">硬件</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/myporject/">个人项目</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2026060743051/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022113049586/">
+                            索引下推
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <ul>
+<li><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</li>
+<li>在不使用ICP的情况下，在使用非主键索引（又叫普通索引或者二级索引）进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。</li>
+<li>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</li>
+<li><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。</strong></li>
+</ul>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/database/">数据库</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/MySQL/">MySQL</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022113049586/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022112963116/">
+                            Explain详解
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>当Explain 与 SQL语句一起使用时，MySQL 会显示来自优化器关于SQL执行的信息。也就是说，MySQL解释了它将如何处理该语句，包括如何连接表以及什么顺序连接表等。</p>
+<ul>
+<li>表的加载顺序</li>
+<li>sql 的查询类型</li>
+<li>可能用到哪些索引，哪些索引又被实际使用</li>
+<li>表与表之间的引用关系</li>
+<li>一个表中有多少行被优化器查询 …</li>
+</ul>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/database/">数据库</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/MySQL/">MySQL</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022112963116/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022091136394/">
+                            分布式系统（十一）
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>而为了确保核心服务的可用性，有时候我们就会<strong>故意对那些不重要的服务执行下线操作，从而确保系统中有限的资源都应用到核心服务上</strong>。这就引出了在分布式系统构建过程中非常重要的一个技术组件，即服务降级。</p>
+<p>那么，什么是服务降级？又有那些常见的服务降级实现策略呢？</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022091136394/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022091023774/">
+                            分布式系统（十）
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p><strong>服务熔断的具体表现形式是熔断器</strong>。那么，熔断器的基本结构是怎么样的？它又是如何实现的呢？</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022091023774/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022090955657/">
+                            分布式系统（九）
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>集群的构建一方面能够为实现负载均衡提供基础，另一方面，<strong>它也能够有效应对服务访问出错的场景</strong>，这就是集群容错。</p>
+<p>在分布式系统运行过程中，远程调用发生失败的现象不可避免。为了应对服务访问失败，<strong>集群容错</strong>是一种简单高效的技术组件。</p>
+<p>那么，什么是集群容错？常见的又有哪些集群容错策略呢？</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022090955657/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/posts/2022090834103/">
+                            分布式系统（八）
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>那么，具体某一个请求到底应该是由哪个服务实例来响应最为合适呢？这个话题看上去很简单，实际上却有点复杂，涉及到服务请求的路由机制</p>
+<p>而在分布式系统中，上一讲中引入的负载均衡就是最常见也是最具代表性的一种路由机制。<strong>为了对请求进行合理的分发，我们需要提供一组负载均衡算法</strong>，那么常见的负载均衡算法有哪些？它们又应该如何实现呢？</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Tue Apr 07 2026 11:11:19 GMT+0800"
+                >2026-04-07 11:11:19</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/posts/2022090834103/">阅读全文&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+    </ul>
+    
+    <div class="paginator border-box flex-center">
+        <div class="border-box first-page paginator-btn not-allow">
+            <a class="border-box"><i class="fa-solid fa-angle-double-left"></i></a>
+        </div>
+
+        <div class="border-box paginator-btn">
+            <a class="border-box"
+               href="/"
+            ><i class="fa-solid fa-chevron-left"></i></a>
+        </div>
+
+
+        <div class="page-number-box border-box flex-center">
+            <input class="page-number-input border-box base-style"
+                   type="number"
+                   value="1"
+                   min="1"
+                   max="18"
+            /><span class="delimiter base-style">/</span><span class="base-style">18</span>
+        </div>
+
+
+        <div class="border-box paginator-btn allowed">
+            <a class="border-box"
+               href="/page/2/"
+            ><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+
+        <div class="border-box last-page paginator-btn allowed">
+            <a class="border-box"><i class="fa-solid fa-angle-double-right"></i></a>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box side-tools-show-handle">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+</main>
+
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+        
+<script src="/js/page/home-page.js"></script>
+
+    
+
+    <!-- post page -->
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

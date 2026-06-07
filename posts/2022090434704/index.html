@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（四） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（四）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-04 09:14:41</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.5k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>9 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>借助于分布式服务框架，我们可以实现不同服务之间跨网络的交互和协作。网络通信涉及到数据的有效传输，这就需要引入另一个技术组件，即<strong>序列化</strong>。而目前关于如何实现序列化和反序列化，业界也诞生了一大批工具和框架。</p>
+<p>那么，序列化是一种什么样的技术组件？<strong>我们又应该如何对种类繁多的序列化实现工具进行正确选型呢</strong>？</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<p><strong>无论采用何种开发框架和网络传输协议，都涉及到业务数据在网络中的传输，这就需要应用到序列化技术。<strong>序列化技术是</strong>直接面向开发人员</strong>的，我们可以对具体的序列化工具和框架进行选择，而不像网络通信过程那样只能依靠框架底层所封装的能力。</p>
+<p>更为重要的，候选人还需要具备综合的抽象思维，<strong>能够将不同的工具按照一定的维度进行分类，从不同的功能特性角度出发进行分析</strong>。</p>
+<p>从面试角度讲，关于序列化技术的常见考查方式包括：</p>
+<ul>
+<li>你知道哪些序列化工具，它们各自有什么特性？</li>
+<li>你在选择序列化工具时，重点会考虑哪些方面的要素？</li>
+<li>为什么像 Protobuf、Thrift 这些序列化工具会采用中间语言技术？</li>
+<li>如果只考虑性能，你会选择哪款序列化工具？</li>
+<li>Google 的 Protobuf 为什么会那么快？</li>
+</ul>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<p>究竟什么是序列化？我们可以简单把它理解为是一种<strong>从内存对象到字节数据的转换过程</strong>。</p>
+<p>所谓反序列化，实际上就是序列化的逆向过程，把从网络上获取的字节数据再次转化为可以供内存使用的业务对象。</p>
+<table>
+<thead>
+<tr>
+<th><strong>序列化工具</strong></th>
+<th><strong>简要描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Java Serializable</strong></td>
+<td>JDK 自带序列化工具</td>
+</tr>
+<tr>
+<td><strong>Hessian</strong></td>
+<td>Dubbo 框架默认序列化工具</td>
+</tr>
+<tr>
+<td><strong>Protobuf</strong></td>
+<td>gRPC 框架默认序列化工具</td>
+</tr>
+<tr>
+<td><strong>Thrift</strong></td>
+<td>Facebook 跨语言序列化工具</td>
+</tr>
+<tr>
+<td><strong>Jackson</strong></td>
+<td>Spring 框架默认序列化工具</td>
+</tr>
+<tr>
+<td><strong>FastJson</strong></td>
+<td>阿里巴巴高性能序列化工具</td>
+</tr>
+</tbody>
+</table>
+<p>上表罗列的也只是一些最主流的序列化工具，其他可供开发人员使用的工具和框架还有很多。虽然这些工具的定位和作用是类似的，但所具备的特性却不尽相同。这就涉及到日常开发过程中开发人员经常要面对的一个问题，即<strong>技术选型问题</strong>。</p>
+<p>关于技术选型，我们的思路首先是<strong>确定所需要考虑的技术维度</strong>。在序列化领域，我们可以抽象出三个技术维度。</p>
+<ul>
+<li><code>功能</code>：包括支持的序列化数据表现形式、数据结构等。</li>
+<li><code>性能</code>：包括空间复杂度和时间复杂度等。</li>
+<li><code>兼容性</code>：包括版本号机制等。</li>
+</ul>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<ul>
+<li>Jackson 和 FastJson 可读</li>
+<li>Protobuf、Thrift 不可读</li>
+</ul>
+<h3 id="功能"><a class="markdownIt-Anchor" href="#功能"></a> 功能</h3>
+<p><strong>功能完整度是我们首先要考虑的一个技术维度</strong>，具体的关注点包括：</p>
+<ul>
+<li>数据结构的丰富程度；</li>
+<li>开发的友好性；</li>
+<li>对异构平台的支持性；</li>
+</ul>
+<p>而有些工具则不一定，以 Protobuf 为例，在使用该工具时，我们首先要做的是定义一种<strong>中间语言</strong>，示例如下：</p>
+<figure class="highlight proto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Student</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id= <span class="number">1</span>;</span><br><span class="line">    <span class="type">string</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">int32</span> sex = <span class="number">3</span>;</span><br><span class="line">    <span class="type">string</span> hobby = <span class="number">4</span>;</span><br><span class="line">    <span class="type">string</span> skill = <span class="number">5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么 Protobuf 和 Thrift 要使用中间语言呢？原因就在于它们<strong>基于中间语言提供了一项重要的技术特性，即跨语言的异构性</strong>。</p>
+<h3 id="性能"><a class="markdownIt-Anchor" href="#性能"></a> 性能</h3>
+<p>在日常开发过程中，我们在<strong>选择序列化工具时往往会把性能作为一项重要的指标进行考虑</strong>。</p>
+<p>对于序列化的性能而言，我们关注两个指标，即：</p>
+<ul>
+<li><strong>时间复杂度</strong>：表示序列化/反序列化执行过程的速度。</li>
+<li><strong>空间复杂度</strong>：表示序列化数据所占有的字节大小。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>常用</strong></th>
+<th><strong>时间复杂度（序列化）</strong></th>
+<th><strong>时间复杂度（反序列化）</strong></th>
+<th><strong>空间复杂度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Java</strong></td>
+<td>8654</td>
+<td>43787</td>
+<td>889</td>
+</tr>
+<tr>
+<td><strong>Hessian</strong></td>
+<td>6725</td>
+<td>10460</td>
+<td>501</td>
+</tr>
+<tr>
+<td><strong>Protobuf</strong></td>
+<td>2964</td>
+<td>1745</td>
+<td>239</td>
+</tr>
+<tr>
+<td><strong>Thrift</strong></td>
+<td>3177</td>
+<td>1949</td>
+<td>349</td>
+</tr>
+<tr>
+<td><strong>Jackson</strong></td>
+<td>3052</td>
+<td>4161</td>
+<td>503</td>
+</tr>
+<tr>
+<td><strong>Fastjson</strong></td>
+<td>2595</td>
+<td>1472</td>
+<td>468</td>
+</tr>
+</tbody>
+</table>
+<p>通过对比：</p>
+<ul>
+<li>我们注意到在<strong>时间复杂度</strong>上可以优先选择阿里巴巴的 FastJson，</li>
+<li>而在<strong>空间复杂度</strong>上 Google 的 Protobuf 则具备较大的优势。</li>
+</ul>
+<h3 id="兼容性"><a class="markdownIt-Anchor" href="#兼容性"></a> 兼容性</h3>
+<p>关于序列化技术最后需要讨论的一个话题是<code>兼容性</code>。</p>
+<p>我们知道随着业务系统的不断演进，服务中所定义的接口以及数据结构也不可避免会发生变化。通常，在分布式服务开发过程中，我们会引入版本概念来应对接口和数据结构的调整。在序列化工具中，我们同样需要考虑版本。</p>
+<p>有些序列化工具虽然没有明确指定版本号的概念，但也能实现前向兼容性，比较典型的就是 <code>Protobuf</code>。</p>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<p>事实上，Dubbo 提供了 <code>Serialization</code> 接口（位于 <code>dubbo-common</code> 代码工程中）作为对序列化的抽象。</p>
+<p>而对应的序列化和反序列化操作的返回值分别是 <code>ObjectOutput</code> 和 <code>ObjectInput</code>：</p>
+<ul>
+<li>其中 <code>ObjectInput</code> 扩展自 <code>DataInput</code>，用于读取对象；</li>
+<li>而 <code>ObjectOutput</code> 扩展自 <code>DataOutput</code>，用于写入对象，</li>
+</ul>
+<p>这两个接口的定义如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ObjectInput</span> <span class="keyword">extends</span> <span class="title class_">DataInput</span> &#123;</span><br><span class="line">    Object <span class="title function_">readObject</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException;</span><br><span class="line">    &lt;T&gt; T <span class="title function_">readObject</span><span class="params">(Class&lt;T&gt; cls)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException;</span><br><span class="line">    &lt;T&gt; T <span class="title function_">readObject</span><span class="params">(Class&lt;T&gt; cls, Type type)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ObjectOutput</span> <span class="keyword">extends</span> <span class="title class_">DataOutput</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">writeObject</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>Serialization</code> 接口的定义上，可以看到 Dubbo 中默认使用的序列化实现方案基于 <code>hessian2</code>。</p>
+<p>Hessian 是一款优秀的序列化工具。</p>
+<p>在功能上，它支持基于二级制的数据表示形式，从而能够提供跨语言支持；<br />
+在性能上，无论<strong>时间复杂度</strong>还是<strong>空间复杂度</strong>也比 Java 序列化高效很多。</p>
+<p>在 Dubbo 中，Hessian2Serialization 类实现了 Serialization 接口，我们就以该类为例介绍 Dubbo 中具体的序列化/反序列化实现方法。Hessian2Serialization 类定义如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hessian2Serialization</span> <span class="keyword">implements</span> <span class="title class_">Serialization</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">ID</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">byte</span> <span class="title function_">getContentTypeId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ID;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getContentType</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;x-application/hessian2&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ObjectOutput <span class="title function_">serialize</span><span class="params">(URL url, OutputStream out)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Hessian2ObjectOutput</span>(out);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ObjectInput <span class="title function_">deserialize</span><span class="params">(URL url, InputStream is)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Hessian2ObjectInput</span>(is);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Hessian2Serialization 中的 serialize 和 deserialize 方法分别创建了 Hessian2ObjectOutput 和 Hessian2ObjectInput 类。以 Hessian2ObjectInput 为例，该类使用 Hessian2Input 完成具体的反序列化操作，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hessian2ObjectInput</span> <span class="keyword">implements</span> <span class="title class_">ObjectInput</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Hessian2Input mH2i; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Hessian2ObjectInput</span><span class="params">(InputStream is)</span> &#123;</span><br><span class="line">        mH2i = <span class="keyword">new</span> <span class="title class_">Hessian2Input</span>(is);</span><br><span class="line">        mH2i.setSerializerFactory(Hessian2SerializerFactory.SERIALIZER_FACTORY);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//省略各种读取具体数据类型的工具方法</span></span><br><span class="line">   </span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">readObject</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">return</span> mH2i.readObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">readObject</span><span class="params">(Class&lt;T&gt; cls)</span> <span class="keyword">throws</span> IOException,</span><br><span class="line">            ClassNotFoundException &#123;</span><br><span class="line">        <span class="keyword">return</span> (T) mH2i.readObject(cls);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; T <span class="title function_">readObject</span><span class="params">(Class&lt;T&gt; cls, Type type)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException &#123;</span><br><span class="line">        <span class="keyword">return</span> readObject(cls);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Hessian2Input 是 Hessian2 的实现库 <code>com.caucho.hessian</code> 中的工具类，初始化时需要设置一个 <code>SerializerFactory</code>，所以我们在这里还看到存在一个 <code>Hessian2SerializerFactory</code> 工厂类，专门用于设置 <code>SerializerFactory</code>。而在 <code>Hessian2ObjectInput</code> 中，各种以 read 为前缀的方法实际上都是对 <code>Hessian2Input</code> 中相应方法的封装。</p>
+<p>用于执行反序列化的 <code>Hessian2ObjectOutput</code> 与 <code>Hessian2ObjectInput</code> 类也比较简单，这里不再展开。</p>
+<p>关于 Dubbo 序列化的另一条代码支线是 <code>Codec2</code> 接口，该接口位于 <code>dubbo-remoting-api</code> 代码工程中，提供了<strong>对网络编解码的抽象</strong>，而编解码过程显然需要依赖 <code>Serialization</code> 接口作为其数据序列化的手段。我们可以通过如下所示的代码片段来回顾这一点，这段代码来自 <code>DubboCodec</code> 中的 <code>decodeBody</code> 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DubboCodec</span> <span class="keyword">extends</span> <span class="title class_">ExchangeCodec</span> <span class="keyword">implements</span> <span class="title class_">Codec2</span> &#123;	</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Object <span class="title function_">decodeBody</span><span class="params">(Channel channel, InputStream is, <span class="type">byte</span>[] header)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">// 获取序列化对象</span></span><br><span class="line">        <span class="type">Serialization</span> <span class="variable">s</span> <span class="operator">=</span> CodecSupport.getSerialization(channel.getUrl(), proto);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，这里的 <code>Codec</code> 和 <code>Serialization</code> 如何与上一讲中介绍的 <code>Exchange</code> 和 <code>Transport</code> 结合起来构成一个完整的链路呢？我们可以明确一点，序列化和编解码过程在网络传输层和信息交换层中都应该存在。因此，我们快速来到 <code>dubbo-remoting-api</code> 代码工程的 <code>META-INF/dubbo/internal</code> 文件夹，发现存在一个 <code>org.apache.dubbo.remoting.Codec2</code> 配置文件，内容如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">transport=org.apache.dubbo.remoting.transport.codec.TransportCodec</span><br><span class="line">telnet=org.apache.dubbo.remoting.telnet.codec.TelnetCodec</span><br><span class="line">exchange=org.apache.dubbo.remoting.exchange.codec.ExchangeCodec</span><br></pre></td></tr></table></figure>
+<p><code>org.apache.dubbo.remoting.Codec2</code> 配置文件用来执行 SPI 机制，这里只需要明白 Dubbo <strong>采用这种配置方式来动态加载运行时的类对象</strong>。在这里，可以看到 Dubbo 针对 <code>exchange</code> 和 <code>transport</code> 都提供了Codec支持。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>从解题思路上讲，<strong>序列化</strong>是一个相对比较容易把握的面试题。基于本讲关于序列化技术组件的讨论，我们发现有很多列表式的内容需要记忆。这部分内容需要大家平时多看一些资料，尽量扩展自己的知识面，这是针对这一主题的第一个解题要点。</p>
+<p>关于序列化相关工具之间的对比也有一个非常好的汇总资料，这里推荐给大家：<a class="link"   href="https://github.com/eishay/jvm-serializers/wiki" >https://github.com/eishay/jvm-serializers/wiki<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>但也正是因为序列化本身是一个内容比较固化的主题，所以在解题上就不能完全照本宣科。</p>
+<ul>
+<li><strong>只讲概念，而不给出自己的一些思考和总结，往往体现不出你和其他候选人之间的差别</strong>，这也是日常面试过程中需要注意的一个点。</li>
+<li>因此，针对这类题的第二个解题要点在于要事<strong>先用自己的语言来梳理回答问题的内容体系</strong>，重点展示自己对于这一技术主题的抽象和分析能力。</li>
+</ul>
+<p>针对技术选型类面试题，更加需要明确给出自己的判断。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（四）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022090434704/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-04 09:14</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2022090517710/"
+                                   title="分布式系统（五）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（五）</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022090359729/"
+                                   title="分布式系统（三）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（三）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">3.1.</span> <span class="nav-text"> 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD"><span class="nav-number">3.2.</span> <span class="nav-text"> 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text"> 兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">3.1.</span> <span class="nav-text"> 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD"><span class="nav-number">3.2.</span> <span class="nav-text"> 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text"> 兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

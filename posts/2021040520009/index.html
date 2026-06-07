@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            JetCache的使用 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        JetCache的使用
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2021-04-05 20:57:20</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/cache/">缓存</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>18 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>JetCache是一个基于Java的缓存系统封装, 提供统一的API和注解来简化缓存的使用, 可以支持:</p>
+<ol>
+<li>TTL</li>
+<li>两级缓存</li>
+<li>分布式自动刷新</li>
+<li>通过注解创建并配置缓存</li>
+<li>缓存使用的统计</li>
+<li>Key生成策略与Value序列化方式自定义</li>
+<li>异步CacheAPI</li>
+<li>Spring Boot支持</li>
+</ol>
+<span id="more"></span>
+<h2 id="要求"><a class="markdownIt-Anchor" href="#要求"></a> 要求</h2>
+<ol>
+<li>JDK1.8</li>
+<li>可选Spring Framework 4.0.8+</li>
+<li>可选Spring Boot 1.1.9+</li>
+</ol>
+<h2 id="基本使用"><a class="markdownIt-Anchor" href="#基本使用"></a> 基本使用</h2>
+<blockquote>
+<p>仅仅介绍 SpringBoot 下的使用</p>
+</blockquote>
+<h3 id="快速开始"><a class="markdownIt-Anchor" href="#快速开始"></a> 快速开始</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alicp.jetcache<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetcache-starter-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.14<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jetcache:</span></span><br><span class="line">  <span class="attr">statIntervalMinutes:</span> <span class="number">15</span></span><br><span class="line">  <span class="attr">areaInCacheName:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">local:</span></span><br><span class="line">    <span class="attr">default:</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">linkedhashmap</span></span><br><span class="line">      <span class="attr">keyConvertor:</span> <span class="string">fastjson</span></span><br><span class="line">  <span class="attr">remote:</span></span><br><span class="line">    <span class="attr">default:</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">redis</span></span><br><span class="line">      <span class="attr">keyConvertor:</span> <span class="string">fastjson</span></span><br><span class="line">      <span class="attr">valueEncoder:</span> <span class="string">java</span></span><br><span class="line">      <span class="attr">valueDecoder:</span> <span class="string">java</span></span><br><span class="line">      <span class="attr">poolConfig:</span></span><br><span class="line">        <span class="attr">minIdle:</span> <span class="number">5</span></span><br><span class="line">        <span class="attr">maxIdle:</span> <span class="number">20</span></span><br><span class="line">        <span class="attr">maxTotal:</span> <span class="number">50</span></span><br><span class="line">      <span class="attr">host:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableMethodCache(basePackages = &quot;com.company.mypackage&quot;)</span></span><br><span class="line"><span class="meta">@EnableCreateCacheAnnotation</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MySpringBootApp</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(MySpringBootApp.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建缓存实例的方式"><a class="markdownIt-Anchor" href="#创建缓存实例的方式"></a> 创建缓存实例的方式</h3>
+<h4 id="一级缓存"><a class="markdownIt-Anchor" href="#一级缓存"></a> 一级缓存</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CreateCache(expire = 100)</span></span><br><span class="line"><span class="keyword">private</span> Cache&lt;Long, UserDO&gt; userCache;</span><br></pre></td></tr></table></figure>
+<h4 id="二级缓存"><a class="markdownIt-Anchor" href="#二级缓存"></a> 二级缓存</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CreateCache(name = &quot;UserService.userCache&quot;, expire = 100, cacheType = CacheType.BOTH, localLimit = 50)</span></span><br><span class="line"><span class="keyword">private</span> Cache&lt;Long, UserDO&gt; userCache;</span><br></pre></td></tr></table></figure>
+<h3 id="创建方法缓存的方式"><a class="markdownIt-Anchor" href="#创建方法缓存的方式"></a> 创建方法缓存的方式</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="meta">@Cached(name=&quot;UserService.getUserById&quot;, expire = 3600)</span></span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(<span class="type">long</span> userId)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cacheapi"><a class="markdownIt-Anchor" href="#cacheapi"></a> CacheAPI</h2>
+<blockquote>
+<figure class="highlight plaintext"><figcaption><span>缓存的写入与读取都通过这个进行</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">基本api如下:</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">// 获取</span><br><span class="line">V get(K key)</span><br><span class="line">// 插入</span><br><span class="line">void put(K key, V value);</span><br><span class="line">// 指定过期时间</span><br><span class="line">void put(K key, V value, long expire, TimeUnit timeUnit)</span><br><span class="line">boolean putIfAbsent(K key, V value); //多级缓存MultiLevelCache不支持此方法</span><br><span class="line">boolean remove(K key);</span><br><span class="line">&lt;T&gt; T unwrap(Class&lt;T&gt; clazz);//2.2版本前，多级缓存MultiLevelCache不支持此方法</span><br><span class="line">Map&lt;K,V&gt; getAll(Set&lt;? extends K&gt; keys);</span><br><span class="line">void putAll(Map&lt;? extends K,? extends V&gt; map);</span><br><span class="line">void removeAll(Set&lt;? extends K&gt; keys);</span><br><span class="line">// 当key对应的缓存不存在时，使用loader加载。</span><br><span class="line">// cacheNullWhenLoaderReturnNull参数指定了当loader加载出来时null值的时候，是否要进行缓存（有时候即使是null值也是通过很繁重的查询才得到的，需要缓存）。</span><br><span class="line">// expire和timeUnit指定了缓存的超时时间，会覆盖缓存的默认超时时间。</span><br><span class="line">V computeIfAbsent(K key, Function&lt;K, V&gt; loader)</span><br><span class="line">V computeIfAbsent(K key, Function&lt;K, V&gt; loader, boolean cacheNullWhenLoaderReturnNull)</span><br><span class="line">V computeIfAbsent(K key, Function&lt;K, V&gt; loader, boolean cacheNullWhenLoaderReturnNull, long expire, TimeUnit timeUnit)</span><br><span class="line">// 尝试获取锁</span><br><span class="line">AutoReleaseLock tryLock(K key, long expire, TimeUnit timeUnit) //可能获取到AutoReleaseLock为null,需要自行判断</span><br><span class="line">boolean tryLockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="特殊的api"><a class="markdownIt-Anchor" href="#特殊的api"></a> 特殊的API</h3>
+<blockquote>
+<p>jetCache提供了大写的API, 与小写的区别是返回一个CacheResult对象, 例如:可以通过大写的<code>GET</code>判断获取到的key不存在还是发生了异常情况导致没有获取到,还是缓存过期导致没有获取到.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CacheGetResult&lt;V&gt; <span class="title function_">GET</span><span class="params">(K key)</span>;</span><br><span class="line">MultiGetResult&lt;K, V&gt; <span class="title function_">GET_ALL</span><span class="params">(Set&lt;? extends K&gt; keys)</span>;</span><br><span class="line">CacheResult <span class="title function_">PUT</span><span class="params">(K key, V value)</span>;</span><br><span class="line">CacheResult <span class="title function_">PUT</span><span class="params">(K key, V value, <span class="type">long</span> expireAfterWrite, TimeUnit timeUnit)</span>;</span><br><span class="line">CacheResult <span class="title function_">PUT_ALL</span><span class="params">(Map&lt;? extends K, ? extends V&gt; map)</span>;</span><br><span class="line">CacheResult <span class="title function_">PUT_ALL</span><span class="params">(Map&lt;? extends K, ? extends V&gt; map, <span class="type">long</span> expireAfterWrite, TimeUnit timeUnit)</span>;</span><br><span class="line">CacheResult <span class="title function_">REMOVE</span><span class="params">(K key)</span>;</span><br><span class="line">CacheResult <span class="title function_">REMOVE_ALL</span><span class="params">(Set&lt;? extends K&gt; keys)</span>;</span><br><span class="line">CacheResult <span class="title function_">PUT_IF_ABSENT</span><span class="params">(K key, V value, <span class="type">long</span> expireAfterWrite, TimeUnit timeUnit)</span>;</span><br></pre></td></tr></table></figure>
+<p>使用上要这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CacheGetResult&lt;OrderDO&gt; r = cache.GET(orderId);</span><br><span class="line"><span class="keyword">if</span>( r.isSuccess() )&#123;</span><br><span class="line">    <span class="type">OrderDO</span> <span class="variable">order</span> <span class="operator">=</span> r.getValue();</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (r.getResultCode() == CacheResultCode.NOT_EXISTS) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;cache miss:&quot;</span> + orderId);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(r.getResultCode() == CacheResultCode.EXPIRED) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;cache expired:&quot;</span> + orderId));</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;cache get error:&quot;</span> + orderId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注解的使用"><a class="markdownIt-Anchor" href="#注解的使用"></a> 注解的使用</h3>
+<h4 id="成员变量上的注解createcache"><a class="markdownIt-Anchor" href="#成员变量上的注解createcache"></a> 成员变量上的注解CreateCache</h4>
+<p>有如下参数:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果需要连接多个缓存系统，可在配置多个cache area，这个属性指定要使用的那个area的name</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的名称，不是必须的，如果没有指定，会使用类名+方法名。name会被用于远程缓存的key前缀。另外在统计中，一个简短有意义的名字会提高可读性。如果两个<code>@CreateCache</code>的<code>name</code>和<code>area</code>相同，它们会指向同一个<code>Cache</code>实例</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>未定义</td>
+<td>该Cache实例的默认超时时间定义，注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取无穷大</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>指定expire的单位</td>
+</tr>
+<tr>
+<td>cacheType</td>
+<td>CacheType.REMOTE</td>
+<td>缓存的类型，包括CacheType.REMOTE、CacheType.LOCAL、CacheType.BOTH。如果定义为BOTH，会使用LOCAL和REMOTE组合成两级缓存</td>
+</tr>
+<tr>
+<td>localLimit</td>
+<td>未定义</td>
+<td>如果cacheType为CacheType.LOCAL或CacheType.BOTH，这个参数指定本地缓存的最大元素数量，以控制内存占用。注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取100</td>
+</tr>
+<tr>
+<td>serialPolicy</td>
+<td>未定义</td>
+<td>如果cacheType为CacheType.REMOTE或CacheType.BOTH，指定远程缓存的序列化方式。JetCache内置的可选值为SerialPolicy.JAVA和SerialPolicy.KRYO。注解上没有定义的时候会使用全局配置，如果此时全局配置也没有定义，则取SerialPolicy.JAVA</td>
+</tr>
+<tr>
+<td>keyConvertor</td>
+<td>未定义</td>
+<td>指定KEY的转换方式，用于将复杂的KEY类型转换为缓存实现可以接受的类型，JetCache内置的可选值为KeyConvertor.FASTJSON和KeyConvertor.NONE。NONE表示不转换，FASTJSON通过fastjson将复杂对象KEY转换成String。如果注解上没有定义，则使用全局配置。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="方法上的注解cachedcacheupdatecacheinvalidatecacherefreshcachepenetrationprotect"><a class="markdownIt-Anchor" href="#方法上的注解cachedcacheupdatecacheinvalidatecacherefreshcachepenetrationprotect"></a> 方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect</h4>
+<h5 id="cached"><a class="markdownIt-Anchor" href="#cached"></a> Cached</h5>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，不是必须的，如果没有指定，会使用类名+方法名。name会被用于远程缓存的key前缀。另外在统计中，一个简短有意义的名字会提高可读性。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定key，如果没有指定会根据所有参数自动生成。</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>未定义</td>
+<td>超时时间。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为无穷大</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>指定expire的单位</td>
+</tr>
+<tr>
+<td>cacheType</td>
+<td>CacheType.REMOTE</td>
+<td>缓存的类型，包括CacheType.REMOTE、CacheType.LOCAL、CacheType.BOTH。如果定义为BOTH，会使用LOCAL和REMOTE组合成两级缓存</td>
+</tr>
+<tr>
+<td>localLimit</td>
+<td>未定义</td>
+<td>如果cacheType为LOCAL或BOTH，这个参数指定本地缓存的最大元素数量，以控制内存占用。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为100</td>
+</tr>
+<tr>
+<td>localExpire</td>
+<td>未定义</td>
+<td>仅当cacheType为BOTH时适用，为内存中的Cache指定一个不一样的超时时间，通常应该小于expire</td>
+</tr>
+<tr>
+<td>serialPolicy</td>
+<td>未定义</td>
+<td>指定远程缓存的序列化方式。可选值为SerialPolicy.JAVA和SerialPolicy.KRYO。如果注解上没有定义，会使用全局配置，如果此时全局配置也没有定义，则为SerialPolicy.JAVA</td>
+</tr>
+<tr>
+<td>keyConvertor</td>
+<td>未定义</td>
+<td>指定KEY的转换方式，用于将复杂的KEY类型转换为缓存实现可以接受的类型，当前支持KeyConvertor.FASTJSON和KeyConvertor.NONE。NONE表示不转换，FASTJSON可以将复杂对象KEY转换成String。如果注解上没有定义，会使用全局配置。</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>true</td>
+<td>是否激活缓存。例如某个dao方法上加缓存注解，由于某些调用场景下不能有缓存，所以可以设置enabled为false，正常调用不会使用缓存，在需要的地方可使用CacheContext.enableCache在回调中激活缓存，缓存激活的标记在ThreadLocal上，该标记被设置后，所有enable=false的缓存都被激活</td>
+</tr>
+<tr>
+<td>cacheNullValue</td>
+<td>false</td>
+<td>当方法返回值为null的时候是否要缓存</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定条件，如果表达式返回true的时候才去缓存中查询</td>
+</tr>
+<tr>
+<td>postCondition</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定条件，如果表达式返回true的时候才更新缓存，该评估在方法执行后进行，因此可以访问到#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cacheupdate"><a class="markdownIt-Anchor" href="#cacheupdate"></a> CacheUpdate</h5>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定key</td>
+</tr>
+<tr>
+<td>value</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定value</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定条件，如果表达式返回true才执行更新，可访问方法结果#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cacheinvalidate"><a class="markdownIt-Anchor" href="#cacheinvalidate"></a> CacheInvalidate</h5>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>area</td>
+<td>“default”</td>
+<td>如果在配置中配置了多个缓存area，在这里指定使用哪个area，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>未定义</td>
+<td>指定缓存的唯一名称，指向对应的@Cached定义。</td>
+</tr>
+<tr>
+<td>key</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定key</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>未定义</td>
+<td>使用<a class="link"   href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/expressions.html" >SpEL<i class="fas fa-external-link-alt"></i></a>指定条件，如果表达式返回true才执行删除，可访问方法结果#result</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cacherefresh"><a class="markdownIt-Anchor" href="#cacherefresh"></a> CacheRefresh</h5>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>refresh</td>
+<td>未定义</td>
+<td>刷新间隔</td>
+</tr>
+<tr>
+<td>timeUnit</td>
+<td>TimeUnit.SECONDS</td>
+<td>时间单位</td>
+</tr>
+<tr>
+<td>stopRefreshAfterLastAccess</td>
+<td>未定义</td>
+<td>指定该key多长时间没有访问就停止刷新，如果不指定会一直刷新</td>
+</tr>
+<tr>
+<td>refreshLockTimeout</td>
+<td>60秒</td>
+<td>类型为BOTH/REMOTE的缓存刷新时，同时只会有一台服务器在刷新，这台服务器会在远程缓存放置一个分布式锁，此配置指定该锁的超时时间</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cachepenetrationprotect"><a class="markdownIt-Anchor" href="#cachepenetrationprotect"></a> CachePenetrationProtect</h5>
+<blockquote>
+<p>放穿透机制</p>
+</blockquote>
+<p>当缓存访问未命中的情况下，对并发进行的加载行为进行保护。<br />
+当前版本实现的是单JVM内的保护，即同一个JVM中同一个key只有一个线程去加载，其它线程等待结果。</p>
+<h3 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">jetcache:</span><br><span class="line">  statIntervalMinutes: 15</span><br><span class="line">  areaInCacheName: false</span><br><span class="line">  hidePackages: com.alibaba</span><br><span class="line">  local:</span><br><span class="line">    default:</span><br><span class="line">      type: caffeine</span><br><span class="line">      limit: 100</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      expireAfterWriteInMillis: 100000</span><br><span class="line">    otherArea:</span><br><span class="line">      type: linkedhashmap</span><br><span class="line">      limit: 100</span><br><span class="line">      keyConvertor: none</span><br><span class="line">      expireAfterWriteInMillis: 100000</span><br><span class="line">  remote:</span><br><span class="line">    default:</span><br><span class="line">      type: redis</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      valueEncoder: java</span><br><span class="line">      valueDecoder: java</span><br><span class="line">      poolConfig:</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxIdle: 20</span><br><span class="line">        maxTotal: 50</span><br><span class="line">      host: $&#123;redis.host&#125;</span><br><span class="line">      port: $&#123;redis.port&#125;</span><br><span class="line">    otherArea:</span><br><span class="line">      type: redis</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      valueEncoder: kryo</span><br><span class="line">      valueDecoder: kryo</span><br><span class="line">      poolConfig:</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxIdle: 20</span><br><span class="line">        maxTotal: 50</span><br><span class="line">      host: $&#123;redis.host&#125;</span><br><span class="line">      port: $&#123;redis.port&#125;</span><br></pre></td></tr></table></figure>
+<p>配置通用说明如下</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jetcache.statIntervalMinutes</code></td>
+<td>0</td>
+<td>统计间隔，0表示不统计</td>
+</tr>
+<tr>
+<td><code>jetcache.areaInCacheName</code></td>
+<td>true</td>
+<td>jetcache-anno把cacheName作为远程缓存key前缀，2.4.3以前的版本总是把areaName加在cacheName中，因此areaName也出现在key前缀中。2.4.4以后可以配置，为了保持远程key兼容默认值为true，但是新项目的话false更合理些。</td>
+</tr>
+<tr>
+<td><code>jetcache.hiddenPackages</code></td>
+<td>无</td>
+<td>@Cached和@CreateCache自动生成name的时候，为了不让name太长，hiddenPackages指定的包名前缀被截掉</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.type</code></td>
+<td>无</td>
+<td>缓存类型。tair、redis为当前支持的远程缓存；linkedhashmap、caffeine为当前支持的本地缓存类型</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.keyConvertor</code></td>
+<td>无</td>
+<td>key转换器的全局配置，当前只有一个已经实现的keyConvertor：<code>fastjson</code>。仅当使用@CreateCache且缓存类型为LOCAL时可以指定为<code>none</code>，此时通过equals方法来识别key。方法缓存必须指定keyConvertor</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.valueEncoder</code></td>
+<td>java</td>
+<td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.valueDecoder</code></td>
+<td>java</td>
+<td>序列化器的全局配置。仅remote类型的缓存需要指定，可选java和kryo</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.limit</code></td>
+<td>100</td>
+<td>每个缓存实例的最大元素的全局配置，仅local类型的缓存需要指定。注意是每个缓存实例的限制，而不是全部，比如这里指定100，然后用@CreateCache创建了两个缓存实例（并且注解上没有设置localLimit属性），那么每个缓存实例的限制都是100</td>
+</tr>
+<tr>
+<td><code>jetcache.[local\remote].$&#123;area&#125;.expireAfterWriteInMillis</code></td>
+<td>无穷大</td>
+<td>以毫秒为单位指定超时时间的全局配置(以前为defaultExpireInMillis)</td>
+</tr>
+<tr>
+<td><code>jetcache.local.$&#123;area&#125;.expireAfterAccessInMillis</code></td>
+<td>0</td>
+<td>需要jetcache2.2以上，以毫秒为单位，指定多长时间没有访问，就让缓存失效，当前只有本地缓存支持。0表示不使用这个功能。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>上表中${area}对应@Cached和@CreateCache的area属性。注意如果注解上没有指定area，默认值是&quot;default&quot;。</p>
+</blockquote>
+<blockquote>
+<p>多个地方能配置过期时间,优先级为: 方法传参&gt;注解参数&gt;全局参数</p>
+</blockquote>
+<h3 id="高级功能"><a class="markdownIt-Anchor" href="#高级功能"></a> 高级功能</h3>
+<h4 id="异步api"><a class="markdownIt-Anchor" href="#异步api"></a> 异步API</h4>
+<p>大写API会返回CacheGetResult对象,CacheGetResult对象的<code>future()</code>方法可以返回一个CompletionStage,能支持异步调用某些逻辑.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CacheGetResult&lt;UserDO&gt; r = cache.GET(userId);</span><br><span class="line">CompletionStage&lt;ResultData&gt; future = r.future();</span><br><span class="line">future.thenRun(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span>(r.isSuccess())&#123;</span><br><span class="line">        System.out.println(r.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>无返回值的操作使用异步调用,能减少RT</p>
+</blockquote>
+<h4 id="自动load"><a class="markdownIt-Anchor" href="#自动load"></a> 自动load</h4>
+<p>Cache的get方法有时候会出现没有命中的情况, 可以设置一个loader, 没有命中时自动的加载.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// loadUserFromDatabase</span></span><br><span class="line">Cache&lt;Long,UserDO&gt; userCache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder()</span><br><span class="line">                .loader(key -&gt; loadUserFromDatabase(key))</span><br><span class="line">                .buildCache();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果loader抛出异常，get和getAll会抛出CacheInvokeException。</p>
+</blockquote>
+<blockquote>
+<p>大写GET,GET_ALL不调用loader; 使用多级缓存时, loader不要设置到子Cache中, 应该是父Cache(MultiLevelCache)上</p>
+</blockquote>
+<blockquote>
+<p>@CreateCache情况下使用, 例子如下</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@CreateCache</span><br><span class="line">private Cache&lt;Long,UserDO&gt; userCache;</span><br><span class="line"></span><br><span class="line">@PostConstruct</span><br><span class="line">public void init()&#123;</span><br><span class="line">    userCache.config().setLoader(this::loadUserFromDatabase);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="自动刷新缓存"><a class="markdownIt-Anchor" href="#自动刷新缓存"></a> 自动刷新缓存</h4>
+<p>能设置刷新策略, 防止缓存过期.</p>
+<blockquote>
+<p>@CreateCache情况下使用, 例子如下</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CreateCache</span></span><br><span class="line"><span class="keyword">private</span> Cache&lt;String, Long&gt; orderSumCache;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">RefreshPolicy</span> <span class="variable">policy</span> <span class="operator">=</span> RefreshPolicy.newPolicy(<span class="number">1</span>, TimeUnit.MINUTES)</span><br><span class="line">                          .stopRefreshAfterLastAccess(<span class="number">30</span>, TimeUnit.MINUTES);</span><br><span class="line">    orderSumCache.config().setLoader(<span class="built_in">this</span>::loadOrderSumFromDatabase);</span><br><span class="line">    orderSumCache.config().setRefreshPolicy(policy);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="远程缓存"><a class="markdownIt-Anchor" href="#远程缓存"></a> 远程缓存</h3>
+<h4 id="jedis"><a class="markdownIt-Anchor" href="#jedis"></a> Jedis</h4>
+<blockquote>
+<p>jetcache-starter-redis</p>
+</blockquote>
+<p>配置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">jetcache: </span><br><span class="line">  areaInCacheName: false</span><br><span class="line">  remote:</span><br><span class="line">    default:</span><br><span class="line">      type: redis</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      poolConfig:</span><br><span class="line">        minIdle: 5</span><br><span class="line">        maxIdle: 20</span><br><span class="line">        maxTotal: 50</span><br><span class="line">      host: $&#123;redis.host&#125;</span><br><span class="line">      port: $&#123;redis.port&#125;</span><br><span class="line">      #password:***</span><br><span class="line">      #sentinels: 127.0.0.1:26379 , 127.0.0.1:26380, 127.0.0.1:26381</span><br><span class="line">      #masterName: mymaster</span><br></pre></td></tr></table></figure>
+<p>如果需要直接操作JedisPool，可以通过以下方式获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(name = &quot;defaultPool&quot;)</span></span><br><span class="line"><span class="meta">@DependsOn(RedisAutoConfiguration.AUTO_INIT_BEAN_NAME)</span></span><br><span class="line"><span class="keyword">public</span> JedisPoolFactory <span class="title function_">defaultPool</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">JedisPoolFactory</span>(<span class="string">&quot;remote.default&quot;</span>, JedisPool.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后可以直接使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Pool&lt;Jedis&gt; defaultPool;</span><br></pre></td></tr></table></figure>
+<h4 id="lettuce"><a class="markdownIt-Anchor" href="#lettuce"></a> Lettuce</h4>
+<blockquote>
+<p>jetcache-starter-redis-lettuce</p>
+</blockquote>
+<p>配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">jetcache: </span><br><span class="line">  areaInCacheName: false</span><br><span class="line">  remote:</span><br><span class="line">    default:</span><br><span class="line">      type: redis.lettuce</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      uri: redis://127.0.0.1:6379/</span><br><span class="line">      #uri: redis-sentinel://127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381/?sentinelMasterId=mymaster</span><br><span class="line">      #readFrom: slavePreferred</span><br><span class="line"># 集群使用如下</span><br><span class="line">jetcache: </span><br><span class="line">  areaInCacheName: false</span><br><span class="line">  remote:</span><br><span class="line">    default:</span><br><span class="line">      type: redis.lettuce</span><br><span class="line">      keyConvertor: fastjson</span><br><span class="line">      #readFrom: slavePreferred</span><br><span class="line">      uri:</span><br><span class="line">        - redis://127.0.0.1:7000</span><br><span class="line">        - redis://127.0.0.1:7001</span><br><span class="line">        - redis://127.0.0.1:7002</span><br></pre></td></tr></table></figure>
+<p>如果需要直接使用lettuce的RedisClient：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(name = &quot;defaultClient&quot;)</span></span><br><span class="line"><span class="meta">@DependsOn(RedisLettuceAutoConfiguration.AUTO_INIT_BEAN_NAME)</span></span><br><span class="line"><span class="keyword">public</span> LettuceFactory <span class="title function_">defaultClient</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">LettuceFactory</span>(<span class="string">&quot;remote.default&quot;</span>, RedisClient.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后可以直接使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> RedisClient defaultClient;</span><br></pre></td></tr></table></figure>
+<h3 id="本地缓存"><a class="markdownIt-Anchor" href="#本地缓存"></a> 本地缓存</h3>
+<h4 id="linkedhashmapcache"><a class="markdownIt-Anchor" href="#linkedhashmapcache"></a> LinkedHashMapCache</h4>
+<p>LinkedHashMapCache是JetCache中实现的一个最简单的Cache，使用LinkedHashMap做LRU方式淘汰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cache&lt;Long, OrderDO&gt; cache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder()</span><br><span class="line">                .limit(<span class="number">100</span>)</span><br><span class="line">                .expireAfterWrite(<span class="number">200</span>, TimeUnit.SECONDS)</span><br><span class="line">                .buildCache();</span><br></pre></td></tr></table></figure>
+<h4 id="caffeinecache"><a class="markdownIt-Anchor" href="#caffeinecache"></a> CaffeineCache</h4>
+<p>caffeine cache的介绍看<a class="link"   href="https://github.com/ben-manes/caffeine" >这里<i class="fas fa-external-link-alt"></i></a>，它是guava cache的后续作品。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cache&lt;Long, OrderDO&gt; cache = CaffeineCacheBuilder.createCaffeineCacheBuilder()</span><br><span class="line">                .limit(<span class="number">100</span>)</span><br><span class="line">                .expireAfterWrite(<span class="number">200</span>, TimeUnit.SECONDS)</span><br><span class="line">                .buildCache();</span><br></pre></td></tr></table></figure>
+<h3 id="缓存的统计与监控"><a class="markdownIt-Anchor" href="#缓存的统计与监控"></a> 缓存的统计与监控</h3>
+<p>jetcache.statIntervalMinutes大于0时, jetCache会自动在日志上打印缓存的使用情况.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2017-01-12 19:00:00,001 INFO  support.StatInfoLogger - jetcache stat from 2017-01-12 18:59:00,000 to 2017-01-12 19:00:00,000</span><br><span class="line">cache                                                |       qps|   rate|           get|           hit|          fail|        expire|avgLoadTime|maxLoadTime</span><br><span class="line">-----------------------------------------------------+----------+-------+--------------+--------------+--------------+--------------+-----------+-----------</span><br><span class="line">default_AlicpAppChannelManager.getAlicpAppChannelById|      0.00|  0.00%|             0|             0|             0|             0|        0.0|          0</span><br><span class="line">.....</span><br><span class="line">-----------------------------------------------------+----------+-------+--------------+--------------+--------------+--------------+-----------+-----------</span><br></pre></td></tr></table></figure>
+<p>只有使用computeIfAbsent方法或者@Cached注解才会统计loadTime。用get方法取缓存，没有命中的话自己去数据库load，显然是无法统计到的。</p>
+<p>也可以自定义输出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// for 2.6+</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> Consumer&lt;StatInfo&gt; <span class="title function_">metricsCallback</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Consumer&lt;StatInfo&gt; <span class="title function_">statCallback</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// return new StatInfoLogger(false);</span></span><br><span class="line">        ... <span class="comment">// 实现自己的logger</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// for 2.5</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> SpringConfigProvider <span class="title function_">springConfigProvider</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SpringConfigProvider</span>()&#123;</span><br><span class="line">        <span class="keyword">public</span> Consumer&lt;StatInfo&gt; <span class="title function_">statCallback</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="comment">// return new StatInfoLogger(false);</span></span><br><span class="line">            ... <span class="comment">// 实现自己的logger</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以输出成单独的log文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;JETCACHE_LOGFILE&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">file</span>&gt;</span>jetcache.log<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span>jetcache.log.%d&#123;yyyy-MM-dd&#125;<span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">maxHistory</span>&gt;</span>30<span class="tag">&lt;/<span class="name">maxHistory</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>%-4relative [%thread] %-5level %logger&#123;35&#125; - %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">&quot;com.alicp.jetcache&quot;</span> <span class="attr">level</span>=<span class="string">&quot;INFO&quot;</span> <span class="attr">additivity</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;JETCACHE_LOGFILE&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="不使用注解"><a class="markdownIt-Anchor" href="#不使用注解"></a> 不使用注解</h3>
+<p>不使用注解来创建缓存实例要利用各种Builder</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 本地</span></span><br><span class="line">Cache&lt;String, Integer&gt; cache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder()</span><br><span class="line">                .limit(<span class="number">100</span>)</span><br><span class="line">                .expireAfterWrite(<span class="number">200</span>, TimeUnit.SECONDS)</span><br><span class="line">                .buildCache();</span><br><span class="line"><span class="comment">// redis</span></span><br><span class="line"><span class="type">GenericObjectPoolConfig</span> <span class="variable">pc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GenericObjectPoolConfig</span>();</span><br><span class="line">        pc.setMinIdle(<span class="number">2</span>);</span><br><span class="line">        pc.setMaxIdle(<span class="number">10</span>);</span><br><span class="line">        pc.setMaxTotal(<span class="number">10</span>);</span><br><span class="line">        <span class="type">JedisPool</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JedisPool</span>(pc, <span class="string">&quot;localhost&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">Cache&lt;Long, OrderDO&gt; orderCache = RedisCacheBuilder.createRedisCacheBuilder()</span><br><span class="line">                .keyConvertor(FastjsonKeyConvertor.INSTANCE)</span><br><span class="line">                .valueEncoder(JavaValueEncoder.INSTANCE)</span><br><span class="line">                .valueDecoder(JavaValueDecoder.INSTANCE)</span><br><span class="line">                .jedisPool(pool)</span><br><span class="line">                .keyPrefix(<span class="string">&quot;orderCache&quot;</span>)</span><br><span class="line">                .expireAfterWrite(<span class="number">200</span>, TimeUnit.SECONDS)</span><br><span class="line">                .buildCache();</span><br><span class="line"><span class="comment">// 多级</span></span><br><span class="line"><span class="type">Cache</span> <span class="variable">multiLevelCache</span> <span class="operator">=</span> MultiLevelCacheBuilder.createMultiLevelCacheBuilder()</span><br><span class="line">      .addCache(memoryCache, redisCache)</span><br><span class="line">      .expireAfterWrite(<span class="number">100</span>, TimeUnit.SECONDS)</span><br><span class="line">      .buildCache();</span><br></pre></td></tr></table></figure>
+<h2 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 最后</h2>
+<h3 id="注意"><a class="markdownIt-Anchor" href="#注意"></a> 注意</h3>
+<ol>
+<li>key、condition等表达式中使用参数名需要javac命令的<code>-parameters</code>支持</li>
+</ol>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.7.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">compilerArgument</span>&gt;</span>-parameters<span class="tag">&lt;/<span class="name">compilerArgument</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>自定义序列化器可以自定义SpringConfigProvider的Bean,实现<code>parseValueEncoder</code>和<code>parseValueDecoder</code>方法</li>
+</ol>
+<h3 id="看源码"><a class="markdownIt-Anchor" href="#看源码"></a> 看源码</h3>
+<p>Cache的实现:</p>
+<ul>
+<li>RedisCache: redis实现，使用jedis客户端</li>
+<li>RedisLettuceCache： redis实现，使用lettuce客户端</li>
+<li>CaffeineCache: 基于内存的缓存，使用Caffeine</li>
+<li>LinkedHashMapCache: 自制的简易内存缓存，没有任何依赖</li>
+<li>LoadingCache：基于Decorator模式，提供自动加载功能</li>
+<li>RefreshCache：基于Decorator模式，提供自动刷新功能</li>
+<li>MultiLevelCache：多级缓存，注解方式配置只支持了两级，实际上这个类支持N级</li>
+</ul>
+<p>jetcache-anno提供了注解支持，顺着这两个注解类看就可以了：</p>
+<ul>
+<li>EnableCreateCacheAnnotation</li>
+<li>EnableMethodCache</li>
+</ul>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                JetCache的使用
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2021040520009/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2021-04-05 20:57</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/cache/">缓存</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2021040542562/"
+                                   title="JetCache的源码"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">JetCache的源码</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2020112522511/"
+                                   title="设计模式-组合模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-组合模式</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text"> 要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text"> 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="nav-number">2.1.</span> <span class="nav-text"> 快速开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BC%93%E5%AD%98%E5%AE%9E%E4%BE%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text"> 创建缓存实例的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 一级缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 二级缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95%E7%BC%93%E5%AD%98%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text"> 创建方法缓存的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheapi"><span class="nav-number">3.</span> <span class="nav-text"> CacheAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84api"><span class="nav-number">3.1.</span> <span class="nav-text"> 特殊的API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text"> 注解的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8A%E7%9A%84%E6%B3%A8%E8%A7%A3createcache"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 成员变量上的注解CreateCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%8A%E7%9A%84%E6%B3%A8%E8%A7%A3cachedcacheupdatecacheinvalidatecacherefreshcachepenetrationprotect"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cached"><span class="nav-number">3.2.2.1.</span> <span class="nav-text"> Cached</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacheupdate"><span class="nav-number">3.2.2.2.</span> <span class="nav-text"> CacheUpdate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacheinvalidate"><span class="nav-number">3.2.2.3.</span> <span class="nav-text"> CacheInvalidate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacherefresh"><span class="nav-number">3.2.2.4.</span> <span class="nav-text"> CacheRefresh</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cachepenetrationprotect"><span class="nav-number">3.2.2.5.</span> <span class="nav-text"> CachePenetrationProtect</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text"> 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">3.4.</span> <span class="nav-text"> 高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5api"><span class="nav-number">3.4.1.</span> <span class="nav-text"> 异步API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8load"><span class="nav-number">3.4.2.</span> <span class="nav-text"> 自动load</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0%E7%BC%93%E5%AD%98"><span class="nav-number">3.4.3.</span> <span class="nav-text"> 自动刷新缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="nav-number">3.5.</span> <span class="nav-text"> 远程缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jedis"><span class="nav-number">3.5.1.</span> <span class="nav-text"> Jedis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lettuce"><span class="nav-number">3.5.2.</span> <span class="nav-text"> Lettuce</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98"><span class="nav-number">3.6.</span> <span class="nav-text"> 本地缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#linkedhashmapcache"><span class="nav-number">3.6.1.</span> <span class="nav-text"> LinkedHashMapCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#caffeinecache"><span class="nav-number">3.6.2.</span> <span class="nav-text"> CaffeineCache</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E7%BB%9F%E8%AE%A1%E4%B8%8E%E7%9B%91%E6%8E%A7"><span class="nav-number">3.7.</span> <span class="nav-text"> 缓存的统计与监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.8.</span> <span class="nav-text"> 不使用注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text"> 最后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">4.1.</span> <span class="nav-text"> 注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%8B%E6%BA%90%E7%A0%81"><span class="nav-number">4.2.</span> <span class="nav-text"> 看源码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text"> 要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text"> 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="nav-number">2.1.</span> <span class="nav-text"> 快速开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BC%93%E5%AD%98%E5%AE%9E%E4%BE%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text"> 创建缓存实例的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 一级缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 二级缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95%E7%BC%93%E5%AD%98%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text"> 创建方法缓存的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheapi"><span class="nav-number">3.</span> <span class="nav-text"> CacheAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84api"><span class="nav-number">3.1.</span> <span class="nav-text"> 特殊的API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text"> 注解的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8A%E7%9A%84%E6%B3%A8%E8%A7%A3createcache"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 成员变量上的注解CreateCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%8A%E7%9A%84%E6%B3%A8%E8%A7%A3cachedcacheupdatecacheinvalidatecacherefreshcachepenetrationprotect"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 方法上的注解Cached,CacheUpdate,CacheInvalidate,CacheRefresh,CachePenetrationProtect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cached"><span class="nav-number">3.2.2.1.</span> <span class="nav-text"> Cached</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacheupdate"><span class="nav-number">3.2.2.2.</span> <span class="nav-text"> CacheUpdate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacheinvalidate"><span class="nav-number">3.2.2.3.</span> <span class="nav-text"> CacheInvalidate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cacherefresh"><span class="nav-number">3.2.2.4.</span> <span class="nav-text"> CacheRefresh</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cachepenetrationprotect"><span class="nav-number">3.2.2.5.</span> <span class="nav-text"> CachePenetrationProtect</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text"> 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">3.4.</span> <span class="nav-text"> 高级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5api"><span class="nav-number">3.4.1.</span> <span class="nav-text"> 异步API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8load"><span class="nav-number">3.4.2.</span> <span class="nav-text"> 自动load</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0%E7%BC%93%E5%AD%98"><span class="nav-number">3.4.3.</span> <span class="nav-text"> 自动刷新缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="nav-number">3.5.</span> <span class="nav-text"> 远程缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jedis"><span class="nav-number">3.5.1.</span> <span class="nav-text"> Jedis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lettuce"><span class="nav-number">3.5.2.</span> <span class="nav-text"> Lettuce</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98"><span class="nav-number">3.6.</span> <span class="nav-text"> 本地缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#linkedhashmapcache"><span class="nav-number">3.6.1.</span> <span class="nav-text"> LinkedHashMapCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#caffeinecache"><span class="nav-number">3.6.2.</span> <span class="nav-text"> CaffeineCache</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E7%BB%9F%E8%AE%A1%E4%B8%8E%E7%9B%91%E6%8E%A7"><span class="nav-number">3.7.</span> <span class="nav-text"> 缓存的统计与监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.8.</span> <span class="nav-text"> 不使用注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text"> 最后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">4.1.</span> <span class="nav-text"> 注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%8B%E6%BA%90%E7%A0%81"><span class="nav-number">4.2.</span> <span class="nav-text"> 看源码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

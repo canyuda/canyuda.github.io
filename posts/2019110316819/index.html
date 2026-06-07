@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            SpringCloud-Hystrix的使用 |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        SpringCloud-Hystrix的使用
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2019-11-03 18:22:18</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/spring-cloud/">Spring-Cloud</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Hystrix/">Hystrix</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <ul>
+<li>Hystrix的基本使用</li>
+<li>Hystrix的属性</li>
+</ul>
+<span id="more"></span>
+<h2 id="基本使用"><a class="markdownIt-Anchor" href="#基本使用"></a> 基本使用</h2>
+<blockquote>
+<p>例子为:<strong>HystrixCommand</strong>命令对象的<strong>同步执行</strong>方式.</p>
+</blockquote>
+<p><strong>配置:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableHystrix</span> <span class="comment">//开启Hystrix功能</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HystrixConfig</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">API_COMMAND_KEY</span> <span class="operator">=</span> <span class="string">&quot;apiCommandKey&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">API_THREADPOOL_KEY</span> <span class="operator">=</span> <span class="string">&quot;apiThreadpoolKey&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">API_COMMAND_GROUPKEY</span> <span class="operator">=</span> <span class="string">&quot;apiCommandGroupKey&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;api.thread.timeoutInSeconds:1&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Long apiTimeoutInSeconds;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;api.circuitBreaker.requestVolumeThreshold:100&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Long apiCircuitBreakThreshold;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;api.circuitBreaker.sleepWindowInSeconds:5&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Long apiCiruitBreakSleepWindowInSeconds;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> AbstractConfiguration <span class="title function_">configurationManager</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">AbstractConfiguration</span> <span class="variable">configurationManager</span> <span class="operator">=</span> ConfigurationManager.getConfigInstance();</span><br><span class="line">        <span class="comment">// 命令的配置</span></span><br><span class="line">        <span class="comment">// 命令执行策略 默认 使用线程池方式</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.execution.isolation.strategy&quot;</span>, HystrixCommandProperties.ExecutionIsolationStrategy.THREAD);</span><br><span class="line">        <span class="comment">// 命令超时设置 单位为毫秒 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.execution.isolation.thread.timeoutInMilliseconds&quot;</span>, apiTimeoutInSeconds * <span class="number">1000</span>);</span><br><span class="line">        <span class="comment">// 开启命令超时 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.execution.timeout.enabled&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        <span class="comment">// 命令超时后被中断 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.execution.isolation.thread.interruptOnTimeout&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        <span class="comment">// 熔断开启 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.circuitBreaker.enabled&quot;</span>,<span class="literal">true</span>);</span><br><span class="line">        <span class="comment">// 熔断临界值 一个滚动窗口（比如10s）请求失败数达到临界值则熔断标志打开 默认100</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.circuitBreaker.requestVolumeThreshold&quot;</span>, apiCircuitBreakThreshold);</span><br><span class="line">        <span class="comment">// 跳闸后的多长时间可再次确认电路是否闭合 默认5000</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.circuitBreaker.sleepWindowInMilliseconds&quot;</span>, apiCiruitBreakSleepWindowInSeconds * <span class="number">1000</span>);</span><br><span class="line">        <span class="comment">// 错误比例(熔断需要请求错误比例以及错误数到达临界值) 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.circuitBreaker.errorThresholdPercentage&quot;</span>, <span class="number">50</span>);</span><br><span class="line">        <span class="comment">// 滚动窗口持续时间 （默认10s）</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.metrics.rollingStats.timeInMilliseconds&quot;</span>, <span class="number">10000</span>);</span><br><span class="line">        <span class="comment">// 滚动统计窗口分成的桶数 滚动窗口持续时间%桶数 == 0 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.metrics.rollingStats.numBuckets&quot;</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 桶的大小 桶数*大小/滚动窗口&gt;每秒请求数</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.metrics.rollingPercentile.bucketSize&quot;</span>, <span class="number">500</span>);</span><br><span class="line">        <span class="comment">// 请求缓存功能</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.requestCache.enabled&quot;</span>, <span class="literal">false</span>);</span><br><span class="line">        <span class="comment">// 请求日志功能</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.command.&quot;</span> + API_COMMAND_KEY + <span class="string">&quot;.requestLog.enabled&quot;</span>,<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 线程池的配置</span></span><br><span class="line">        <span class="comment">// 核心线程数：在健康时每秒的请求高峰数 × 99%的延迟秒数+一些喘息的空间时 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.coreSize&quot;</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 最大线程数 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.maximumSize&quot;</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 队列实现以及大小 -1-SynchronousQueue 其他正值-LinkedBlockingQueue</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.maxQueueSize&quot;</span>,<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 队列大小拒绝临界值，可小于队列大小</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.queueSizeRejectionThreshold&quot;</span>,<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 非核心线程在释放前的空闲时间 默认</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.keepAliveTimeMinutes&quot;</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 允许核心线程数和最大线程数值不同</span></span><br><span class="line">        configurationManager.setProperty(<span class="string">&quot;hystrix.threadpool.&quot;</span> + API_THREADPOOL_KEY + <span class="string">&quot;.allowMaximumSizeToDivergeFromCoreSize&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">return</span> configurationManager;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>业务逻辑:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand(fallbackMethod = &quot;homeworkInfoFallback&quot;,</span></span><br><span class="line"><span class="meta">        commandKey = HystrixConfig.API_COMMAND_KEY,</span></span><br><span class="line"><span class="meta">        threadPoolKey = HystrixConfig.API_THREADPOOL_KEY,</span></span><br><span class="line"><span class="meta">        groupKey = HystrixConfig.API_COMMAND_GROUPKEY,</span></span><br><span class="line"><span class="meta">        ignoreExceptions = &#123;ErrorCodeException.class&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> List&lt;HomeworkInfoItem&gt; <span class="title function_">homeworkInfo</span><span class="params">(List&lt;Long&gt; homeworkIds)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (CollectionsUtil.isNullOrEmpty(homeworkIds)) &#123;</span><br><span class="line">        <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">HomeworksInfoResponse</span> <span class="variable">response</span> <span class="operator">=</span> HttpManagerUtil.post(homeworkUrl, homeworkIds, HomeworksInfoResponse.class);</span><br><span class="line">    <span class="keyword">return</span> response.getHomeworkInfoListList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 降级逻辑</span></span><br><span class="line"><span class="keyword">public</span> List&lt;HomeworkInfoItem&gt; <span class="title function_">homeworkInfoFallback</span><span class="params">(List&lt;Long&gt; homeworkIds, Throwable e)</span> &#123;</span><br><span class="line">    logger.warn(<span class="string">&quot;execute homeworkInfoFallback,homeworkIds:&#123;&#125;, ex:&#123;&#125;&quot;</span>, homeworkIds, e.getMessage());</span><br><span class="line">    <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建命令"><a class="markdownIt-Anchor" href="#创建命令"></a> 创建命令</h3>
+<p>使用<code>@HystrixCommand</code>注解, 注解标注的地方就是命令的内容, 方法返回值为业务对象时,是通过同步执行, 如果方法返回值为<code>Futrue&lt;业务对象&gt;</code>, 并且<code>return new AsyncResult&lt;业务对象&gt;&#123;实现invoke()&#125;</code>时, 是通过异步执行的.</p>
+<h3 id="定义降级"><a class="markdownIt-Anchor" href="#定义降级"></a> 定义降级</h3>
+<p><code>@HystrixCommand</code> 有个参数 <code>fallbackMethod</code> 可以配置fallback逻辑, 配置一个方法名字符串, 并且当前类中定义一个方法与之对应. 当命令无法执行时就会降级到这个方法去处理, 注意降级方法的参数和返回值需要与命令方法对应.</p>
+<h3 id="异常处理"><a class="markdownIt-Anchor" href="#异常处理"></a> 异常处理</h3>
+<p><code>HystrixCommand</code>实现的<code>run()</code>方法抛出异常时, 除了<code>HystrixBadRequestException</code>以外, 都会被Hystrix认为是执行失败, 并触发降级逻辑, 如果不想处理某些异常, 可以配置参数 <code>ignoreExceptions</code>, 比如例子中的<code>ErrorCodeException</code>, 将会不被Hystrix处理, 而是向外抛出.</p>
+<p>降级方法中的参数最后一个传入<code>Throwable</code>可以在降级方法中获得异常相关信息.</p>
+<h3 id="命令分组与资源划分"><a class="markdownIt-Anchor" href="#命令分组与资源划分"></a> 命令分组与资源划分</h3>
+<p>参数<code>groupKey</code>,<code>commandKey</code>,<code>threadPoolKey</code> 分别表示分组名, 命令名, 线程池名. 可以通过这些名称, 批量的设置一些属性以灵活的使用Hystrix.</p>
+<h3 id="请求的缓存与合并"><a class="markdownIt-Anchor" href="#请求的缓存与合并"></a> 请求的缓存与合并</h3>
+<blockquote>
+<p>请求缓存: 第一次命令的结果缓存起来, 第二次相同的命令直接从缓存中取, 不用再执行具体的命令<br />
+请求合并: 命令执行前经过一个合并处理器, 合并很短的时间窗口内的对同一个服务的多次请求, 多个请求变成单个批量请求, 以减少资源的占用.</p>
+</blockquote>
+<p>没用过, 就先略了, 以后用到了再写.</p>
+<h2 id="属性配置"><a class="markdownIt-Anchor" href="#属性配置"></a> 属性配置</h2>
+<p>属性存在于下面4个不同优先级别的配置(由低到高)</p>
+<ol>
+<li>全局默认</li>
+<li>全局配置</li>
+<li>实例默认值</li>
+<li>实例默认属性</li>
+</ol>
+<p>全局的配置可以使用<code>AbstractConfiguration</code>来配置. 如上述例子, 实例配置使用<code>@HystrixCommand</code>注解的<code>commandProperties</code>参数, 例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand(</span></span><br><span class="line"><span class="meta">        commandProperties = &#123;</span></span><br><span class="line"><span class="meta">                @HystrixProperty(name = &quot;XXX1&quot;, value = &quot;yyy1&quot;),</span></span><br><span class="line"><span class="meta">                @HystrixProperty(name = &quot;XXX2&quot;, value = &quot;yyy2&quot;),</span></span><br><span class="line"><span class="meta">        &#125;,</span></span><br><span class="line"><span class="meta">        threadPoolProperties = &#123;</span></span><br><span class="line"><span class="meta">                @HystrixProperty(name = &quot;XXX1&quot;, value = &quot;yyy1&quot;),</span></span><br><span class="line"><span class="meta">                @HystrixProperty(name = &quot;XXX2&quot;, value = &quot;yyy2&quot;),</span></span><br><span class="line"><span class="meta">        &#125;)</span></span><br><span class="line"><span class="meta">@HystrixCollapser(batchMethod = &quot;ZZZ&quot;, collapserProperties = &#123;</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;XXX1&quot;, value = &quot;yyy1&quot;),</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;XXX2&quot;, value = &quot;yyy2&quot;),</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="keyword">public</span> List&lt;HomeworkInfoItem&gt; <span class="title function_">homeworkInfo</span><span class="params">(List&lt;Long&gt; homeworkIds)</span> &#123;</span><br><span class="line">    <span class="comment">// 略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="command属性"><a class="markdownIt-Anchor" href="#command属性"></a> Command属性</h3>
+<p>包含5个不同类型的属性配置:</p>
+<ul>
+<li><code>&#123;HystrixCommandKey&#125;</code>,<code>&#123;HystrixCollapserKey&#125;</code>,<code>&#123;HystrixThreadPoolKey&#125;</code>为<code>&quot;default&quot;</code>时为全局配置属性</li>
+</ul>
+<h4 id="execution配置"><a class="markdownIt-Anchor" href="#execution配置"></a> execution配置</h4>
+<p>execution配置控制了<code>HystrixCommand.run()</code>执行.</p>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|   execution.isolation.strategy  |   THREAD   |    hystrix.command.{HystrixCommandKey}.execution.isolation.strategy    |<br />
+|   execution.isolation.thread.timeoutInMilliseconds  |   1000   |    hystrix.command.{HystrixCommandKey}.execution.isolation.thread.timeoutInMilliseconds    |<br />
+|   execution.timeout.enabled  |   true   |    hystrix.command.{HystrixCommandKey}.execution.timeout.enabled    |<br />
+|   execution.isolation.thread.interruptOnTimeout  |   true   |    hystrix.command.{HystrixCommandKey}.execution.isolation.thread.interruptOnTimeout    |<br />
+|   execution.isolation.thread.interruptOnCancel  |   false   |    hystrix.command.{HystrixCommandKey}.execution.isolation.thread.interruptOnCancel    |<br />
+|   execution.isolation.semaphore.maxConcurrentRequests  |  10    |    hystrix.command.{HystrixCommandKey}.execution.isolation.semaphore.maxConcurrentRequests    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>HystrixCommand.run()执行的隔离策略, 有两个选项 <code>THREAD</code>, <code>SEMAPHORE</code>.</li>
+<li>HystrixCommand执行的超时时间, 单位毫秒. 当执行超过这个时间, Hystrix将会进入降级逻辑.</li>
+<li>设置HystrixCommand.run()的执行是否启用超时时间, 默认为true. 配置为false, 会导致上一个的配置无效.</li>
+<li>用来配置HystrixCommand.run()超时时是否要将其中断.</li>
+<li>用来配置HystrixCommand.run()执行被取消时是否要将其中断.</li>
+<li>隔离策略为 <code>SEMAPHORE</code>时, 用这个配置信号量大小, 最大并发达到这个时, 后续请求会被拒绝.</li>
+</ul>
+<h4 id="fallback配置"><a class="markdownIt-Anchor" href="#fallback配置"></a> fallback配置</h4>
+<p>fallback配置控制<code>HystrixCommand.getFallback()</code>执行.</p>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  fallback.isolation.semaphore.maxConcurrentRequests   |   10   |    hystrix.command.{HystrixCommandKey}.fallback.isolation.semaphore.maxConcurrentRequests    |<br />
+|  fallback.enabled   |   true   |    hystrix.command.{HystrixCommandKey}.fallback.enabled    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>设置从调用线程中允许进入<code>HystrixCommand.getFallback()</code>方法执行的最大并发请求数. 若超过了, 后续请求会直接被拒绝并抛出异常.</li>
+<li>设置服务降级是否启用, 默认true. 如果为false, 请求失败或拒绝时不会进入降级逻辑.</li>
+</ul>
+<h4 id="circuitbreaker配置"><a class="markdownIt-Anchor" href="#circuitbreaker配置"></a> circuitBreaker配置</h4>
+<p>circuitBreaker配置控制<code>HystrixCircuitBreaker</code>的行为.</p>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  circuitBreaker.enabled   |   true   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.enabled    |<br />
+|  circuitBreaker.requestVolumeThreshold   |   20   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.requestVolumeThreshold    |<br />
+|  circuitBreaker.sleepWindowInMilliseconds   |   5000   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.sleepWindowInMilliseconds    |<br />
+|  circuitBreaker.errorThresholdPercentage   |   50   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.errorThresholdPercentage    |<br />
+|  circuitBreaker.forceOpen   |   false   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.forceOpen    |<br />
+|  circuitBreaker.forceClosed   |   false   |    hystrix.command.{HystrixCommandKey}.circuitBreaker.forceClosed    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>当服务请求失败时, 是否使用断路器来跟踪健康度和熔断请求. 如果为false, 请求失败后后续的请求依然会走正常逻辑.</li>
+<li>设置滚动时间窗口内, 断路器熔断的最小请求数. 即:一个时间段内, 失败次数超过了这个值才会熔断(有可能熔断,还有其他条件呦).</li>
+<li>设置断路器打开后的休眠时间窗. 休眠时间窗结束后, 进入半开状态, 将会尝试执行一个命令, 如果失败了断路器打开, 如果成功了断路器关闭.</li>
+<li>设置断路器打开的错误百分比条件, 时间窗口内, 请求数超过阈值的前提下, 错误比例超过这个配置设置的值时, 才会打开断路器, 否则关闭.</li>
+<li>强制打开断路器. 优先级大于<code>circuitBreaker.forceClosed</code>. 用于服务异常时, 人为修改以拒绝服务.</li>
+<li>强制关闭断路器. 如果<code>circuitBreaker.forceOpen</code>为true, 这个没效. 用于强制设置不断路.</li>
+</ul>
+<h4 id="metrics配置"><a class="markdownIt-Anchor" href="#metrics配置"></a> metrics配置</h4>
+<p>metrics配置与<code>HystrixCommand</code>和<code>HystrixObservableCommand</code>执行中捕获的指标信息有关.</p>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  metrics.rollingStats.timeInMilliseconds   |   10000   |    hystrix.command.{HystrixCommandKey}.metrics.rollingStats.timeInMilliseconds    |<br />
+|  metrics.rollingStats.numBuckets   |   10   |    hystrix.command.{HystrixCommandKey}.metrics.rollingStats.numBuckets    |<br />
+|  metrics.rollingPercentile.enabled   |   true   |    hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.enabled    |<br />
+|  metrics.rollingPercentile.timeInMilliseconds   |   60000   |    hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.timeInMilliseconds    |<br />
+|  metrics.rollingPercentile.numBuckets   |   6   |    hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.numBuckets    |<br />
+|  metrics.rollingPercentile.bucketSize   |   100   |    hystrix.command.{HystrixCommandKey}.metrics.rollingPercentile.bucketSize    |<br />
+|  metrics.healthSnapshot.intervalInMilliseconds   |   500   |    hystrix.command.{HystrixCommandKey}.metrics.healthSnapshot.intervalInMilliseconds    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>滚动时间窗口的长度, 单位毫秒, 需要能被<code>metrics.rollingStats.numBuckets</code>整除, 否则启动抛异常, 且无法使用动态参数.</li>
+<li>滚动时间窗口统计的指标信息划分的桶的数量.对<code>metrics.rollingStats.timeInMilliseconds</code>的划分. 控制健康指标的存储粒度. 且无法使用动态参数.</li>
+<li>设置命令执行的延迟是否使用百分位来跟踪和计算. 如果为false, 所有概率统计都返回-1.</li>
+<li>设置百分位统计的滚动时间窗口的持续时间, 单位毫秒. 需要能被<code>metrics.rollingPercentile.numBuckets</code>整除. 且无法使用动态参数.</li>
+<li>设置百分位统计滚动窗口中使用的桶的数量. 对<code>metrics.rollingPercentile.timeInMilliseconds</code>的划分.</li>
+<li>设置执行过程中每个桶中保留的最大执行次数. 例如: 设置为100, 滚动窗口10秒, 如果10秒内一个桶发生了500次执行, 那么这个桶中保留最后100次执行的统计. 另外增加该值大小会增加内存量的消耗, 并增加排序百分位数所需的计算时间. 且无法使用动态参数.</li>
+<li>设置采集影响断路器状态的健康快照(请求的成败比)的间隔等待时间.</li>
+</ul>
+<h4 id="requestcontext配置"><a class="markdownIt-Anchor" href="#requestcontext配置"></a> requestContext配置</h4>
+<p>requestContext配置涉及到<code>HystrixCommand</code>使用的<code>HystrixRequestContext</code>的配置.</p>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  requestCache.enabled   |   true   |    hystrix.command.{HystrixCommandKey}.requestCache.enabled    |<br />
+|  requestLog.enabled   |   true   |    hystrix.command.{HystrixCommandKey}.requestLog.enabled    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>是否开启请求缓存.</li>
+<li>HystrixCommand的执行和事件是否打印日志到HystrixRequestLog中.</li>
+</ul>
+<h3 id="collapse属性"><a class="markdownIt-Anchor" href="#collapse属性"></a> collapse属性</h3>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  maxRequestsInBatch   |   Integer.MAX_VALUE   |    hystrix.collapser.{HystrixCollapserKey}.maxRequestsInBatch    |<br />
+|  timerDelayInMilliseconds   |   10   |    hystrix.collapser.{HystrixCollapserKey}.timerDelayInMilliseconds    |<br />
+|  requestCache.enabled   |   true   |    hystrix.collapser.{HystrixCollapserKey}.requestCache.enabled    |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>设置一次请求合并批处理中允许的最大请求数.</li>
+<li>设置批处理过程中每个命令延迟的时间, 单位毫秒.</li>
+<li>设置批处理过程中是否开始请求缓存.</li>
+</ul>
+<h3 id="threadpool配置"><a class="markdownIt-Anchor" href="#threadpool配置"></a> threadPool配置</h3>
+<p>| 配置名 | 默认 | 配置 |<br />
+|-----|------|--------|-------|--------|----|<br />
+|  coreSize   |   10   |    hystrix.threadpool.{HystrixThreadPoolKey}.coreSize    |<br />
+|  maximumSize   |   10   |    hystrix.threadpool.{HystrixThreadPoolKey}.maximumSize    |<br />
+|  maxQueueSize   |   -1   |    hystrix.threadpool.{HystrixThreadPoolKey}.maxQueueSize    |<br />
+|  queueSizeRejectionThreshold   |   5   |    hystrix.threadpool.{HystrixThreadPoolKey}.queueSizeRejectionThreshold    |<br />
+|  keepAliveTimeMinutes   |   1   |    hystrix.threadpool.{HystrixThreadPoolKey}.keepAliveTimeMinutes    |<br />
+|  allowMaximumSizeToDivergeFromCoreSize   |   false   |    hystrix.threadpool.{HystrixThreadPoolKey}.allowMaximumSizeToDivergeFromCoreSize    |<br />
+|  metrics.rollingStats.timeInMilliseconds   |   10000   |    hystrix.threadpool.{HystrixThreadPoolKey}.metrics.rollingStats.timeInMilliseconds    |<br />
+|  metrics.rollingStats.numBuckets   |   10   |     hystrix.threadpool.{HystrixThreadPoolKey}.metrics.rollingStats.numBuckets   |</p>
+<p>分别用来设置:</p>
+<ul>
+<li>执行命令线程池核心线程数(命令执行最大并发量).</li>
+<li>最大容量大小</li>
+<li>线程池的最大队列大小. 如果为-1, 使用<code>SynchronousQueue</code>实现, 否则使用<code>LinkedBlockingQueue</code>. 且无法使用动态参数.</li>
+<li>为队列设置拒绝阈值, 超过这个的将被拒绝. <code>LinkedBlockingQueue</code>队列不能动态修改其对象的大小, 这个配置可以动态改, 不用<code>LinkedBlockingQueue</code>时这配置无效.</li>
+<li>保活时间, 单位分钟.</li>
+<li>允许最大大小偏离核心大小</li>
+<li>滚动时间窗口的长度, 单位毫秒, 需要能被<code>metrics.rollingStats.numBuckets</code>整除, 否则启动抛异常, 且无法使用动态参数.(注意与metrics设置的区别)</li>
+<li>滚动时间窗口统计的指标信息划分的桶的数量.对<code>metrics.rollingStats.timeInMilliseconds</code>的划分. 控制健康指标的存储粒度. 且无法使用动态参数.(注意与metrics设置的区别)</li>
+</ul>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                SpringCloud-Hystrix的使用
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2019110316819/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2019-11-03 18:22</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/spring-cloud/">Spring-Cloud</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Hystrix/">Hystrix</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/2019112921409/"
+                                   title="设计模式-适配器模式"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-适配器模式</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2019102041455/"
+                                   title="设计模式-命令模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">设计模式-命令模式</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text"> 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text"> 创建命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%99%8D%E7%BA%A7"><span class="nav-number">1.2.</span> <span class="nav-text"> 定义降级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text"> 异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E5%88%86%E7%BB%84%E4%B8%8E%E8%B5%84%E6%BA%90%E5%88%92%E5%88%86"><span class="nav-number">1.4.</span> <span class="nav-text"> 命令分组与资源划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E7%9A%84%E7%BC%93%E5%AD%98%E4%B8%8E%E5%90%88%E5%B9%B6"><span class="nav-number">1.5.</span> <span class="nav-text"> 请求的缓存与合并</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text"> 属性配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#command%E5%B1%9E%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text"> Command属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#execution%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.1.</span> <span class="nav-text"> execution配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fallback%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.2.</span> <span class="nav-text"> fallback配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitbreaker%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text"> circuitBreaker配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.4.</span> <span class="nav-text"> metrics配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requestcontext%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.5.</span> <span class="nav-text"> requestContext配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collapse%E5%B1%9E%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text"> collapse属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadpool%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text"> threadPool配置</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text"> 基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text"> 创建命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%99%8D%E7%BA%A7"><span class="nav-number">1.2.</span> <span class="nav-text"> 定义降级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text"> 异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E5%88%86%E7%BB%84%E4%B8%8E%E8%B5%84%E6%BA%90%E5%88%92%E5%88%86"><span class="nav-number">1.4.</span> <span class="nav-text"> 命令分组与资源划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E7%9A%84%E7%BC%93%E5%AD%98%E4%B8%8E%E5%90%88%E5%B9%B6"><span class="nav-number">1.5.</span> <span class="nav-text"> 请求的缓存与合并</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text"> 属性配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#command%E5%B1%9E%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text"> Command属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#execution%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.1.</span> <span class="nav-text"> execution配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fallback%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.2.</span> <span class="nav-text"> fallback配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#circuitbreaker%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text"> circuitBreaker配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#metrics%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.4.</span> <span class="nav-text"> metrics配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#requestcontext%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.5.</span> <span class="nav-text"> requestContext配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collapse%E5%B1%9E%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text"> collapse属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadpool%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text"> threadPool配置</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

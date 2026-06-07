@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="博客,灿若繁星先生,Java,Spring">
+    <meta name="description" content="I am a slow walker, but I never walk backwards.">
+    <meta name="author" content="灿若繁星先生">
+    
+    <title>
+        
+            分布式系统（五） |
+        
+        灿若繁星
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"canyuda.top","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"灿若繁星","author":"灿若繁星先生","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/favicon.png"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"I am a slow walker, but I never walk backwards.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/canyuda","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":false,"reward":{"enable":false,"img_link":null,"text":null,"icon":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":false,"site_uv":false,"site_pv":false,"page_pv":false}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2018,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":true,"list":[{"code":"苏ICP备2026025903号-1","link":"https://beian.miit.gov.cn/"}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="灿若繁星" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               灿若繁星
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统（五）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">灿若繁星先生</span>
+                                
+                                    <span class="author-badge">Lv6</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-09-05 10:28:30</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Apr 07 2026 11:11:19 GMT+0800">2026-04-07 11:11:19</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java/">Java</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/base/">基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.7k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 分钟</span>
+            </span>
+        
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p><strong>任何分布式系统的开发都涉及到跨进程之间的远程过程调用，也就是所谓的 RPC。<strong>那么，现在假如没有这些开源框架，而是需要你自己来</strong>设计并实现一套远程过程调用机制</strong>，你应该怎么做的？</p>
+<span id="more"></span>
+<h2 id="问题背景"><a class="markdownIt-Anchor" href="#问题背景"></a> 问题背景</h2>
+<p>因此，在面试过程中，面试官通常都会暂时抛开框架的具体使用方式，而<strong>从远程调用的基本概念</strong>和<strong>执行流程</strong>出发来进行提问。</p>
+<p>针对这类面试题，如果候选人没有做精心的准备，往往很难回答到位，原因就在<strong>于我们平时不大会从这一角度入手考虑问题，也就不会重点关注相关的技术体系</strong>。从面试角度讲，这道题也存在一些灵活的提问方式，包括：</p>
+<ul>
+<li>想要实现远程调用，整个流程应该包含那些基本的技术组件？</li>
+<li>RPC 架构的组成结构是怎么样的？</li>
+<li><strong>如果让你设计一个简单的 RPC 架构，你会怎么做？</strong></li>
+<li>你认为 Dubbo 框架中最核心的组件有哪些？</li>
+</ul>
+<h2 id="问题分析"><a class="markdownIt-Anchor" href="#问题分析"></a> 问题分析</h2>
+<ul>
+<li>作为一种架构模式，业界已经对 RPC 架构的各个组成部分进行了抽象和提炼，从而形成一套完整的组件体系。</li>
+<li>正是基于这套 RPC 的组件体系，业界诞生了各种具体实现框架，Dubbo 就是其中的代表。</li>
+<li>而无论 Dubbo 等框架如何实现，其底层的组成结构是完全遵循 RPC 架构的。</li>
+<li>因此，只要掌握了 RPC 架构的组成结构，关于这类问题的大部分内容我们已经可以回答了。</li>
+</ul>
+<p>我们可以采用最简单、最常见的技术体系实现一个最基础的 RPC 架构。通过这一过程，一方面可以<strong>确保具体的实现技术和纯粹的理论体系能够对应起来</strong>；另一方面，<strong>在面试过程中，这也是凸显出个人优势的一个加分项，能够提升面试官对候选人的认可程度</strong>。</p>
+<h2 id="技术体系"><a class="markdownIt-Anchor" href="#技术体系"></a> 技术体系</h2>
+<p><img   src="https://shanghai-yuda-test.oss-cn-shanghai.aliyuncs.com/images/220831/RPC.png"  alt=" " ></p>
+<ol>
+<li>客户端组件
+<ul>
+<li>RpcClient，负责导入远程接口代理实现；</li>
+<li>RpcProxy，远程接口的代理实现；</li>
+<li>RpcCaller，负责执行远程调用；</li>
+<li>RpcConnector，负责连接服务器。</li>
+</ul>
+</li>
+<li>服务端组件
+<ul>
+<li>RpcServer，负责导出远程接口；</li>
+<li>RpcInvoker，负责调用服务端接口；</li>
+<li>RpcAcceptor，负责接收网络请求；</li>
+<li>RpcProcessor，负责处理调用过程。</li>
+</ul>
+</li>
+<li>公共组件
+<ul>
+<li>RpcProtocol，负责执行网络传输；</li>
+<li>RpcChannel，数据传输的通道。</li>
+</ul>
+</li>
+</ol>
+<h2 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h2>
+<p>接下来我们通过一个简单的示例来实现前面所介绍的的各个技术组件。该示例的主要目的是演示如何从零开始构建一个最基本的 RPC 架构。</p>
+<p>首先我们定义一个业务服务，称为 UserService，包含一个用于根据用户编码获取用户姓名的业务方法，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">//根据用户编码获取用户姓名</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserNameByCode</span><span class="params">(String userCode)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UserService 接口的实现类也非常简单，我们通过一个内存 Map 来模拟对数据的存储和查询操作，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, String&gt; users = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserServiceImpl</span><span class="params">()</span> &#123;</span><br><span class="line">        users.put(<span class="string">&quot;user1&quot;</span>, <span class="string">&quot;tianyalan1&quot;</span>);</span><br><span class="line">        users.put(<span class="string">&quot;user2&quot;</span>, <span class="string">&quot;tianyalan2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUserNameByCode</span><span class="params">(String userCode)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> users.get(userCode);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于 RPC 架构而言，有了服务定义之后，我们就需要分别构建一个服务端组件 RpcServer 和一个客户端组件 RpcClient。但在这之前，我们首先需要定义一种在客户端和服务器端之间进行通信的消息格式，这里命名为 Protocol，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Protocol</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="comment">//包名+接口名称  </span></span><br><span class="line">    <span class="keyword">private</span> String interfaceName;</span><br><span class="line">    <span class="comment">//调用方法名</span></span><br><span class="line">    <span class="keyword">private</span> String methodName;</span><br><span class="line">    <span class="comment">//参数类型：按照接口参数顺序 </span></span><br><span class="line">    <span class="keyword">private</span> Class[] paramsTypes;</span><br><span class="line">    <span class="comment">//参数：按照接口参数顺序 </span></span><br><span class="line">    <span class="keyword">private</span> Object[] parameters;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Protocol</span> <span class="params">(String interfaceName, String methodName, Class[] paramsTypes, Object[] parameters)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.interfaceName = interfaceName;</span><br><span class="line">        <span class="built_in">this</span>.methodName = methodName;</span><br><span class="line">        <span class="built_in">this</span>.paramsTypes = paramsTypes;</span><br><span class="line">        <span class="built_in">this</span>.parameters = parameters;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到 Protocol 中定义了一次服务请求所需要的接口名、方法名以及方法调用所需要的参数。注意到该类同时实现了 Serializable 接口，这是 Java 中的序列化接口，实现该接口的类能够通过网络进行远程传输。在 RPC 基础架构图中，<strong>Protocol 类相当于是通过 RpcProtocol 进行传递的请求数据</strong>。</p>
+<p>接下来我们考虑构建 RpcServer 类，该类需要实现 RPC 基础架构图中的各个服务端组件。RpcServer 类完整代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcServer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//线程池</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">threadSize</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> ExecutorService threadPool;</span><br><span class="line">    <span class="comment">//自定义缓存</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; servicePool;</span><br><span class="line">    <span class="comment">//服务端口</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">port</span> <span class="operator">=</span> <span class="number">9000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RpcServer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            threadPool = Executors.newFixedThreadPool(<span class="built_in">this</span>.threadSize);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RpcServer</span><span class="params">(<span class="type">int</span> threadSize, <span class="type">int</span> port)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.threadSize = threadSize;</span><br><span class="line">        <span class="built_in">this</span>.port = port;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            threadPool = Executors.newFixedThreadPool(<span class="built_in">this</span>.threadSize);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RpcServer</span><span class="params">(Map&lt;String, Object&gt; servicePool, <span class="type">int</span> threadSize, <span class="type">int</span> port)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.threadSize = threadSize;</span><br><span class="line">        <span class="built_in">this</span>.port = port;</span><br><span class="line">        <span class="built_in">this</span>.servicePool = servicePool;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            threadPool = Executors.newFixedThreadPool(<span class="built_in">this</span>.threadSize);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//1. 实现Socket监听：RpcAcceptor</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">service</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(port);</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="type">Socket</span> <span class="variable">receiveSocket</span> <span class="operator">=</span> serverSocket.accept();</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> receiveSocket;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//执行请求</span></span><br><span class="line">            threadPool.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">//2. 处理请求</span></span><br><span class="line">                        process(socket);</span><br><span class="line"></span><br><span class="line">                        socket.close();</span><br><span class="line">                    &#125; <span class="keyword">catch</span>(IOException e) &#123;</span><br><span class="line">                        <span class="comment">//篇幅关系，省略对各种异常信息的处理	</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2.处理请求：RpcProcessor</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">process</span><span class="params">(Socket receiveSocket)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">objectInputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(receiveSocket.getInputStream());</span><br><span class="line"></span><br><span class="line">        <span class="type">Protocol</span> <span class="variable">protocol</span> <span class="operator">=</span> (Protocol)objectInputStream.readObject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//调用服务</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> call(protocol);</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">objectOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(receiveSocket.getOutputStream());</span><br><span class="line">        objectOutputStream.writeObject(result);</span><br><span class="line">        objectOutputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.执行方法调用：RpcInvoker</span></span><br><span class="line">    <span class="keyword">private</span> Object <span class="title function_">call</span><span class="params">(Protocol protocol)</span> <span class="keyword">throws</span> ClassNotFoundException, NoSuchMethodException,</span><br><span class="line">            IllegalAccessException, InstantiationException, InvocationTargetException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(servicePool == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">                servicePool = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Object&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过接口名称构建实现类</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">interfaceName</span> <span class="operator">=</span> protocol.getInterfaceName();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">service</span> <span class="operator">=</span> servicePool.get(interfaceName);</span><br><span class="line">        Class&lt;?&gt; serviceClass = Class.forName(interfaceName);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断servicePool对象是否存在，如果不存在，就创建新对象并放入池中</span></span><br><span class="line">        <span class="keyword">if</span>(service == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">                service = serviceClass.newInstance();</span><br><span class="line">                servicePool.put(interfaceName, service);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过实现类来构建方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> serviceClass.getMethod(protocol.getMethodName(), protocol.getParamsTypes());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过反射来实现方法的执行</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(service, protocol.getParameters());</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RpcServer类代码相对比较长，我们结合 RPC 基本架构对其进行分段解析。</p>
+<ul>
+<li><strong>service</strong> 方法：<br />
+service 方法接收请求并基于 Socket 启动端口监听，通过线程池为进入的每个请求启动一个线程进行处理。就 RPC 基础架构而言，<strong>该 service 方法相当于扮演 RpcAcceptor 的角色</strong>。</li>
+<li><strong>process</strong> 方法<br />
+service 方法启动了线程池，而每个线程负责执行 process 方法。这里的 process 方法从 Socket 中获取输入流，然后把输入流中的数据转化为 Protocol，从而获取远程方法调用的各项元数据。就 RPC 基础架构而言，<strong>该 process 方法充当了 RpcProcessor 的角色</strong>。</li>
+<li><strong>call</strong> 方法<br />
+一旦获取 Protocol，process 方法就调用内部的 call 方法来执行真正的方法调用。这里通过反射机制获取位于服务器端的方法并进行执行。显然，<strong>该 call 方法对应于 RpcInvoker 角色</strong>。</li>
+</ul>
+<p>介绍完 RpcServer 中的各个技术组件，我们再来看一下 RpcClient 的代码，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RpcClient</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String serverAddress;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> serverPort;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RpcClient</span><span class="params">(String serverAddress, <span class="type">int</span> serverPort)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.serverAddress = serverAddress;</span><br><span class="line">        <span class="built_in">this</span>.serverPort = serverPort;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//RpcConnector + RpcCaller</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">sendAndReceive</span><span class="params">(Protocol protocol)</span> &#123;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(serverAddress, serverPort);</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">objectOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(socket.getOutputStream());</span><br><span class="line">        objectOutputStream.writeObject(protocol);</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">objectInputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(socket.getInputStream());</span><br><span class="line">        result = objectInputStream.readObject();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">//篇幅关系，省略对各种异常信息的处理</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//省略getter/setter方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RpcClient 类的代码相对比较简单，主要就是根据远程服务的地址通过 Socket 发起通信，传入一个 Protocol 对象并返回远程调用的结果。</p>
+<p>完成了 RpcServer 和 RpcClient 类之后，我们就可以编写一些测试用例来进行验证。验证方法就是启动 RpcServer，然后通过 RpcClient 执行远程调用。这里我们编写一个 ServerTest 来启动 RpcServer，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServerTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; servicePool = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Object&gt;();</span><br><span class="line">        servicePool.put(<span class="string">&quot;com.juejin.rpc.service.UserService&quot;</span>, <span class="keyword">new</span> <span class="title class_">UserServiceImpl</span>());</span><br><span class="line"></span><br><span class="line">        <span class="type">RpcServer</span> <span class="variable">server</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RpcServer</span>(servicePool, <span class="number">4</span>, <span class="number">9000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            server.service();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们再编写一个 ClientTest 对远程服务发起请求，整个过程如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ClientTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">serverAddress</span> <span class="operator">=</span> <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">serverPort</span> <span class="operator">=</span> <span class="number">9000</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">RpcClient</span> <span class="variable">client</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RpcClient</span>(serverAddress, serverPort);</span><br><span class="line">        <span class="type">Protocol</span> <span class="variable">protocol</span> <span class="operator">=</span> buildProtocol(<span class="string">&quot;user1&quot;</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> client.sendAndReceive(protocol);</span><br><span class="line">        System.out.println(result);</span><br><span class="line"></span><br><span class="line">        protocol = buildProtocol(<span class="string">&quot;user2&quot;</span>);</span><br><span class="line">        result = client.sendAndReceive(protocol);</span><br><span class="line">        System.out.println(result);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">static</span> Protocol <span class="title function_">buildProtocol</span><span class="params">(String userCode)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">interfaceName</span> <span class="operator">=</span> <span class="string">&quot;com.juejin.rpc.service.UserService&quot;</span>;</span><br><span class="line">        Class[] paramsTypes = &#123;String.class&#125;;</span><br><span class="line">        Object[] parameters = &#123;userCode&#125;;</span><br><span class="line">        <span class="type">String</span> <span class="variable">methodName</span> <span class="operator">=</span> <span class="string">&quot;getUserNameByCode&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">Protocol</span> <span class="variable">protocol</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Protocol</span>(interfaceName, methodName, paramsTypes, parameters);</span><br><span class="line">        <span class="keyword">return</span> protocol;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，我们构建了一个简洁但又完整的 RPC 架构。通过这个示例，我们可以对 RPC 的整体结构有一个清晰的认识。事实上，<strong>无论是多么复杂的 RPC 框架，都是从这样的基础架构开始逐步演进而来</strong>。</p>
+<h2 id="解题要点"><a class="markdownIt-Anchor" href="#解题要点"></a> 解题要点</h2>
+<p>围绕 RPC 架构，我们首先要明确的第一个解题要点就是它的<strong>组成结构</strong>。RPC 架构的组成呈现一种<code>非常标准的对称结构</code>，围绕远程调用过程，我们可以提炼出一组分别针对服务消费者和服务提供者的技术组件。把各个技术组件进行分类梳理是一种有助于记忆的学习方法，你也可以尝试能不能对这一组成结构再做进一步的细化。</p>
+<p>RPC 架构的组成结构偏向理论描述，想要理解该架构中各个技术组件的具体实现过程，<strong>一种有效的方法就是自己动手做一些实践</strong>。</p>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<p>想要掌握分布式服务框架，首先得掌握 RPC 架构。</p>
+<p>本讲内容对 RPC 架构的组成结构进行了详细的介绍。同时，我们也针对 RPC 架构所需要实现的各个技术组件，提供了一个简洁但又完整的示例，从而帮忙你对该架构有一个感性的认识。可以说，RPC 是分布式系统中一项基础设施类的技术体系，但凡涉及到服务与服务之间的交互就需要使用到 RPC 架构。<strong>当你在使用一个分布式框架时，可以尝试使用今天介绍的 RPC 架构的基本结构进行分析，从而加深对这项技术体系的理解</strong>。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统（五）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                posts/2022090517710/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">灿若繁星先生</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-09-05 10:28</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/base/">基础</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/posts/202209063383/"
+                                   title="分布式系统（六）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（六）</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/posts/2022090434704/"
+                                   title="分布式系统（四）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统（四）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2018</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">灿若繁星先生</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+
+    
+        <div class="record-info info-item">
+            
+                
+                    <div class="record-item border-box">
+                        <a class=""
+                           target="_blank"
+                           href="https://beian.miit.gov.cn/"
+                        >
+                            苏ICP备2026025903号-1
+                        </a>
+                    </div>
+                
+            
+        </div>
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text"> 问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text"> 问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> 技术体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text"> 源码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%A6%81%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> 解题要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
